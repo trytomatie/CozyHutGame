@@ -30,7 +30,6 @@ public class LobbyManager : MonoBehaviour
         await UnityServices.InitializeAsync();
         AuthenticationService.Instance.SignedIn += () => { Debug.Log("Has signed in" + AuthenticationService.Instance.PlayerId); };
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        InvokeRepeating("InvokeHeartbeat", heartBeatTimer, heartBeatTimer);
         InvokeRepeating("InvokeHandleLobbyPollForUpdates", pollRate, pollRate);
     }
 
@@ -58,6 +57,7 @@ public class LobbyManager : MonoBehaviour
             Debug.Log("Lobby Created:" + lobby.Name + " " + lobby.Id);
             lobbyUI.ChangeUIState(3);
             lobbyUI.ReloadLobbyUI(lobby);
+            InvokeRepeating("InvokeHeartbeat", heartBeatTimer, heartBeatTimer);
         }
         catch(LobbyServiceException e)
         {
@@ -85,6 +85,10 @@ public class LobbyManager : MonoBehaviour
         if(joinedLobby != null)
         {
             await LobbyService.Instance.SendHeartbeatPingAsync(joinedLobby.Id);
+        }
+        else
+        {
+            CancelInvoke("InvokeHandleLobbyPollForUpdates");
         }
     }
 

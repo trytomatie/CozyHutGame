@@ -76,9 +76,17 @@ CharacterController:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8067701694813219899}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Height: 1.6
   m_Radius: 0.44
   m_SlopeLimit: 45
@@ -122,6 +130,7 @@ MonoBehaviour:
   anim: {fileID: 3991521594929408793}
   maxMovementSpeed: 6
   rotationSpeed: 360
+  characterController: {fileID: 0}
 --- !u!114 &2129523055989405451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,15 +157,16 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   UseQuaternionSynchronization: 0
   UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 1
+  UseHalfFloatPrecision: 0
   InLocalSpace: 0
-  Interpolate: 0
+  Interpolate: 1
   SlerpPosition: 0
 --- !u!1001 &5874319425954264407
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4549229527645345677}
     m_Modifications:
     - target: {fileID: 79714105352181544, guid: cc91c8ba8b9a34f4d99e70d721f60b64,
@@ -520,6 +530,9 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc91c8ba8b9a34f4d99e70d721f60b64, type: 3}
 --- !u!4 &3525758595806223939 stripped
 Transform:

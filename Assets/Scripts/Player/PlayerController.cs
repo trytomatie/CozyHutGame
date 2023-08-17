@@ -19,7 +19,7 @@ public class PlayerController : NetworkBehaviour
     private Vector3 movementDirection;
 
     // References
-    private CharacterController characterController;
+    public CharacterController characterController;
     private Transform cameraTransform;
     private GameObject playerSetup;
     private CinemachineVirtualCamera virtualCamera;
