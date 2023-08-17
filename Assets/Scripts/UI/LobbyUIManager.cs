@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
+using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
@@ -18,6 +20,7 @@ public class LobbyUIManager : MonoBehaviour
     [Header("Lobby Window")]
     [SerializeField] private Transform playerList;
     [SerializeField] private TextMeshProUGUI serverName;
+    [SerializeField] private GameObject startButton;
 
     [Header("Lobby Menu")]
     public TMP_InputField playerName;
@@ -46,6 +49,11 @@ public class LobbyUIManager : MonoBehaviour
     public void SetRandomLobbyName()
     {
         lobbyCreationUI_LobbyName.text = "New Lobby " + UnityEngine.Random.Range(0, 100000);
+    }
+
+    public void SetLobbyWindowStartButton(bool value)
+    {
+        startButton.SetActive(value);
     }
 
 
@@ -82,5 +90,6 @@ public class LobbyUIManager : MonoBehaviour
     {
         RefreshPlayerList(p_lobby);
         serverName.text = p_lobby.Name;
+        SetLobbyWindowStartButton(p_lobby.HostId == AuthenticationService.Instance.PlayerId);
     }
 }

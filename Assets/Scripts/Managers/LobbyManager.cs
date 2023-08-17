@@ -11,6 +11,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
@@ -27,10 +28,14 @@ public class LobbyManager : MonoBehaviour
     // Start is called before the first frame update
     private async void Start()
     {
-        await UnityServices.InitializeAsync();
+
+        InitializationOptions initializationOptions = new InitializationOptions();
+        initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000000).ToString());
+        await UnityServices.InitializeAsync(initializationOptions);
         AuthenticationService.Instance.SignedIn += () => { Debug.Log("Has signed in" + AuthenticationService.Instance.PlayerId); };
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         InvokeRepeating("InvokeHandleLobbyPollForUpdates", pollRate, pollRate);
+
     }
 
     public async void CreateLobby(Button p_button)
@@ -267,6 +272,7 @@ public class LobbyManager : MonoBehaviour
                     {KEY_START_GAME,new DataObject(DataObject.VisibilityOptions.Member,relayCode) }
                 }
             });
+            CancelInvoke("InvokeHandleLobbyPollForUpdates");
             NetworkManager.Singleton.SceneManager.LoadScene("SampleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
             joinedLobby = lobby;
         }
