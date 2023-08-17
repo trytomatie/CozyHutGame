@@ -12,11 +12,13 @@ public class ServerTupleManager: MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerCount;
     [SerializeField] private TextMeshProUGUI ping;
     [SerializeField] private Button buttonFunction;
+    [SerializeField] private DoubleClickHandler doubleClickHandler;
     public Lobby lobby;
 
     private void Start()
     {
         buttonFunction.onClick.AddListener(SelectLobby);
+        doubleClickHandler.doubleClickEvent.AddListener(LobbyManager.Instance.JoinSelectedLobby);
     }
 
     public void SetupTuple(Lobby p_lobby)

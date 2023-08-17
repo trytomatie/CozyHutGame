@@ -6,6 +6,7 @@ using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private Transform serverList;
 
     [Header("Lobby Creation Window")]
-    public TextMeshProUGUI lobbyCreationUI_LobbyName;
+    public TMP_InputField lobbyCreationUI_LobbyName;
     public TMP_Dropdown lobbyCreationUI_maxPlayers;
 
     [Header("Lobby Window")]
@@ -91,5 +92,18 @@ public class LobbyUIManager : MonoBehaviour
         RefreshPlayerList(p_lobby);
         serverName.text = p_lobby.Name;
         SetLobbyWindowStartButton(p_lobby.HostId == AuthenticationService.Instance.PlayerId);
+    }
+
+    public void ButtonLockUp(Button button)
+    {
+        button.interactable = false;
+        StartCoroutine(UnlockButton(button));
+        
+    }
+
+    private IEnumerator UnlockButton(Button button)
+    {
+        yield return new WaitForSeconds(1);
+        button.interactable = true;
     }
 }

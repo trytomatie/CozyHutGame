@@ -24,8 +24,7 @@ public class GameManager : NetworkBehaviour
     public void SpawnPlayerServerRpc(ulong clientId)
     {
         GameObject go = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-        go.GetComponent<NetworkObject>().Spawn();
-        go.GetComponent<NetworkObject>().ChangeOwnership(clientId);
+        go.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
     }
 
     public static GameManager Instance { get => instance; set => instance = value; }

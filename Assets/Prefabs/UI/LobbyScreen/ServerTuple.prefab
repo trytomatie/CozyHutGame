@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 165940346921767683}
   - component: {fileID: 1494351706}
   - component: {fileID: 4238726990257660279}
+  - component: {fileID: -6184032561747923692}
   m_Layer: 5
   m_Name: ServerTuple
   m_TagString: Untagged
@@ -170,7 +171,7 @@ RectTransform:
   - {fileID: 165940347644700385}
   - {fileID: 165940345885863329}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -237,6 +238,22 @@ MonoBehaviour:
   playerCount: {fileID: 165940347644700391}
   ping: {fileID: 165940345885863335}
   buttonFunction: {fileID: 1494351706}
+  doubleClickHandler: {fileID: -6184032561747923692}
+--- !u!114 &-6184032561747923692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165940346921767682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0963c04caa1ca464fa66d3985a5245ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doubleClickEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &165940347381952235
 GameObject:
   m_ObjectHideFlags: 0
