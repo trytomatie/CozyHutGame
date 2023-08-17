@@ -22,23 +22,12 @@ public class LobbyManager : MonoBehaviour
     private const float heartBeatTimer = 15;
     private const float pollRate = 1.1f;
     public static Lobby selectedLobby;
-    private static LobbyManager instance;
 
     private const string KEY_START_GAME = "KEY_START_GAME";
 
     // Start is called before the first frame update
     private async void Start()
     {
-
-        if(Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
 
         InitializationOptions initializationOptions = new InitializationOptions();
         initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000000).ToString());
@@ -56,10 +45,6 @@ public class LobbyManager : MonoBehaviour
         {
             string lobbyName = lobbyUI.lobbyCreationUI_LobbyName.text;
             int maxPlayer = lobbyUI.lobbyCreationUI_maxPlayers.value + 1;
-            if(lobbyName == "")
-            {
-                lobbyName = "Lobby of " + GetPlayerData().Data["PlayerName"].Value;
-            }
 
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
             {
@@ -292,8 +277,5 @@ public class LobbyManager : MonoBehaviour
             joinedLobby = lobby;
         }
     }
-
-    public static LobbyManager Instance { get => instance; set => instance = value; }
-
 
 }
