@@ -99,4 +99,9 @@ public class PlayerController : NetworkBehaviour
         finalMovementDirection.y = ySpeed;
         characterController.Move(finalMovementDirection * maxMovementSpeed * Time.deltaTime );
     }
+
+    public void Move(Vector3 destination)
+    {
+        characterController.Move(destination);
+    }
 }
