@@ -5,6 +5,7 @@ using UnityEngine;
 public class RootMotionConverter : MonoBehaviour
 {
     public PlayerController pc;
+    private Vector3 pivotWorldPosition;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,11 +15,13 @@ public class RootMotionConverter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(transform.position != Vector3.zero)
+        if(transform.localPosition != Vector3.zero)
         {
-            print(transform.localPosition);
-            pc.Move(transform.localPosition);
-            transform.localPosition = Vector3.zero;
+            Quaternion rotation = Quaternion.Euler(transform.eulerAngles);
+
+            pc.rootMotionMotion = rotation * transform.localPosition;
         }
+        transform.localPosition = Vector3.zero;
+        pivotWorldPosition = transform.position;
     }
 }

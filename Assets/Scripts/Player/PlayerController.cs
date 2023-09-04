@@ -1,4 +1,5 @@
 using Cinemachine;
+using MoreMountains.Feedbacks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +24,19 @@ public class PlayerController : NetworkBehaviour
     private Transform cameraTransform;
     private GameObject playerSetup;
     private CinemachineVirtualCamera virtualCamera;
+    public Vector3 rootMotionMotion;
+    public MMF_Player cameraShakeFeedback;
+
+    // Prefabs
+    public GameObject hitBoxSphere;
+
+    // hitboxStuff
+    private Vector3 hitboxPosition;
+    private float hitboxSize;
+
+    // SpinAttackStuff
+    private float cooldown = 1;
+    private float currentCooldown = 0;
 
 
     public void Start()
@@ -62,16 +76,79 @@ public class PlayerController : NetworkBehaviour
 
         Rotation();
         Animations();
+        HandleAttack();
+        HandleCooldown();
+        HandleSpinAttack();
 
+    }
+
+    private void HandleCooldown()
+    {
+        if(currentCooldown > 0)
+        {
+            currentCooldown -= Time.deltaTime;
+        }
+    }
+
+    private void HandleSpinAttack()
+    {
+        if(Input.GetKeyDown(KeyCode.Q) && currentCooldown <= 0)
+        {
+            anim.SetBool("spin", true);
+
+        }
+
+        if(anim.GetCurrentAnimatorStateInfo(0).IsName("SpinAttackAxe") && anim.GetBool("spin"))
+        {
+            anim.SetBool("spin", false);
+            currentCooldown = cooldown;
+            GetComponentInChildren<VFXController>().TriggerVFX(3,6);
+        }
+    }
+
+    private void HandleAttack()
+    {
+        if(Input.GetMouseButton(0))
+        {
+            anim.SetBool("attack", true);
+        }
+        else
+        {
+            anim.SetBool("attack", false);
+        }
     }
 
     private void Rotation()
     {
-        // Rotate the character to movement direction
-        if (movementDirection != Vector3.zero)
+        if (!anim.GetBool("attack"))
         {
-            Quaternion targetCharacterRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetCharacterRotation, rotationSpeed * Time.deltaTime);
+            // Rotate the character to movement direction
+            if (movementDirection != Vector3.zero)
+            {
+
+                    Quaternion targetCharacterRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, targetCharacterRotation, rotationSpeed * Time.deltaTime);
+            
+
+
+            }
+        }
+        else
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+            float hitDistance;
+
+            if (groundPlane.Raycast(ray, out hitDistance))
+            {
+                Vector3 cursorPosition = ray.GetPoint(hitDistance);
+
+                Vector3 direction = cursorPosition - transform.position;
+                direction.Normalize();
+                Quaternion targetCharacterRotation = Quaternion.LookRotation(direction, Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetCharacterRotation, 10000 * Time.deltaTime);
+            }
         }
     }
 
@@ -91,17 +168,41 @@ public class PlayerController : NetworkBehaviour
         bool shouldWalk = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
         currentSpeed = shouldWalk ? inputMagnitude * 0.333f : inputMagnitude;
+        if(anim.GetBool("attack"))
+        {
+            currentSpeed *= 0.3f;
+        }
 
         movementDirection = Quaternion.AngleAxis(cameraTransform.rotation.eulerAngles.y, Vector3.up)
     * movementDirection;
 
         Vector3 finalMovementDirection = movementDirection * currentSpeed;
         finalMovementDirection.y = ySpeed;
-        characterController.Move(finalMovementDirection * maxMovementSpeed * Time.deltaTime );
+        characterController.Move((finalMovementDirection * maxMovementSpeed * Time.deltaTime)+ rootMotionMotion);
+
+        rootMotionMotion = Vector3.zero;
+
     }
 
-    public void Move(Vector3 destination)
+    public void SpawnHitBox(Vector3 pos, float size)
     {
-        characterController.Move(destination);
+        hitboxPosition = pos;
+        hitboxSize = size;
+        SpawnHitboxServerRpc(pos,size);
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnHitboxServerRpc(Vector3 pos, float size)
+    {
+
+        GameObject _hitbox = Instantiate(hitBoxSphere, pos, Quaternion.identity);
+        _hitbox.transform.localScale = new Vector3(size, size, size);
+
+        _hitbox.GetComponent<NetworkObject>().Spawn();
+        _hitbox.GetComponent<DamageObject>().SetSourceObjectServerRpc(NetworkObject);
+
+
+    }
+
+
 }

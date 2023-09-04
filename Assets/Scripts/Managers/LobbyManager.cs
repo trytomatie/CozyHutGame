@@ -45,7 +45,7 @@ public class LobbyManager : MonoBehaviour
         {
             string lobbyName = lobbyUI.lobbyCreationUI_LobbyName.text;
             int maxPlayer = lobbyUI.lobbyCreationUI_maxPlayers.value + 1;
-
+   
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
             {
                 IsPrivate = false,
@@ -55,6 +55,11 @@ public class LobbyManager : MonoBehaviour
                     { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member,"0") }
                 }
             };
+
+            if (lobbyName == "")
+            {
+                lobbyName = "Lobby of" + createLobbyOptions.Player.Data["PlayerName"].Value;
+            }
 
             Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer,createLobbyOptions);
 
