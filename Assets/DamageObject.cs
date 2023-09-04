@@ -32,7 +32,10 @@ public class DamageObject : NetworkBehaviour
 
         if (other.GetComponent<ResourceController>() != null)
         {
-            other.GetComponent<ResourceController>().PlayFeedbackClientRpc();
+            int rnd = Random.Range(12, 24);
+            other.GetComponent<ResourceController>().hp.Value -= rnd;
+            other.GetComponent<ResourceController>().PlayFeedbackClientRpc(rnd);
+            GameManager.Instance.woodCounter.Value += rnd;
             ClientRpcParams clientRpcParams = new ClientRpcParams
             {
                 Send = new ClientRpcSendParams

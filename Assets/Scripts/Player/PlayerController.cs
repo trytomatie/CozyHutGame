@@ -68,7 +68,7 @@ public class PlayerController : NetworkBehaviour
         if(transform.position.y < -100)
         {
             characterController.enabled = false;
-            transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+            transform.position = new Vector3(0, 1,0);
             characterController.enabled = true;
         }
 
@@ -136,7 +136,7 @@ public class PlayerController : NetworkBehaviour
         else
         {
             Vector3 mousePosition = Input.mousePosition;
-            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+            Plane groundPlane = new Plane(Vector3.up, new Vector3(0, transform.position.y, 0));
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
             float hitDistance;
 
@@ -148,6 +148,7 @@ public class PlayerController : NetworkBehaviour
                 direction.Normalize();
                 Quaternion targetCharacterRotation = Quaternion.LookRotation(direction, Vector3.up);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetCharacterRotation, 10000 * Time.deltaTime);
+                transform.eulerAngles = new Vector3(0,transform.eulerAngles.y, 0);
             }
         }
     }
