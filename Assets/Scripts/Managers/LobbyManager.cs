@@ -11,6 +11,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -24,6 +25,8 @@ public class LobbyManager : MonoBehaviour
     public static Lobby selectedLobby;
 
     private const string KEY_START_GAME = "KEY_START_GAME";
+    public UnityEvent afterStart;
+    public UnityEvent afterLobbyCreation;
 
     // Start is called before the first frame update
     private async void Start()
@@ -35,12 +38,13 @@ public class LobbyManager : MonoBehaviour
         AuthenticationService.Instance.SignedIn += () => { Debug.Log("Has signed in" + AuthenticationService.Instance.PlayerId); };
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         InvokeRepeating("InvokeHandleLobbyPollForUpdates", pollRate, pollRate);
+        afterStart.Invoke();
 
     }
 
     public async void CreateLobby(Button p_button)
     {
-        p_button.interactable = false;
+        p_button!.interactable = false;
         try
         {
             string lobbyName = lobbyUI.lobbyCreationUI_LobbyName.text;
@@ -76,7 +80,8 @@ public class LobbyManager : MonoBehaviour
         }
         finally
         {
-            p_button.interactable = true;
+            p_button!.interactable = true;
+            afterLobbyCreation.Invoke();
         }
     }
 
