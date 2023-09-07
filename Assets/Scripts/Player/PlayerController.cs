@@ -23,12 +23,13 @@ public class PlayerController : NetworkBehaviour
     public CharacterController characterController;
     private Transform cameraTransform;
     private GameObject playerSetup;
-    private CinemachineVirtualCamera virtualCamera;
+    private CinemachineFreeLook virtualCamera;
     public Vector3 rootMotionMotion;
     public MMF_Player cameraShakeFeedback;
 
     // Prefabs
     public GameObject hitBoxSphere;
+
 
     // hitboxStuff
     private Vector3 hitboxPosition;
@@ -38,6 +39,31 @@ public class PlayerController : NetworkBehaviour
     private float cooldown = 1;
     private float currentCooldown = 0;
 
+    // Equipment
+    public GameObject axe;
+    public GameObject pickaxe;
+    public NetworkVariable<int> currentEquipment = new NetworkVariable<int>(0);
+
+
+    public override void OnNetworkSpawn()
+    {
+        currentEquipment.OnValueChanged += CurrentEquipmentValueChangedOperation;
+    }
+
+    private void CurrentEquipmentValueChangedOperation(int prevVal,int newVal)
+    {
+        anim.SetInteger("equipment", newVal);
+        axe.SetActive(false);
+        pickaxe.SetActive(false);
+        if (newVal == 1)
+        {
+            pickaxe.SetActive(true);
+        }
+        if (newVal == 0)
+        {
+            axe.SetActive(true);
+        }
+    }
 
     public void Start()
     {
@@ -52,7 +78,7 @@ public class PlayerController : NetworkBehaviour
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(playerSetup);
             cameraTransform = playerSetup.transform.Find("Camera");
-            virtualCamera = playerSetup.transform.Find("CM vcam1").GetComponent<CinemachineVirtualCamera>();
+            virtualCamera = playerSetup.transform.Find("CM vcam1").GetComponent<CinemachineFreeLook>();
             virtualCamera.Follow = transform;
             virtualCamera.LookAt = transform;
 
@@ -79,6 +105,7 @@ public class PlayerController : NetworkBehaviour
         HandleAttack();
         HandleCooldown();
         HandleSpinAttack();
+        HandleEquipment();
 
     }
 
@@ -87,6 +114,18 @@ public class PlayerController : NetworkBehaviour
         if(currentCooldown > 0)
         {
             currentCooldown -= Time.deltaTime;
+        }
+    }
+
+    private void HandleEquipment()
+    { 
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            currentEquipment.Value = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            currentEquipment.Value = 1;
         }
     }
 
