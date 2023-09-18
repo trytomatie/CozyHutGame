@@ -50,9 +50,9 @@ public class DamageObject : NetworkBehaviour
     [ClientRpc]
     private void TriggerCameraShakeClientRpc(ClientRpcParams clientRpcParams = default)
     {
-        Debug.Log(source.OwnerClientId);
+
         source.cameraShakeFeedback.PlayFeedbacks();
-        Debug.LogFormat("GameObject: {0}", gameObject.name);
+
     }
 
     [ServerRpc(RequireOwnership = false)]
