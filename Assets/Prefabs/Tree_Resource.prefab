@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 33081235141384132}
   - component: {fileID: 5688942545150317776}
-  - component: {fileID: 6632884978633356263}
+  - component: {fileID: 6699700592038799062}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
@@ -56,7 +56,7 @@ CapsuleCollider:
   m_Height: 4.815776
   m_Direction: 1
   m_Center: {x: 0, y: 1.9078879, z: 0}
---- !u!114 &6632884978633356263
+--- !u!114 &6699700592038799062
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,15 +65,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1081028467876252206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e62f1f84c2ca7604a82a20b225d1c458, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f8983852efa40549b01f1e008f1e1f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damageFeedback: {fileID: 1662875244019738749}
+  hp:
+    m_InternalValue: 100
   stump: {fileID: 3956541484851244536}
   brokenTree: {fileID: 3139706400681866366}
   intactTree: {fileID: 104576279277982389}
-  hp:
-    m_InternalValue: 100
 --- !u!1 &2761652781624030701
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,6 +44,7 @@ public class DamageObject : NetworkBehaviour
                 }
             };
             TriggerCameraShakeClientRpc(clientRpcParams);
+            source.inventory.AddItemClientRPC(0,rnd,clientRpcParams);
         }
     }
     [ClientRpc]

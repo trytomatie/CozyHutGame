@@ -26,6 +26,7 @@ public class PlayerController : NetworkBehaviour
     private CinemachineFreeLook virtualCamera;
     public Vector3 rootMotionMotion;
     public MMF_Player cameraShakeFeedback;
+    public Inventory inventory;
 
     // Prefabs
     public GameObject hitBoxSphere;
@@ -81,6 +82,7 @@ public class PlayerController : NetworkBehaviour
             virtualCamera = playerSetup.transform.Find("CM vcam1").GetComponent<CinemachineFreeLook>();
             virtualCamera.Follow = transform;
             virtualCamera.LookAt = transform;
+            inventory = GetComponent<Inventory>();
 
         }
 
