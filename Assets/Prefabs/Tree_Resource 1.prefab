@@ -73,7 +73,7 @@ MonoBehaviour:
     m_InternalValue: 100
   stump: {fileID: 3956541484851244536}
   brokenTree: {fileID: 3139706400681866366}
-  intactTree: {fileID: 0}
+  intactTree: {fileID: 1845479699796459471}
 --- !u!1 &2761652781624030701
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +511,7 @@ Transform:
   - {fileID: 2538740696489674864}
   - {fileID: 33081235141384132}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1662875244019738749
 MonoBehaviour:
@@ -1104,7 +1104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetType: 0
-  TargetRenderer: {fileID: 0}
+  TargetRenderer: {fileID: 1845479699798384905}
   TargetMaterialID: 1
   TargetImage: {fileID: 0}
   UseMaterialForRendering: 0
@@ -1297,7 +1297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetType: 0
-  TargetRenderer: {fileID: 0}
+  TargetRenderer: {fileID: 1845479699798384905}
   TargetMaterialID: 0
   TargetImage: {fileID: 0}
   UseMaterialForRendering: 0
@@ -1572,6 +1572,18 @@ PrefabInstance:
 --- !u!4 &1845479699795960815 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3302750347087172611, guid: 7a42ad71a0298f443a0ff65c82c24357,
+    type: 3}
+  m_PrefabInstance: {fileID: 3767771207892842476}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1845479699796459471 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3302750347086940195, guid: 7a42ad71a0298f443a0ff65c82c24357,
+    type: 3}
+  m_PrefabInstance: {fileID: 3767771207892842476}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1845479699798384905 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3302750347084748517, guid: 7a42ad71a0298f443a0ff65c82c24357,
     type: 3}
   m_PrefabInstance: {fileID: 3767771207892842476}
   m_PrefabAsset: {fileID: 0}

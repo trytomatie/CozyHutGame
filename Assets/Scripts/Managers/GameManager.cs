@@ -10,20 +10,12 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<int> woodCounter = new NetworkVariable<int>(0);
     public GameUI gameUI;
 
-    public override void OnNetworkSpawn()
-    {
-        woodCounter.OnValueChanged += UpdateWoodCounterUI;
-    }
-
-    private void UpdateWoodCounterUI(int previousValue,int newValue)
-    {
-        gameUI.woodText.text = newValue + " Wood";
-    }
     private void Awake()
     {
         if(Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {

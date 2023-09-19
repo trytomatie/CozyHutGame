@@ -169,8 +169,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Rotation()
     {
-        if (!anim.GetBool("attack"))
-        {
+
             // Rotate the character to movement direction
             if (movementDirection != Vector3.zero)
             {
@@ -181,7 +180,7 @@ public class PlayerController : NetworkBehaviour
 
 
             }
-        }
+        
     }
 
     private void Animations()
