@@ -125,7 +125,7 @@ public class PlayerController : NetworkBehaviour
         else
         {
             FlyingMovement();
-            Rotation();
+            FlyingRotation();
         }
 
         Animations();
@@ -240,6 +240,15 @@ public class PlayerController : NetworkBehaviour
 
             }
         
+    }
+
+    private void FlyingRotation()
+    {
+        if(!Mathf.Approximately(currentFlyingSpeed,0))
+        {
+            transform.rotation = cameraTransform.rotation;
+        }
+
     }
 
     private void Animations()

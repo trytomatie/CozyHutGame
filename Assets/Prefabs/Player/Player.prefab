@@ -375,10 +375,14 @@ MonoBehaviour:
     type: 3}
   anim: {fileID: 3991521594929408793}
   maxMovementSpeed: 6
-  rotationSpeed: 360
+  maxFlyingSpeed: 15
+  rotationSpeed: 720
+  acceleration: 5
+  deceleration: 10
   characterController: {fileID: 0}
   rootMotionMotion: {x: 0, y: 0, z: 0}
   cameraShakeFeedback: {fileID: 9051544097253716917}
+  inventory: {fileID: 0}
   hitBoxSphere: {fileID: 7121204117899779549, guid: e9cc1978942c4e94da4db1bfdf418ed1,
     type: 3}
   axe: {fileID: 5040792484259897679}
