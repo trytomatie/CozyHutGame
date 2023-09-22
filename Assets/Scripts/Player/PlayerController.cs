@@ -14,16 +14,22 @@ public class PlayerController : NetworkBehaviour
 
     // Character Movement Properties
     [SerializeField] private float maxMovementSpeed = 6;
+    [SerializeField] private float maxFlyingSpeed = 15;
     [SerializeField] private float rotationSpeed = 40;
     private float ySpeed = -9.81f;
     private float currentSpeed;
     private Vector3 movementDirection;
 
+    public float acceleration = 5.0f;
+    public float deceleration = 10.0f;
+    private float currentFlyingSpeed;
+
     // References
     public CharacterController characterController;
     private Transform cameraTransform;
     private GameObject playerSetup;
-    private CinemachineFreeLook virtualCamera;
+    private CinemachineStateDrivenCamera virtualCamera;
+    private Animator cameraAnimator;
     public Vector3 rootMotionMotion;
     public MMF_Player cameraShakeFeedback;
     public Inventory inventory;
@@ -44,6 +50,9 @@ public class PlayerController : NetworkBehaviour
     public GameObject axe;
     public GameObject pickaxe;
     public NetworkVariable<int> currentEquipment = new NetworkVariable<int>(0);
+
+    //flying
+    private bool toggleFlying = false;
 
 
     public override void OnNetworkSpawn()
@@ -79,9 +88,16 @@ public class PlayerController : NetworkBehaviour
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(playerSetup);
             cameraTransform = playerSetup.transform.Find("Camera");
-            virtualCamera = playerSetup.transform.Find("CM vcam1").GetComponent<CinemachineFreeLook>();
+            virtualCamera = playerSetup.transform.Find("State-Driven Camera").GetComponent<CinemachineStateDrivenCamera>();
+            for(int i = 0; i < virtualCamera.transform.childCount - 1; i++)
+            {
+                CinemachineVirtualCameraBase cam=virtualCamera.transform.GetChild(i).GetComponent<CinemachineVirtualCameraBase>();
+                cam.Follow = transform;
+                cam.LookAt = transform;
+            }
             virtualCamera.Follow = transform;
             virtualCamera.LookAt = transform;
+            cameraAnimator = virtualCamera.GetComponent<Animator>();
             inventory = GetComponent<Inventory>();
 
         }
@@ -100,14 +116,22 @@ public class PlayerController : NetworkBehaviour
             characterController.enabled = true;
         }
 
-        Movement();
+        if(toggleFlying == false){
+            Movement();
+            Rotation();
+            HandleAttack();
+            HandleEquipment();
+        }
+        else
+        {
+            FlyingMovement();
+            Rotation();
+        }
 
-        Rotation();
         Animations();
-        HandleAttack();
         HandleCooldown();
         HandleSpinAttack();
-        HandleEquipment();
+        
 
         if(Input.GetKey(KeyCode.LeftAlt))
         {
@@ -117,6 +141,41 @@ public class PlayerController : NetworkBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            toggleFlying = !toggleFlying;
+            if (toggleFlying)
+            {
+                cameraAnimator.SetInteger("cam", 1);
+            }
+            else
+            {
+                cameraAnimator.SetInteger("cam", 0);
+            }
+        }
+    }
+
+    private void FlyingMovement()
+    {
+
+        // Calculate the direction from the object to the camera.
+        Vector3 direction = transform.position - cameraTransform.position;
+
+        // Normalize the direction vector to make the movement consistent.
+        direction.Normalize();
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            currentFlyingSpeed = Mathf.MoveTowards(currentFlyingSpeed, maxFlyingSpeed, acceleration * Time.deltaTime);
+        }
+        else
+        {
+            currentFlyingSpeed = Mathf.MoveTowards(currentFlyingSpeed, 0, deceleration * Time.deltaTime);
+        }
+
+        // Move the object in the camera's direction.
+        characterController.Move(direction * currentFlyingSpeed * Time.deltaTime);
     }
 
     private void HandleCooldown()
