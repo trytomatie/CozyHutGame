@@ -389,6 +389,8 @@ MonoBehaviour:
   pickaxe: {fileID: 448905909426241229}
   currentEquipment:
     m_InternalValue: 0
+  mountsNearby: {fileID: 0}
+  mountPosition: {fileID: 5944843018609300749}
 --- !u!114 &2129523055989405451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1868,6 +1870,12 @@ GameObject:
 --- !u!23 &5566543242351002887 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2073225875125497936, guid: cc91c8ba8b9a34f4d99e70d721f60b64,
+    type: 3}
+  m_PrefabInstance: {fileID: 5874319425954264407}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5944843018609300749 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 217744390247227482, guid: cc91c8ba8b9a34f4d99e70d721f60b64,
     type: 3}
   m_PrefabInstance: {fileID: 5874319425954264407}
   m_PrefabAsset: {fileID: 0}

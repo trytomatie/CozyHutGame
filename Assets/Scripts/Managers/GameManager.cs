@@ -9,6 +9,7 @@ public class GameManager : NetworkBehaviour
     public GameObject playerPrefab;
     public NetworkVariable<int> woodCounter = new NetworkVariable<int>(0);
     public GameUI gameUI;
+    public Transform spawnPoint;
 
     private void Awake()
     {
@@ -26,7 +27,7 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void SpawnPlayerServerRpc(ulong clientId)
     {
-        GameObject go = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject go = Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);
         go.GetComponent<NetworkObject>().Spawn();
         go.GetComponent<NetworkObject>().ChangeOwnership(clientId);
     }

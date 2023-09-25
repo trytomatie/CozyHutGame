@@ -54,6 +54,11 @@ public class PlayerController : NetworkBehaviour
     //flying
     private bool toggleFlying = false;
 
+    //mounting
+    private bool isMounted = false;
+    public GameObject mountsNearby;
+    public GameObject mountPosition;
+
 
     public override void OnNetworkSpawn()
     {
@@ -116,7 +121,7 @@ public class PlayerController : NetworkBehaviour
             characterController.enabled = true;
         }
 
-        if(toggleFlying == false){
+        if(isMounted == false){
             Movement();
             Rotation();
             HandleAttack();
@@ -126,8 +131,16 @@ public class PlayerController : NetworkBehaviour
         {
             FlyingMovement();
             FlyingRotation();
+            if (isMounted)
+            {
+                cameraAnimator.SetInteger("cam", 1);
+            }
+            else
+            {
+                cameraAnimator.SetInteger("cam", 0);
+            }
         }
-
+        Mounting();
         Animations();
         HandleCooldown();
         HandleSpinAttack();
@@ -140,19 +153,6 @@ public class PlayerController : NetworkBehaviour
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            toggleFlying = !toggleFlying;
-            if (toggleFlying)
-            {
-                cameraAnimator.SetInteger("cam", 1);
-            }
-            else
-            {
-                cameraAnimator.SetInteger("cam", 0);
-            }
         }
     }
 
@@ -303,5 +303,31 @@ public class PlayerController : NetworkBehaviour
 
     }
 
+    private void Mounting()
+    {
+        if(isMounted == false && mountsNearby != null && Input.GetKey(KeyCode.E) )
+        {
+            isMounted = true;
+            mountsNearby.transform.parent = mountPosition.transform;
+            mountsNearby.transform.localPosition = Vector3.zero;
+            mountsNearby.transform.localEulerAngles = Vector3.zero;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Mount"))
+        {
+            mountsNearby = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Mount"))
+        {
+            mountsNearby = null;
+        }
+    }
 
 }
