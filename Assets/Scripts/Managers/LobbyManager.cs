@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -27,11 +28,19 @@ public class LobbyManager : MonoBehaviour
     private const string KEY_START_GAME = "KEY_START_GAME";
     public UnityEvent afterStart;
     public UnityEvent afterLobbyCreation;
+    public UnityTransport relayTransportProtocol;
+    public UnityTransport lanTransportProtocol;
 
     // Start is called before the first frame update
     private async void Start()
     {
+        await ConnectToRelayService();
 
+    }
+
+    private async Task ConnectToRelayService()
+    {
+        NetworkManager.Singleton.NetworkConfig.NetworkTransport = relayTransportProtocol;
         InitializationOptions initializationOptions = new InitializationOptions();
         initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000000).ToString());
         await UnityServices.InitializeAsync(initializationOptions);
@@ -39,7 +48,6 @@ public class LobbyManager : MonoBehaviour
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         InvokeRepeating("InvokeHandleLobbyPollForUpdates", pollRate, pollRate);
         afterStart.Invoke();
-
     }
 
     public async void CreateLobby(Button p_button)
@@ -287,5 +295,18 @@ public class LobbyManager : MonoBehaviour
             joinedLobby = lobby;
         }
     }
+
+    public void StartLanGame()
+    {
+        NetworkManager.Singleton.NetworkConfig.NetworkTransport = lanTransportProtocol;
+        NetworkManager.Singleton.StartHost();
+        NetworkManager.Singleton.SceneManager.LoadScene("SampleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        String name = NetworkManager.Singleton.name;
+
+
+
+        // TODO: Get the Save Game Screen to select world, Also Select Character First
+    }
+
 
 }

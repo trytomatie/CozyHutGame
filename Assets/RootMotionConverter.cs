@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RootMotionConverter : MonoBehaviour
 {
-    public PlayerController pc;
+    public NetworkPlayerController playerController;
     private Vector3 pivotWorldPosition;
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class RootMotionConverter : MonoBehaviour
         {
             Quaternion rotation = Quaternion.Euler(transform.eulerAngles);
 
-            pc.rootMotionMotion = rotation * transform.localPosition;
+            playerController.rootMotionMotion = rotation * transform.localPosition;
         }
         transform.localPosition = Vector3.zero;
         pivotWorldPosition = transform.position;
