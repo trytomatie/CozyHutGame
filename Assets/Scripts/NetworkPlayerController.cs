@@ -62,8 +62,6 @@ public class NetworkPlayerController : State
 
 
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -133,8 +131,8 @@ public class NetworkPlayerController : State
     /// </summary>
     private void Movement()
     {
-        float verticalInput = Input.GetAxisRaw("Vertical");
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float horizontalInput = InputManager.Instance.movement.x;
+        float verticalInput = InputManager.Instance.movement.y;
         float targetSpeed = runSpeed;
 
         if (Input.GetKey(KeyCode.LeftShift))

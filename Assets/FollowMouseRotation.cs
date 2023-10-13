@@ -20,9 +20,9 @@ public class FollowMouseRotation : MonoBehaviour
         transform.position = followTarget.transform.position + offset;
         
         // Apply rotation based on mouse delta
-        transform.Rotate(Vector3.up, InputManager.MouseDelta().x * Options.Instance.mouseRotationSpeed, Space.World);
+        transform.Rotate(Vector3.up, InputManager.Instance.cameraMovement.x * Options.Instance.mouseRotationSpeed, Space.World);
 
-        rotationX -= InputManager.MouseDelta().y * Options.Instance.mouseRotationSpeed;
+        rotationX -= InputManager.Instance.cameraMovement.y * Options.Instance.mouseRotationSpeed;
         rotationX = Mathf.Clamp(rotationX, -90, 90);
 
         transform.localRotation = Quaternion.Euler(rotationX, transform.localRotation.eulerAngles.y, 0);

@@ -258,8 +258,8 @@ public class PlayerController : NetworkBehaviour
 
     private void Movement()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontalInput = InputManager.Instance.movement.x;
+        float verticalInput = InputManager.Instance.movement.y;
 
         movementDirection = new Vector3(horizontalInput, 0, verticalInput);
         float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);

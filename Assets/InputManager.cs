@@ -1,18 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    private InputManager instance;
+    private static InputManager instance;
 
     private int currentDevice = 0; // 0 == Keyboard, 1 == Controller
+    private PlayerInput inputActions;
 
+    [Header("Inputs")]
+    public Vector2 movement;
+    public Vector2 cameraMovement;
 
-    void Start()
+    public static InputManager Instance { get => instance; }
+
+    void Awake()
     {
-        if(instance == null)
+        if(Instance == null)
         {
+            inputActions = new PlayerInput();
             instance = this;
         }
         else
@@ -21,18 +30,48 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public static Vector2 MouseDelta()
+
+
+
+    private void OnEnable()
     {
-        return new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y") * Options.Instance.mouseRotationSpeed);
+        InputAction movement = inputActions.FindAction("Player/Movement");
+        // movement.ApplyBindingOverride("<Keyboard/W");
+        inputActions.Enable();
+        inputActions.Player.Movement.performed += SetMovement;
+        inputActions.Player.Movement.canceled += CancelMovement;
+        inputActions.Player.CameraMovement.performed += SetCameraMovement;
+        inputActions.Player.CameraMovement.canceled += CancelCameraMovement;
     }
 
-    public static int CurrentDevice()
+
+
+    private void OnDisable()
     {
-        if (Input.anyKey)
-            return 0;
-        return 1;
+        inputActions.Disable();
+        inputActions.Player.Movement.performed -= SetMovement;
+        inputActions.Player.Movement.canceled -= CancelMovement;
+        inputActions.Player.CameraMovement.performed -= SetCameraMovement;
+        inputActions.Player.CameraMovement.canceled -= CancelCameraMovement;
     }
 
+    private void SetMovement(InputAction.CallbackContext value)
+    {
+        movement = value.ReadValue<Vector2>();
+    }
 
-    public InputManager Instance { get => instance; }
+    private void CancelMovement(InputAction.CallbackContext value)
+    {
+        movement = Vector2.zero;
+    }   
+    
+    private void SetCameraMovement(InputAction.CallbackContext value)
+    {
+        cameraMovement = value.ReadValue<Vector2>();
+    }
+
+    private void CancelCameraMovement(InputAction.CallbackContext value)
+    {
+        cameraMovement = Vector2.zero;
+    }
 }
