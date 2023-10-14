@@ -77,6 +77,7 @@ public class NetworkPlayerController : State
         {
             // Setup Player
             GameObject playerSetup = Instantiate(playerSetupPrefab, transform.position, Quaternion.identity);
+            playerSetup.GetComponentInChildren<InventoryManagerUI>().Inventory = GetComponent<Inventory>();
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(playerSetup);
             mainCamera = playerSetup.transform.Find("Camera").GetComponent<Camera>();

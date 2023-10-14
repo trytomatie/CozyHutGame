@@ -13,7 +13,7 @@ public class Inventory : NetworkBehaviour
     {
         if (!IsOwner)
             return;
-        InventoryManagerUI.Instance.Inventory = this;
+
     }
 
     [ClientRpc]
@@ -23,7 +23,7 @@ public class Inventory : NetworkBehaviour
     }
     private bool AddItem(int id,int stackSize)
     {
-        Item item = Item.GenerateItem(id);
+        Item item = ItemManager.GenerateItem(id);
         item.stackSize = stackSize;
         if(item != null)
         {

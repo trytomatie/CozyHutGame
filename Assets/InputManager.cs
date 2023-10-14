@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,8 +19,9 @@ public class InputManager : MonoBehaviour
 
     // Events
     public delegate void CameraZoomEventHandler(object sender, float value);
+    public delegate void InputEventHandler(object sender, InputAction.CallbackContext value);
     public event CameraZoomEventHandler CameraZoomDeltaPerformed;
-
+    public event InputEventHandler InventoryButton;
 
 
 
@@ -46,6 +48,7 @@ public class InputManager : MonoBehaviour
         inputActions.Player.CameraMovement.canceled += CancelCameraMovement;
         inputActions.Player.CameraZoom.performed += SetCameraZoom;
         inputActions.Player.CameraZoom.canceled += CancelCameraZoom;
+        inputActions.Interface.Inventory.performed += InventoryButtonDown;
     }
 
     private void OnDisable()
@@ -57,6 +60,7 @@ public class InputManager : MonoBehaviour
         inputActions.Player.CameraMovement.canceled -= CancelCameraMovement;
         inputActions.Player.CameraZoom.performed -= SetCameraZoom;
         inputActions.Player.CameraZoom.canceled -= CancelCameraZoom;
+        inputActions.Interface.Inventory.performed -= InventoryButtonDown;
     }
 
     private void SetMovement(InputAction.CallbackContext value)
@@ -106,6 +110,24 @@ public class InputManager : MonoBehaviour
     {
         CameraZoomEventHandler handler = CameraZoomDeltaPerformed;
         if(handler != null)
+        {
+            handler(this, value);
+        }
+    }
+
+    protected virtual void InventoryButtonDown(InputAction.CallbackContext value)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { InventoryManagerUI.Instance.Inventory.OwnerClientId }
+            }
+        };
+        InventoryManagerUI.Instance.Inventory.AddItemClientRPC(0, 33, clientRpcParams);
+
+        InputEventHandler handler = InventoryButton;
+        if (handler != null)
         {
             handler(this, value);
         }

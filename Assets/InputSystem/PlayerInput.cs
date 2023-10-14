@@ -134,6 +134,45 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Interface"",
+            ""id"": ""a48a78a7-bff3-496f-93d3-880ce2faf082"",
+            ""actions"": [
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""4d617467-bf3b-4517-8b83-d06064b4266c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4287a937-f228-4ca0-975b-253f49923e3a"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c53f12ac-3802-4739-b523-4b6eb0e03e9c"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -143,6 +182,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_CameraMovement = m_Player.FindAction("CameraMovement", throwIfNotFound: true);
         m_Player_CameraZoom = m_Player.FindAction("CameraZoom", throwIfNotFound: true);
+        // Interface
+        m_Interface = asset.FindActionMap("Interface", throwIfNotFound: true);
+        m_Interface_Inventory = m_Interface.FindAction("Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -247,10 +289,47 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Interface
+    private readonly InputActionMap m_Interface;
+    private IInterfaceActions m_InterfaceActionsCallbackInterface;
+    private readonly InputAction m_Interface_Inventory;
+    public struct InterfaceActions
+    {
+        private @PlayerInput m_Wrapper;
+        public InterfaceActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Inventory => m_Wrapper.m_Interface_Inventory;
+        public InputActionMap Get() { return m_Wrapper.m_Interface; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InterfaceActions set) { return set.Get(); }
+        public void SetCallbacks(IInterfaceActions instance)
+        {
+            if (m_Wrapper.m_InterfaceActionsCallbackInterface != null)
+            {
+                @Inventory.started -= m_Wrapper.m_InterfaceActionsCallbackInterface.OnInventory;
+                @Inventory.performed -= m_Wrapper.m_InterfaceActionsCallbackInterface.OnInventory;
+                @Inventory.canceled -= m_Wrapper.m_InterfaceActionsCallbackInterface.OnInventory;
+            }
+            m_Wrapper.m_InterfaceActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Inventory.started += instance.OnInventory;
+                @Inventory.performed += instance.OnInventory;
+                @Inventory.canceled += instance.OnInventory;
+            }
+        }
+    }
+    public InterfaceActions @Interface => new InterfaceActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnCameraMovement(InputAction.CallbackContext context);
         void OnCameraZoom(InputAction.CallbackContext context);
+    }
+    public interface IInterfaceActions
+    {
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

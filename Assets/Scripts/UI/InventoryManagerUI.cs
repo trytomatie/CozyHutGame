@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class InventoryManagerUI : MonoBehaviour
 {
+    [SerializeField] private GameObject inventoryUI;
     [SerializeField] private ItemSlotUI[] itemSlots;
     [SerializeField] private GameObject dragImage;
     private static InventoryManagerUI instance;
@@ -25,6 +27,19 @@ public class InventoryManagerUI : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        InputManager.Instance.InventoryButton += ToggleInventory;
+    }
+    private void OnDisable()
+    {
+        InputManager.Instance.InventoryButton -= ToggleInventory;
+    }
+
+    public void ToggleInventory(object sender,InputAction.CallbackContext value)
+    {
+         inventoryUI.SetActive(!inventoryUI.activeSelf);
+    }
     public void RefreshUI()
     {
         foreach(ItemSlotUI itemslotUI in itemSlots)

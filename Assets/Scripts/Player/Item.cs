@@ -1,18 +1,13 @@
 ﻿using UnityEngine;
 
-public class Item
+[CreateAssetMenu(menuName = "Items/Generic Item")]
+public class Item : ScriptableObject
 {
-    public int itemId;
+
+    [HideInInspector] public int itemId;
+    public string itemName;
     public Sprite sprite;
     public int stackSize = 1;
     public int maxStackSize = 64;
-    public static Item GenerateItem(int id)
-    {
-        switch (id)
-        {
-            case 0:
-                return new Item_Wood();
-        }
-        return null;
-    }
+    
 }

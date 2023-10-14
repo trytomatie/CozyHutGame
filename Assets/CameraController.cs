@@ -17,7 +17,16 @@ public class CameraController : MonoBehaviour
         followTarget = transform.parent;
         offset = transform.localPosition;
         transform.parent = null;
+    }
+
+    private void OnEnable()
+    {
         InputManager.Instance.CameraZoomDeltaPerformed += ScrollCamera;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.Instance.CameraZoomDeltaPerformed -= ScrollCamera;
     }
 
     // Update is called once per frame
