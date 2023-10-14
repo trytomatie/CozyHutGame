@@ -1,19 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
-public class FollowMouseRotation : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     private Transform followTarget;
     private Vector3 offset;
     private float rotationX;
 
+    public CinemachineVirtualCamera[] cinemachineCameras;
+
     private void Start()
     {
+        cinemachineCameras = FindObjectsOfType<CinemachineVirtualCamera>();
         followTarget = transform.parent;
         offset = transform.localPosition;
         transform.parent = null;
+        InputManager.Instance.CameraZoomDeltaPerformed += ScrollCamera;
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -42,5 +48,18 @@ public class FollowMouseRotation : MonoBehaviour
         q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
 
         return q;
+    }
+
+    public void ScrollCamera(object sender, float value)
+    {
+        foreach(CinemachineVirtualCamera c in cinemachineCameras)
+        {
+            Cinemachine3rdPersonFollow composer = c.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+            if(composer != null)
+            {
+                composer.CameraDistance += -value * Options.Instance.mouseScrollSpeed * 0.01f;
+            }
+
+        }
     }
 }

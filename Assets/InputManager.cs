@@ -14,8 +14,14 @@ public class InputManager : MonoBehaviour
     [Header("Inputs")]
     public Vector2 movement;
     public Vector2 cameraMovement;
+    private float cameraZoomDelta;
 
-    public static InputManager Instance { get => instance; }
+    // Events
+    public delegate void CameraZoomEventHandler(object sender, float value);
+    public event CameraZoomEventHandler CameraZoomDeltaPerformed;
+
+
+
 
     void Awake()
     {
@@ -31,20 +37,16 @@ public class InputManager : MonoBehaviour
     }
 
 
-
-
     private void OnEnable()
     {
-        InputAction movement = inputActions.FindAction("Player/Movement");
-        // movement.ApplyBindingOverride("<Keyboard/W");
         inputActions.Enable();
         inputActions.Player.Movement.performed += SetMovement;
         inputActions.Player.Movement.canceled += CancelMovement;
         inputActions.Player.CameraMovement.performed += SetCameraMovement;
         inputActions.Player.CameraMovement.canceled += CancelCameraMovement;
+        inputActions.Player.CameraZoom.performed += SetCameraZoom;
+        inputActions.Player.CameraZoom.canceled += CancelCameraZoom;
     }
-
-
 
     private void OnDisable()
     {
@@ -53,6 +55,8 @@ public class InputManager : MonoBehaviour
         inputActions.Player.Movement.canceled -= CancelMovement;
         inputActions.Player.CameraMovement.performed -= SetCameraMovement;
         inputActions.Player.CameraMovement.canceled -= CancelCameraMovement;
+        inputActions.Player.CameraZoom.performed -= SetCameraZoom;
+        inputActions.Player.CameraZoom.canceled -= CancelCameraZoom;
     }
 
     private void SetMovement(InputAction.CallbackContext value)
@@ -74,4 +78,37 @@ public class InputManager : MonoBehaviour
     {
         cameraMovement = Vector2.zero;
     }
+
+    private void SetCameraZoom(InputAction.CallbackContext value)
+    {
+        CameraZoomDelta = value.ReadValue<Vector2>().y;
+    }
+
+    private void CancelCameraZoom(InputAction.CallbackContext value)
+    {
+        CameraZoomDelta = 0;
+    }
+
+    public float CameraZoomDelta 
+    { 
+        get => cameraZoomDelta;
+        set
+        {
+            cameraZoomDelta = value;
+            OnCameraZoomDelta(value);
+        }
+    }
+
+    public static InputManager Instance { get => instance; }
+
+    #region Events
+    protected virtual void OnCameraZoomDelta(float value)
+    {
+        CameraZoomEventHandler handler = CameraZoomDeltaPerformed;
+        if(handler != null)
+        {
+            handler(this, value);
+        }
+    }
+    #endregion
 }

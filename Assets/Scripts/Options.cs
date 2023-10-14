@@ -7,6 +7,9 @@ public class Options : MonoBehaviour
     [Range(0.0f, 10.0f)]
     public float mouseRotationSpeed = 1;
 
+    [Range(0.0f, 10.0f)]
+    public float mouseScrollSpeed = 1;
+
     private static Options instance;
 
 
@@ -28,6 +31,7 @@ public class Options : MonoBehaviour
     public void SaveOptions()
     {
         PlayerPrefs.SetFloat("mouseRotationSpeed", mouseRotationSpeed);
+        PlayerPrefs.SetFloat("mouseScrollSpeed", mouseScrollSpeed);
         PlayerPrefs.Save();
     }
 
@@ -36,6 +40,7 @@ public class Options : MonoBehaviour
         if(PlayerPrefs.HasKey("mouseRotationSpeed"))
         {
             mouseRotationSpeed = PlayerPrefs.GetFloat("mouseRotationSpeed");
+            mouseRotationSpeed = PlayerPrefs.GetFloat("mouseScrollSpeed");
         }
 
     }
