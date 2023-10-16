@@ -10,7 +10,7 @@ public class InputManager : MonoBehaviour
     private static InputManager instance;
 
     private int currentDevice = 0; // 0 == Keyboard, 1 == Controller
-    private PlayerInput inputActions;
+    public PlayerInput inputActions;
 
     [Header("Inputs")]
     public Vector2 movement;
@@ -22,6 +22,7 @@ public class InputManager : MonoBehaviour
     public delegate void InputEventHandler(object sender, InputAction.CallbackContext value);
     public event CameraZoomEventHandler CameraZoomDeltaPerformed;
     public event InputEventHandler InventoryButton;
+    public event InputEventHandler InteractionButton;
 
 
 
@@ -49,6 +50,7 @@ public class InputManager : MonoBehaviour
         inputActions.Player.CameraZoom.performed += SetCameraZoom;
         inputActions.Player.CameraZoom.canceled += CancelCameraZoom;
         inputActions.Interface.Inventory.performed += InventoryButtonDown;
+        inputActions.Player.Interact.performed += InteractionButtonDown;
     }
 
     private void OnDisable()
@@ -117,16 +119,16 @@ public class InputManager : MonoBehaviour
 
     protected virtual void InventoryButtonDown(InputAction.CallbackContext value)
     {
-        ClientRpcParams clientRpcParams = new ClientRpcParams
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new ulong[] { InventoryManagerUI.Instance.Inventory.OwnerClientId }
-            }
-        };
-        InventoryManagerUI.Instance.Inventory.AddItemClientRPC(0, 33, clientRpcParams);
-
         InputEventHandler handler = InventoryButton;
+        if (handler != null)
+        {
+            handler(this, value);
+        }
+    }
+
+    private void InteractionButtonDown(InputAction.CallbackContext value)
+    {
+        InputEventHandler handler = InteractionButton;
         if (handler != null)
         {
             handler(this, value);

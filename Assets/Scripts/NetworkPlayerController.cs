@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 /// <summary>
@@ -43,11 +44,13 @@ public class NetworkPlayerController : State
 
     private bool isTransitioning = false;
 
+    [Header("References")]
     private CharacterController cc;
     public Animator anim;
     private Camera mainCamera;
     private Animator cameraAnimator;
     private Inventory inventory;
+    public InteractionManager interactionManager;
 
     [Header("PlayerSetup")]
     public GameObject playerSetupPrefab;
@@ -86,7 +89,7 @@ public class NetworkPlayerController : State
             virtualCamera.LookAt = transform;
             cameraAnimator = virtualCamera.GetComponent<Animator>();
             inventory = GetComponent<Inventory>();
-
+            EnterState(gameObject);
         }
     }
 
@@ -214,6 +217,13 @@ public class NetworkPlayerController : State
         lastHitPoint = hit.point;
     }
 
+    #region Events
+    public void Interact(object sender, InputAction.CallbackContext value)
+    {
+        interactionManager.Interact(gameObject);
+    }
+    #endregion
+
     #region StateMethodes
     public override void UpdateState(GameObject source)
     {
@@ -227,12 +237,12 @@ public class NetworkPlayerController : State
         Movement();
         Rotation();
         Animations();
-
     }
 
     public override void EnterState(GameObject source)
     {
-
+        print("Heyss");
+        InputManager.Instance.InteractionButton += Interact;
     }
 
     public override StateName Transition(GameObject source)
@@ -242,9 +252,13 @@ public class NetworkPlayerController : State
 
     public override void ExitState(GameObject source)
     {
-
+        InputManager.Instance.InteractionButton -= Interact;
     }
 
+    private void OnDisable()
+    {
+        InputManager.Instance.InteractionButton -= Interact;
+    }
     #endregion
 
 }
