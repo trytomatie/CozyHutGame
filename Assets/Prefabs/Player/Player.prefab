@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be531f3815f1b55409b98ef4f146cdbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cinemachineCameras: []
 --- !u!1 &6871694284037075834
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4549229527645345677}
+  - component: {fileID: 7139457963534544321}
   m_Layer: 3
   m_Name: Offset
   m_TagString: Untagged
@@ -288,6 +290,19 @@ Transform:
   m_Father: {fileID: 4494846540461424656}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7139457963534544321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6871694284037075834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab3847a6bd137e4e9d1efbd71c8ead8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 1
 --- !u!1 &8067701694813219899
 GameObject:
   m_ObjectHideFlags: 0
