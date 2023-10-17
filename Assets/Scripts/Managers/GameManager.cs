@@ -27,10 +27,19 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void SpawnPlayerServerRpc(ulong clientId)
     {
-        GameObject go = Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);
+        GameObject go = Instantiate(playerPrefab);
         go.GetComponent<NetworkObject>().Spawn();
         go.GetComponent<NetworkObject>().ChangeOwnership(clientId);
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { go.GetComponent<NetworkObject>().OwnerClientId }
+            }
+        };
+        go.GetComponent<NetworkPlayerController>().TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>().transform.position, clientRpcParams);
     }
+
 
     public static GameManager Instance { get => instance; set => instance = value; }
 

@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -45,15 +46,16 @@ public class NetworkPlayerController : State
     private bool isTransitioning = false;
 
     [Header("References")]
-    private CharacterController cc;
+    public CharacterController cc;
     public Animator anim;
-    private Camera mainCamera;
+    public Camera mainCamera;
     private Animator cameraAnimator;
     private Inventory inventory;
     public InteractionManager interactionManager;
 
     [Header("PlayerSetup")]
     public GameObject playerSetupPrefab;
+    public GameObject playerSetup;
 
     [Header("Camera")]
     private CinemachineStateDrivenCamera virtualCamera;
@@ -70,16 +72,17 @@ public class NetworkPlayerController : State
     {
         cc = GetComponent<CharacterController>();
         inventory = GetComponent<Inventory>();
-        mainCamera = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
         if (!IsOwner)
         {
             this.enabled = false;
+            GetComponent<StateMachine>().enabled = false;
         }
         else
         {
             // Setup Player
-            GameObject playerSetup = Instantiate(playerSetupPrefab, transform.position, Quaternion.identity);
+            interactionManager.gameObject.SetActive(true);
+            playerSetup = Instantiate(playerSetupPrefab, transform.position, Quaternion.identity);
             playerSetup.GetComponentInChildren<InventoryManagerUI>().Inventory = GetComponent<Inventory>();
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(playerSetup);
@@ -92,7 +95,6 @@ public class NetworkPlayerController : State
             EnterState(gameObject);
         }
     }
-
 
 
 
@@ -133,7 +135,7 @@ public class NetworkPlayerController : State
     /// <summary>
     /// Handle Movement
     /// </summary>
-    private void Movement()
+    public void Movement()
     {
         float horizontalInput = InputManager.Instance.movement.x;
         float verticalInput = InputManager.Instance.movement.y;
@@ -212,6 +214,14 @@ public class NetworkPlayerController : State
 
     }
 
+    [ClientRpc]
+    public void TeleportClientRpc(Vector3 postion,ClientRpcParams clientRpcParams = default)
+    {
+        GetComponent<CharacterController>().enabled = false;
+        transform.position = postion;
+        GetComponent<CharacterController>().enabled = true;
+    }
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         lastHitPoint = hit.point;
@@ -255,10 +265,11 @@ public class NetworkPlayerController : State
         InputManager.Instance.InteractionButton -= Interact;
     }
 
+    #endregion
+
     private void OnDisable()
     {
         InputManager.Instance.InteractionButton -= Interact;
     }
-    #endregion
 
 }

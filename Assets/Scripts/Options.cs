@@ -52,6 +52,7 @@ public class Options : MonoBehaviour
 
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(Options))]
 public class OptionsEditor: Editor
 {
@@ -67,3 +68,4 @@ public class OptionsEditor: Editor
         }
     }
 }
+#endif

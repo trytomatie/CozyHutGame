@@ -259,7 +259,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &650953844343281779
 Transform:
   m_ObjectHideFlags: 0
@@ -447,6 +447,8 @@ GameObject:
   - component: {fileID: 3682590895714318402}
   - component: {fileID: 3763591134269592334}
   - component: {fileID: 2443772686806696688}
+  - component: {fileID: 223243689342130077}
+  - component: {fileID: 9090340982985651385}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -537,8 +539,8 @@ MonoBehaviour:
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
-  PositionThreshold: 0.0001
-  RotAngleThreshold: 1
+  PositionThreshold: 0
+  RotAngleThreshold: 0.00001
   ScaleThreshold: 0.01
   UseQuaternionSynchronization: 0
   UseQuaternionCompression: 0
@@ -573,6 +575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   states:
   - {fileID: 2443772686806696688}
+  - {fileID: 223243689342130077}
   currentState: {fileID: 2443772686806696688}
   isUpdating: 1
   Transitioning:
@@ -605,6 +608,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   jumpStrength: 5
+  cc: {fileID: 0}
   anim: {fileID: 4979726646552733822}
   interactionManager: {fileID: 8190111828864611816}
   playerSetupPrefab: {fileID: 4168666063277857504, guid: 2723f2866eec57f46b81ce2ac41445c9,
@@ -613,6 +617,60 @@ MonoBehaviour:
   zoomSpeed: 2
   minZoom: 5
   maxZoom: 20
+--- !u!114 &223243689342130077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8067701694813219899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7229b81b76e455d468ae8732289eed84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateName: 31
+  walkSpeed: 2
+  runSpeed: 10
+  backwardsSpeed: 6
+  acceleration: 7
+  turnspeed: 15
+  mount: {fileID: 0}
+--- !u!114 &9090340982985651385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8067701694813219899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf6b01faa5848d4cbdab32dfe9472a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList:
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 229373857
+    DestinationState: 1137391654
+    TransitionDuration: 0.15
+    TriggerNameHash: -1481439722
+    TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1137391654
+    DestinationState: 545781641
+    TransitionDuration: 0.1
+    TriggerNameHash: -1476340264
+    TransitionIndex: 0
+  - IsCrossFadeExit: 0
+    Layer: 0
+    OriginatingState: 1137391654
+    DestinationState: 229373857
+    TransitionDuration: 0
+    TriggerNameHash: -1476340264
+    TransitionIndex: 1
+  m_Animator: {fileID: 4979726646552733822}
 --- !u!1001 &1472992267237201391
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -40,6 +40,11 @@ public class StateMachine : MonoBehaviour
         forceState = state.stateName;
     }
 
+    public void ForceState(State.StateName stateName)
+    {
+        forceState = stateName;
+    }
+
     public State CheckStates(State state)
     {
         State.StateName stateName = state.stateName;

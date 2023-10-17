@@ -291,8 +291,32 @@ public class LobbyManager : MonoBehaviour
                 }
             });
             CancelInvoke("InvokeHandleLobbyPollForUpdates");
-            NetworkManager.Singleton.SceneManager.LoadScene("SampleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            var sceneEventStatus = NetworkManager.Singleton.SceneManager.LoadScene("SampleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
             joinedLobby = lobby;
+        }
+    }
+    public void SpawnPlayerInWorld(SceneEvent sceneEvent)
+    {
+        var clientOrServer = sceneEvent.ClientId == NetworkManager.ServerClientId ? "server" : "client";
+        switch (sceneEvent.SceneEventType)
+        {
+            case SceneEventType.LoadComplete:
+                {
+                    Debug.Log($"Loaded the {sceneEvent.SceneName} scene on " +
+                        $"{clientOrServer}-({sceneEvent.ClientId}).");
+                    ClientRpcParams clientRpcParams = new ClientRpcParams
+                    {
+                        Send = new ClientRpcSendParams
+                        {
+                            TargetClientIds = new ulong[] { sceneEvent.ClientId }
+                        }
+                    };
+                    NetworkManager.Singleton.ConnectedClients[sceneEvent.ClientId]
+                        .PlayerObject.GetComponent<NetworkPlayerController>().
+                        TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>(true).transform.position,clientRpcParams);
+                    break;
+                }
         }
     }
 
@@ -301,6 +325,7 @@ public class LobbyManager : MonoBehaviour
         NetworkManager.Singleton.NetworkConfig.NetworkTransport = lanTransportProtocol;
         NetworkManager.Singleton.StartHost();
         NetworkManager.Singleton.SceneManager.LoadScene("SampleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
         String name = NetworkManager.Singleton.name;
 
 

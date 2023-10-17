@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class InteractionManager : NetworkBehaviour
+public class InteractionManager : MonoBehaviour
 {
     public List<Interactable> interactablesInRange = new List<Interactable>();
     public Interactable currentInteractionTarget;

@@ -6,8 +6,14 @@ using UnityEngine;
 
 public class Interactable_Mount : Interactable
 {
+    public Transform saddlePosition;
+    public GameObject lastInteractor;
     public override void Interact(GameObject source)
     {
+        source.GetComponent<FlyingMountController>().mount = GetComponent<CharacterController>();
+        source.GetComponent<StateMachine>().ForceState(State.StateName.Mounted);
+        source.GetComponent<CharacterController>().enabled = false;
+        lastInteractor = source;
         MountUpServerRpc(source.GetComponent<NetworkObject>());
     }
 
@@ -15,11 +21,24 @@ public class Interactable_Mount : Interactable
     public void MountUpServerRpc(NetworkObjectReference sourceReference)
     {
         sourceReference.TryGet(out NetworkObject pc);
-        pc.transform.parent = transform;
-        pc.GetComponent<CharacterController>().enabled = false;
-        pc.transform.localPosition = Vector3.zero;
-        pc.GetComponent<CharacterController>().enabled = true;
+        GetComponent<NetworkObject>().ChangeOwnership(pc.OwnerClientId);
+        print(pc.GetComponent<NetworkObject>().OwnerClientId);
+        pc.GetComponent<NetworkObject>().TrySetParent(gameObject, false);
         pc.GetComponent<ClientNetworkTransform>().InLocalSpace = true;
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { pc.OwnerClientId }
+            }
+        };
+        SetMountPositionClientRPC(clientRpcParams);
+    }
 
+    [ClientRpc]
+    public void SetMountPositionClientRPC(ClientRpcParams clientRpcParams = default)
+    {
+        lastInteractor.transform.localPosition = saddlePosition.localPosition;
+        lastInteractor.transform.localEulerAngles = Vector3.zero;
     }
 }

@@ -8,6 +8,6 @@ public class SpawnPlayerBootstrap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Instance.SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
+        //GameManager.Instance.SpawnPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
     }
 }

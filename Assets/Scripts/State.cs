@@ -32,7 +32,8 @@ public abstract class State : NetworkBehaviour
         AttackRecovery,
         Shielding,
         TransitioningLevel,
-        Cutszene
+        Cutszene,
+        Mounted
     }
     public StateName stateName;
 
