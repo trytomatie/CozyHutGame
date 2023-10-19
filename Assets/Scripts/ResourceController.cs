@@ -24,8 +24,8 @@ public class ResourceController : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    public void PlayFeedbackClientRpc(int rnd)
+    [ServerRpc (RequireOwnership =false)]
+    public void PlayFeedbackServerRpc(int rnd)
     {
         damageFeedback.StopFeedbacks();
         MMF_FloatingText floatingText = damageFeedback.GetFeedbackOfType<MMF_FloatingText>();

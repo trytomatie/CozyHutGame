@@ -24,6 +24,8 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+
+    // Dead?
     [ServerRpc(RequireOwnership = false)]
     public void SpawnPlayerServerRpc(ulong clientId)
     {
@@ -37,7 +39,7 @@ public class GameManager : NetworkBehaviour
                 TargetClientIds = new ulong[] { go.GetComponent<NetworkObject>().OwnerClientId }
             }
         };
-        go.GetComponent<NetworkPlayerController>().TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>().transform.position, clientRpcParams);
+        go.GetComponent<NetworkPlayerInit>().TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>().transform.position, clientRpcParams);
     }
 
 

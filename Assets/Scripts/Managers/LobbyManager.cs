@@ -313,7 +313,7 @@ public class LobbyManager : MonoBehaviour
                         }
                     };
                     NetworkManager.Singleton.ConnectedClients[sceneEvent.ClientId]
-                        .PlayerObject.GetComponent<NetworkPlayerController>().
+                        .PlayerObject.GetComponent<NetworkPlayerInit>().
                         TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>(true).transform.position,clientRpcParams);
                     break;
                 }
