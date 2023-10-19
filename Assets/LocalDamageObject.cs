@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class LocalDamageObject : MonoBehaviour
 {
-    public NetworkObject source;
     public MWeapon weapon;
     public virtual void ApplyDamage(Transform other)
     {
