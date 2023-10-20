@@ -25,14 +25,11 @@ public class ResourceController : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership =false)]
-    public void PlayFeedbackServerRpc(int rnd,ulong sourceId)
+    public void PlayFeedbackServerRpc(int dmg,ulong sourceId)
     {
-        damageFeedback.StopFeedbacks();
-        MMF_FloatingText floatingText = damageFeedback.GetFeedbackOfType<MMF_FloatingText>();
-        floatingText.Value = "+"+ rnd + " Wood";
-        damageFeedback.PlayFeedbacks();
         if(hp.Value > 0)
         {
+            hp.Value -= dmg;
             var source = NetworkManager.Singleton.ConnectedClients[sourceId].PlayerObject;
             ClientRpcParams clientRpcParams = new ClientRpcParams
             {
@@ -41,8 +38,26 @@ public class ResourceController : NetworkBehaviour
                     TargetClientIds = new ulong[] { sourceId }
                 }
             };
-            source.GetComponent<Inventory>().AddItemClientRPC(0, rnd, clientRpcParams);
+            source.GetComponent<Inventory>().AddItemClientRPC(0, dmg, clientRpcParams);
+            PlayFeedbackClientRpc(dmg, sourceId);
         }
+
+    }
+    [ClientRpc]
+    private void PlayFeedbackClientRpc(int dmg, ulong sourceId)
+    {
+        MMF_FloatingText floatingText = damageFeedback.GetFeedbackOfType<MMF_FloatingText>();
+        floatingText.Value = "+" + dmg + " Wood";
+        if(NetworkManager.LocalClientId == sourceId)
+        {
+            floatingText.DisplayColor = Color.green;
+        }
+        else
+        {
+            floatingText.DisplayColor = Color.white;
+        }
+        damageFeedback.StopFeedbacks();
+        damageFeedback.PlayFeedbacks();
 
     }
 }
