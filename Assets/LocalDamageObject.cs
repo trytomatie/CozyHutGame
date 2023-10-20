@@ -14,7 +14,6 @@ public class LocalDamageObject : MonoBehaviour
         {
             var source = sourceObject.GetComponent<NetworkObject>();
             int damage = (int)weapon.MaxDamage;
-            other.GetComponent<ResourceController>().hp.Value -= damage;
             other.GetComponent<ResourceController>().PlayFeedbackServerRpc(damage,source.OwnerClientId);
         }
     }

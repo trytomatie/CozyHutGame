@@ -291,11 +291,14 @@ public class LobbyManager : MonoBehaviour
                 }
             });
             CancelInvoke("InvokeHandleLobbyPollForUpdates");
+
             var sceneEventStatus = NetworkManager.Singleton.SceneManager.LoadScene("SampleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
             NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
             joinedLobby = lobby;
         }
     }
+
+
     public void SpawnPlayerInWorld(SceneEvent sceneEvent)
     {
         var clientOrServer = sceneEvent.ClientId == NetworkManager.ServerClientId ? "server" : "client";
