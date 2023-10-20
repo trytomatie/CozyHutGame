@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MalbersAnimations;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -29,17 +30,24 @@ public class InventoryManagerUI : MonoBehaviour
 
     private void OnEnable()
     {
-        InputManager.Instance.InventoryButton += ToggleInventory;
+        GameManager.Instance.inputManager.FindInput("Inventory").OnInputToggle.AddListener(ToggleInventory);
     }
     private void OnDisable()
     {
-        InputManager.Instance.InventoryButton -= ToggleInventory;
+        GameManager.Instance.inputManager.FindInput("Inventory").OnInputToggle.RemoveListener(ToggleInventory);
     }
 
-    public void ToggleInventory(object sender,InputAction.CallbackContext value)
+    public void ToggleInventoryButton(object sender,InputAction.CallbackContext value)
     {
          inventoryUI.SetActive(!inventoryUI.activeSelf);
     }
+
+
+    public void ToggleInventory(bool value)
+    {
+        Instance.inventoryUI.SetActive(value);
+    }
+
     public void RefreshUI()
     {
         foreach(ItemSlotUI itemslotUI in itemSlots)

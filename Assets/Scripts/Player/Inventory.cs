@@ -14,6 +14,7 @@ public class Inventory : NetworkBehaviour
         if (!IsOwner)
             return;
 
+
     }
 
     [ClientRpc]

@@ -11,9 +11,19 @@ public class LocalDamageObject : MonoBehaviour
     {
         if (other.GetComponent<ResourceController>() != null)
         {
+            var source = other.GetComponent<NetworkObject>();
             int damage = (int)weapon.MaxDamage;
             other.GetComponent<ResourceController>().hp.Value -= damage;
-            other.GetComponent<ResourceController>().PlayFeedbackServerRpc(damage);
+            other.GetComponent<ResourceController>().PlayFeedbackServerRpc(damage,source.OwnerClientId);
+
+            ClientRpcParams clientRpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { source.OwnerClientId }
+                }
+            };
+            other.GetComponent<Inventory>().AddItemClientRPC(0, damage, clientRpcParams);
         }
     }
 }

@@ -36,15 +36,7 @@ public class DamageObject : NetworkBehaviour
             other.GetComponent<ResourceController>().hp.Value -= rnd;
             //other.GetComponent<ResourceController>().PlayFeedbackClientRpc(rnd);
             GameManager.Instance.woodCounter.Value += rnd;
-            ClientRpcParams clientRpcParams = new ClientRpcParams
-            {
-                Send = new ClientRpcSendParams
-                {
-                    TargetClientIds = new ulong[] { source.OwnerClientId }
-                }
-            };
-            TriggerCameraShakeClientRpc(clientRpcParams);
-            source.inventory.AddItemClientRPC(0,rnd,clientRpcParams);
+
         }
     }
     [ClientRpc]

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MalbersAnimations;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<int> woodCounter = new NetworkVariable<int>(0);
     public GameUI gameUI;
     public Transform spawnPoint;
+    public MInput inputManager;
 
     private void Awake()
     {

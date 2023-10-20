@@ -25,11 +25,24 @@ public class ResourceController : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership =false)]
-    public void PlayFeedbackServerRpc(int rnd)
+    public void PlayFeedbackServerRpc(int rnd,ulong sourceId)
     {
         damageFeedback.StopFeedbacks();
         MMF_FloatingText floatingText = damageFeedback.GetFeedbackOfType<MMF_FloatingText>();
         floatingText.Value = "+"+ rnd + " Wood";
         damageFeedback.PlayFeedbacks();
+        if(hp.Value > 0)
+        {
+            var source = NetworkManager.Singleton.ConnectedClients[sourceId].PlayerObject;
+            ClientRpcParams clientRpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { sourceId }
+                }
+            };
+            source.GetComponent<Inventory>().AddItemClientRPC(0, rnd, clientRpcParams);
+        }
+
     }
 }

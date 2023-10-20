@@ -41,6 +41,7 @@ public class GameUI : MonoBehaviour
 
     private void OnEnable()
     {
+        return;
         InteractionManager.Instance.InteractableSet += PositionInteractionUI;
         InteractionManager.Instance.InteractableSet += SetInteractionText;
         InteractionManager.Instance.InteractableLost += DismissInteractionUI;
@@ -48,6 +49,7 @@ public class GameUI : MonoBehaviour
 
     private void OnDisable()
     {
+        return;
         InteractionManager.Instance.InteractableSet -= PositionInteractionUI;
         InteractionManager.Instance.InteractableSet -= SetInteractionText;
         InteractionManager.Instance.InteractableLost -= DismissInteractionUI;

@@ -1,3 +1,4 @@
+using MalbersAnimations;
 using MalbersAnimations.Events;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ public class NetworkPlayerInit : NetworkBehaviour
     public MonoBehaviour[] componentsToDisable;
     public GameObject[] objectsToDelete;
     public GameObject[] objectsToActivate;
+    public GameObject playerSetupPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,10 @@ public class NetworkPlayerInit : NetworkBehaviour
             {
                 go.SetActive(true);
             }
+            GameManager.Instance.inputManager = GetComponent<MInput>();
+            GameObject playerSetup = Instantiate(playerSetupPrefab);
+            DontDestroyOnLoad(playerSetup);
+            playerSetup.GetComponentInChildren<InventoryManagerUI>().Inventory = GetComponent<Inventory>();
         }
     }
 
