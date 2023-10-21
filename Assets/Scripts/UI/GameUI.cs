@@ -27,7 +27,7 @@ public class GameUI : MonoBehaviour
             instance = this;
             mainCamera = Camera.main;
             GameManager.Instance.gameUI = this;
-            woodText.text = "0 Wood";
+
         }
     }
 

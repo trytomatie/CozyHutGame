@@ -36,6 +36,12 @@ public class NetworkPlayerInit : NetworkBehaviour
             GameObject playerSetup = Instantiate(playerSetupPrefab);
             DontDestroyOnLoad(playerSetup);
             playerSetup.GetComponentInChildren<InventoryManagerUI>().Inventory = GetComponent<Inventory>();
+            Collider col = GetComponent<Collider>();
+            if(col.isTrigger)
+            {
+                col.isTrigger = false;
+                print("-------- Had to Fix isTrigger of Character Spawn-------");
+            }
         }
     }
 

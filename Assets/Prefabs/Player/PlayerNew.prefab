@@ -500,7 +500,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1392788871
 Transform:
   m_ObjectHideFlags: 0
@@ -709,7 +709,7 @@ MonoBehaviour:
     element: {fileID: 0}
   debug: 0
   m_audio: {fileID: 0}
-  Trigger: {fileID: 5866666020279206768}
+  Trigger: {fileID: 1392788873}
   EnemyStatExit:
     ID: {fileID: 0}
     modify: 0
@@ -732,7 +732,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   DebugColor: {r: 1, g: 0.2509804, b: 0, a: 0.41960785}
-  Editor_Tabs1: 0
+  Editor_Tabs1: 1
   references:
     version: 2
     RefIds:
@@ -2480,6 +2480,7 @@ GameObject:
   - component: {fileID: 5866666020279206770}
   - component: {fileID: 5866666020279206771}
   - component: {fileID: 5866666020279206775}
+  - component: {fileID: 7868891622093841387}
   m_Layer: 20
   m_Name: PlayerNew
   m_TagString: Animal
@@ -2988,10 +2989,10 @@ MonoBehaviour:
   ShowOnPlay: 0
   PivotPosDir: 0
   SelectedMode: 0
-  SelectedState: 0
+  SelectedState: 5
   SelectedStance: 0
   ShowStateInInspector: 1
-  Editor_Tabs1: 0
+  Editor_Tabs1: 1
   Editor_Tabs2: 4
   Mode_Tabs1: 1
   Ability_Tabs: 0
@@ -4509,6 +4510,324 @@ MonoBehaviour:
     Variable: {fileID: 0}
   Editor_Tabs1: 5
   Editor_Tabs2: 0
+--- !u!114 &7868891622093841387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5591343338541454398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6db78c48b0b6342937f21d4681fba7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+  - active: 1
+    ID: {fileID: 11400000, guid: d6b3e636d59a6c547a2cad40b69f4432, type: 2}
+    value:
+      UseConstant: 1
+      ConstantValue: 100
+      Variable: {fileID: 0}
+    maxValue:
+      UseConstant: 1
+      ConstantValue: 100
+      Variable: {fileID: 0}
+    minValue:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DisableOnEmpty:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    regenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    RegenRate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    RegenWaitTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DegenWaitTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    degenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DegenRate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    InmuneTime:
+      UseConstant: 1
+      ConstantValue: 0.1
+      Variable: {fileID: 0}
+    resetTo: 1
+    isPercent: 1
+    debug: 0
+    OnStatFull:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: bee0895a0f76ff840bfba0a11f37d898, type: 2}
+          m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
+          m_MethodName: Invoke
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnStatEmpty:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5866666020279206770}
+          m_TargetAssemblyTypeName: MalbersAnimations.Controller.MAnimal, MalbersAnimations
+          m_MethodName: State_Activate
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: adfa24f62d6db4d40a1d837f4ec1a6e9,
+              type: 2}
+            m_ObjectArgumentAssemblyTypeName: MalbersAnimations.StateID, MalbersAnimations
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnStat:
+      m_PersistentCalls:
+        m_Calls: []
+    Below: 0
+    Above: 0
+    OnStatBelow:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStatAbove:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueChangeNormalized:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: bee0895a0f76ff840bfba0a11f37d898, type: 2}
+          m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
+          m_MethodName: Invoke
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnValueChange:
+      m_PersistentCalls:
+        m_Calls: []
+    OnMaxValueChange:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnActive:
+      m_PersistentCalls:
+        m_Calls: []
+    EditorTabs: 0
+  - active: 1
+    ID: {fileID: 11400000, guid: 8f96533110b305a4792c37a844108d26, type: 2}
+    value:
+      UseConstant: 1
+      ConstantValue: 100
+      Variable: {fileID: 0}
+    maxValue:
+      UseConstant: 1
+      ConstantValue: 100
+      Variable: {fileID: 0}
+    minValue:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DisableOnEmpty:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    regenerate:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    RegenRate:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+    RegenWaitTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DegenWaitTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    degenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DegenRate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    InmuneTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    resetTo: 1
+    isPercent: 1
+    debug: 0
+    OnStatFull:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStatEmpty:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStat:
+      m_PersistentCalls:
+        m_Calls: []
+    Below: 0
+    Above: 0
+    OnStatBelow:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStatAbove:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueChangeNormalized:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueChange:
+      m_PersistentCalls:
+        m_Calls: []
+    OnMaxValueChange:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnActive:
+      m_PersistentCalls:
+        m_Calls: []
+    EditorTabs: 0
+  PinnedStat:
+    active: 1
+    ID: {fileID: 0}
+    value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    maxValue:
+      UseConstant: 1
+      ConstantValue: 100
+      Variable: {fileID: 0}
+    minValue:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DisableOnEmpty:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    regenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    RegenRate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    RegenWaitTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DegenWaitTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    degenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DegenRate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    InmuneTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    resetTo: 1
+    isPercent: 1
+    debug: 0
+    OnStatFull:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStatEmpty:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStat:
+      m_PersistentCalls:
+        m_Calls: []
+    Below: 0
+    Above: 0
+    OnStatBelow:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStatAbove:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueChangeNormalized:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueChange:
+      m_PersistentCalls:
+        m_Calls: []
+    OnMaxValueChange:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnActive:
+      m_PersistentCalls:
+        m_Calls: []
+    EditorTabs: 0
 --- !u!1 &5804414564513111605
 GameObject:
   m_ObjectHideFlags: 0
@@ -5479,6 +5798,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WoodAxe
       objectReference: {fileID: 0}
+    - target: {fileID: 4055157169826795409, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
+      propertyPath: EditorTabs
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4055766381492957451, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
       propertyPath: m_RootOrder
@@ -5552,6 +5876,16 @@ PrefabInstance:
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
       propertyPath: Editor_Tabs2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
+      propertyPath: meleeTrigger
+      value: 
+      objectReference: {fileID: 1392788873}
+    - target: {fileID: 6130601735678696948, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

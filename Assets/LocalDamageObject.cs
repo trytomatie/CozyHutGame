@@ -10,6 +10,7 @@ public class LocalDamageObject : MonoBehaviour
     public GameObject sourceObject;
     public virtual void ApplyDamage(Transform other)
     {
+        if (NetworkManager.Singleton.IsServer) return;
         if (other.GetComponent<ResourceController>() != null)
         {
             var source = sourceObject.GetComponent<NetworkObject>();
