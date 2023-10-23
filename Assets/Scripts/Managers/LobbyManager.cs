@@ -292,7 +292,7 @@ public class LobbyManager : MonoBehaviour
             });
             CancelInvoke("InvokeHandleLobbyPollForUpdates");
 
-            var sceneEventStatus = NetworkManager.Singleton.SceneManager.LoadScene("SampleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            var sceneEventStatus = NetworkManager.Singleton.SceneManager.LoadScene("PrototypeScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
             NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
             joinedLobby = lobby;
         }
@@ -327,7 +327,7 @@ public class LobbyManager : MonoBehaviour
     {
         NetworkManager.Singleton.NetworkConfig.NetworkTransport = lanTransportProtocol;
         NetworkManager.Singleton.StartHost();
-        NetworkManager.Singleton.SceneManager.LoadScene("SampleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("PrototypeScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
         NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
         String name = NetworkManager.Singleton.name;
 
