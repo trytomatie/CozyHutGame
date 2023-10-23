@@ -54,7 +54,7 @@ public class InteractionManager : MonoBehaviour
         if(CurrentInteractionTarget != null)
         {
             print("Hey");
-            CurrentInteractionTarget.Interact(soruce);
+            CurrentInteractionTarget.Interact();
         }
     }
 

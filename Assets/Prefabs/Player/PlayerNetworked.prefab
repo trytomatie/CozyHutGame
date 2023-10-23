@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: Editor_Tabs1
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 339133875788637442, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2626722734968635797, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: m_IsActive
@@ -203,6 +208,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 293120634394482447}
   m_SourcePrefab: {fileID: 100100000, guid: 1c114219c5c9900429685479d61c0284, type: 3}
+--- !u!1 &313106754357424146 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 339133875788637442, guid: 1c114219c5c9900429685479d61c0284,
+    type: 3}
+  m_PrefabInstance: {fileID: 66631064785851664}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1215749548050088430 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1167432156722435326, guid: 1c114219c5c9900429685479d61c0284,
@@ -297,6 +308,7 @@ MonoBehaviour:
   - {fileID: 2638905906064954501}
   objectsToActivate:
   - {fileID: 2638905906064954501}
+  - {fileID: 313106754357424146}
   playerSetupPrefab: {fileID: 4168666063277857504, guid: 05f66b1250d9ab64db910e0068fabe58,
     type: 3}
 --- !u!114 &-820908590818749460

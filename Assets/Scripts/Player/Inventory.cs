@@ -18,11 +18,11 @@ public class Inventory : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void AddItemClientRPC(int id, int stackSize, ClientRpcParams clientRpcParams = default)
+    public void AddItemClientRPC(ulong id, int stackSize, ClientRpcParams clientRpcParams = default)
     {
         AddItem(id, stackSize);
     }
-    private bool AddItem(int id,int stackSize)
+    private bool AddItem(ulong id,int stackSize)
     {
         Item item = ItemManager.GenerateItem(id);
         item.stackSize = stackSize;
@@ -43,7 +43,7 @@ public class Inventory : NetworkBehaviour
             }
             // find space for added Item
             bool spaceFound = false;
-            for(int i = 0; i < 40-1;i++)
+            for(int i = 0; i < maxItemSlots - 1;i++)
             {
                 if(!items.ContainsKey(i))
                 {
@@ -61,7 +61,38 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    private bool ItemAlreadyInventoryAndHasSpaceOnStack(int id, out Item itemToStackOn)
+    public void RemoveItem(ulong id, int amount)
+    {
+        int amountToRemove = amount;
+        for(int slot = 0; slot < maxItemSlots-1;slot++)
+        {
+            if(items.ContainsKey(slot))
+            {
+                if (items[slot].itemId == id)
+                {
+                    if (amount > items[slot].stackSize)
+                    {
+                        amount -= items[slot].stackSize;
+                        items.Remove(slot);
+                    }
+                    else if (amount < items[slot].stackSize)
+                    {
+                        items[slot].stackSize -= amount;
+                    }
+                    else if (amount == items[slot].stackSize)
+                    {
+                        items.Remove(slot);
+                    }
+
+                }
+            }
+            slot++;
+        }
+        InventoryManagerUI.Instance.RefreshUI();
+    }
+
+
+    private bool ItemAlreadyInventoryAndHasSpaceOnStack(ulong id, out Item itemToStackOn)
     {
         foreach(Item item in items.Values)
         {
@@ -122,4 +153,29 @@ public class Inventory : NetworkBehaviour
         return false;
     }
 
+    public int GetAmmountOfItem(ulong id)
+    {
+        int amount = 0;
+        foreach(Item item in items.Values)
+        {
+            if(item.itemId == id)
+            {
+                amount += item.stackSize;
+            }
+        }
+        return amount;
+    }
+
+    public int GetAmmountOfItem(string itemName)
+    {
+        int amount = 0;
+        foreach (Item item in items.Values)
+        {
+            if (item.itemName == itemName)
+            {
+                amount += item.stackSize;
+            }
+        }
+        return amount;
+    }
 }

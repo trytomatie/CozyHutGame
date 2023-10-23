@@ -25,7 +25,7 @@ public class ItemManager : MonoBehaviour
 
     private void AssignItemIds()
     {
-        int i = 0;
+        ulong i = 0;
         foreach (Item item in items)
         {
             item.itemId = i;
@@ -33,7 +33,7 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    public static Item GenerateItem(int i)
+    public static Item GenerateItem(ulong i)
     {
         return Instantiate(Instance.items[i]);
     }
@@ -50,6 +50,20 @@ public class ItemManager : MonoBehaviour
         }
         return null;
 
+    }
+
+    public static ulong GetItemId(string itemName)
+    {
+        ulong i = 0;
+        foreach (Item item in Instance.items)
+        {
+            if (item.itemName == itemName)
+            {
+                return i;
+            }
+            i++;
+        }
+        return 0;
     }
 
 }

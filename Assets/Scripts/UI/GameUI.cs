@@ -42,36 +42,19 @@ public class GameUI : MonoBehaviour
     private void OnEnable()
     {
         return;
-        InteractionManager.Instance.InteractableSet += PositionInteractionUI;
-        InteractionManager.Instance.InteractableSet += SetInteractionText;
+
         InteractionManager.Instance.InteractableLost += DismissInteractionUI;
     }
 
     private void OnDisable()
     {
         return;
-        InteractionManager.Instance.InteractableSet -= PositionInteractionUI;
-        InteractionManager.Instance.InteractableSet -= SetInteractionText;
+
         InteractionManager.Instance.InteractableLost -= DismissInteractionUI;
     }
 
     #region Interaction
-    public void PositionInteractionUI(Interactable interactable)
-    {
-        interactionUI.gameObject.SetActive(true);
-        interactionWorldPos = interactable.transform.position + new Vector3(0, interactable.heightOffset, 0);
-    }
 
-    public void SetInteractionText(Interactable interactable)
-    {
-        // Parse out the Binded Key (e.g "<Keyboard>/s" returns "S")
-        string input = InputManager.Instance.inputActions.Player.Interact.bindings[0].path;
-        int startIndex = input.IndexOf("<Keyboard>/") + "<Keyboard>/".Length;
-        string substring = input.Substring(startIndex);
-        string capitalizedSubstring = char.ToUpper(substring[0]) + substring.Substring(1);
-
-        interactionUI.text = string.Format("{0} [{1}]", interactable.interactionText, capitalizedSubstring);
-    }
 
     public void DismissInteractionUI(Interactable interactable)
     {
