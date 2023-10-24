@@ -39,7 +39,7 @@ public class Interactable_SubmitResources : Interactable
         CheckIfResourcesCanBeDeductedServerRpc(woodItemData, stoneItemData, source.GetComponent<NetworkObject>().OwnerClientId);
     }
 
-    [ServerRpc]
+    [ServerRpc (RequireOwnership = false)]
     private void CheckIfResourcesCanBeDeductedServerRpc(ItemData woodData, ItemData stoneData,ulong senderId)
     {
         if(requestedWood.Value > 0)

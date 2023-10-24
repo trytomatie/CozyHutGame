@@ -1096,10 +1096,16 @@ PrefabInstance:
       propertyPath: playerPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7382450290918164605, guid: ff427381e3060f2448e9e69e0b3681a9,
+        type: 3}
+      propertyPath: networkPrefabsList
+      value: 
+      objectReference: {fileID: 11400000, guid: a38647347184c544f9611b357842359a,
+        type: 2}
     - target: {fileID: 8902744434688445117, guid: ff427381e3060f2448e9e69e0b3681a9,
         type: 3}
       propertyPath: items.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8902744434688445117, guid: ff427381e3060f2448e9e69e0b3681a9,
         type: 3}
@@ -1110,13 +1116,19 @@ PrefabInstance:
         type: 3}
       propertyPath: items.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 111bd6536e3f152489b496036b6f5d7e,
+      objectReference: {fileID: 11400000, guid: e8716491c0ec1e941b1ecd547e534d3a,
         type: 2}
     - target: {fileID: 8902744434688445117, guid: ff427381e3060f2448e9e69e0b3681a9,
         type: 3}
       propertyPath: items.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: e8716491c0ec1e941b1ecd547e534d3a,
+      objectReference: {fileID: 11400000, guid: 111bd6536e3f152489b496036b6f5d7e,
+        type: 2}
+    - target: {fileID: 8902744434688445117, guid: ff427381e3060f2448e9e69e0b3681a9,
+        type: 3}
+      propertyPath: items.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: ef4298f35ac41ca4485d03702feb2517,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -2710,8 +2722,7 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 5581307655371325742, guid: 48b0e5ec1a6f2c5418b00625fc2facdd,
       type: 3}
     Prefabs:
-      NetworkPrefabsLists:
-      - {fileID: 11400000, guid: a38647347184c544f9611b357842359a, type: 2}
+      NetworkPrefabsLists: []
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0

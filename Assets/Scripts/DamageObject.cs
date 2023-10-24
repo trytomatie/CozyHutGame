@@ -35,7 +35,6 @@ public class DamageObject : NetworkBehaviour
             int rnd = Random.Range(12, 24);
             other.GetComponent<ResourceController>().hp.Value -= rnd;
             //other.GetComponent<ResourceController>().PlayFeedbackClientRpc(rnd);
-            GameManager.Instance.woodCounter.Value += rnd;
 
         }
     }

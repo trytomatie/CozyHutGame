@@ -291,8 +291,8 @@ public class LobbyManager : MonoBehaviour
                 }
             });
             CancelInvoke("InvokeHandleLobbyPollForUpdates");
-
-            var sceneEventStatus = NetworkManager.Singleton.SceneManager.LoadScene("PrototypeScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            print("LOADING SCENE");
+            NetworkManager.Singleton.SceneManager.LoadScene("PrototypeScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
             NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
             joinedLobby = lobby;
         }
@@ -318,6 +318,7 @@ public class LobbyManager : MonoBehaviour
                     NetworkManager.Singleton.ConnectedClients[sceneEvent.ClientId]
                         .PlayerObject.GetComponent<NetworkPlayerInit>().
                         TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>(true).transform.position,clientRpcParams);
+                    
                     break;
                 }
         }

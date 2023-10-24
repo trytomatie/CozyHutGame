@@ -1,5 +1,6 @@
 ﻿using MalbersAnimations;
 using System.Collections;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,12 +8,9 @@ using UnityEngine;
 public class GameManager : NetworkBehaviour
 {
     private static GameManager instance;
-    public GameObject playerPrefab;
-    public NetworkVariable<int> woodCounter = new NetworkVariable<int>(0);
     public GameUI gameUI;
-    public Transform spawnPoint;
     public MInput inputManager;
-
+    public NetworkPrefabsList networkPrefabsList;
     public Gradient myColor;
     public Gradient otherPlayerColor;
 
@@ -29,22 +27,18 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-
-    // Dead?
-    [ServerRpc(RequireOwnership = false)]
-    public void SpawnPlayerServerRpc(ulong clientId)
+    private void Start()
     {
-        GameObject go = Instantiate(playerPrefab);
-        go.GetComponent<NetworkObject>().Spawn();
-        go.GetComponent<NetworkObject>().ChangeOwnership(clientId);
-        ClientRpcParams clientRpcParams = new ClientRpcParams
+        RegisterNetworkPrefabs();
+    }
+
+    private void RegisterNetworkPrefabs()
+    {
+        var prefabs = networkPrefabsList.PrefabList.Select(x => x.Prefab);
+        foreach (var prefab in prefabs)
         {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new ulong[] { go.GetComponent<NetworkObject>().OwnerClientId }
-            }
-        };
-        go.GetComponent<NetworkPlayerInit>().TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>().transform.position, clientRpcParams);
+            NetworkManager.Singleton.AddNetworkPrefab(prefab);
+        }
     }
 
 
