@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Items/Generic Item")]
 public class Item : ScriptableObject
 {
-
-    public ulong itemId;
+    // Ids are getting Distributed from the ItemManager on Start
+    [HideInInspector]public ulong itemId;
     public string itemName;
     public Sprite sprite;
     public int stackSize = 1;

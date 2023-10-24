@@ -55,11 +55,15 @@ public class InventoryManagerUI : MonoBehaviour
             itemslotUI.ItemImage.sprite = null;
             itemslotUI.StackSizeText.text = "";
         }
-        foreach(int key in inventory.items.Keys)
+        for (int i = 0; i < inventory.items.Length; i++)
         {
-            itemSlots[key].Item = inventory.items[key];
-            itemSlots[key].ItemImage.sprite = itemSlots[key].Item.sprite;
-            itemSlots[key].StackSizeText.text = "x" + itemSlots[key].Item.stackSize;
+            if(inventory.items[i] != null)
+            {
+                itemSlots[i].Item = inventory.items[i];
+                itemSlots[i].ItemImage.sprite = itemSlots[i].Item.sprite;
+                itemSlots[i].StackSizeText.text = "x" + itemSlots[i].Item.stackSize;
+            }
+
         }
     }
 

@@ -13,6 +13,9 @@ public class GameManager : NetworkBehaviour
     public Transform spawnPoint;
     public MInput inputManager;
 
+    public Gradient myColor;
+    public Gradient otherPlayerColor;
+
     private void Awake()
     {
         if(Instance == null)

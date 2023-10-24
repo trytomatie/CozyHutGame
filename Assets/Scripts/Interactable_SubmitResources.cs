@@ -84,6 +84,7 @@ public class Interactable_SubmitResources : Interactable
     [ClientRpc]
     private void RemoveResourcesFromClientRpc(ItemData woodData, ItemData stoneData,ulong senderId, ClientRpcParams clientRpcAttribute = default)
     {
+        print("Removing " + woodData.itemAmount);
         Inventory inventory = NetworkManager.ConnectedClients[senderId].PlayerObject.GetComponent<Inventory>();
         inventory.RemoveItem(woodData.itemId, woodData.itemAmount);
         inventory.RemoveItem(stoneData.itemId, stoneData.itemAmount);

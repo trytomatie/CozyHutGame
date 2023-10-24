@@ -493,7 +493,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1392788871}
   - component: {fileID: 1392788873}
-  - component: {fileID: 1392788872}
   - component: {fileID: 4198075092855644533}
   m_Layer: 2
   m_Name: AttackTrigger
@@ -538,219 +537,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.443128, y: 1.8967857, z: 1.4301856}
   m_Center: {x: 0.11643618, y: -0.23487079, z: 0.21509278}
---- !u!114 &1392788872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1392788870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e4977ce6c4031944a4d6d786517e86e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index: 102
-  m_Active:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  m_hitLayer:
-    UseConstant: 0
-    ConstantValue:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
-  triggerInteraction: 1
-  owner: {fileID: 5591343338541454398}
-  m_HitEffect:
-    UseConstant: 1
-    ConstantValue: {fileID: 0}
-    Variable: {fileID: 0}
-  hitEffects: []
-  hitSound:
-    UseConstant: 1
-    ConstantValue: {fileID: 0}
-    Variable: {fileID: 0}
-  DestroyHitEffect: 0
-  dontHitOwner:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  CustomReaction:
-    rid: -2
-  element: {fileID: 0}
-  interactorID:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  interact:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  react:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  pureDamage:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  statModifier:
-    ID: {fileID: 11400000, guid: d6b3e636d59a6c547a2cad40b69f4432, type: 2}
-    modify: 3
-    MinValue:
-      UseConstant: 1
-      ConstantValue: 10
-      Variable: {fileID: 0}
-    MaxValue:
-      UseConstant: 1
-      ConstantValue: 10
-      Variable: {fileID: 0}
-    enable:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-  m_cChance:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  cMultiplier:
-    UseConstant: 1
-    ConstantValue: 2
-    Variable: {fileID: 0}
-  m_Force:
-    UseConstant: 1
-    ConstantValue: 50
-    Variable: {fileID: 0}
-  minForce:
-    UseConstant: 1
-    ConstantValue: 20
-    Variable: {fileID: 0}
-  forceMode: 2
-  OnHit:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4198075092855644533}
-        m_TargetAssemblyTypeName: LocalDamageObject, Assembly-CSharp
-        m_MethodName: ApplyDamage
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnHitPosition:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHitInteractable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnProfileChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  animator: {fileID: 0}
-  AnimatorSpeed:
-    UseConstant: 1
-    ConstantValue: 0.05
-    Variable: {fileID: 0}
-  AnimatorStopTime:
-    UseConstant: 1
-    ConstantValue: 0.1
-    Variable: {fileID: 0}
-  Profiles: []
-  DefaultProfile:
-    Name: 
-    modify: 0
-    interact:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    interactorID:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    react:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    pureDamage:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    statModifier:
-      ID: {fileID: 0}
-      modify: 0
-      MinValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      MaxValue:
-        UseConstant: 1
-        ConstantValue: 10
-        Variable: {fileID: 0}
-      enable:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-    m_cChance:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    cMultiplier:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    maxForce:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    minForce:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    forceMode: 0
-    m_HitEffect:
-      UseConstant: 1
-      ConstantValue: {fileID: 0}
-      Variable: {fileID: 0}
-    CustomReaction:
-      rid: -2
-    element: {fileID: 0}
-  debug: 0
-  m_audio: {fileID: 0}
-  Trigger: {fileID: 1392788873}
-  EnemyStatExit:
-    ID: {fileID: 0}
-    modify: 0
-    MinValue:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    MaxValue:
-      UseConstant: 1
-      ConstantValue: 10
-      Variable: {fileID: 0}
-    enable:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-  OnAttackBegin:
-    m_PersistentCalls:
-      m_Calls: []
-  OnAttackEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  DebugColor: {r: 1, g: 0.2509804, b: 0, a: 0.41960785}
-  Editor_Tabs1: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
 --- !u!114 &4198075092855644533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5408,7 +5194,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 7a0a8ecd64908b74c908bd22276923d3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6178,12 +5964,12 @@ PrefabInstance:
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
       propertyPath: Editor_Tabs2
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
@@ -6192,8 +5978,23 @@ PrefabInstance:
       objectReference: {fileID: 1392788873}
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
+      propertyPath: statModifier.MaxValue.ConstantValue
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
+      propertyPath: statModifier.MinValue.ConstantValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
       propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
+      objectReference: {fileID: 4198075092855644533}
+    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
+      propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: ApplyDamage
       objectReference: {fileID: 0}
     - target: {fileID: 6130601735678696948, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}

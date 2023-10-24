@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class Inventory : NetworkBehaviour
 {
-    public Dictionary<int, Item> items = new Dictionary<int, Item>();
-    [SerializeField] private int maxItemSlots = 40;
+
+    public Item[] items = new Item[maxItemSlots];
+    [SerializeField] private const int maxItemSlots = 40;
 
     private void Start()
     {
         if (!IsOwner)
             return;
-
 
     }
 
@@ -45,9 +45,9 @@ public class Inventory : NetworkBehaviour
             bool spaceFound = false;
             for(int i = 0; i < maxItemSlots - 1;i++)
             {
-                if(!items.ContainsKey(i))
+                if(items[i] == null)
                 {
-                    items.Add(i, item);
+                    items[i] = item;
                     spaceFound = true;
                     break;
                 }
@@ -63,17 +63,17 @@ public class Inventory : NetworkBehaviour
 
     public void RemoveItem(ulong id, int amount)
     {
-        int amountToRemove = amount;
-        for(int slot = 0; slot < maxItemSlots-1;slot++)
+        for(int slot = 0; slot < maxItemSlots;slot++)
         {
-            if(items.ContainsKey(slot))
+            if (items[slot] != null)
             {
+                print(items[slot].itemId);
                 if (items[slot].itemId == id)
                 {
                     if (amount > items[slot].stackSize)
                     {
                         amount -= items[slot].stackSize;
-                        items.Remove(slot);
+                        items[slot] = null;
                     }
                     else if (amount < items[slot].stackSize)
                     {
@@ -81,12 +81,10 @@ public class Inventory : NetworkBehaviour
                     }
                     else if (amount == items[slot].stackSize)
                     {
-                        items.Remove(slot);
+                        items[slot] = null;
                     }
-
                 }
             }
-            slot++;
         }
         InventoryManagerUI.Instance.RefreshUI();
     }
@@ -94,9 +92,9 @@ public class Inventory : NetworkBehaviour
 
     private bool ItemAlreadyInventoryAndHasSpaceOnStack(ulong id, out Item itemToStackOn)
     {
-        foreach(Item item in items.Values)
+        foreach(Item item in items)
         {
-            if(item.itemId == id)
+            if(CheckItemId(item,id))
             {
                 // there is no space left, so it is considered not in inventory for the purpose of stacking
                 if(item.stackSize == item.maxStackSize)
@@ -114,36 +112,54 @@ public class Inventory : NetworkBehaviour
         return false;
     }
 
+    private bool CheckItemId(Item item,ulong idToCheck)
+    {
+        if(item == null || item.itemId != idToCheck)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private bool CheckItemName(Item item, string nameToCheck)
+    {
+        if (item == null || item.itemName != nameToCheck)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public bool SwapItemPlaces(int item1Pos,int item2Pos)
     {
-        bool item1Present =  items.ContainsKey(item1Pos);
-        bool item2Present = items.ContainsKey(item2Pos);
+        bool item1Present =  items[item1Pos] != null;
+        bool item2Present = items[item2Pos] != null;
 
-        if(item1Present || item2Present)
+        if (item1Present || item2Present)
         {
 
-            if(item1Present && item2Present)
+            if (item1Present && item2Present)
             {
                 Item item1 = items[item1Pos];
                 Item item2 = items[item2Pos];
-                items.Remove(item1Pos);
-                items.Remove(item2Pos);
-                items.Add(item2Pos, item1);
-                items.Add(item1Pos, item2);
+                items[item1Pos] = null;
+                items[item2Pos] = null;
+                items[item2Pos] = item1;
+                items[item1Pos] = item2;
             }
             else
             if(item1Present && !item2Present)
             {
                 Item item1 = items[item1Pos];
-                items.Remove(item1Pos);
-                items.Add(item2Pos, item1);
+                items[item1Pos] = null;
+                items[item2Pos] = item1;
             }
             else
             if (!item1Present && item2Present)
             {
                 Item item2 = items[item2Pos];
-                items.Remove(item2Pos);
-                items.Add(item1Pos, item2);
+                items[item2Pos] = null;
+                items[item1Pos] = item2;
             }
             InventoryManagerUI.Instance.RefreshUI();
             return true;
@@ -156,9 +172,9 @@ public class Inventory : NetworkBehaviour
     public int GetAmmountOfItem(ulong id)
     {
         int amount = 0;
-        foreach(Item item in items.Values)
+        foreach(Item item in items)
         {
-            if(item.itemId == id)
+            if(CheckItemId(item,id))
             {
                 amount += item.stackSize;
             }
@@ -169,9 +185,9 @@ public class Inventory : NetworkBehaviour
     public int GetAmmountOfItem(string itemName)
     {
         int amount = 0;
-        foreach (Item item in items.Values)
+        foreach (Item item in items)
         {
-            if (item.itemName == itemName)
+            if (CheckItemName(item,itemName))
             {
                 amount += item.stackSize;
             }

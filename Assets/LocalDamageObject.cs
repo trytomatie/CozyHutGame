@@ -15,7 +15,7 @@ public class LocalDamageObject : MonoBehaviour
         if (other.GetComponent<ResourceController>() != null)
         {
             var source = sourceObject.GetComponent<NetworkObject>();
-            int damage = (int)weapon.MaxDamage;
+            int damage = (int)Random.Range(weapon.MinDamage,weapon.MaxDamage+1);
             other.GetComponent<ResourceController>().PlayFeedbackServerRpc(damage,source.OwnerClientId);
         }
     }
