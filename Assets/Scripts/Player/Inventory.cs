@@ -78,6 +78,7 @@ public class Inventory : NetworkBehaviour
                     else if (amount < items[slot].stackSize)
                     {
                         items[slot].stackSize -= amount;
+                        amount = 0;
                     }
                     else if (amount == items[slot].stackSize)
                     {
