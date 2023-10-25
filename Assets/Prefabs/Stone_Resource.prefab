@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1245649299848948220}
   - component: {fileID: 6196390049661260079}
-  - component: {fileID: 5601314971547776008}
   m_Layer: 0
   m_Name: HarvestStone
   m_TagString: Untagged
@@ -63,28 +62,6 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5046928797311254943}
   m_Enabled: 1
---- !u!64 &5601314971547776008
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1099814898611753075}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2022909851536899069, guid: 44bde0856075fe9428ddf5e1666e5f7c, type: 3}
 --- !u!1 &1771626600002172245
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,17 +597,22 @@ PrefabInstance:
     - target: {fileID: 5688942545150317776, guid: cb5d6f6ba426e0b438a336771dbc3300,
         type: 3}
       propertyPath: m_Height
-      value: 4.18
+      value: 1.4711931
       objectReference: {fileID: 0}
     - target: {fileID: 5688942545150317776, guid: cb5d6f6ba426e0b438a336771dbc3300,
         type: 3}
       propertyPath: m_Radius
-      value: 0.57
+      value: 0.43426043
       objectReference: {fileID: 0}
     - target: {fileID: 5688942545150317776, guid: cb5d6f6ba426e0b438a336771dbc3300,
         type: 3}
       propertyPath: m_Center.y
-      value: 0.66
+      value: 0.64112103
+      objectReference: {fileID: 0}
+    - target: {fileID: 5688942545150317776, guid: cb5d6f6ba426e0b438a336771dbc3300,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.034893215
       objectReference: {fileID: 0}
     - target: {fileID: 5833118563573564530, guid: cb5d6f6ba426e0b438a336771dbc3300,
         type: 3}
