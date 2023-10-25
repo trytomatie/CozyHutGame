@@ -30,11 +30,8 @@ public class Interactable_SubmitResources : Interactable
 
     protected virtual void RefreshUI(int previousValue, int newValue)
     {
-        if (newValue <= 0)
-        {
-            woodCount.text = "Wood: " + woodCount;
-            stoneCount.text = "Stone " + stoneCount;
-        }
+        woodCount.text = "Wood: " + requestedWood.Value;
+        stoneCount.text = "Stone " + requestedStone.Value;
     }
 
 
