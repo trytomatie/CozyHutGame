@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using static Item;
@@ -8,6 +9,9 @@ public class Interactable_SubmitResources : Interactable
 {
     public NetworkVariable<int> requestedWood = new NetworkVariable<int>(1000);
     public NetworkVariable<int> requestedStone = new NetworkVariable<int>(1000);
+
+    public TextMeshProUGUI woodCount;
+    public TextMeshProUGUI stoneCount;
     public override void FocusInteraction(GameObject source)
     {
         if (NotTimeoutedByServer())
@@ -17,6 +21,23 @@ public class Interactable_SubmitResources : Interactable
         SetServerTimeoutTimer();
 
     }
+
+    public override void OnNetworkSpawn()
+    {
+        requestedWood.OnValueChanged += RefreshUI;
+        requestedStone.OnValueChanged += RefreshUI;
+    }
+
+    protected virtual void RefreshUI(int previousValue, int newValue)
+    {
+        if (newValue <= 0)
+        {
+            woodCount.text = "Wood: " + woodCount;
+            stoneCount.text = "Stone " + stoneCount;
+        }
+    }
+
+
 
     public override void LocalInteraction(GameObject source)
     {
