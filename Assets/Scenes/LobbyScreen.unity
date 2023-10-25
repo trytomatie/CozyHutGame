@@ -1356,6 +1356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lobbyUI: {fileID: 1176708190}
+  sceneToLoad: PrototypeScene
   afterStart:
     m_PersistentCalls:
       m_Calls: []
@@ -2724,7 +2725,7 @@ MonoBehaviour:
     Prefabs:
       NetworkPrefabsLists: []
     TickRate: 30
-    ClientConnectionBufferTimeout: 10
+    ClientConnectionBufferTimeout: 27
     ConnectionApproval: 0
     ConnectionData: 
     EnableTimeResync: 0
@@ -2735,7 +2736,7 @@ MonoBehaviour:
     RecycleNetworkIds: 1
     NetworkIdRecycleDelay: 120
     RpcHashSize: 0
-    LoadSceneTimeOut: 120
+    LoadSceneTimeOut: 54
     SpawnTimeout: 1
     EnableNetworkLogs: 1
     OldPrefabList: []

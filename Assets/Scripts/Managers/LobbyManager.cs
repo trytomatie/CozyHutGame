@@ -24,6 +24,7 @@ public class LobbyManager : MonoBehaviour
     private const float heartBeatTimer = 15;
     private const float pollRate = 1.1f;
     public static Lobby selectedLobby;
+    public string sceneToLoad = "PrototypeScene";
 
     private const string KEY_START_GAME = "KEY_START_GAME";
     public UnityEvent afterStart;
@@ -215,7 +216,6 @@ public class LobbyManager : MonoBehaviour
                 joinAllocation.ConnectionData,
                 joinAllocation.HostConnectionData
                 );
-
             NetworkManager.Singleton.StartClient();
         }
         catch (RelayServiceException e)
@@ -291,12 +291,30 @@ public class LobbyManager : MonoBehaviour
                 }
             });
             CancelInvoke("InvokeHandleLobbyPollForUpdates");
-            print("LOADING SCENE");
-            NetworkManager.Singleton.SceneManager.LoadScene("PrototypeScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
-            NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
+
+            NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
+            NetworkManager.Singleton.SceneManager.LoadScene("FixDoubleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.OnLoadComplete += LoadNewScene;
+
             joinedLobby = lobby;
+            
         }
     }
+
+
+    private void LoadNewScene(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+    {
+        NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
+
+        //var status = NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, UnityEngine.SceneManagement.LoadSceneMode.Single);
+        //if (status != SceneEventProgressStatus.Started)
+        //{
+        //    Debug.LogWarning($"Failed to load {sceneToLoad} " +
+        //          $"with a {nameof(SceneEventProgressStatus)}: {status}");
+        //}
+        NetworkManager.Singleton.SceneManager.OnLoadComplete-=LoadNewScene;
+    }
+
 
 
     public void SpawnPlayerInWorld(SceneEvent sceneEvent)
@@ -318,10 +336,14 @@ public class LobbyManager : MonoBehaviour
                     NetworkManager.Singleton.ConnectedClients[sceneEvent.ClientId]
                         .PlayerObject.GetComponent<NetworkPlayerInit>().
                         TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>(true).transform.position,clientRpcParams);
-                    
+                    if(clientOrServer == "server")
+                    {
+
+                    }
                     break;
                 }
         }
+        
     }
 
     public void StartLanGame()
