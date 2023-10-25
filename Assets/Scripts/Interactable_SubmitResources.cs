@@ -10,6 +10,10 @@ public class Interactable_SubmitResources : Interactable
     public NetworkVariable<int> requestedWood = new NetworkVariable<int>(1000);
     public NetworkVariable<int> requestedStone = new NetworkVariable<int>(1000);
 
+    public GameObject buildingPrefab;
+    public GameObject constructionSite;
+    public GameObject sign;
+    
     public TextMeshProUGUI woodCount;
     public TextMeshProUGUI stoneCount;
     public override void FocusInteraction(GameObject source)
@@ -30,8 +34,20 @@ public class Interactable_SubmitResources : Interactable
 
     protected virtual void RefreshUI(int previousValue, int newValue)
     {
+        if (requestedWood.Value == 0 && requestedStone.Value == 0)
+        {
+            CompletionEvent();
+        }
         woodCount.text = "Wood: " + requestedWood.Value;
         stoneCount.text = "Stone " + requestedStone.Value;
+
+    }
+
+    private void CompletionEvent()
+    {
+        sign.SetActive(false);
+        Instantiate(buildingPrefab, constructionSite.transform.position, constructionSite.transform.rotation);
+        constructionSite.SetActive(false);
     }
 
 
