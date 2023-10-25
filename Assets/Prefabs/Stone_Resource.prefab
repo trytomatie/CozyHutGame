@@ -554,6 +554,26 @@ PrefabInstance:
       objectReference: {fileID: 4494703100458158551}
     - target: {fileID: 1662875244019738749, guid: cb5d6f6ba426e0b438a336771dbc3300,
         type: 3}
+      propertyPath: FeedbacksList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1662875244019738749, guid: cb5d6f6ba426e0b438a336771dbc3300,
+        type: 3}
+      propertyPath: FeedbacksList.Array.data[0]
+      value: 453716833738686476
+      objectReference: {fileID: 0}
+    - target: {fileID: 1662875244019738749, guid: cb5d6f6ba426e0b438a336771dbc3300,
+        type: 3}
+      propertyPath: FeedbacksList.Array.data[1]
+      value: 453716833738686477
+      objectReference: {fileID: 0}
+    - target: {fileID: 1662875244019738749, guid: cb5d6f6ba426e0b438a336771dbc3300,
+        type: 3}
+      propertyPath: FeedbacksList.Array.data[2]
+      value: 453716876590317569
+      objectReference: {fileID: 0}
+    - target: {fileID: 1662875244019738749, guid: cb5d6f6ba426e0b438a336771dbc3300,
+        type: 3}
       propertyPath: managedReferences[453716876590317569].ForceColor
       value: 0
       objectReference: {fileID: 0}
@@ -592,11 +612,6 @@ PrefabInstance:
       propertyPath: managedReferences[453716876590317569].AnimateColorGradient.m_ColorSpace
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1662875244019738749, guid: cb5d6f6ba426e0b438a336771dbc3300,
-        type: 3}
-      propertyPath: managedReferences[453716833738686475].TargetShaderControllerList.Array.data[0]
-      value: 
-      objectReference: {fileID: 8475640617783834238}
     - target: {fileID: 4147233858863818990, guid: cb5d6f6ba426e0b438a336771dbc3300,
         type: 3}
       propertyPath: m_Name
@@ -679,6 +694,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6699700592038799062, guid: cb5d6f6ba426e0b438a336771dbc3300, type: 3}
+    - {fileID: 474457495, guid: cb5d6f6ba426e0b438a336771dbc3300, type: 3}
+    - {fileID: 474457496, guid: cb5d6f6ba426e0b438a336771dbc3300, type: 3}
     m_RemovedGameObjects:
     - {fileID: 104576279277982389, guid: cb5d6f6ba426e0b438a336771dbc3300, type: 3}
     - {fileID: 3956541484851244536, guid: cb5d6f6ba426e0b438a336771dbc3300, type: 3}
@@ -724,18 +741,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8475640617783834238 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 474457496, guid: cb5d6f6ba426e0b438a336771dbc3300,
-    type: 3}
-  m_PrefabInstance: {fileID: 8475640617981383654}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ad986206bb726846a202cfdedd282dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8835802526969125320 stripped
