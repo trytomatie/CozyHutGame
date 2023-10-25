@@ -291,7 +291,7 @@ public class LobbyManager : MonoBehaviour
                 }
             });
             CancelInvoke("InvokeHandleLobbyPollForUpdates");
-
+            NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
             NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
             NetworkManager.Singleton.SceneManager.LoadScene("FixDoubleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
             NetworkManager.Singleton.SceneManager.OnLoadComplete += LoadNewScene;
@@ -304,7 +304,7 @@ public class LobbyManager : MonoBehaviour
 
     private void LoadNewScene(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
     {
-        NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
+      //  NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
 
         //var status = NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, UnityEngine.SceneManagement.LoadSceneMode.Single);
         //if (status != SceneEventProgressStatus.Started)
