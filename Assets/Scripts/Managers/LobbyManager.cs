@@ -291,10 +291,11 @@ public class LobbyManager : MonoBehaviour
                 }
             });
             CancelInvoke("InvokeHandleLobbyPollForUpdates");
-            NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
-            NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
-            NetworkManager.Singleton.SceneManager.LoadScene("FixDoubleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
-            NetworkManager.Singleton.SceneManager.OnLoadComplete += LoadNewScene;
+            Invoke("ChangeScene", 10);
+
+            //NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
+            //NetworkManager.Singleton.SceneManager.LoadScene("FixDoubleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            //NetworkManager.Singleton.SceneManager.OnLoadComplete += LoadNewScene;
 
             joinedLobby = lobby;
             
@@ -333,6 +334,7 @@ public class LobbyManager : MonoBehaviour
                             TargetClientIds = new ulong[] { sceneEvent.ClientId }
                         }
                     };
+
                     NetworkManager.Singleton.ConnectedClients[sceneEvent.ClientId]
                         .PlayerObject.GetComponent<NetworkPlayerInit>().
                         TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>(true).transform.position,clientRpcParams);
@@ -346,6 +348,11 @@ public class LobbyManager : MonoBehaviour
         
     }
 
+    public void ChangeScene()
+    {
+        SceneLoaderWrapper.Instance.LoadScene(sceneToLoad, true, LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
+    }
     public void StartLanGame()
     {
         NetworkManager.Singleton.NetworkConfig.NetworkTransport = lanTransportProtocol;
