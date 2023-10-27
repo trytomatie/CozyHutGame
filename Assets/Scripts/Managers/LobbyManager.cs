@@ -15,6 +15,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Unity.Multiplayer.Samples.Utilities;
+using TMPro;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -123,9 +125,10 @@ public class LobbyManager : MonoBehaviour
             Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
             joinedLobby = lobby;
             lobbyUI.ReloadLobbyUI(joinedLobby);
-
+            print("HeartBeat" + joinedLobby.Data[KEY_START_GAME].Value);
             if(joinedLobby.Data[KEY_START_GAME].Value != "0")
             {
+               
                 if(!IsLobbyHost())
                 {
                     JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
@@ -174,6 +177,11 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// In Summary, Start the Game for the Server and Host
+    /// </summary>
+    /// <param name="p_lobby"></param>
+    /// <returns></returns>
     private async Task<string> CreateRelay(Lobby p_lobby)
     {
         try
@@ -190,8 +198,8 @@ public class LobbyManager : MonoBehaviour
                 allocation.Key,
                 allocation.ConnectionData
             );
-
             NetworkManager.Singleton.StartHost();
+            LoadingScreenManager.Instance.CallLoadingScreen();
             return joinCode;
         }
         catch(RelayServiceException e)
@@ -202,6 +210,10 @@ public class LobbyManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// In Sumary, Starts the Game for the Clients
+    /// </summary>
+    /// <param name="joinCode"></param>
     private async void JoinRelay(string joinCode)
     {
         try
@@ -217,11 +229,17 @@ public class LobbyManager : MonoBehaviour
                 joinAllocation.HostConnectionData
                 );
             NetworkManager.Singleton.StartClient();
+            LoadingScreenManager.Instance.CallLoadingScreen();
         }
         catch (RelayServiceException e)
         {
             Debug.LogError(e);
         }
+    }
+
+    public void JoinRelayWithCode(TMP_InputField joinCode)
+    {
+        JoinRelay(joinCode.text);
     }
 
     public async void ListLobbies()
@@ -279,10 +297,10 @@ public class LobbyManager : MonoBehaviour
     {
         if(IsLobbyHost())
         {
-            Debug.Log("Starting Game");
+
 
             string relayCode = await CreateRelay(joinedLobby);
-
+            Debug.Log("Starting Game: " + relayCode);
             Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
             {
                 Data = new Dictionary<string, DataObject>
@@ -292,11 +310,6 @@ public class LobbyManager : MonoBehaviour
             });
             CancelInvoke("InvokeHandleLobbyPollForUpdates");
             Invoke("ChangeScene", 10);
-
-            //NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
-            //NetworkManager.Singleton.SceneManager.LoadScene("FixDoubleScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
-            //NetworkManager.Singleton.SceneManager.OnLoadComplete += LoadNewScene;
-
             joinedLobby = lobby;
             
         }
@@ -305,14 +318,6 @@ public class LobbyManager : MonoBehaviour
 
     private void LoadNewScene(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
     {
-      //  NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
-
-        //var status = NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, UnityEngine.SceneManagement.LoadSceneMode.Single);
-        //if (status != SceneEventProgressStatus.Started)
-        //{
-        //    Debug.LogWarning($"Failed to load {sceneToLoad} " +
-        //          $"with a {nameof(SceneEventProgressStatus)}: {status}");
-        //}
         NetworkManager.Singleton.SceneManager.OnLoadComplete-=LoadNewScene;
     }
 
@@ -321,24 +326,29 @@ public class LobbyManager : MonoBehaviour
     public void SpawnPlayerInWorld(SceneEvent sceneEvent)
     {
         var clientOrServer = sceneEvent.ClientId == NetworkManager.ServerClientId ? "server" : "client";
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { sceneEvent.ClientId }
+            }
+        };
         switch (sceneEvent.SceneEventType)
         {
+            case SceneEventType.Load:
+                break;
             case SceneEventType.LoadComplete:
                 {
                     Debug.Log($"Loaded the {sceneEvent.SceneName} scene on " +
                         $"{clientOrServer}-({sceneEvent.ClientId}).");
-                    ClientRpcParams clientRpcParams = new ClientRpcParams
-                    {
-                        Send = new ClientRpcSendParams
-                        {
-                            TargetClientIds = new ulong[] { sceneEvent.ClientId }
-                        }
-                    };
 
                     NetworkManager.Singleton.ConnectedClients[sceneEvent.ClientId]
                         .PlayerObject.GetComponent<NetworkPlayerInit>().
                         TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>(true).transform.position,clientRpcParams);
-                    if(clientOrServer == "server")
+                    NetworkManager.Singleton.ConnectedClients[sceneEvent.ClientId]
+.PlayerObject.GetComponent<NetworkPlayerInit>().DismissLoadingScreenClientRpc();
+                    NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<NetworkPlayerInit>().playerName.Value = lobbyUI.playerName.text;
+                    if (clientOrServer == "server")
                     {
 
                     }
@@ -350,7 +360,7 @@ public class LobbyManager : MonoBehaviour
 
     public void ChangeScene()
     {
-        SceneLoaderWrapper.Instance.LoadScene(sceneToLoad, true, LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
         NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
     }
     public void StartLanGame()
