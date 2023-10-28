@@ -21,6 +21,7 @@ public class NetworkPlayerInit : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         playerName.OnValueChanged += UpdatePlayerName;
+        playerNameCard.text = playerName.Value.ToString();
     }
 
     /// <summary>
@@ -30,10 +31,8 @@ public class NetworkPlayerInit : NetworkBehaviour
     /// <param name="newValue"></param>
     protected virtual void UpdatePlayerName(FixedString64Bytes previousValue, FixedString64Bytes newValue)
     {
-        if (!newValue.Equals(previousValue))
-        {
             playerNameCard.text = newValue.ConvertToString();
-        }
+     
     }
 
 
