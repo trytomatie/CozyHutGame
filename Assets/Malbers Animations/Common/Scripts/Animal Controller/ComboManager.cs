@@ -178,7 +178,7 @@ namespace MalbersAnimations.Controller
 
             //Means is not Playing any mode so Restart
             if (!animal.IsPlayingMode) 
-                Restart();
+                // Restart(); // MODCHRIS: IDK, but this aint working
 
 
             if (animal.IsPreparingMode) return true; //Bug when the buttons are played at the same time

@@ -6564,7 +6564,8 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: edf0e22135363fd47b1fc8a6433173dc, type: 3}
+  m_Motion: {fileID: -4295875656089739545, guid: fb4bd925020bdba499cd6f46097bf41b,
+    type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -8209,7 +8210,8 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 83fdf70cd4915614c81b032e791e4e67, type: 3}
+  m_Motion: {fileID: -4295875656089739545, guid: c304eec4eceec9c43a24e2432da0add0,
+    type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -24226,11 +24228,15 @@ AnimatorStateMachine:
   - {fileID: 4377409270629217678}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 1107587008717819978}
-    second: []
+  - first: {fileID: -6907941246758545998}
+    second:
+    - {fileID: -1216924909974893370}
+    - {fileID: -2693277086139875550}
   - first: {fileID: 1107575968228998442}
     second:
     - {fileID: -6053009789393963069}
+  - first: {fileID: 1107587008717819978}
+    second: []
   - first: {fileID: 1107095588754503736}
     second: []
   - first: {fileID: 1107741146500525128}
@@ -24243,10 +24249,6 @@ AnimatorStateMachine:
     second: []
   - first: {fileID: 6853967293220475753}
     second: []
-  - first: {fileID: -6907941246758545998}
-    second:
-    - {fileID: -1216924909974893370}
-    - {fileID: -2693277086139875550}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -290, y: -150, z: 0}
   m_EntryPosition: {x: 200, y: 90, z: 0}
@@ -33245,7 +33247,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Axe_2Hand_Swing_Up
-  m_Speed: 1.5
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1677527389981613962}
@@ -33573,7 +33575,7 @@ AnimatorStateTransition:
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
-  m_Mute: 0
+  m_Mute: 1
   m_IsExit: 1
   serializedVersion: 3
   m_TransitionDuration: 0.2
@@ -36356,7 +36358,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Axe_2Hand_Swing_Ground
-  m_Speed: 2
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5075475457272885328}

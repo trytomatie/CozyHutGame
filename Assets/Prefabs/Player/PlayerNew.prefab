@@ -105,20 +105,20 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
     - Activation:
-        minValue: 0.49
+        minValue: 0.68
         maxValue: 1
       PreviewsAbility: 1
       Ability: 2
       Branch: 0
       Used: 0
-      Finisher: 0
+      Finisher: 1
       OnSequencePlay:
         m_PersistentCalls:
           m_Calls: []
     - Activation:
         minValue: 0.61
         maxValue: 1
-      PreviewsAbility: 2
+      PreviewsAbility: 4
       Ability: 3
       Branch: 0
       Used: 0
@@ -129,11 +129,11 @@ MonoBehaviour:
     - Activation:
         minValue: 0.49
         maxValue: 1
-      PreviewsAbility: 3
+      PreviewsAbility: 4
       Ability: 4
       Branch: 0
       Used: 0
-      Finisher: 1
+      Finisher: 0
       OnSequencePlay:
         m_PersistentCalls:
           m_Calls: []
@@ -145,10 +145,10 @@ MonoBehaviour:
         m_Calls: []
   ActiveComboIndex:
     UseConstant: 1
-    ConstantValue: -1
+    ConstantValue: 0
     Variable: {fileID: 0}
   DisableOnSleep: 1
-  debug: 0
+  debug: 1
   selectedComboEditor: 0
   references:
     version: 2
@@ -2746,7 +2746,7 @@ MonoBehaviour:
     OnInputFloat:
       m_PersistentCalls:
         m_Calls: []
-  - name: Attack
+  - name: MainAttack
     active:
       UseConstant: 1
       ConstantValue: 1
@@ -2758,15 +2758,39 @@ MonoBehaviour:
     type: 1
     input: InputValue
     key: 323
-    debug: 0
-    GetPressed: 1
+    debug: 1
+    GetPressed: 0
     ResetOnDisable: 1
     OnInputDown:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 80519455}
+          m_TargetAssemblyTypeName: MalbersAnimations.Controller.ComboManager, MalbersAnimations
+          m_MethodName: Restart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     OnInputUp:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 5866666020279206775}
+          m_TargetAssemblyTypeName: MalbersAnimations.MWeaponManager, MalbersAnimations
+          m_MethodName: MainAttack
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     OnLongPress:
       m_PersistentCalls:
         m_Calls: []
@@ -2790,7 +2814,19 @@ MonoBehaviour:
     SmoothDecrease: 0
     OnInputPressed:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 5866666020279206775}
+          m_TargetAssemblyTypeName: MalbersAnimations.MWeaponManager, MalbersAnimations
+          m_MethodName: MainAttack
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
     OnInputFloat:
       m_PersistentCalls:
         m_Calls: []
@@ -2964,12 +3000,12 @@ MonoBehaviour:
   ShowOnPlay: 1
   PivotPosDir: 0
   SelectedMode: 0
-  SelectedState: 0
+  SelectedState: 5
   SelectedStance: 0
   ShowStateInInspector: 1
-  Editor_Tabs1: 4
-  Editor_Tabs2: 2
-  Mode_Tabs1: 1
+  Editor_Tabs1: 2
+  Editor_Tabs2: 4
+  Mode_Tabs1: 0
   Ability_Tabs: 0
   Editor_EventTabs: 1
   showPivots: 1
@@ -3123,7 +3159,7 @@ MonoBehaviour:
         ConstantValue: 1
         Variable: {fileID: 0}
       Release: 0
-      AdditivePosition: 1
+      AdditivePosition: 0
       IgnoreGrounded: 0
       IgnoreGravity: 0
       NoYMovement: 0
@@ -3203,7 +3239,7 @@ MonoBehaviour:
         ConstantValue: 1
         Variable: {fileID: 0}
       Release: 0
-      AdditivePosition: 1
+      AdditivePosition: 0
       IgnoreGrounded: 0
       IgnoreGravity: 0
       NoYMovement: 0
@@ -3283,7 +3319,7 @@ MonoBehaviour:
         ConstantValue: 1
         Variable: {fileID: 0}
       Release: 0
-      AdditivePosition: 1
+      AdditivePosition: 0
       IgnoreGrounded: 0
       IgnoreGravity: 0
       NoYMovement: 0
@@ -3363,7 +3399,7 @@ MonoBehaviour:
         ConstantValue: 1
         Variable: {fileID: 0}
       Release: 0
-      AdditivePosition: 1
+      AdditivePosition: 0
       IgnoreGrounded: 0
       IgnoreGravity: 0
       NoYMovement: 0
@@ -3379,7 +3415,7 @@ MonoBehaviour:
           m_Calls: []
     m_AbilityIndex:
       UseConstant: 1
-      ConstantValue: 4
+      ConstantValue: 1
       Variable: {fileID: 0}
     DefaultIndex:
       UseConstant: 1
@@ -3389,8 +3425,8 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     ResetToDefault: 0
-    allowRotation: 0
-    allowMovement: 0
+    allowRotation: 1
+    allowMovement: 1
     OnEnterMode:
       m_PersistentCalls:
         m_Calls: []
@@ -3716,7 +3752,7 @@ MonoBehaviour:
         Variable: {fileID: 0}
       position:
         UseConstant: 1
-        ConstantValue: 0
+        ConstantValue: 1
         Variable: {fileID: 0}
       lerpPosition:
         UseConstant: 1
@@ -3736,7 +3772,7 @@ MonoBehaviour:
         Variable: {fileID: 0}
       animator:
         UseConstant: 1
-        ConstantValue: 1
+        ConstantValue: 1.3
         Variable: {fileID: 0}
       lerpAnimator:
         UseConstant: 1
@@ -4338,7 +4374,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  EditorTab1: 1
+  EditorTab1: 0
 --- !u!114 &5866666020279206775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4358,7 +4394,7 @@ MonoBehaviour:
   DrawWeaponModeID: {fileID: 11400000, guid: 25a9ab75d9646144eaa77342296c549c, type: 2}
   StoreWeaponModeID: {fileID: 11400000, guid: 908d4f1fe671c064cbb3045eeb113742, type: 2}
   UnarmedModeID: {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
-  comboManager: {fileID: 0}
+  comboManager: {fileID: 80519455}
   IgnoreHandOffset:
     UseConstant: 1
     ConstantValue: 0
@@ -4507,7 +4543,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   m_MainAttack:
     UseConstant: 1
-    ConstantValue: MainAttack
+    ConstantValue: 
     Variable: {fileID: 0}
   m_SecondAttack:
     UseConstant: 1
@@ -4526,8 +4562,8 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  Editor_Tabs1: 5
-  Editor_Tabs2: 0
+  Editor_Tabs1: 0
+  Editor_Tabs2: 5
 --- !u!114 &7868891622093841387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5959,12 +5995,12 @@ PrefabInstance:
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
       propertyPath: GroundCombo
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
@@ -5978,8 +6014,33 @@ PrefabInstance:
       objectReference: {fileID: 1392788873}
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
+      propertyPath: m_rate.ConstantValue
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
+      propertyPath: m_Automatic.ConstantValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
       propertyPath: m_hitLayer.ConstantValue.m_Bits
       value: 1082163319
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
+      propertyPath: GroundAttackAbilities.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
+      propertyPath: GroundAttackAbilities.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
+        type: 3}
+      propertyPath: GroundAttackAbilities.Array.data[3]
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}

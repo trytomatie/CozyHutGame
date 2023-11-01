@@ -53,6 +53,18 @@ public class GameUI : MonoBehaviour
         InteractionManager.Instance.InteractableLost -= DismissInteractionUI;
     }
 
+    public virtual void ShowMouseCursor(bool value)
+    {
+        if(value)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
     #region Interaction
 
 
