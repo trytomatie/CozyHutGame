@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1784263871
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1784263872}
-  m_Layer: 0
-  m_Name: Spawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1784263872
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784263871}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.4406433, y: -2.957496, z: 48.600803}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6135281059837529304}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3383540671436574468
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,10 +30,9 @@ Transform:
   m_LocalPosition: {x: 8.436357, y: 3.349496, z: -6.9866767}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1784263872}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7382450290918164605
 MonoBehaviour:
@@ -78,13 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b5dd9fc7445674cbd38e0348e269b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 8067701694813219899, guid: 29766b00936152344873f4900e46a5eb,
-    type: 3}
-  woodCounter:
-    m_InternalValue: 0
   gameUI: {fileID: 0}
-  spawnPoint: {fileID: 1784263872}
   inputManager: {fileID: 0}
+  networkPrefabsList: {fileID: 11400000, guid: a38647347184c544f9611b357842359a, type: 2}
   myColor:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -162,6 +126,7 @@ MonoBehaviour:
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!114 &8902744434688445117
@@ -177,5 +142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 11400000, guid: 111bd6536e3f152489b496036b6f5d7e, type: 2}
   - {fileID: 11400000, guid: e8716491c0ec1e941b1ecd547e534d3a, type: 2}
+  - {fileID: 11400000, guid: 111bd6536e3f152489b496036b6f5d7e, type: 2}
+  - {fileID: 11400000, guid: ef4298f35ac41ca4485d03702feb2517, type: 2}

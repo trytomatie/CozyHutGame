@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class LoadingScreenManager : NetworkBehaviour
+public class LoadingScreenManager : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
 

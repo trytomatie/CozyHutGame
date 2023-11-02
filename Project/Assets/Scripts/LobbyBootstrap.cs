@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyBootstrap : MonoBehaviour
@@ -11,6 +12,7 @@ public class LobbyBootstrap : MonoBehaviour
 
     public void CreateLobbyBootstrap()
     {
+        lobbyManager.sceneToLoad = SceneManager.GetAllScenes()[0].name;
         lobbyManager.CreateLobby(button);
     }
 
