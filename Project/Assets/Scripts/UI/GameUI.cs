@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
@@ -10,13 +11,12 @@ public class GameUI : MonoBehaviour
 
     public TextMeshProUGUI woodText;
     public Canvas canvas;
-    public TextMeshProUGUI interactionUI;
-    private Vector3 interactionWorldPos;
-
-    private Camera mainCamera;
+    public GameObject pauseMenu;
 
     private static GameUI instance;
 
+    public UnityEvent pauseEvent;
+    public UnityEvent negativePauseEvent;
 
 
 
@@ -25,37 +25,14 @@ public class GameUI : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            mainCamera = Camera.main;
             GameManager.Instance.gameUI = this;
 
         }
     }
 
-    private void Update()
-    {
-        if(interactionUI.gameObject.activeSelf)
-        {
-            interactionUI.rectTransform.position = mainCamera.WorldToScreenPoint(interactionWorldPos);
-        }
-    }
-
-    private void OnEnable()
-    {
-        return;
-
-        InteractionManager.Instance.InteractableLost += DismissInteractionUI;
-    }
-
-    private void OnDisable()
-    {
-        return;
-
-        InteractionManager.Instance.InteractableLost -= DismissInteractionUI;
-    }
-
     public virtual void ShowMouseCursor(bool value)
     {
-        if(value)
+        if (value)
         {
             Cursor.lockState = CursorLockMode.None;
         }
@@ -65,14 +42,26 @@ public class GameUI : MonoBehaviour
         }
     }
 
-    #region Interaction
-
-
-    public void DismissInteractionUI(Interactable interactable)
+    public void CallPauseMenu()
     {
-        interactionUI.gameObject.SetActive(false);
+        print("you called?");
+        if(!pauseMenu.activeSelf)
+        {
+            if (InventoryManagerUI.Instance.inventoryUI.activeSelf)
+            {
+                InventoryManagerUI.Instance.inventoryUI.SetActive(false);
+            }
+            else
+            {
+                pauseEvent.Invoke();
+
+            }
+        }
+        else
+        {
+            negativePauseEvent.Invoke();
+        }
     }
-    #endregion
 
 
     public static GameUI Instance { get => instance; }

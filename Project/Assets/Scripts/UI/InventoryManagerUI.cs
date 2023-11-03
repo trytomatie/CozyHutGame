@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class InventoryManagerUI : MonoBehaviour
 {
-    [SerializeField] private GameObject inventoryUI;
+    [SerializeField] public GameObject inventoryUI;
     [SerializeField] private ItemSlotUI[] itemSlots;
     [SerializeField] private GameObject dragImage;
     private static InventoryManagerUI instance;
@@ -28,23 +28,22 @@ public class InventoryManagerUI : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        GameManager.Instance.inputManager.FindInput("Inventory").OnInputToggle.AddListener(ToggleInventory);
-    }
-    private void OnDisable()
-    {
-        GameManager.Instance.inputManager.FindInput("Inventory").OnInputToggle.RemoveListener(ToggleInventory);
-    }
-
     public void ToggleInventoryButton(object sender,InputAction.CallbackContext value)
     {
          inventoryUI.SetActive(!inventoryUI.activeSelf);
     }
 
 
-    public void ToggleInventory(bool value)
+    public virtual void ToggleInventory(bool value)
     {
+        if(value)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         Instance.inventoryUI.SetActive(value);
     }
 

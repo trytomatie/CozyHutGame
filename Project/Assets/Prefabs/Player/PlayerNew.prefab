@@ -2456,6 +2456,7 @@ GameObject:
   - component: {fileID: 5866666020279206771}
   - component: {fileID: 5866666020279206775}
   - component: {fileID: 7868891622093841387}
+  - component: {fileID: 7387559831301748598}
   m_Layer: 20
   m_Name: PlayerNew
   m_TagString: Animal
@@ -3003,8 +3004,8 @@ MonoBehaviour:
   SelectedState: 5
   SelectedStance: 0
   ShowStateInInspector: 1
-  Editor_Tabs1: 2
-  Editor_Tabs2: 4
+  Editor_Tabs1: 4
+  Editor_Tabs2: 2
   Mode_Tabs1: 0
   Ability_Tabs: 0
   Editor_EventTabs: 1
@@ -4956,6 +4957,90 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     EditorTabs: 0
+--- !u!114 &7387559831301748598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5591343338541454398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41eb9c17bc0693d448a412425a2d17b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Events:
+  - Event: {fileID: 11400000, guid: 97d79945dd6a20d4eb36c9ed850f42ba, type: 2}
+    useInt: 0
+    useFloat: 0
+    useVoid: 0
+    useString: 0
+    useBool: 1
+    useGO: 0
+    useTransform: 0
+    useVector3: 0
+    useVector2: 0
+    useComponent: 0
+    useSprite: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseNull:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseInt:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBool:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5866666020279206772}
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    ResponseBoolFalse:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolTrue:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseString:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseGO:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseTransform:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseComponent:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseSprite:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector3:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector2:
+      m_PersistentCalls:
+        m_Calls: []
+    IntEventList: []
+    AdvancedInteger: 0
+    AdvancedBool: 0
+    InvertBool: 1
+    multiplier: 1
 --- !u!1 &5804414564513111605
 GameObject:
   m_ObjectHideFlags: 0
