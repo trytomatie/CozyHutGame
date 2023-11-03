@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 namespace MoreMountains.Tools
 {
 	/// <summary>
 	/// Add this class to a gameObject with a Text component and it'll feed it the number of FPS in real time.
 	/// </summary>
-	[RequireComponent(typeof(Text))]
+	[RequireComponent(typeof(TextMeshProUGUI))]
 	[AddComponentMenu("More Mountains/Tools/Performance/MMFPSCounter")]
 	public class MMFPSCounter : MonoBehaviour
 	{
@@ -21,7 +22,7 @@ namespace MoreMountains.Tools
 		protected float _framesAccumulated = 0f;
 		protected float _framesDrawnInTheInterval = 0f;
 		protected float _timeLeft ;
-		protected Text _text;
+		protected TextMeshProUGUI _text;
 		protected int _currentFPS;
 		protected int _totalFrames = 0;
 		protected int _average;
@@ -65,12 +66,12 @@ namespace MoreMountains.Tools
 		/// </summary>
 		protected virtual void Start()
 		{
-			if(GetComponent<Text>()==null)
+			if(GetComponent<TextMeshProUGUI>()==null)
 			{
 				Debug.LogWarning ("FPSCounter requires a GUIText component.");
 				return;
 			}
-			_text = GetComponent<Text>();
+			_text = GetComponent<TextMeshProUGUI>();
 			_timeLeft = UpdateInterval;
 		}
 
@@ -98,13 +99,13 @@ namespace MoreMountains.Tools
 					switch (Mode)
 					{
 						case Modes.Instant:
-							_text.text = _stringsFrom00To300[_currentFPS];
+							_text.text = _stringsFrom00To300[_currentFPS] + " FPS";
 							break;
 						case Modes.MovingAverage:
-							_text.text = _stringsFrom00To300[_average];
+							_text.text = _stringsFrom00To300[_average] + " FPS";
 							break;
 						case Modes.InstantAndMovingAverage:
-							_text.text = _stringsFrom00To300[_currentFPS] + " / " + _stringsFrom00To300[_average]; 
+							_text.text = _stringsFrom00To300[_currentFPS] + " / " + _stringsFrom00To300[_average] + " FPS"; 
 							break;
 					}
 			        	
