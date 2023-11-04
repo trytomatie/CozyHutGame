@@ -1,6 +1,7 @@
 ﻿using MalbersAnimations;
 using System.Collections;
 using System.Linq;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class GameManager : NetworkBehaviour
     public NetworkPrefabsList networkPrefabsList;
     public Gradient myColor;
     public Gradient otherPlayerColor;
+    public string playerName;
 
     private void Awake()
     {

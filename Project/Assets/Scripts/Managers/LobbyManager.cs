@@ -125,7 +125,6 @@ public class LobbyManager : MonoBehaviour
             Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
             joinedLobby = lobby;
             lobbyUI.ReloadLobbyUI(joinedLobby);
-            print("HeartBeat" + joinedLobby.Data[KEY_START_GAME].Value);
             if(joinedLobby.Data[KEY_START_GAME].Value != "0")
             {
                
@@ -145,11 +144,12 @@ public class LobbyManager : MonoBehaviour
 
     private Player GetPlayerData()
     {
+        GameManager.Instance.playerName = lobbyUI.playerName.text;
         return new Player(AuthenticationService.Instance.PlayerId)
         {
             Data = new Dictionary<string, PlayerDataObject>
                     {
-                        {"PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, lobbyUI.playerName.text) }
+                        {"PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, GameManager.Instance.playerName) }
                     }
         };
     }
@@ -347,7 +347,6 @@ public class LobbyManager : MonoBehaviour
                         TeleportClientRpc(FindObjectOfType<SpawnPlayerBootstrap>(true).transform.position,clientRpcParams);
                     NetworkManager.Singleton.ConnectedClients[sceneEvent.ClientId]
 .PlayerObject.GetComponent<NetworkPlayerInit>().DismissLoadingScreenClientRpc();
-                    NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<NetworkPlayerInit>().playerName.Value = lobbyUI.playerName.text;
                     if (clientOrServer == "server")
                     {
 

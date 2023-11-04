@@ -15,13 +15,30 @@ public class NetworkPlayerInit : NetworkBehaviour
     public GameObject[] objectsToDeactivate;
     public GameObject playerSetupPrefab;
 
-    public NetworkVariable<FixedString64Bytes> playerName;
     public TextMeshProUGUI playerNameCard;
+
+    [HideInInspector]public NetworkVariable<FixedString32Bytes> playerName = new NetworkVariable<FixedString32Bytes>("T", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public override void OnNetworkSpawn()
     {
-        playerName.OnValueChanged += UpdatePlayerName;
-        playerNameCard.text = playerName.Value.ToString();
+        playerName.OnValueChanged += SetPlayerNameCard;
+    }
+
+    protected virtual void SetPlayerNameCard(FixedString32Bytes previousValue, FixedString32Bytes newValue)
+    {
+        playerNameCard.text = newValue.ToString();
+    }
+
+    [ServerRpc (RequireOwnership = false)]
+    public void SetNameCardServerRpc(string name)
+    {
+        playerName.Value = name;
+    }
+
+    [ClientRpc]
+    public void SetNameCardClientRpc(ulong id,string name)
+    {
+        playerNameCard.text = name;
     }
 
     /// <summary>
@@ -32,7 +49,6 @@ public class NetworkPlayerInit : NetworkBehaviour
     protected virtual void UpdatePlayerName(FixedString64Bytes previousValue, FixedString64Bytes newValue)
     {
             playerNameCard.text = newValue.ConvertToString();
-     
     }
 
 
@@ -41,6 +57,7 @@ public class NetworkPlayerInit : NetworkBehaviour
     {
         if(!IsOwner)
         {
+            // Is other Client
             foreach(MonoBehaviour component in componentsToDisable)
             {
                 component.enabled = false;
@@ -50,9 +67,11 @@ public class NetworkPlayerInit : NetworkBehaviour
             {
                 Destroy(go);
             }
+            playerNameCard.text = playerName.Value.ToString();
         }
         else
         {
+            // Is Local Client
             foreach (GameObject go in objectsToActivate)
             {
                 go.SetActive(true);
@@ -71,6 +90,7 @@ public class NetworkPlayerInit : NetworkBehaviour
                 col.isTrigger = false;
                 print("-------- Had to Fix isTrigger of Character Spawn-------");
             }
+            SetNameCardServerRpc(GameManager.Instance.playerName);
         }
     }
 
