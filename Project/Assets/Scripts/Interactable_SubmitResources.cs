@@ -16,7 +16,7 @@ public class Interactable_SubmitResources : Interactable
     
     public TextMeshProUGUI woodCount;
     public TextMeshProUGUI stoneCount;
-    public override void FocusInteraction(GameObject source)
+    public override void FocusInteraction()
     {
         if (NotTimeoutedByServer())
         {

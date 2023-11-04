@@ -10,6 +10,7 @@ public class Item : ScriptableObject
     // Ids are getting Distributed from the ItemManager on Start
     [HideInInspector]public ulong itemId;
     public string itemName;
+    public GameObject droppedObject;
     public Sprite sprite;
     public int stackSize = 1;
     public int maxStackSize = 64;

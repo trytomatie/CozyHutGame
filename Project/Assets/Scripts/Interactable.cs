@@ -15,7 +15,6 @@ public class Interactable : NetworkBehaviour
     private float serverRequestTimer = 0;
     public void Interact()
     {
-        print("Testerino");
         // If there is no source, just assume the LocalClient Player did it
         if (source == null)
             source = NetworkManager.Singleton.LocalClient.PlayerObject.gameObject;
@@ -33,7 +32,7 @@ public class Interactable : NetworkBehaviour
 
     }
 
-    public virtual void FocusInteraction(GameObject source)
+    public virtual void FocusInteraction()
     {
 
     }

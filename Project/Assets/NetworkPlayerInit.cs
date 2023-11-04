@@ -55,7 +55,8 @@ public class NetworkPlayerInit : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(!IsOwner)
+        GameManager.Instance.playerList.Add(OwnerClientId, gameObject);
+        if (!IsOwner)
         {
             // Is other Client
             foreach(MonoBehaviour component in componentsToDisable)

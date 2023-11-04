@@ -1,5 +1,6 @@
 ﻿using MalbersAnimations;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
 using Unity.Netcode;
@@ -15,6 +16,7 @@ public class GameManager : NetworkBehaviour
     public Gradient myColor;
     public Gradient otherPlayerColor;
     public string playerName;
+    public Dictionary<ulong, GameObject> playerList = new Dictionary<ulong, GameObject>();
 
     private void Awake()
     {
