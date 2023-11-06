@@ -117,5 +117,17 @@ public class NetworkPlayerInit : NetworkBehaviour
         LoadingScreenManager.Instance.DismissLoadingScreen();
     }
 
+    public virtual void EquipWeapon(bool value)
+    {
+        if(value)
+        {
+            GetComponent<MWeaponManager>().Equip_External(GetComponent<Inventory>().items[40].droppedObject);
+        }
+        else
+        {
+            GetComponent<MWeaponManager>().UnEquip();
+        }
+    }
+
 
 }

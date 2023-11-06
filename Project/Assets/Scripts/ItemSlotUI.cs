@@ -9,6 +9,7 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
 {
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI stackSizeText;
+    public Item.ItemType typeRestriction = Item.ItemType.None;
     private Item item;
     private int slotId = 0;
     private GameObject draggedObject;
@@ -34,13 +35,13 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
         {
             if(go.GetComponent<ItemSlotUI>() != null)
             {
-                //Item oldItem = go.GetComponent<ItemSlotUI>().Item;
-                //go.GetComponent<ItemSlotUI>().Item = Item;
-                //Item = oldItem;
-                InventoryManagerUI.Instance.Inventory.SwapItemPlaces(slotId, go.GetComponent<ItemSlotUI>().SlotId);
-                InventoryManagerUI.Instance.RefreshUI();
-                print("Drag End");
-                break;
+                ItemSlotUI slot = go.GetComponent<ItemSlotUI>();
+                if (slot.typeRestriction== Item.ItemType.None || slot.typeRestriction == Item.itemType)
+                {
+                    InventoryManagerUI.Instance.Inventory.SwapItemPlaces(slotId, go.GetComponent<ItemSlotUI>().SlotId);
+                    InventoryManagerUI.Instance.RefreshUI();
+                    break;
+                }
             }
         }
         Destroy(draggedObject);

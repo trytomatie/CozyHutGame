@@ -4425,7 +4425,7 @@ MonoBehaviour:
     Weapon: {fileID: 0}
     Input:
       UseConstant: 1
-      ConstantValue: 
+      ConstantValue: Holster
       Variable: {fileID: 0}
     AutoEquip:
       UseConstant: 1
@@ -4441,7 +4441,7 @@ MonoBehaviour:
     Weapon: {fileID: 0}
     Input:
       UseConstant: 1
-      ConstantValue: 
+      ConstantValue: Holster
       Variable: {fileID: 0}
     AutoEquip:
       UseConstant: 1
@@ -6012,11 +6012,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WoodAxe
       objectReference: {fileID: 0}
-    - target: {fileID: 4055157169826795409, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: EditorTabs
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4055766381492957451, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
       propertyPath: m_RootOrder
@@ -6079,81 +6074,15 @@ PrefabInstance:
       objectReference: {fileID: 5591343338541454398}
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
-      propertyPath: GroundCombo
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: Editor_Tabs1
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: Editor_Tabs2
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
       propertyPath: meleeTrigger
       value: 
       objectReference: {fileID: 1392788873}
     - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
         type: 3}
-      propertyPath: m_rate.ConstantValue
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: m_Automatic.ConstantValue
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: m_hitLayer.ConstantValue.m_Bits
-      value: 1082163319
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: GroundAttackAbilities.Array.data[1]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: GroundAttackAbilities.Array.data[2]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: GroundAttackAbilities.Array.data[3]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: statModifier.MaxValue.ConstantValue
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: statModifier.MinValue.ConstantValue
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
       propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 4198075092855644533}
-    - target: {fileID: 4166900156281189035, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: OnHit.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: ApplyDamage
-      objectReference: {fileID: 0}
-    - target: {fileID: 6130601735678696948, guid: cd6b23225bc099f44a9fd52b0182a247,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4055157169826795408, guid: cd6b23225bc099f44a9fd52b0182a247, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

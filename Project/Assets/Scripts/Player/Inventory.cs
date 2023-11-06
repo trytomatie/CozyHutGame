@@ -7,7 +7,8 @@ using UnityEngine;
 public class Inventory : NetworkBehaviour
 {
 
-    public Item[] items = new Item[maxItemSlots];
+    public Item[] items = new Item[(maxItemSlots + toolSlots)];
+    [SerializeField] private const int toolSlots = 4;
     [SerializeField] private const int maxItemSlots = 40;
 
     private void Start()
@@ -43,7 +44,7 @@ public class Inventory : NetworkBehaviour
             }
             // find space for added Item
             bool spaceFound = false;
-            for(int i = 0; i < maxItemSlots - 1;i++)
+            for(int i = 0; i < maxItemSlots ;i++)
             {
                 if(items[i] == null)
                 {
@@ -138,7 +139,6 @@ public class Inventory : NetworkBehaviour
 
         if (item1Present || item2Present)
         {
-
             if (item1Present && item2Present)
             {
                 Item item1 = items[item1Pos];
@@ -163,8 +163,24 @@ public class Inventory : NetworkBehaviour
                 items[item1Pos] = item2;
             }
             InventoryManagerUI.Instance.RefreshUI();
-            return true;
+            if (items[item1Pos].itemType == Item.ItemType.Equipment || items[item2Pos].itemType == Item.ItemType.Equipment)
+            {
+                int[] itemPos = new int[2] { item1Pos, item2Pos };
+                foreach(int i in itemPos)
+                {
+                    // Equipment should be Equiped
+                    if(i >= 40)
+                    {
+                        // Instantiate(items[i].droppedObject)
+                    }
+                    else // Eqipment should be Unequiped
+                    {
 
+                    }
+
+                }
+            }
+            return true;
         }
 
         return false;

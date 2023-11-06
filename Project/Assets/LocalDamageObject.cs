@@ -12,11 +12,25 @@ public class LocalDamageObject : MonoBehaviour
     {
         print(NetworkManager.Singleton.LocalClientId + "   " + sourceObject.GetComponent<NetworkObject>().OwnerClientId);
         if(NetworkManager.Singleton.LocalClientId == sourceObject.GetComponent<NetworkObject>().OwnerClientId)
+        {
+
+        }
         if (other.GetComponent<ResourceController>() != null)
         {
             var source = sourceObject.GetComponent<NetworkObject>();
             int damage = (int)Random.Range(weapon.MinDamage,weapon.MaxDamage+1);
             other.GetComponent<ResourceController>().PlayFeedbackServerRpc(damage,source.OwnerClientId);
+        }
+    }
+
+
+    public virtual void SetWeaponHitbox(GameObject go)
+    {
+        print(go.name);
+        if(go.GetComponent<MMelee>() != null)
+        {
+            // go.GetComponent<MMelee>().meleeTrigger = gameObject.GetComponent<Collider>();
+            weapon = go.GetComponent<MMelee>();
         }
     }
 }

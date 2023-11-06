@@ -87,6 +87,7 @@ public class Interactable_DroppedItem : Interactable
             }
         };
         target.GetComponent<Inventory>().AddItemClientRPC(itemData.itemId, itemData.stackSize, clientRpcParams);
+        transform.parent.gameObject.GetComponent<NetworkObject>().Despawn(true);
         Destroy(transform.parent.gameObject);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Items/Generic Item")]
 public class Item : ScriptableObject
 {
-    public enum ItemType { Equipment,Resources,Alchemie};
+    public enum ItemType {None,Equipment,Resources,Alchemie};
 
     public ItemType itemType = ItemType.Resources;
     // Ids are getting Distributed from the ItemManager on Start

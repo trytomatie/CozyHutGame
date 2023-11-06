@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class InventoryManagerUI : MonoBehaviour
 {
     [SerializeField] public GameObject inventoryUI;
+    [Tooltip("The last few slots are reserved for tools")]
     [SerializeField] private ItemSlotUI[] itemSlots;
     [SerializeField] private GameObject dragImage;
     private static InventoryManagerUI instance;
@@ -17,6 +18,7 @@ public class InventoryManagerUI : MonoBehaviour
         if(Instance == null)
         {
             instance = this;
+            // assign the item slot ids
             for(int i = 0; i < itemSlots.Length-1;i++)
             {
                 itemSlots[i].SlotId = i;
@@ -49,6 +51,7 @@ public class InventoryManagerUI : MonoBehaviour
 
     public void RefreshUI()
     {
+        // Refresh the invenotry
         foreach(ItemSlotUI itemslotUI in itemSlots)
         {
             itemslotUI.ItemImage.sprite = null;

@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: 6550097147877408082, guid: d54f5f716f1ed5442b32e50a9ff10926,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6550097147877408082, guid: d54f5f716f1ed5442b32e50a9ff10926,
         type: 3}
@@ -228,6 +228,45 @@ MonoBehaviour:
   - {fileID: 2868942336914345895}
   objectsToDelete:
   - {fileID: 275408446794771286}
+  objectsToActivate: []
+  objectsToDeactivate: []
+  playerSetupPrefab: {fileID: 0}
+  playerNameCard: {fileID: 0}
+  playerName:
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0016: 0
+        byte0017: 0
+        byte0018: 0
+        byte0019: 0
+        byte0020: 0
+        byte0021: 0
+        byte0022: 0
+        byte0023: 0
+        byte0024: 0
+        byte0025: 0
+        byte0026: 0
+        byte0027: 0
+        byte0028: 0
+        byte0029: 0
 --- !u!114 &-7652384439859456793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +298,7 @@ MonoBehaviour:
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!114 &8709337217254953579
