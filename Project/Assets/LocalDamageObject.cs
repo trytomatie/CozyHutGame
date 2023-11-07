@@ -29,7 +29,6 @@ public class LocalDamageObject : MonoBehaviour
         print(go.name);
         if(go.GetComponent<MMelee>() != null)
         {
-            // go.GetComponent<MMelee>().meleeTrigger = gameObject.GetComponent<Collider>();
             weapon = go.GetComponent<MMelee>();
         }
     }

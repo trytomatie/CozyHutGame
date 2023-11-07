@@ -62,4 +62,6 @@ public class ResourceController : NetworkBehaviour
         damageFeedback.PlayFeedbacks();
 
     }
+
+
 }

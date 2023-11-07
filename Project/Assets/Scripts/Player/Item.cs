@@ -11,6 +11,7 @@ public class Item : ScriptableObject
     [HideInInspector]public ulong itemId;
     public string itemName;
     public GameObject droppedObject;
+    public GameObject handProxy;
     public Sprite sprite;
     public int stackSize = 1;
     public int maxStackSize = 64;

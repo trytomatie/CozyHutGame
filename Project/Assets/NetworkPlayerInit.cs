@@ -1,10 +1,12 @@
 using MalbersAnimations;
 using MalbersAnimations.Events;
+using MalbersAnimations.Weapons;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 
 public class NetworkPlayerInit : NetworkBehaviour
@@ -16,7 +18,9 @@ public class NetworkPlayerInit : NetworkBehaviour
     public GameObject playerSetupPrefab;
 
     public TextMeshProUGUI playerNameCard;
-
+    public GameObject handPivotSetupObjectPrefab;
+    [HideInInspector] public GameObject handPivot;
+    [HideInInspector] public GameObject visual;
     [HideInInspector]public NetworkVariable<FixedString32Bytes> playerName = new NetworkVariable<FixedString32Bytes>("T", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public override void OnNetworkSpawn()
@@ -69,6 +73,8 @@ public class NetworkPlayerInit : NetworkBehaviour
                 Destroy(go);
             }
             playerNameCard.text = playerName.Value.ToString();
+            // Disable the Collider so it doesn't desync on other clients???
+            GetComponent<Collider>().enabled = false;
         }
         else
         {
@@ -86,6 +92,7 @@ public class NetworkPlayerInit : NetworkBehaviour
             DontDestroyOnLoad(playerSetup);
             playerSetup.GetComponentInChildren<InventoryManagerUI>().Inventory = GetComponent<Inventory>();
             Collider col = GetComponent<Collider>();
+           
             if(col.isTrigger)
             {
                 col.isTrigger = false;
@@ -93,6 +100,18 @@ public class NetworkPlayerInit : NetworkBehaviour
             }
             SetNameCardServerRpc(GameManager.Instance.playerName);
         }
+        SpawnHandPivotSetupServerRpc();
+
+    }
+    [ServerRpc (RequireOwnership =false)]
+    public void SpawnHandPivotSetupServerRpc()
+    {
+        if (handPivot == null)
+        {
+            handPivot = Instantiate(handPivotSetupObjectPrefab);
+            handPivot.GetComponent<NetworkObject>().Spawn(false);
+        }
+        handPivot.GetComponent<HandSetupForParenting>().SetFollowTransformClientRpc(this);
     }
 
     private void Update()
@@ -121,13 +140,44 @@ public class NetworkPlayerInit : NetworkBehaviour
     {
         if(value)
         {
-            GetComponent<MWeaponManager>().Equip_External(GetComponent<Inventory>().items[40].droppedObject);
+            SpawnServerVisualServerRpc(GetComponent<Inventory>().items[40].itemName);
+            GameObject handProxy = Instantiate(GetComponent<Inventory>().items[40].handProxy);
+            GetComponent<MWeaponManager>().Equip_External(handProxy);
         }
         else
         {
             GetComponent<MWeaponManager>().UnEquip();
+            DestroyVisualServerRpc();
         }
     }
+
+    [ServerRpc (RequireOwnership =false)]
+    public void SpawnServerVisualServerRpc(string itemName)
+    {
+        visual = Instantiate(ItemManager.GenerateItem(itemName).droppedObject);
+        visual.GetComponent<NetworkObject>().Spawn();
+        visual.GetComponent<Rigidbody>().isKinematic = true;
+        visual.GetComponent<NetworkObject>().TrySetParent(handPivot.transform,false);
+        visual.transform.localPosition = Vector3.zero + visual.GetComponent<MWeapon>().RightHandOffset.Position;
+        visual.transform.localEulerAngles = Vector3.zero + visual.GetComponent<MWeapon>().RightHandOffset.Rotation;
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DestroyVisualServerRpc()
+    {
+        if(visual != null)
+        {
+            visual.GetComponent<NetworkObject>().Despawn(true);
+            //GetComponent<MWeaponManager>().UnEquip();
+        }
+
+    }
+
+
+
+
+
 
 
 }

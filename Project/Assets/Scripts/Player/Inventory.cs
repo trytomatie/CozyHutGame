@@ -1,3 +1,4 @@
+using MalbersAnimations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -171,6 +172,7 @@ public class Inventory : NetworkBehaviour
                     // Equipment should be Equiped
                     if(i >= 40)
                     {
+                        //GetComponent<MWeaponManager>()
                         // Instantiate(items[i].droppedObject)
                     }
                     else // Eqipment should be Unequiped
