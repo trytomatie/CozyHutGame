@@ -80,14 +80,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
         type: 3}
-      propertyPath: Editor_Tabs1
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
+        type: 3}
+      propertyPath: Editor_Tabs1
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
+        type: 3}
+      propertyPath: Editor_Tabs2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
+        type: 3}
+      propertyPath: meleeTrigger
+      value: 
+      objectReference: {fileID: 4970997705226787414}
     m_RemovedComponents:
     - {fileID: 3214988644840368356, guid: 6201363e32352ea4dab9e5736c3b9bc8, type: 3}
     - {fileID: 2405310584229142296, guid: 6201363e32352ea4dab9e5736c3b9bc8, type: 3}
     - {fileID: 4793825003898770028, guid: 6201363e32352ea4dab9e5736c3b9bc8, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8396989032400305772, guid: 6201363e32352ea4dab9e5736c3b9bc8, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6201363e32352ea4dab9e5736c3b9bc8, type: 3}
+--- !u!65 &4970997705226787414 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 2272944112092019931, guid: 6201363e32352ea4dab9e5736c3b9bc8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6590902278794536589}
+  m_PrefabAsset: {fileID: 0}

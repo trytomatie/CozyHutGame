@@ -90,4 +90,10 @@ public class Interactable_DroppedItem : Interactable
         transform.parent.gameObject.GetComponent<NetworkObject>().Despawn(true);
         Destroy(transform.parent.gameObject);
     }
+
+    [ClientRpc]
+    private void DisablePickupClientRpc()
+    {
+        enabled = false;
+    }
 }

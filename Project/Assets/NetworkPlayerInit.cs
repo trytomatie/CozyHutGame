@@ -182,9 +182,8 @@ public class NetworkPlayerInit : NetworkBehaviour
     [ServerRpc (RequireOwnership =false)]
     public void SpawnServerVisualServerRpc(string itemName)
     {
-        visual = Instantiate(ItemManager.GenerateItem(itemName).droppedObject);
+        visual = Instantiate(ItemManager.GenerateItem(itemName).serverHandProxy);
         visual.GetComponent<NetworkObject>().Spawn();
-        visual.GetComponent<Rigidbody>().isKinematic = true;
         visual.GetComponent<NetworkObject>().TrySetParent(handPivot.transform,false);
         visual.transform.localPosition = Vector3.zero + visual.GetComponent<MWeapon>().RightHandOffset.Position;
         visual.transform.localEulerAngles = Vector3.zero + visual.GetComponent<MWeapon>().RightHandOffset.Rotation;
