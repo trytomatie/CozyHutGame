@@ -156,7 +156,7 @@ public class NetworkPlayerInit : NetworkBehaviour
 
     public virtual void EquipWeapon(int i)
     {
-        // Don't allow Equipment swapping during attack
+        // Don't allow Equipment swapping during attac
         if (GetComponent<MWeaponManager>().IsAttacking) 
             return;
 
