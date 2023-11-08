@@ -70,6 +70,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemDrop: {fileID: 11400000, guid: 111bd6536e3f152489b496036b6f5d7e, type: 2}
   damageFeedback: {fileID: 1662875244019738749}
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  needWeaknessForEffectiveDamage: 1
+  weakness: {fileID: 11400000, guid: 13703377eca2e584a97e42995c735ea6, type: 2}
   hp:
     m_InternalValue: 100
   stump: {fileID: 3956541484851244536}
@@ -1495,6 +1500,7 @@ MonoBehaviour:
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!1001 &5504980545040724399

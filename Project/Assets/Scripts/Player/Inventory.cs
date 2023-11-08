@@ -163,8 +163,7 @@ public class Inventory : NetworkBehaviour
                 items[item2Pos] = null;
                 items[item1Pos] = item2;
             }
-            InventoryManagerUI.Instance.RefreshUI();
-            if (items[item1Pos].itemType == Item.ItemType.Equipment || items[item2Pos].itemType == Item.ItemType.Equipment)
+            if ((item2Present && items[item1Pos].itemType == Item.ItemType.Equipment) || (item1Present && items[item2Pos].itemType == Item.ItemType.Equipment))
             {
                 int[] itemPos = new int[2] { item1Pos, item2Pos };
                 foreach(int i in itemPos)
@@ -182,6 +181,7 @@ public class Inventory : NetworkBehaviour
 
                 }
             }
+            InventoryManagerUI.Instance.RefreshUI();
             return true;
         }
 

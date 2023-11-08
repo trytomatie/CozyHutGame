@@ -19,7 +19,8 @@ public class LocalDamageObject : MonoBehaviour
         {
             var source = sourceObject.GetComponent<NetworkObject>();
             int damage = (int)Random.Range(weapon.MinDamage,weapon.MaxDamage+1);
-            other.GetComponent<ResourceController>().PlayFeedbackServerRpc(damage,source.OwnerClientId);
+            int elementId = weapon.element?.ID ?? 0;
+            other.GetComponent<ResourceController>().PlayFeedbackServerRpc(damage,elementId,source.OwnerClientId);
         }
     }
 

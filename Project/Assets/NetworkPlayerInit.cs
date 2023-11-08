@@ -140,9 +140,37 @@ public class NetworkPlayerInit : NetworkBehaviour
     {
         if(value)
         {
-            SpawnServerVisualServerRpc(GetComponent<Inventory>().items[40].itemName);
-            GameObject handProxy = Instantiate(GetComponent<Inventory>().items[40].handProxy);
-            GetComponent<MWeaponManager>().Equip_External(handProxy);
+            if (GetComponent<Inventory>().items[40] != null)
+            {
+                SpawnServerVisualServerRpc(GetComponent<Inventory>().items[40].itemName);
+                GameObject handProxy = Instantiate(GetComponent<Inventory>().items[40].handProxy);
+                GetComponent<MWeaponManager>().Equip_External(handProxy);
+            }
+        }
+        else
+        {
+            GetComponent<MWeaponManager>().UnEquip();
+            DestroyVisualServerRpc();
+        }
+    }
+
+    public virtual void EquipWeapon(int i)
+    {
+        // Don't allow Equipment swapping during attack
+        if (GetComponent<MWeaponManager>().IsAttacking) 
+            return;
+
+        EquipWeapon(false);
+        if (i>=0)
+        {
+            print("int: " + i);
+            if(GetComponent<Inventory>().items[40 + i] != null)
+            {
+                SpawnServerVisualServerRpc(GetComponent<Inventory>().items[40 + i].itemName);
+                GameObject handProxy = Instantiate(GetComponent<Inventory>().items[40 + i].handProxy);
+                GetComponent<MWeaponManager>().Equip_External(handProxy);
+            }
+
         }
         else
         {

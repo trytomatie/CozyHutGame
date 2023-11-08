@@ -13,7 +13,6 @@ public class HandSetupForParenting : NetworkBehaviour
     {
         if(followTransform != null)
         {
-            print(followTransform.position);
             transform.position = followTransform.position;
             transform.rotation = followTransform.rotation;
         }

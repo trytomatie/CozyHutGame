@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
+using MalbersAnimations;
 
 public class ResourceController : NetworkBehaviour
 {
     public Item itemDrop;
     [SerializeField] private MMF_Player damageFeedback;
     public UnityEvent deathEvent;
-
+    public bool needWeaknessForEffectiveDamage = true;
+    public StatElement weakness;
     public NetworkVariable<int> hp = new NetworkVariable<int>(100,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
 
     public override void OnNetworkSpawn()
@@ -27,10 +29,20 @@ public class ResourceController : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership =false)]
-    public void PlayFeedbackServerRpc(int dmg,ulong sourceId)
+    public void PlayFeedbackServerRpc(int dmg,int statElementId,ulong sourceId)
     {
         if(hp.Value > 0)
         {
+            if(needWeaknessForEffectiveDamage && weakness != null && weakness.ID == statElementId)
+            {
+                // Weakness is hit
+            }
+            else if(needWeaknessForEffectiveDamage)
+            {
+                // Weakness is not hit
+                dmg = 1;
+            }
+
             hp.Value -= dmg;
             var source = NetworkManager.Singleton.ConnectedClients[sourceId].PlayerObject;
             ClientRpcParams clientRpcParams = new ClientRpcParams
@@ -42,6 +54,8 @@ public class ResourceController : NetworkBehaviour
             };
             source.GetComponent<Inventory>().AddItemClientRPC(itemDrop.itemId, dmg, clientRpcParams);
             PlayFeedbackClientRpc(dmg, sourceId);
+
+
         }
 
     }

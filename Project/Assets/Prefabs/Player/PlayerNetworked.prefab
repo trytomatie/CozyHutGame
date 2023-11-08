@@ -368,7 +368,7 @@ PrefabInstance:
     - target: {fileID: 5866666020279206772, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: inputs.Array.data[7].key
-      value: 114
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206772, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -398,7 +398,7 @@ PrefabInstance:
     - target: {fileID: 5866666020279206772, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: inputs.Array.data[7].input
-      value: InputValue
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206772, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -449,6 +449,11 @@ PrefabInstance:
         type: 3}
       propertyPath: inputs.Array.data[7].active.UseConstant
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206772, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: inputs.Array.data[4].active.ConstantValue
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206772, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -620,6 +625,67 @@ PrefabInstance:
     - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: holsters.Array.data[0].OnWeaponInHolster.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].Event
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a72b017d5837ee478eac0d890e4aa72,
+        type: 2}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].useInt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].useVoid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].multiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].ResponseInt.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].ResponseInt.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].ResponseInt.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -1915057078465880237}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].ResponseInt.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].ResponseInt.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EquipWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].ResponseInt.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: NetworkPlayerInit, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: Events.Array.data[1].ResponseInt.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8416648839123933775, guid: 1c114219c5c9900429685479d61c0284,
@@ -1292,7 +1358,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: aa9f2e752287e6b46969c9ee1e5ca04b, type: 2}
   - {fileID: 11400000, guid: 89d612fec48c00844802d63ad265e122, type: 2}
   - {fileID: 0}
   - {fileID: 0}
