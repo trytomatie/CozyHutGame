@@ -2462,6 +2462,38 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-7475898940013054131
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6333bc2efec3f9c468b2d8e6837f27af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DynamicManagers: 0
+  effects:
+  - name: Stop Effect [2]  -  [On Enter]
+    showExecute: 0
+    showExitInTransition: 0
+    ID: 2
+    action: 1
+    Time: 0
+    ExecuteOnExit: 0
+    ExitInTransition: 0
+    IgnoreInTransition: []
+  - name: Play Effect [2]  -  [OnTime] (0.28)
+    showExecute: 1
+    showExitInTransition: 0
+    ID: 2
+    action: 0
+    Time: 0.283
+    ExecuteOnExit: 0
+    ExitInTransition: 0
+    IgnoreInTransition: []
 --- !u!114 &-7447421157110631192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7417,7 +7449,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.2
   m_TransitionOffset: 0
-  m_ExitTime: 0.8
+  m_ExitTime: 0.6
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -8202,6 +8234,7 @@ AnimatorState:
   - {fileID: 5923034378648779185}
   - {fileID: 5055732643123893333}
   - {fileID: 6774362896286663493}
+  - {fileID: -7475898940013054131}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -8210,7 +8243,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1da49d6d5b6d19647a48c20aa98d6379, type: 3}
+  m_Motion: {fileID: 7400000, guid: e6a4dac765aa3f7409d6682db5f0daa0, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -10180,8 +10213,8 @@ MonoBehaviour:
   AttackTrigger: 103
   Profile: 0
   AttackActivation:
-    minValue: 0.56
-    maxValue: 1
+    minValue: 0.59
+    maxValue: 0.71
 --- !u!114 &-2067642211569723316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -32044,7 +32077,7 @@ MonoBehaviour:
   Profile: 0
   AttackActivation:
     minValue: 0.4
-    maxValue: 0.6
+    maxValue: 0.43
 --- !u!1101 &5057434104044517372
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -33606,7 +33639,7 @@ AnimatorStateTransition:
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
-  m_Mute: 1
+  m_Mute: 0
   m_IsExit: 1
   serializedVersion: 3
   m_TransitionDuration: 0.2
