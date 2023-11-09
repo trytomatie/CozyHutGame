@@ -514,6 +514,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseMesh_Rigged_03
       objectReference: {fileID: 0}
+    - target: {fileID: 2321523695958950486, guid: fc93d982fcab4b2458197f8560baa221,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2c4604c56a915454db527721bd0636c8, type: 2}
     - target: {fileID: 8259911827691934039, guid: fc93d982fcab4b2458197f8560baa221,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -527,7 +532,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6657560127643677590, guid: fc93d982fcab4b2458197f8560baa221,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1195043845}
   m_SourcePrefab: {fileID: 100100000, guid: fc93d982fcab4b2458197f8560baa221, type: 3}
 --- !u!1001 &961060484
 PrefabInstance:
@@ -733,6 +742,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1195043843 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6657560127643677590, guid: fc93d982fcab4b2458197f8560baa221,
+    type: 3}
+  m_PrefabInstance: {fileID: 891051696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1195043845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195043843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de07ef9f879294d42b446d28d26371d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eyes: {fileID: 2100000, guid: 2c4604c56a915454db527721bd0636c8, type: 2}
+  originalValue: 0
 --- !u!1 &1206681231
 GameObject:
   m_ObjectHideFlags: 0
