@@ -4299,6 +4299,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132310833}
   m_CullTransparentMesh: 1
+--- !u!114 &1166938501 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1298105723299497135, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+    type: 3}
+  m_PrefabInstance: {fileID: 1253681624}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 325a6a3050a061e4b8aa51386c30e8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1176708187
 GameObject:
   m_ObjectHideFlags: 0
@@ -4679,45 +4691,85 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 985158615689108573, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+    - target: {fileID: 1298105723299497135, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: m_ChildCameras.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333188852074578136, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -1.861323
+      value: 2.574997
       objectReference: {fileID: 0}
-    - target: {fileID: 985158615689108573, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+    - target: {fileID: 2333188852074578136, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.239938
+      value: -5.121029
       objectReference: {fileID: 0}
-    - target: {fileID: 2120318639368007081, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+    - target: {fileID: 7193318628768774759, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -1.861323
+      value: 2.574997
       objectReference: {fileID: 0}
-    - target: {fileID: 2120318639368007081, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+    - target: {fileID: 7193318628768774759, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.239938
+      value: -5.121029
       objectReference: {fileID: 0}
-    - target: {fileID: 5627554785665771234, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+    - target: {fileID: 7856554755545411034, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: Events.Array.data[1].useBool
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7856554755545411034, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: Events.Array.data[0].ResponseTransform.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7856554755545411034, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: Events.Array.data[0].ResponseTransform.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1166938501}
+    - target: {fileID: 7856554755545411034, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: Events.Array.data[0].ResponseTransform.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1166938501}
+    - target: {fileID: 7856554755545411034, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: Events.Array.data[0].ResponseTransform.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_Follow
+      objectReference: {fileID: 0}
+    - target: {fileID: 7856554755545411034, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: Events.Array.data[0].ResponseTransform.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: set_LookAt
+      objectReference: {fileID: 0}
+    - target: {fileID: 7856554755545411034, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: Events.Array.data[0].ResponseTransform.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Cinemachine.CinemachineStateDrivenCamera, Cinemachine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7856554755545411034, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: Events.Array.data[0].ResponseTransform.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Cinemachine.CinemachineStateDrivenCamera, Cinemachine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8292485039796358035, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -1.861323
+      value: 2.574997
       objectReference: {fileID: 0}
-    - target: {fileID: 5627554785665771234, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+    - target: {fileID: 8292485039796358035, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.239938
+      value: -5.121029
       objectReference: {fileID: 0}
-    - target: {fileID: 8982012438617943792, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+    - target: {fileID: 8982021264372689530, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
-      propertyPath: m_XAxis.m_MaxSpeed
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 8982012438617943792, guid: c1e97422664ad4b48b3b3967cc6d6e25,
-        type: 3}
-      propertyPath: m_YAxis.m_MaxSpeed
-      value: 2
+      propertyPath: Events.Array.data[1].useBool
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9021154107758205886, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
