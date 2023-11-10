@@ -17,6 +17,7 @@ public class GameManager : NetworkBehaviour
     public Gradient otherPlayerColor;
     public string playerName;
     public Dictionary<ulong, GameObject> playerList = new Dictionary<ulong, GameObject>();
+    public string relayCode = "";
 
     private void Awake()
     {

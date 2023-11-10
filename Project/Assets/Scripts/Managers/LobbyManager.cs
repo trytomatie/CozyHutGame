@@ -189,7 +189,7 @@ public class LobbyManager : MonoBehaviour
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(p_lobby.MaxPlayers - 1);
 
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-
+            GameManager.Instance.relayCode = joinCode;
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetHostRelayData
             (
                 allocation.RelayServer.IpV4,
@@ -228,6 +228,7 @@ public class LobbyManager : MonoBehaviour
                 joinAllocation.ConnectionData,
                 joinAllocation.HostConnectionData
                 );
+            GameManager.Instance.relayCode = joinCode;
             NetworkManager.Singleton.StartClient();
             LoadingScreenManager.Instance.CallLoadingScreen();
         }

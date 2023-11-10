@@ -19,7 +19,8 @@ namespace MalbersAnimations.Utilities
         public Transform Owner;
 
         public List<Effect> Effects;
-
+        [RequiredField, Tooltip("Instantiate a copy of the VFX")]
+        public bool instantiatePrefab;
         public int SelectedEffect = -1;
         public bool debug;
         private void Awake()
@@ -99,7 +100,7 @@ namespace MalbersAnimations.Utilities
 
             if (e.effect != null)
             {
-                if (!e.effect.IsPrefab())
+                if (!e.effect.IsPrefab() && !instantiatePrefab)
                 {
                     if (e.disableOnStop) e.Instance?.SetActive(false);
                 }
@@ -148,7 +149,17 @@ namespace MalbersAnimations.Utilities
                         }
                         else
                         {
-                            e.Instance = e.effect;                     //Use the effect as the gameobject
+                            if(instantiatePrefab)
+                            {
+                                e.Instance = Instantiate(e.effect,e.effect.transform.position,e.effect.transform.rotation);
+                                e.Instance.SetActive(false);
+                                e.Instance.transform.localScale *= e.scale;
+                            }
+                            else
+                            {
+                                e.Instance = e.effect;
+                            }
+                     //Use the effect as the gameobject
                         }
 
                         if (Owner == null) Owner = transform.root;
