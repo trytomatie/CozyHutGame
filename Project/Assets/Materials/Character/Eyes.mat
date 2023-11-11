@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Eyes
-  m_Shader: {fileID: -6465566751694194690, guid: 7bc7937facb2b674fbcc052d8a17d89a,
+  m_Shader: {fileID: -6465566751694194690, guid: 451da286179a1af4f8c471db6b65a503,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: 092b05ae8163049448dcb9ac8dfa602a, type: 3}
+        m_Texture: {fileID: 2800000, guid: f7912a3778ded0b4a80514b57eeda453, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -52,6 +52,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Eyeshape:
+        m_Texture: {fileID: 2800000, guid: f7912a3778ded0b4a80514b57eeda453, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Highlights:
+        m_Texture: {fileID: 2800000, guid: 504a525dedee74f41a2b52d14b260ded, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Iris:
+        m_Texture: {fileID: 2800000, guid: 66b8d880008312841ad82aecfd39c770, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 092b05ae8163049448dcb9ac8dfa602a, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -68,7 +80,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Pupil:
+        m_Texture: {fileID: 2800000, guid: e25e880af6daeee439e637124eb47e27, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -109,7 +129,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
@@ -121,8 +141,12 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _HighlightColor: {r: 1, g: 0.5099334, b: 0, a: 0}
+    - _IrisColor: {r: 0.7264151, g: 0.14048593, b: 0.24111763, a: 1}
     - _Offset_Eyes: {r: 0, g: 0, b: 0, a: 0}
+    - _Pupilcolor: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SwitchHighlight: {r: 0, g: -1.04, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &8170872303103953577
 MonoBehaviour:
