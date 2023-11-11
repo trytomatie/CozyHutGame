@@ -174,8 +174,8 @@ public class NetworkPlayerInit : NetworkBehaviour
         }
         else
         {
-            GetComponent<MWeaponManager>().UnEquip();
-            DestroyVisualServerRpc();
+            //GetComponent<MWeaponManager>().UnEquip();
+            //DestroyVisualServerRpc();
         }
     }
 

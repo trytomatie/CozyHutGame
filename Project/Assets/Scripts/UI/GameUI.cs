@@ -99,7 +99,8 @@ public class GameUI : MonoBehaviour
                         break;
                 }
                 equipmentEquipEvent.Invoke(i);
-            }
+
+                }
         }
     }
 

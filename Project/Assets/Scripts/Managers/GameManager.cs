@@ -18,6 +18,7 @@ public class GameManager : NetworkBehaviour
     public string playerName;
     public Dictionary<ulong, GameObject> playerList = new Dictionary<ulong, GameObject>();
     public string relayCode = "";
+    public WorldSaveState worldSaveState;
 
     private void Awake()
     {
@@ -35,6 +36,21 @@ public class GameManager : NetworkBehaviour
     private void Start()
     {
         RegisterNetworkPrefabs();
+    }
+
+    [ServerRpc (RequireOwnership = false)]
+    public void PlacePrefabServerRpc(ulong buildingId, Vector3 position, Quaternion rotation)
+    {
+        GameObject prefab = BuildingObjectManager.GenerateBuildingObject(buildingId).buildingPrefab;
+        GameObject spawnedPrefab = Instantiate(prefab, position, rotation);
+        spawnedPrefab.GetComponent<NetworkObject>().Spawn(true);
+        PlacedObjectData data = new PlacedObjectData()
+        {
+            prefab = prefab,
+            position = position,
+            rotation = rotation
+        };
+        worldSaveState.AddPlacedObject(data);
     }
 
     private void RegisterNetworkPrefabs()
