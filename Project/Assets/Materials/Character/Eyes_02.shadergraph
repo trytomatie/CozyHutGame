@@ -41,6 +41,12 @@
         },
         {
             "m_Id": "9449e49f2c324372b110323df4623618"
+        },
+        {
+            "m_Id": "d50f7806d2d04850ba8d7203cf6c23c7"
+        },
+        {
+            "m_Id": "23ac4f700e18492a974b213a4a7e72da"
         }
     ],
     "m_Keywords": [],
@@ -191,6 +197,9 @@
         },
         {
             "m_Id": "6e1de12f18c54bd09d59cc3837de1fd2"
+        },
+        {
+            "m_Id": "3c8604cf90e24c5597cc4159f01fd1dc"
         }
     ],
     "m_GroupDatas": [],
@@ -367,6 +376,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "3c8604cf90e24c5597cc4159f01fd1dc"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "683f092e670d4d82aebd98ac6fb614c6"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "3cc4b545162d4d1abc0667b5382c6413"
                 },
                 "m_SlotId": 0
@@ -472,20 +495,6 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "725227c9756149c59a7963c365b999cd"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "587535542c0a4424b5b345673500b4c0"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "683f092e670d4d82aebd98ac6fb614c6"
                 },
                 "m_SlotId": 0
             }
@@ -1965,6 +1974,36 @@
 }
 
 {
+    "m_SGVersion": 3,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.ColorShaderProperty",
+    "m_ObjectId": "23ac4f700e18492a974b213a4a7e72da",
+    "m_Guid": {
+        "m_GuidSerialized": "c5643acf-c2fc-4049-8002-853c67ed4a3e"
+    },
+    "m_Name": "EyebrowColor",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "EyebrowColor",
+    "m_DefaultReferenceName": "_EyebrowColor",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 0.0
+    },
+    "isMainColor": false,
+    "m_ColorMode": 0
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "25c56fceb58242afacd514eeb5a9c847",
@@ -2524,6 +2563,42 @@
 {
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "3c8604cf90e24c5597cc4159f01fd1dc",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -4995.0,
+            "y": 740.0,
+            "width": 146.0,
+            "height": 34.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "88c775894ebc48af81a47fb6f4170a7f"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "9449e49f2c324372b110323df4623618"
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "3cc4b545162d4d1abc0667b5382c6413",
     "m_Group": {
         "m_Id": ""
@@ -2732,9 +2807,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2863.999755859375,
-            "y": 626.0,
-            "width": 207.999755859375,
+            "x": -3090.0,
+            "y": 695.9999389648438,
+            "width": 208.0,
             "height": 302.0
         }
     },
@@ -2925,10 +3000,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -5997.0,
+            "x": -6000.0,
             "y": 1230.0,
             "width": 56.0,
-            "height": 24.000244140625
+            "height": 24.0
         }
     },
     "m_Slots": [
@@ -3328,7 +3403,7 @@
     "m_StageCapability": 3,
     "m_Value": {
         "x": 0.0,
-        "y": 0.33000001311302187
+        "y": 0.25
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -3621,10 +3696,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -4826.0,
-            "y": 777.0001831054688,
-            "width": 208.00048828125,
-            "height": 302.00006103515627
+            "x": -4750.0,
+            "y": 710.0,
+            "width": 208.0,
+            "height": 302.0
         }
     },
     "m_Slots": [
@@ -4231,6 +4306,12 @@
         },
         {
             "m_Id": "9449e49f2c324372b110323df4623618"
+        },
+        {
+            "m_Id": "d50f7806d2d04850ba8d7203cf6c23c7"
+        },
+        {
+            "m_Id": "23ac4f700e18492a974b213a4a7e72da"
         }
     ]
 }
@@ -4343,6 +4424,31 @@
         "z": 0.0,
         "w": 0.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "88c775894ebc48af81a47fb6f4170a7f",
+    "m_Id": 0,
+    "m_DisplayName": "EyelashColor",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
 }
 
 {
@@ -4513,9 +4619,9 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "r": 0.0,
-        "g": 0.0,
-        "b": 0.0,
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
         "a": 0.0
     },
     "isMainColor": false,
@@ -5664,10 +5770,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -3232.0,
-            "y": 626.0,
-            "width": 208.000244140625,
-            "height": 302.0
+            "x": -3442.0,
+            "y": 625.9999389648438,
+            "width": 208.0,
+            "height": 302.00006103515627
         }
     },
     "m_Slots": [
@@ -6008,6 +6114,36 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
+    "m_ObjectId": "d50f7806d2d04850ba8d7203cf6c23c7",
+    "m_Guid": {
+        "m_GuidSerialized": "bff0c8b1-4dbe-4689-b0b0-42dec64f6451"
+    },
+    "m_Name": "Eyebrow",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Eyebrow",
+    "m_DefaultReferenceName": "_Eyebrow",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
+        "m_Guid": ""
+    },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
+    "m_Modifiable": true,
+    "m_DefaultType": 0
 }
 
 {
