@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class BuildManager : MonoBehaviour
 {
-    private float gridSize = 1;
+    [HideInInspector]
+    public float gridSize = 1;
     public float[] gridSizes = new float[] { 0.25f, 0.5f, 1, 2 };
     private int gridSizeIndex = 2;
     public float raycastMaxDistance = 7;
@@ -32,6 +33,7 @@ public class BuildManager : MonoBehaviour
             cameraMainTransform = Camera.main.transform;
             instance = this;
             CallProjection(0);
+            gridSize = gridSizes[gridSizeIndex];
             GameUI.Instance.UpdateGridSizeText();
         }
         else
