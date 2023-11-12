@@ -29,6 +29,7 @@ public class WorldSaveState : MonoBehaviour
 
 public struct PlacedObjectData
 {
+    public BuildingObject buildingObject;
     public GameObject prefab;
     public Vector3 position;
     public Quaternion rotation;

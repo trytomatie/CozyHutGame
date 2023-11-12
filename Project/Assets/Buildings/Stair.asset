@@ -9,16 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 277f833ee046b604399aa70c44df2e10, type: 3}
-  m_Name: Stone
+  m_Script: {fileID: 11500000, guid: a2d7188bfd77f474f84d6c815c296496, type: 3}
+  m_Name: Stair
   m_EditorClassIdentifier: 
-  itemType: 2
-  itemId: 2
-  itemName: Stone
-  droppedObject: {fileID: 4097089798676801887, guid: 41a4d231f3958c146b45be160da116e5,
+  buildingId: 0
+  buildingName: Stair
+  buildingPrefab: {fileID: 5036726101530961046, guid: 8e56fed90f900784fabf6b1c031d9e92,
     type: 3}
-  handProxy: {fileID: 0}
-  serverHandProxy: {fileID: 0}
   sprite: {fileID: 21300000, guid: b9a847102a75c8c429a8f749008df6c2, type: 3}
-  stackSize: 1
-  maxStackSize: 100
+  buildingMaterials:
+  - {fileID: 11400000, guid: ef4298f35ac41ca4485d03702feb2517, type: 2}
+  buildingMaterialAmounts: 02000000

@@ -39,13 +39,15 @@ public class GameManager : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership = false)]
-    public void PlacePrefabServerRpc(ulong buildingId, Vector3 position, Quaternion rotation)
+    public void PlaceBuildingServerRpc(ulong buildingId, Vector3 position, Quaternion rotation)
     {
-        GameObject prefab = BuildingObjectManager.GenerateBuildingObject(buildingId).buildingPrefab;
+        BuildingObject buildingObject = BuildingObjectManager.GenerateBuildingObject(buildingId);
+        GameObject prefab = buildingObject.buildingPrefab;
         GameObject spawnedPrefab = Instantiate(prefab, position, rotation);
         spawnedPrefab.GetComponent<NetworkObject>().Spawn(true);
         PlacedObjectData data = new PlacedObjectData()
         {
+            buildingObject = buildingObject,
             prefab = prefab,
             position = position,
             rotation = rotation
@@ -56,6 +58,25 @@ public class GameManager : NetworkBehaviour
         }
 
         worldSaveState.AddPlacedObject(data);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void DespawnBuildingServerRpc(ulong networkId,ulong clientThatDespawned)
+    {
+        NetworkObject building = NetworkManager.SpawnManager.SpawnedObjects[networkId];
+        BuildingObjectHandler boh = building.GetComponent<BuildingObjectHandler>() ?? null;
+        if(boh != null)
+        { 
+            for(int i = 0; i < boh.data.buildingObject.buildingMaterials.Length;i++)
+            {
+                GameObject droppedItem = Instantiate(boh.data.buildingObject.buildingMaterials[i].droppedObject, building.transform.position, Quaternion.identity);
+                droppedItem.GetComponentInChildren<Interactable_DroppedItem>().itemData.stackSize = boh.data.buildingObject.buildingMaterialAmounts[i];
+                droppedItem.GetComponent<NetworkObject>().Spawn(true);
+            }
+
+        }
+        building.Despawn(true);
+        
     }
 
     private void RegisterNetworkPrefabs()

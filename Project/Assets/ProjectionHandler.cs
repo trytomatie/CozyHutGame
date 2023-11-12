@@ -12,7 +12,7 @@ public class ProjectionHandler : MonoBehaviour
         gameObject.SetActive(true);
         GameObject prefabInstance = Instantiate(prefab, objectPosition);
         prefabInstance.transform.localPosition = Vector3.zero;
-        prefabInstance.transform.rotation = Quaternion.identity;
+        prefabInstance.transform.localRotation = Quaternion.identity;
         prefabInstance.layer = LayerMask.NameToLayer("Ignore Raycast");
         if (prefabInstance != null)
         {

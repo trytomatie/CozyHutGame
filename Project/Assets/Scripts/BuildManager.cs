@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class BuildManager : MonoBehaviour
@@ -9,10 +10,11 @@ public class BuildManager : MonoBehaviour
     private int gridSizeIndex = 0;
     public float raycastMaxDistance = 7;
     public LayerMask layerMask;
+    public LayerMask layerMaskDelete;
     public ProjectionHandler projectionInstance;
     private Transform cameraMainTransform;
     private bool canUpdateProjectionPosition = false;
-
+    private float sphereCastRadius = 0.1f;
     private static BuildManager instance;
     public ulong currentBuildingId;
 
@@ -56,6 +58,21 @@ public class BuildManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(Mathf.Abs(InputManager.Instance.CameraZoomDelta) > 0.1f)
+        {
+            if(InputManager.Instance.CameraZoomDelta > 0)
+            {
+                projectionInstance.transform.eulerAngles += new Vector3(0, 22.5f, 0);
+            }
+            else
+            {
+                projectionInstance.transform.eulerAngles += new Vector3(0, -22.5f, 0);
+            }
+        }
+    }
+
     public virtual void CallProjection(GameObject prefab)
     {
         DismissProjection();
@@ -73,12 +90,25 @@ public class BuildManager : MonoBehaviour
 
     public virtual void PlaceBuildingObject()
     {
-        GameManager.Instance.PlacePrefabServerRpc(currentBuildingId, projectionInstance.transform.position, projectionInstance.transform.rotation);
+        GameManager.Instance.PlaceBuildingServerRpc(currentBuildingId, projectionInstance.transform.position, projectionInstance.transform.rotation);
+    }
+
+    public void DestroyBuilding()
+    {
+        RaycastHit raycastHit;
+        if (Physics.SphereCast(cameraMainTransform.position, sphereCastRadius, cameraMainTransform.forward, out raycastHit, raycastMaxDistance, layerMaskDelete))
+        {
+            BuildingObjectHandler boh = raycastHit.collider.transform.root.GetComponent<BuildingObjectHandler>() ?? null;
+            if (boh != null)
+            {
+                GameManager.Instance.DespawnBuildingServerRpc(boh.GetComponent<NetworkObject>().NetworkObjectId,NetworkManager.Singleton.LocalClientId);
+            }
+        }
     }
 
     public virtual void PlaceBuildingObject(int id)
     {
-        GameManager.Instance.PlacePrefabServerRpc((ulong)id, projectionInstance.transform.position, projectionInstance.transform.rotation);
+        GameManager.Instance.PlaceBuildingServerRpc((ulong)id, projectionInstance.transform.position, projectionInstance.transform.rotation);
     }
 
     public void UpdateProjectionPosition()
@@ -95,7 +125,7 @@ public class BuildManager : MonoBehaviour
     public Vector3 GetRaycastPosition(Vector3 startPoint, Vector3 direction)
     {
         RaycastHit raycastHit;
-        if(Physics.Raycast(startPoint, direction, out raycastHit, raycastMaxDistance, layerMask))
+        if(Physics.SphereCast(startPoint,sphereCastRadius, direction, out raycastHit, raycastMaxDistance, layerMask))
         {
             Vector3 pivotOffset = Vector3.zero;
             // Snapping but is disabled for now
