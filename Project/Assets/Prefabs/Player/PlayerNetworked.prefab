@@ -496,12 +496,12 @@ PrefabInstance:
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: Editor_Tabs2
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -510,8 +510,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
+      propertyPath: SelectedState
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
       propertyPath: modes.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: ShowStateInInspector
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -544,6 +554,11 @@ PrefabInstance:
         type: 3}
       propertyPath: modes.Array.data[1].active
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: m_gravityPower.ConstantValue
+      value: 19.6
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -1107,6 +1122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
+      propertyPath: speedSets.Array.data[0].Speeds.Array.data[0].lerpStrafe.ConstantValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
       propertyPath: managedReferences[5705869653140570112].messages.Array.data[0].intValue
       value: 0
       objectReference: {fileID: 0}
@@ -1132,6 +1152,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
+      propertyPath: speedSets.Array.data[0].Speeds.Array.data[0].lerpRotAnim.ConstantValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
       propertyPath: managedReferences[5705869653140570112].messages.Array.data[0].boolValue
       value: 0
       objectReference: {fileID: 0}
@@ -1154,6 +1179,16 @@ PrefabInstance:
         type: 3}
       propertyPath: modes.Array.data[1].Abilities.Array.data[3].ChargeCurve.m_RotationOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: speedSets.Array.data[0].Speeds.Array.data[0].lerpAnimator.ConstantValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: speedSets.Array.data[0].Speeds.Array.data[0].lerpPosition.ConstantValue
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
