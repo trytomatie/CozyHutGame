@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 6936645199541586235}
   - component: {fileID: 6936645199541586234}
   - component: {fileID: 3658121202235045223}
+  - component: {fileID: 740147296458429524}
   m_Layer: 30
   m_Name: Hammer HandProxy
   m_TagString: Untagged
@@ -1105,7 +1106,7 @@ MonoBehaviour:
     key: 324
     debug: 0
     GetPressed: 5
-    ResetOnDisable: 1
+    ResetOnDisable: 0
     OnInputDown:
       m_PersistentCalls:
         m_Calls:
@@ -1239,7 +1240,7 @@ MonoBehaviour:
       Variable: {fileID: 0}
     inputs: []
   ResetAllInputsOnDisable: 1
-  showInputEvents: 0
+  showInputEvents: 1
   ResetOnFocusLost: 0
   OnInputEnabled:
     m_PersistentCalls:
@@ -1252,6 +1253,90 @@ MonoBehaviour:
     ConstantValue: 1
     Variable: {fileID: 0}
   PlayerID: Player0
+--- !u!114 &740147296458429524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6935657287360082584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41eb9c17bc0693d448a412425a2d17b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Events:
+  - Event: {fileID: 11400000, guid: 8ec1adb979bde354d892fbc90dc86f5f, type: 2}
+    useInt: 0
+    useFloat: 0
+    useVoid: 0
+    useString: 0
+    useBool: 1
+    useGO: 0
+    useTransform: 0
+    useVector3: 0
+    useVector2: 0
+    useComponent: 0
+    useSprite: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseNull:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseInt:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBool:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolFalse:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3658121202235045223}
+          m_TargetAssemblyTypeName: MalbersAnimations.MInput, MalbersAnimations
+          m_MethodName: ResetInput
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: BuildingMenu
+            m_BoolArgument: 0
+          m_CallState: 2
+    ResponseBoolTrue:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseString:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseGO:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseTransform:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseComponent:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseSprite:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector3:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector2:
+      m_PersistentCalls:
+        m_Calls: []
+    IntEventList: []
+    AdvancedInteger: 0
+    AdvancedBool: 1
+    InvertBool: 0
+    multiplier: 1
 --- !u!1 &6935657292595120498
 GameObject:
   m_ObjectHideFlags: 0

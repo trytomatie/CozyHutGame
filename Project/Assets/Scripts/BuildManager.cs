@@ -18,6 +18,9 @@ public class BuildManager : MonoBehaviour
     private static BuildManager instance;
     public ulong currentBuildingId;
 
+    private float heightOffset;
+    private Vector3 lastSavedProjectionPosition; 
+
     public bool CanUpdateProjectionPosition { get => canUpdateProjectionPosition; set => canUpdateProjectionPosition = value; }
     public static BuildManager Instance { get => instance; }
 
@@ -52,15 +55,24 @@ public class BuildManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(CanUpdateProjectionPosition)
+        if(CanUpdateProjectionPosition && heightOffset == 0)
         {
             UpdateProjectionPosition();
         }
     }
 
+    public virtual void SetHeightOffset(bool value)
+    {
+        if(value)
+        {
+            heightOffset += InputManager.Instance.cameraMovement.y * Options.Instance.mouseRotationSpeed * 0.25f;
+            projectionInstance.transform.position = RoundVector( lastSavedProjectionPosition + new Vector3(0, heightOffset, 0), gridSize);
+        }
+    }
+
     private void Update()
     {
-        if(Mathf.Abs(InputManager.Instance.CameraZoomDelta) > 0.1f)
+        if(CanUpdateProjectionPosition && Mathf.Abs(InputManager.Instance.CameraZoomDelta) > 0.1f)
         {
             if(InputManager.Instance.CameraZoomDelta > 0)
             {
@@ -90,6 +102,7 @@ public class BuildManager : MonoBehaviour
 
     public virtual void PlaceBuildingObject()
     {
+        heightOffset = 0;
         GameManager.Instance.PlaceBuildingServerRpc(currentBuildingId, projectionInstance.transform.position, projectionInstance.transform.rotation);
     }
 
@@ -138,13 +151,13 @@ public class BuildManager : MonoBehaviour
             */
 
 
-
-            return raycastHit.point - pivotOffset;
+            lastSavedProjectionPosition = raycastHit.point - pivotOffset + new Vector3(0, heightOffset, 0);
         }
         else
         {
-            return new Ray(startPoint, direction).GetPoint(raycastMaxDistance);
+            lastSavedProjectionPosition = new Ray(startPoint, direction).GetPoint(raycastMaxDistance);
         }
+        return lastSavedProjectionPosition;
     }
 
     // Custom method to round Vector3 components to a specified precision
