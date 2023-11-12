@@ -5,18 +5,45 @@ using UnityEngine;
 public class BuildManager : MonoBehaviour
 {
     public float gridSize = 0.25f;
+    public float[] gridSizes = new float[] { 0.25f, 0.5f, 1, 2 };
+    private int gridSizeIndex = 0;
     public float raycastMaxDistance = 7;
     public LayerMask layerMask;
     public ProjectionHandler projectionInstance;
     private Transform cameraMainTransform;
     private bool canUpdateProjectionPosition = false;
 
+    private static BuildManager instance;
+    public ulong currentBuildingId;
+
     public bool CanUpdateProjectionPosition { get => canUpdateProjectionPosition; set => canUpdateProjectionPosition = value; }
+    public static BuildManager Instance { get => instance; }
 
     // Start is called before the first frame update
     void Start()
     {
-        cameraMainTransform = Camera.main.transform;
+        if(instance == null)
+        {
+            cameraMainTransform = Camera.main.transform;
+            instance = this;
+            CallProjection(0);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+    }
+
+    public void ChangeGridSize()
+    {
+        gridSizeIndex++;
+        if(gridSizeIndex >= gridSizes.Length)
+        {
+            gridSizeIndex = 0;
+        }
+        gridSize = gridSizes[gridSizeIndex];
+        GameUI.Instance.UpdateGridSizeText();
     }
 
 
@@ -31,13 +58,22 @@ public class BuildManager : MonoBehaviour
 
     public virtual void CallProjection(GameObject prefab)
     {
+        DismissProjection();
         projectionInstance.SpawnProjection(prefab);
         UpdateProjectionPosition();
     }
 
-    public virtual void PlaceBuildingObject(BuildingObject buildingObject)
+    public virtual void CallProjection(int id)
     {
-        GameManager.Instance.PlacePrefabServerRpc(buildingObject.buildingId, projectionInstance.transform.position, projectionInstance.transform.rotation);
+        DismissProjection();
+        projectionInstance.SpawnProjection(BuildingObjectManager.GenerateBuildingObject((ulong)id).buildingPrefab);
+        currentBuildingId = (ulong)id;
+        UpdateProjectionPosition();
+    }
+
+    public virtual void PlaceBuildingObject()
+    {
+        GameManager.Instance.PlacePrefabServerRpc(currentBuildingId, projectionInstance.transform.position, projectionInstance.transform.rotation);
     }
 
     public virtual void PlaceBuildingObject(int id)
@@ -47,6 +83,7 @@ public class BuildManager : MonoBehaviour
 
     public void UpdateProjectionPosition()
     {
+
         projectionInstance.transform.position = RoundVector(GetRaycastPosition(cameraMainTransform.position, cameraMainTransform.forward),gridSize);
     }
 
@@ -60,7 +97,19 @@ public class BuildManager : MonoBehaviour
         RaycastHit raycastHit;
         if(Physics.Raycast(startPoint, direction, out raycastHit, raycastMaxDistance, layerMask))
         {
-            return raycastHit.point;
+            Vector3 pivotOffset = Vector3.zero;
+            // Snapping but is disabled for now
+            /*
+            BuildingObjectHandler boh = raycastHit.collider.transform.root.GetComponent<BuildingObjectHandler>() ?? null;
+            if(boh != null)
+            {
+                return boh.GetClosestSnappingPoint(raycastHit.point) - pivotOffset;
+            }
+            */
+
+
+
+            return raycastHit.point - pivotOffset;
         }
         else
         {

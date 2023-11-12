@@ -50,6 +50,11 @@ public class GameManager : NetworkBehaviour
             position = position,
             rotation = rotation
         };
+        if(spawnedPrefab.transform.root.GetComponent<BuildingObjectHandler>() != null)
+        {
+            spawnedPrefab.transform.root.GetComponent<BuildingObjectHandler>().data = data;
+        }
+
         worldSaveState.AddPlacedObject(data);
     }
 

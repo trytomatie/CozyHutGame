@@ -22,6 +22,9 @@ public class GameUI : MonoBehaviour
     public UnityEvent negativePauseEvent;
     public MEvent equipmentEquipEvent;
 
+    [Header("Building Menu")]
+    public TextMeshProUGUI gridSizeText;
+
 
 
     private void Awake()
@@ -103,7 +106,14 @@ public class GameUI : MonoBehaviour
                 }
         }
     }
+    
 
+    #region BuildingMenu
+    public void UpdateGridSizeText()
+    {
+        gridSizeText.text = "(K) Grid Size: " +  BuildManager.Instance.gridSize.ToString("F2");
+    }
+    #endregion
 
     public static GameUI Instance { get => instance; }
 
