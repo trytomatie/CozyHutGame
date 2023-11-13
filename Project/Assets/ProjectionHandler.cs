@@ -7,7 +7,7 @@ public class ProjectionHandler : MonoBehaviour
     public Material projectionMaterial;
     public Transform objectPosition;
 
-    public void SpawnProjection(GameObject prefab)
+    public GameObject SpawnProjection(GameObject prefab)
     {
         gameObject.SetActive(true);
         GameObject prefabInstance = Instantiate(prefab, objectPosition);
@@ -33,6 +33,7 @@ public class ProjectionHandler : MonoBehaviour
                 }
             }
         }
+        return prefabInstance;
     }
 
     public void DismissProjection()

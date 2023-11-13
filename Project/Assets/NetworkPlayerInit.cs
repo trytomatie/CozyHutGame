@@ -179,6 +179,11 @@ public class NetworkPlayerInit : NetworkBehaviour
         }
     }
 
+    public void Interact()
+    {
+        Interactable.GetCurrentInteractable(gameObject).Interact();
+    }
+
     [ServerRpc (RequireOwnership =false)]
     public void SpawnServerVisualServerRpc(string itemName)
     {

@@ -5,9 +5,10 @@ using UnityEngine;
 public class BuildingObjectHandler : MonoBehaviour
 {
     public PlacedObjectData data;
+    public Transform basePivot;
     public Transform[] snappingPoints;
-    public bool wallSnapping = false;
-    public bool floorSnapping = false;
+    public Transform[] pivots;
+    public bool requireBuildingBeacon = true;
 
     public Vector3 GetClosestSnappingPoint(Vector3 position)
     {
@@ -29,5 +30,10 @@ public class BuildingObjectHandler : MonoBehaviour
             }
         }
         return closestPoint;
+    }
+
+    public void ChangePivot(int i)
+    {
+        basePivot.transform.position = pivots[i].transform.position;    
     }
 }
