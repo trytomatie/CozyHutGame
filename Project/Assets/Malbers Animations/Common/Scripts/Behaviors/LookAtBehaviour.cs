@@ -57,7 +57,6 @@ namespace MalbersAnimations.Utilities
             if (when == EnterExit.OnExit) CheckLookAt(animator, layerIndex);
         }
 
-
         private void CheckLookAt(Animator animator, int layerIndex)
         {
             if (animator.GetCurrentAnimatorStateInfo(layerIndex).fullPathHash == animator.GetNextAnimatorStateInfo(layerIndex).fullPathHash) return;

@@ -174,9 +174,14 @@ public class NetworkPlayerInit : NetworkBehaviour
         }
         else
         {
-            GetComponent<MWeaponManager>().UnEquip();
-            DestroyVisualServerRpc();
+            //GetComponent<MWeaponManager>().UnEquip();
+            //DestroyVisualServerRpc();
         }
+    }
+
+    public void Interact()
+    {
+        Interactable.GetCurrentInteractable(gameObject).Interact();
     }
 
     [ServerRpc (RequireOwnership =false)]
