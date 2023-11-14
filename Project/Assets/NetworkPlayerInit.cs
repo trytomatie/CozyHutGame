@@ -185,7 +185,19 @@ public class NetworkPlayerInit : NetworkBehaviour
         if(interactable != null)
         {
             interactable.Interact();
+            DisableInput(0.5f);
         }
+    }
+
+    private void DisableInput(float seconds)
+    {
+        GetComponent<MInput>().enabled = false;
+        Invoke("EnableInput", seconds);
+    }
+
+    private void EnableInput()
+    {
+        GetComponent<MInput>().enabled = true;
     }
 
     [ServerRpc (RequireOwnership =false)]
