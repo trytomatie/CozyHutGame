@@ -207,7 +207,7 @@ public class BuildManager : MonoBehaviour
             bool closestPointWithoutSnappingFound = false;
             foreach (RaycastHit raycastHit in raycastHits)
             {
-                if(raycastHit.distance < 4) // Skip everything too close to the camera
+                if(raycastHit.distance < 7) // Skip everything too close to the camera
                 {
                     continue;
                 }

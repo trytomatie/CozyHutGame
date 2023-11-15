@@ -56,6 +56,11 @@ public class LobbyUIManager : MonoBehaviour
         startButton.SetActive(value);
     }
 
+    public void Exit()
+    {
+        Application.Quit(0);
+    }
+
 
 
     public void RemoveTuples()

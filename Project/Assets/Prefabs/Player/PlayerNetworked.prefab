@@ -486,22 +486,22 @@ PrefabInstance:
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: Mode_Tabs1
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: Ability_Tabs
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
-        type: 3}
-      propertyPath: Editor_Tabs1
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
+      propertyPath: Editor_Tabs1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
       propertyPath: Editor_Tabs2
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -511,7 +511,12 @@ PrefabInstance:
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: SelectedState
-      value: 0
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: slideThreshold
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -578,6 +583,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
+      propertyPath: rayCastRadius.ConstantValue
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
       propertyPath: m_gravityPower.ConstantValue
       value: 19.6
       objectReference: {fileID: 0}
@@ -585,6 +595,11 @@ PrefabInstance:
         type: 3}
       propertyPath: states_C.Array.data[4].active
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: m_OrientToGround.ConstantValue
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -611,6 +626,17 @@ PrefabInstance:
       propertyPath: modes.Array.data[2].allowMovement
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: pivots.Array.data[0].EditorModify
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEnterExitStates.Array.data[0].ID
+      value: 
+      objectReference: {fileID: 11400000, guid: 3787b6d94d5454740bf36d57436185b0,
+        type: 2}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: modes.Array.data[1].OnExitReaction
@@ -1259,7 +1285,7 @@ PrefabInstance:
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: modes.Array.data[2].OnExitMode.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -1549,7 +1575,7 @@ PrefabInstance:
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: OnEnterExitStates.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -1783,9 +1809,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
-      propertyPath: modes.Array.data[2].Abilities.Array.data[0].OnExit.m_PersistentCalls.m_Calls.Array.size
+      propertyPath: OnEnterExitStates.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: modes.Array.data[2].Abilities.Array.data[0].OnExit.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEnterExitStates.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -1915057078465880237}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: modes.Array.data[0].Abilities.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.size
@@ -1794,7 +1830,12 @@ PrefabInstance:
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: modes.Array.data[2].Abilities.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEnterExitStates.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EndInteraction
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -1894,6 +1935,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
+      propertyPath: OnEnterExitStates.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: NetworkPlayerInit, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
       propertyPath: modes.Array.data[0].Abilities.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Invoke
       objectReference: {fileID: 0}
@@ -1901,6 +1947,11 @@ PrefabInstance:
         type: 3}
       propertyPath: modes.Array.data[2].Abilities.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: set_enabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEnterExitStates.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -1951,6 +2002,11 @@ PrefabInstance:
         type: 3}
       propertyPath: modes.Array.data[2].Abilities.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEnterExitStates.Array.data[0].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -2348,7 +2404,7 @@ PrefabInstance:
     - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}

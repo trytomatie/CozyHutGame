@@ -13,6 +13,7 @@ public class Interactable : NetworkBehaviour
     public NetworkVariable<ulong> interactorId = new NetworkVariable<ulong>(maxValue);
 
     public UnityEvent<GameObject> localInteractionEvent;
+    public UnityEvent<GameObject> endInteractionEvent;
     public UnityEvent serverInteractionEvent;
     public UnityEvent focusEnter;
     public UnityEvent focusExit;
@@ -155,6 +156,7 @@ public class Interactable : NetworkBehaviour
         {
             source.GetComponent<NetworkPlayerInit>().currentInteractable = null;
             EndInteractionServerRpc(source.GetComponent<NetworkObject>().OwnerClientId);
+            endInteractionEvent.Invoke(source);
         }
     }
 

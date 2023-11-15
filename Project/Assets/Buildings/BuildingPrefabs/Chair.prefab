@@ -228,7 +228,6 @@ GameObject:
   - component: {fileID: 6893974052786690371}
   - component: {fileID: 6284856653713181693}
   - component: {fileID: 7213007036607437681}
-  - component: {fileID: -3537413950166704167}
   m_Layer: 0
   m_Name: Chair
   m_TagString: Untagged
@@ -290,18 +289,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-3537413950166704167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5036726101530961046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c86463a9e3457e644b2d8938cf612240, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5081027199024190515
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +866,7 @@ GameObject:
   - component: {fileID: 5801532176484098853}
   - component: {fileID: 6310053700444176016}
   - component: {fileID: 6445210395558291384}
-  - component: {fileID: 3894693141955786729}
+  - component: {fileID: 1708758126775298270}
   m_Layer: 0
   m_Name: TriggerInteraction
   m_TagString: Untagged
@@ -994,7 +981,7 @@ MonoBehaviour:
   OnEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3894693141955786729}
+      - m_Target: {fileID: 1708758126775298270}
         m_TargetAssemblyTypeName: Interactable, Assembly-CSharp
         m_MethodName: FocusInteraction
         m_Mode: 0
@@ -1009,7 +996,7 @@ MonoBehaviour:
   OnExit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3894693141955786729}
+      - m_Target: {fileID: 1708758126775298270}
         m_TargetAssemblyTypeName: Interactable, Assembly-CSharp
         m_MethodName: FocusInteractionExit
         m_Mode: 0
@@ -1131,7 +1118,7 @@ MonoBehaviour:
   DoubleSided: 0
   AlignLookAt: 0
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
---- !u!114 &3894693141955786729
+--- !u!114 &1708758126775298270
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1140,7 +1127,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8899128870690701952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0ec1cd069416364d91cf121e24c8987, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ecf4346ba643034286ae2c40d424b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canBeOccupied: 1
@@ -1152,6 +1139,33 @@ MonoBehaviour:
       - m_Target: {fileID: 6445210395558291384}
         m_TargetAssemblyTypeName: MalbersAnimations.Utilities.Aligner, MalbersAnimations
         m_MethodName: Align
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1708758126775298270}
+        m_TargetAssemblyTypeName: Interactable_Chair, Assembly-CSharp
+        m_MethodName: DisableCollider
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  endInteractionEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1708758126775298270}
+        m_TargetAssemblyTypeName: Interactable_Chair, Assembly-CSharp
+        m_MethodName: EnableCollider
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
