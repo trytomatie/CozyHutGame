@@ -74,7 +74,7 @@ public class BuildManager : MonoBehaviour
     {
         if(value)
         {
-            heightOffset += InputManager.Instance.cameraMovement.y * Options.Instance.mouseRotationSpeed * 0.25f;
+            heightOffset += InputManager.Instance.cameraMovement.y * Options.Instance.mouseRotationSpeed * 0.025f;
             Vector3 orignPoint = CheckGridPlacement(lastSavedProjectionPosition);
             projectionInstance.transform.position = RoundVector(lastSavedProjectionPosition + new Vector3(0, heightOffset, 0), gridSize, orignPoint);
         }
@@ -207,7 +207,7 @@ public class BuildManager : MonoBehaviour
             bool closestPointWithoutSnappingFound = false;
             foreach (RaycastHit raycastHit in raycastHits)
             {
-                if(raycastHit.distance < 3) // Skip everything too close to the camera
+                if(raycastHit.distance < 4) // Skip everything too close to the camera
                 {
                     continue;
                 }
@@ -246,7 +246,6 @@ public class BuildManager : MonoBehaviour
                 {
                     continue;
                 }
-                break;
             }
         }
         else

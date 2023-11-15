@@ -16,7 +16,7 @@ public class NetworkPlayerInit : NetworkBehaviour
     public GameObject[] objectsToActivate;
     public GameObject[] objectsToDeactivate;
     public GameObject playerSetupPrefab;
-
+    public Interactable currentInteractable;
     public TextMeshProUGUI playerNameCard;
     public GameObject handPivotSetupObjectPrefab;
     [HideInInspector] public GameObject handPivot;
@@ -181,7 +181,23 @@ public class NetworkPlayerInit : NetworkBehaviour
 
     public void Interact()
     {
-        Interactable.GetCurrentInteractable(gameObject).Interact();
+        Interactable interactable = Interactable.GetCurrentInteractable(gameObject) ?? null;
+        if(interactable != null)
+        {
+            interactable.Interact();
+            DisableInput(0.5f);
+        }
+    }
+
+    private void DisableInput(float seconds)
+    {
+        GetComponent<MInput>().enabled = false;
+        Invoke("EnableInput", seconds);
+    }
+
+    private void EnableInput()
+    {
+        GetComponent<MInput>().enabled = true;
     }
 
     [ServerRpc (RequireOwnership =false)]
@@ -205,6 +221,14 @@ public class NetworkPlayerInit : NetworkBehaviour
         }
 
     }
+
+    #region Interaction
+    public void EndInteraction()
+    {
+        if (currentInteractable != null)
+            currentInteractable.EndInteraction(gameObject);
+    }
+    #endregion
 
 
 
