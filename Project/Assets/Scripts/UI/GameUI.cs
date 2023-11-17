@@ -15,6 +15,7 @@ public class GameUI : MonoBehaviour
     public TextMeshProUGUI woodText;
     public Canvas canvas;
     public GameObject pauseMenu;
+    public GameObject craftingMenu;
 
     private static GameUI instance;
 
@@ -58,10 +59,13 @@ public class GameUI : MonoBehaviour
             {
                 InventoryManagerUI.Instance.inventoryUI.SetActive(false);
             }
+            else if(craftingMenu.activeSelf)
+            {
+                craftingMenu.SetActive(false);
+            }
             else
             {
                 pauseEvent.Invoke();
-
             }
         }
         else

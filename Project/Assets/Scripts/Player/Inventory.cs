@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Inventory : NetworkBehaviour
 {
@@ -11,6 +12,7 @@ public class Inventory : NetworkBehaviour
     public Item[] items = new Item[(maxItemSlots + toolSlots)];
     [SerializeField] private const int toolSlots = 4;
     [SerializeField] private const int maxItemSlots = 40;
+    public UnityEvent<Item> addItemEvents;
 
     private void Start()
     {
@@ -54,6 +56,7 @@ public class Inventory : NetworkBehaviour
                     break;
                 }
             }
+            addItemEvents.Invoke(item);
             InventoryManagerUI.Instance.RefreshUI();
             return spaceFound;
         }

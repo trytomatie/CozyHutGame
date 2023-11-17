@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 5449605439639121682}
   - component: {fileID: 5666149018705248016}
   - component: {fileID: 6677946056930058614}
+  - component: {fileID: 5261591696530402664}
   m_Layer: 7
   m_Name: SnapHitbox_01
   m_TagString: Untagged
@@ -99,6 +100,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 0300000002000000
   pivotIndex: 0100000000000000
+--- !u!114 &5261591696530402664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143147920492149859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.5607944, g: 0.888796, b: 0.45976585, a: 0.13040078}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &589405664246285890
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,6 +129,7 @@ GameObject:
   - component: {fileID: 747408237184238569}
   - component: {fileID: 590468610437886336}
   - component: {fileID: 5771951857885878339}
+  - component: {fileID: 5942595856479444472}
   m_Layer: 7
   m_Name: SnapHitbox_03
   m_TagString: Untagged
@@ -167,6 +187,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 0300000002000000
   pivotIndex: 0100000000000000
+--- !u!114 &5942595856479444472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589405664246285890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.33628947, g: 0.711336, b: 0.5155478, a: 0.38307458}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &1285702602210775370
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,6 +216,7 @@ GameObject:
   - component: {fileID: 6872355716915064706}
   - component: {fileID: 5836350339841925410}
   - component: {fileID: 1469866439471618636}
+  - component: {fileID: 2871559873923706877}
   m_Layer: 7
   m_Name: SnapHitbox_02
   m_TagString: Untagged
@@ -219,8 +258,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5445808, y: 0.01, z: 1}
-  m_Center: {x: -0.2599737, y: 0, z: 0}
+  m_Size: {x: 0.54592216, y: 0.01, z: 1}
+  m_Center: {x: -0.25930303, y: 0, z: 0}
 --- !u!114 &1469866439471618636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +274,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 030000000200000001000000
   pivotIndex: 000000000000000004000000
+--- !u!114 &2871559873923706877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285702602210775370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.50545746, g: 0.6639091, b: 0.7690126, a: 0.8409126}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &2079323578552095542
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,6 +303,7 @@ GameObject:
   - component: {fileID: 4450298740990987142}
   - component: {fileID: 1464498226502203519}
   - component: {fileID: 5034778942068464732}
+  - component: {fileID: 5379174604897108458}
   m_Layer: 7
   m_Name: SnapHitbox
   m_TagString: Untagged
@@ -303,6 +361,198 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 030000000200000001000000
   pivotIndex: 000000000000000004000000
+--- !u!114 &5379174604897108458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079323578552095542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.5852482, g: 0.46682614, b: 0.9661726, a: 0.7526337}
+  DrawAxis: 0
+  AxisSize: 0.65
+--- !u!1 &2449251902010075268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8564758669242739479}
+  - component: {fileID: 8787456013645140381}
+  - component: {fileID: 3129620761617453673}
+  - component: {fileID: 3634412400657208760}
+  m_Layer: 7
+  m_Name: SnapHitbox_07
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8564758669242739479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2449251902010075268}
+  m_LocalRotation: {x: -0, y: -0, z: -0.38268274, w: 0.9238798}
+  m_LocalPosition: {x: -1, y: 1.068, z: -0.00000023841858}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8392809167064190522}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
+--- !u!65 &8787456013645140381
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2449251902010075268}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1826322, y: 0.010000035, z: 1}
+  m_Center: {x: -0.010142838, y: -0.059999734, z: 0}
+--- !u!114 &3129620761617453673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2449251902010075268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28cb9c6cf03923b409143db80d61769e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapBuildingTypes: 0300000002000000
+  pivotIndex: 0100000000000000
+--- !u!114 &3634412400657208760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2449251902010075268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.33628947, g: 0.711336, b: 0.5155478, a: 0.38307458}
+  DrawAxis: 0
+  AxisSize: 0.65
+--- !u!1 &4050929577711751684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7032389518436078956}
+  - component: {fileID: 465664788545965200}
+  - component: {fileID: 5801080135402313644}
+  - component: {fileID: 7243293552785267984}
+  m_Layer: 7
+  m_Name: SnapHitbox_06
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7032389518436078956
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4050929577711751684}
+  m_LocalRotation: {x: -0, y: -0, z: 0.92387867, w: 0.38268548}
+  m_LocalPosition: {x: -1.493, y: 2.014, z: -0.00000023841858}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8392809167064190522}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 135}
+--- !u!65 &465664788545965200
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4050929577711751684}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1153574, y: 0.01, z: 1}
+  m_Center: {x: -0.5440158, y: -0.00000004912984, z: 0}
+--- !u!114 &5801080135402313644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4050929577711751684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28cb9c6cf03923b409143db80d61769e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapBuildingTypes: 030000000200000001000000
+  pivotIndex: 000000000000000004000000
+--- !u!114 &7243293552785267984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4050929577711751684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.50545746, g: 0.6639091, b: 0.7690126, a: 0.8409126}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &4559832019723999666
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +564,7 @@ GameObject:
   - component: {fileID: 6866007523095649315}
   - component: {fileID: 7942302023527512480}
   - component: {fileID: 2540761315547197243}
+  - component: {fileID: 2283913492196510891}
   m_Layer: 7
   m_Name: SnapHitbox_05
   m_TagString: Untagged
@@ -328,14 +579,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4559832019723999666}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.000000059604645}
-  m_LocalPosition: {x: -0.00000011920929, y: 0, z: 1}
+  m_LocalRotation: {x: 0.27059802, y: -0.65328276, z: 0.27059716, w: 0.6532807}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8392809167064190522}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: -90, z: 0}
 --- !u!65 &7942302023527512480
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -355,8 +606,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.9854816, y: 1.9411457, z: 0.034318864}
-  m_Center: {x: 0.9923896, y: 0.99560344, z: 0.0053416733}
+  m_Size: {x: 1.9854816, y: 2.7375543, z: 0.034318864}
+  m_Center: {x: 0.9923896, y: 1.3938079, z: 0.0053417203}
 --- !u!114 &2540761315547197243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +622,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 03000000
   pivotIndex: 02000000
+--- !u!114 &2283913492196510891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4559832019723999666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.90963364, g: 0.30177826, b: 0.4256584, a: 0.7821735}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &4668554019850062858
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,6 +921,8 @@ Transform:
   - {fileID: 747408237184238569}
   - {fileID: 4138055010446729186}
   - {fileID: 6866007523095649315}
+  - {fileID: 7032389518436078956}
+  - {fileID: 8564758669242739479}
   m_Father: {fileID: 6893974052786690371}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -666,6 +937,7 @@ GameObject:
   - component: {fileID: 4138055010446729186}
   - component: {fileID: 5152342137670675241}
   - component: {fileID: 7927833007830453488}
+  - component: {fileID: 6068912879701135969}
   m_Layer: 7
   m_Name: SnapHitbox_04
   m_TagString: Untagged
@@ -680,14 +952,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8090478872351826328}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.000000059604645}
+  m_LocalRotation: {x: 0.27059796, y: -0.65328264, z: -0.27059722, w: -0.6532808}
   m_LocalPosition: {x: 0.00000011920929, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8392809167064190522}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: -45, y: -270, z: 0}
 --- !u!65 &5152342137670675241
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -707,8 +979,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.9854816, y: 1.9411457, z: 0.034318864}
-  m_Center: {x: 0.9923896, y: 0.99560344, z: 0.0053416733}
+  m_Size: {x: 1.9854816, y: 2.682124, z: 0.034318864}
+  m_Center: {x: 0.9923896, y: 1.3660941, z: 0.00534187}
 --- !u!114 &7927833007830453488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -723,6 +995,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 03000000
   pivotIndex: 03000000
+--- !u!114 &6068912879701135969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8090478872351826328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.64488995, g: 0.47875386, b: 0.3209005, a: 0.6370386}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1001 &4170456959505144309
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -17,4 +17,10 @@ public class Interactable_Chair : Interactable
     {
         soruce.GetComponent<Collider>().enabled = true;
     }
+
+    public override void LocalInteraction(GameObject source)
+    {
+        base.LocalInteraction(source);
+        source.GetComponent<MAnimal>().Mode_Activate(4);
+    }
 }

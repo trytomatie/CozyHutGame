@@ -2,20 +2,27 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: IL3DN_Shrub_Round_Bark
   m_Shader: {fileID: 4800000, guid: d827f03f07861fa44bba075d0e131eb5, type: 3}
-  m_ShaderKeywords: EFFECT_HUE_VARIATION GEOM_TYPE_BRANCH _BEND_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - EFFECT_HUE_VARIATION
+  - GEOM_TYPE_BRANCH
+  - _BEND_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -87,6 +94,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AmbientOcclusion: 0.5
     - _Bend: 1
@@ -138,7 +146,7 @@ Material:
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
-    - _Color: {r: 0.5943396, g: 0.37672913, b: 0.28875902, a: 1}
+    - _Color: {r: 0.5943396, g: 0.3767291, b: 0.288759, a: 1}
     - _CurveSphereTip: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 1}
     - _HueVariation: {r: 1, g: 1, b: 1, a: 0.1}
@@ -146,3 +154,4 @@ Material:
     - _TranslucencyColor: {r: 0.73, g: 0.85, b: 0.40999997, a: 1}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

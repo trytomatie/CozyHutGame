@@ -59,7 +59,6 @@ public class Interactable : NetworkBehaviour
     public virtual void LocalInteraction(GameObject source)
     {
         localInteractionEvent.Invoke(source);
-        source.GetComponent<MAnimal>().Mode_Activate(4);
     }
 
     public virtual void ServerInteraction(GameObject source)

@@ -198,16 +198,17 @@ public class BuildManager : MonoBehaviour
         RaycastHit[] raycastHits = Physics.SphereCastAll(startPoint, sphereCastRadius, direction, raycastMaxDistance, layerMask);
         if(raycastHits.Length > 0)
         {
-            raycastHits = raycastHits.OrderBy(hit =>
-            {
-                float distanceToPoint = Vector3.Distance(startPoint, hit.point);
-                float distanceToCollider = Vector3.Distance(startPoint, hit.collider.transform.position);
-                return Tuple.Create(distanceToPoint, distanceToCollider);
-            }, new RaycastComparer()).ToArray();
+            raycastHits = raycastHits.OrderByDescending(hit => Vector3.Distance(startPoint, hit.collider.transform.position)).ToArray();
+            //raycastHits = raycastHits.OrderBy(hit =>
+            //{
+            //    float distanceToPoint = Vector3.Distance(startPoint, hit.point);
+            //    float distanceToCollider = Vector3.Distance(startPoint, hit.collider.transform.position);
+            //    return Tuple.Create(distanceToPoint, distanceToCollider);
+            //}, new RaycastComparer()).ToArray();
             bool closestPointWithoutSnappingFound = false;
             foreach (RaycastHit raycastHit in raycastHits)
             {
-                if(raycastHit.distance < 7) // Skip everything too close to the camera
+                if(raycastHit.distance < 5) // Skip everything too close to the camera
                 {
                     continue;
                 }

@@ -2866,6 +2866,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 293120634394482447}
+    - targetCorrespondingSourceObject: {fileID: 5591343338541454398, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1180042201660877434}
     - targetCorrespondingSourceObject: {fileID: 1392788870, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       insertIndex: -1
@@ -3574,6 +3578,34 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3773f4d24a1f8464cac44a94a08d7988, type: 2}
   - {fileID: 0}
   - {fileID: 0}
+  addItemEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1180042201660877434}
+        m_TargetAssemblyTypeName: PlayerSaveData, Assembly-CSharp
+        m_MethodName: DiscoverItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1180042201660877434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5581307655371325742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61aed2fbd233fb14ab70ecb56104265f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  discoverdItemIDs: 
 --- !u!136 &5874432448821581408 stripped
 CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 5866666020279206768, guid: 1c114219c5c9900429685479d61c0284,

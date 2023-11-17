@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8305320492941217058}
   - component: {fileID: 1036755972235914699}
   - component: {fileID: 3556069598610388524}
+  - component: {fileID: 6410013636482490266}
   m_Layer: 7
   m_Name: SnapHitbox_02
   m_TagString: Untagged
@@ -90,6 +91,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.08, y: 3, z: 1}
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &6410013636482490266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71747592444817919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.58643156, g: 0.27682096, b: 0.5086927, a: 0.9870193}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &1702275013993358811
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +258,7 @@ GameObject:
   - component: {fileID: 2359061318652476907}
   - component: {fileID: 357355404898250106}
   - component: {fileID: 2845635556394897687}
+  - component: {fileID: 7984815488810671917}
   m_Layer: 7
   m_Name: SnapHitbox_05
   m_TagString: Untagged
@@ -296,6 +316,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 0100000003000000
   pivotIndex: 0400000000000000
+--- !u!114 &7984815488810671917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2833827669476657565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.34444398, g: 0.17786777, b: 0.7129967, a: 0.9330958}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &2913401353242187010
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,6 +346,7 @@ GameObject:
   - component: {fileID: 1143001313000868319}
   - component: {fileID: 3681981177218392908}
   - component: {fileID: 641277853672806912}
+  - component: {fileID: 5692840276708041561}
   m_Layer: 7
   m_Name: SnapHitbox_01
   m_TagString: Untagged
@@ -386,6 +425,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.08, y: 3, z: 1}
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &5692840276708041561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2913401353242187010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.023836613, g: 0.7777463, b: 0.8848908, a: 0.37332553}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &5036726101530961046
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +454,6 @@ GameObject:
   - component: {fileID: 6893974052786690371}
   - component: {fileID: 6284856653713181693}
   - component: {fileID: -2018847484202702902}
-  - component: {fileID: 8000449723677298087}
   m_Layer: 0
   m_Name: 1.5Wall
   m_TagString: Untagged
@@ -462,18 +518,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &8000449723677298087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5036726101530961046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c86463a9e3457e644b2d8938cf612240, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5089859249617719323
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +529,7 @@ GameObject:
   - component: {fileID: 5832128189814166138}
   - component: {fileID: 2168625378460154138}
   - component: {fileID: 1859472124141061322}
+  - component: {fileID: 6026044083663544783}
   m_Layer: 7
   m_Name: SnapHitbox_08
   m_TagString: Untagged
@@ -542,6 +587,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 02000000
   pivotIndex: 01000000
+--- !u!114 &6026044083663544783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5089859249617719323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.7352766, g: 0.23913515, b: 0.51069385, a: 0.0737406}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &6548974771814826900
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,6 +659,7 @@ GameObject:
   - component: {fileID: 2073338720309207250}
   - component: {fileID: 2413923782694383}
   - component: {fileID: 6825015651713300967}
+  - component: {fileID: 7195038007260317243}
   m_Layer: 7
   m_Name: SnapHitbox_09
   m_TagString: Untagged
@@ -653,6 +717,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 02000000
   pivotIndex: 02000000
+--- !u!114 &7195038007260317243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6909533331646529147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.011827946, g: 0.4065699, b: 0.016717672, a: 0.76919615}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &6997892767353601998
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,6 +746,7 @@ GameObject:
   - component: {fileID: 356236845538444310}
   - component: {fileID: 520765670184399416}
   - component: {fileID: 893186567411803673}
+  - component: {fileID: 5027146304922299428}
   m_Layer: 7
   m_Name: SnapHitbox
   m_TagString: Untagged
@@ -721,6 +804,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 0100000003000000
   pivotIndex: 0400000001000000
+--- !u!114 &5027146304922299428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6997892767353601998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.82676995, g: 0.5072283, b: 0.31007117, a: 0.9932685}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &7599711904730309979
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,6 +938,7 @@ GameObject:
   - component: {fileID: 2964866975824037713}
   - component: {fileID: 8673387026786057586}
   - component: {fileID: 1738653325906366054}
+  - component: {fileID: 6982142496616040221}
   m_Layer: 7
   m_Name: SnapHitbox_07
   m_TagString: Untagged
@@ -894,6 +996,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 0300000001000000
   pivotIndex: 0000000004000000
+--- !u!114 &6982142496616040221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7748697844024633397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.65466034, g: 0.34216815, b: 0.12543786, a: 0.47742802}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &8174288684741086790
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,6 +1025,7 @@ GameObject:
   - component: {fileID: 1355573511576001060}
   - component: {fileID: 5633365444093298043}
   - component: {fileID: 2644081565560651556}
+  - component: {fileID: 2268597621648104485}
   m_Layer: 7
   m_Name: SnapHitbox_06
   m_TagString: Untagged
@@ -962,6 +1083,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 0300000001000000
   pivotIndex: 0000000004000000
+--- !u!114 &2268597621648104485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8174288684741086790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.55172914, g: 0.79160964, b: 0.3701175, a: 0.9517003}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &8202713095566077124
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,6 +1112,7 @@ GameObject:
   - component: {fileID: 8430836567159198460}
   - component: {fileID: 2796177732876620740}
   - component: {fileID: 2831015063562587412}
+  - component: {fileID: 645149397915524953}
   m_Layer: 7
   m_Name: SnapHitbox_03
   m_TagString: Untagged
@@ -1030,6 +1170,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 0100000003000000
   pivotIndex: 0400000000000000
+--- !u!114 &645149397915524953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202713095566077124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.7938043, g: 0.6138151, b: 0.6041015, a: 0.36259812}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &8237672210118021032
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,6 +1304,7 @@ GameObject:
   - component: {fileID: 9108287310463868851}
   - component: {fileID: 5525216917677476893}
   - component: {fileID: 188360634318831384}
+  - component: {fileID: 3036935965852017872}
   m_Layer: 7
   m_Name: SnapHitbox_04
   m_TagString: Untagged
@@ -1203,6 +1362,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapBuildingTypes: 0100000003000000
   pivotIndex: 0400000001000000
+--- !u!114 &3036935965852017872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8423313167064332188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseColliders: 1
+  gizmoType: 0
+  debugSize: 0.03
+  DebugColor: {r: 0.50216156, g: 0.69050276, b: 0.7773011, a: 0.8055266}
+  DrawAxis: 0
+  AxisSize: 0.65
 --- !u!1 &8881141103221875417
 GameObject:
   m_ObjectHideFlags: 0
