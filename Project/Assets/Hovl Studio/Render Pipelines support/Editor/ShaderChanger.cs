@@ -14,14 +14,15 @@ namespace HovlStudio
     {
         static RPChanger()
         {
-            if (File.Exists(AssetDatabase.GUIDToAssetPath("840fe54da571a73489cfb0206103fe17")))
+            string[] checkAsset = AssetDatabase.FindAssets("HSstartupCheck");
+            foreach (var guid in checkAsset)
             {
                 ShowWindow();
-                AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath("840fe54da571a73489cfb0206103fe17"));
+                AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(guid));
             }
         }
 
-        private int pipeline;
+        static private int pipeline;
         [MenuItem("Tools/RP changer for Hovl Studio assets")]
 
         public static void ShowWindow()
@@ -30,6 +31,7 @@ namespace HovlStudio
             window.minSize = new Vector2(250, 120);
             window.maxSize = new Vector2(250, 120);
         }
+
 
         public void OnGUI()
         {
@@ -52,57 +54,14 @@ namespace HovlStudio
             }
         }
 
-        Shader Add_CG;
-        Shader Blend_CG;
-        Shader LightGlow;
-        Shader Lit_CenterGlow;
-        Shader Blend_TwoSides;
-        Shader Blend_Normals;
-        Shader Ice;
-        Shader Distortion;
-        Shader ParallaxIce;
-        Shader BlendDistort;
-        Shader VolumeLaser;
-        Shader Explosion;
-        Shader SwordSlash;
-        Shader ShockWave;
-        Shader SoftNoise;
+        static Shader Add_CG, Blend_CG, LightGlow, Lit_CenterGlow, Blend_TwoSides, Blend_Normals, Ice, Distortion, ParallaxIce, BlendDistort, VolumeLaser, Explosion, SwordSlash, ShockWave, SoftNoise;
+        static Shader Add_CG_URP, Blend_CG_URP, LightGlow_URP, Lit_CenterGlow_URP, Blend_TwoSides_URP, Blend_Normals_URP, Ice_URP, Distortion_URP, ParallaxIce_URP,
+            BlendDistort_URP, VolumeLaser_URP, Explosion_URP, SwordSlash_URP, ShockWave_URP, SoftNoise_URP;
+        static Shader Add_CG_HDRP, Blend_CG_HDRP, LightGlow_HDRP, Lit_CenterGlow_HDRP, Blend_TwoSides_HDRP, Blend_Normals_HDRP, Ice_HDRP, Distortion_HDRP,
+            ParallaxIce_HDRP, BlendDistort_HDRP, VolumeLaser_HDRP, Explosion_HDRP, SwordSlash_HDRP, ShockWave_HDRP, SoftNoise_HDRP;
+        static Material[] shaderMaterials;
 
-        Shader Add_CG_URP;
-        Shader Blend_CG_URP;
-        Shader LightGlow_URP;
-        Shader Lit_CenterGlow_URP;
-        Shader Blend_TwoSides_URP;
-        Shader Blend_Normals_URP;
-        Shader Ice_URP;
-        Shader Distortion_URP;
-        Shader ParallaxIce_URP;
-        Shader BlendDistort_URP;
-        Shader VolumeLaser_URP;
-        Shader Explosion_URP;
-        Shader SwordSlash_URP;
-        Shader ShockWave_URP;
-        Shader SoftNoise_URP;
-
-        Shader Add_CG_HDRP;
-        Shader Blend_CG_HDRP;
-        Shader LightGlow_HDRP;
-        Shader Lit_CenterGlow_HDRP;
-        Shader Blend_TwoSides_HDRP;
-        Shader Blend_Normals_HDRP;
-        Shader Ice_HDRP;
-        Shader Distortion_HDRP;
-        Shader ParallaxIce_HDRP;
-        Shader BlendDistort_HDRP;
-        Shader VolumeLaser_HDRP;
-        Shader Explosion_HDRP;
-        Shader SwordSlash_HDRP;
-        Shader ShockWave_HDRP;
-        Shader SoftNoise_HDRP;
-
-        Material[] shaderMaterials;
-
-        private void FindShaders()
+        private static void FindShaders()
         {
             if (Shader.Find("Hovl/Particles/Add_CenterGlow") != null) Add_CG = Shader.Find("Hovl/Particles/Add_CenterGlow");
             if (Shader.Find("Hovl/Particles/Blend_CenterGlow") != null) Blend_CG = Shader.Find("Hovl/Particles/Blend_CenterGlow");
@@ -120,7 +79,7 @@ namespace HovlStudio
             if (Shader.Find("Hovl/Particles/ShockWave") != null) ShockWave = Shader.Find("Hovl/Particles/ShockWave");
             if (Shader.Find("Hovl/Particles/SoftNoise") != null) SoftNoise = Shader.Find("Hovl/Particles/SoftNoise");
 
-            if (Shader.Find("ERB/LWRP/Particles/LightGlow") != null) LightGlow_URP = Shader.Find("ERB/LWRP/Particles/LightGlow");
+            if (Shader.Find("Shader Graphs/URP_LightGlow") != null) LightGlow_URP = Shader.Find("Shader Graphs/URP_LightGlow");
             if (Shader.Find("Shader Graphs/URP_Lit_CenterGlow") != null) Lit_CenterGlow_URP = Shader.Find("Shader Graphs/URP_Lit_CenterGlow");
             if (Shader.Find("Shader Graphs/URP_Blend_TwoSides") != null) Blend_TwoSides_URP = Shader.Find("Shader Graphs/URP_Blend_TwoSides");
             if (Shader.Find("Shader Graphs/URP_Blend_Normals") != null) Blend_Normals_URP = Shader.Find("Shader Graphs/URP_Blend_Normals");
@@ -136,7 +95,7 @@ namespace HovlStudio
             if (Shader.Find("Shader Graphs/URP_ShockWave") != null) ShockWave_URP = Shader.Find("Shader Graphs/URP_ShockWave");
             if (Shader.Find("Shader Graphs/URP_SoftNoise") != null) SoftNoise_URP = Shader.Find("Shader Graphs/URP_SoftNoise");
 
-            if (Shader.Find("ERB/HDRP/Particles/LightGlow") != null) LightGlow_HDRP = Shader.Find("ERB/HDRP/Particles/LightGlow");
+            if (Shader.Find("Shader Graphs/HDRP_LightGlow") != null) LightGlow_HDRP = Shader.Find("Shader Graphs/HDRP_LightGlow");
             if (Shader.Find("Shader Graphs/HDRP_Lit_CenterGlow") != null) Lit_CenterGlow_HDRP = Shader.Find("Shader Graphs/HDRP_Lit_CenterGlow");
             if (Shader.Find("Shader Graphs/HDRP_Blend_TwoSides") != null) Blend_TwoSides_HDRP = Shader.Find("Shader Graphs/HDRP_Blend_TwoSides");
             if (Shader.Find("Shader Graphs/HDRP_Blend_Normals") != null) Blend_Normals_HDRP = Shader.Find("Shader Graphs/HDRP_Blend_Normals");
@@ -166,64 +125,70 @@ namespace HovlStudio
         {
 #if UNITY_2019_2
         switch (pipeline)
-        {
-            case 1:
-                if (AssetDatabase.GUIDToAssetPath("f84b1a03ad7e89847a42377fdc96d921") != null)
-                    AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath("f84b1a03ad7e89847a42377fdc96d921"), false);
-                else
-                    AssetDatabase.ImportPackage("Assets/Hovl Studio/Render Pipelines support/Unity 2019.2+ URP.unitypackage", false);
-                OnImportPackageCompleted();
-                break;
-            case 2:
-                if (AssetDatabase.GUIDToAssetPath("d3b0d4375975afb4abf9fc745a5c788b") != null)
-                    AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath("d3b0d4375975afb4abf9fc745a5c788b"), false);
-                else
-                    AssetDatabase.ImportPackage("Assets/Hovl Studio/Render Pipelines support/Unity 2019.2+ HDRP.unitypackage", false);
-                OnImportPackageCompleted();
-                break;
-            default:
-                Debug.Log("You didn't choose pipeline");
-                break;
-        }
+            {
+                case 1:
+                    string[] unityPackagesURP = AssetDatabase.FindAssets("Unity 2019.2+ URPHS");
+                    foreach (var guid in unityPackagesURP)
+                    {
+                        AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath(guid), false);
+                    }
+                    AssetDatabase.importPackageCompleted += OnImportPackageCompleted;
+                    break;
+                case 2:
+                    string[] unityPackagesHD = AssetDatabase.FindAssets("Unity 2019.2+ HDRPHS");
+                    foreach (var guid in unityPackagesHD)
+                    {
+                        AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath(guid), false);
+                    }
+                    AssetDatabase.importPackageCompleted += OnImportPackageCompleted;
+                    break;
+                default:
+                    Debug.Log("You didn't choose pipeline");
+                    break;
+            }
 #endif
 #if (UNITY_2019_3_OR_NEWER && UNITY_2019)
-        switch (pipeline)
-        {
-            case 1:
-                if (AssetDatabase.GUIDToAssetPath("ed9c841398c7fc1459cc7ad939bda692") != null)
-                    AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath("ed9c841398c7fc1459cc7ad939bda692"), false);
-                else
-                    AssetDatabase.ImportPackage("Assets/Hovl Studio/Render Pipelines support/Unity 2019.3+ URP.unitypackage", false);
-                OnImportPackageCompleted();
-                break;
-            case 2:
-                if (AssetDatabase.GUIDToAssetPath("dbb762d9e9eb76343b2843640c4ede68") != null)
-                    AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath("dbb762d9e9eb76343b2843640c4ede68"), false);
-                else
-                    AssetDatabase.ImportPackage("Assets/Hovl Studio/Render Pipelines support/Unity 2019.3+ HDRP.unitypackage", false);
-                OnImportPackageCompleted();
-                break;
-            default:
-                Debug.Log("You didn't choose pipeline");
-                break;
-        }
+            switch (pipeline)
+            {
+                case 1:
+                    string[] unityPackagesURP = AssetDatabase.FindAssets("Unity 2019.3+ URPHS");
+                    foreach (var guid in unityPackagesURP)
+                    {
+                        AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath(guid), false);
+                    }
+                    AssetDatabase.importPackageCompleted += OnImportPackageCompleted;
+                    break;
+                case 2:
+                    string[] unityPackagesHD = AssetDatabase.FindAssets("Unity 2019.3+ HDRPHS");
+                    foreach (var guid in unityPackagesHD)
+                    {
+                        AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath(guid), false);
+                    }
+                    AssetDatabase.importPackageCompleted += OnImportPackageCompleted;
+                    break;
+                default:
+                    Debug.Log("You didn't choose pipeline");
+                    break;
+            }
 #endif
 #if UNITY_2020_1_OR_NEWER
             switch (pipeline)
             {
                 case 1:
-                    if (AssetDatabase.GUIDToAssetPath("e7ce4ef7e809f0e489f5dd61cfe34b01") != null)
-                        AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath("e7ce4ef7e809f0e489f5dd61cfe34b01"), false);
-                    else
-                        AssetDatabase.ImportPackage("Assets/Hovl Studio/Render Pipelines support/Unity 2020+ URP.unitypackage", false);
-                    OnImportPackageCompleted();
+                    string[] unityPackagesURP = AssetDatabase.FindAssets("Unity 2020+ URPHS");
+                    foreach (var guid in unityPackagesURP)
+                    {
+                        AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath(guid), false);
+                    }
+                    AssetDatabase.importPackageCompleted += OnImportPackageCompleted;
                     break;
                 case 2:
-                    if (AssetDatabase.GUIDToAssetPath("1c827ac5cb1890a488436295a34d4d25") != null)
-                        AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath("1c827ac5cb1890a488436295a34d4d25"), false);
-                    else
-                        AssetDatabase.ImportPackage("Assets/Hovl Studio/Render Pipelines support/Unity 2020+ HDRP.unitypackage", false);
-                    OnImportPackageCompleted();
+                    string[] unityPackagesHD = AssetDatabase.FindAssets("Unity 2020+ HDRPHS");
+                    foreach (var guid in unityPackagesHD)
+                    {
+                        AssetDatabase.ImportPackage(AssetDatabase.GUIDToAssetPath(guid), false);
+                    }
+                    AssetDatabase.importPackageCompleted += OnImportPackageCompleted;
                     break;
                 default:
                     Debug.Log("You didn't choose pipeline");
@@ -231,9 +196,9 @@ namespace HovlStudio
             }
 #endif
         }
-        private void OnImportPackageCompleted()
+
+        private static void OnImportPackageCompleted(string packagename)
         {
-            //Debug.Log($"Imported package: {packagename}");
             FindShaders();
             switch (pipeline)
             {
@@ -249,11 +214,11 @@ namespace HovlStudio
             }
         }
 
-        private void ChangeToURP()
+        static private void ChangeToURP()
         {
             foreach (var material in shaderMaterials)
             {
-                if (Shader.Find("ERB/LWRP/Particles/LightGlow") != null)
+                if (Shader.Find("Shader Graphs/URP_LightGlow") != null)
                 {
                     if (material.shader == LightGlow || material.shader == LightGlow_HDRP)
                     {
@@ -564,7 +529,7 @@ namespace HovlStudio
             }
         }
 
-        private void ChangeToSRP()
+        static private void ChangeToSRP()
         {
 
             foreach (var material in shaderMaterials)
@@ -869,11 +834,11 @@ namespace HovlStudio
             }
         }
 
-        private void ChangeToHDRP()
+        static private void ChangeToHDRP()
         {
             foreach (var material in shaderMaterials)
             {
-                if (Shader.Find("ERB/HDRP/Particles/LightGlow") != null)
+                if (Shader.Find("Shader Graphs/HDRP_LightGlow") != null)
                 {
                     if (material.shader == LightGlow || material.shader == LightGlow_URP)
                     {

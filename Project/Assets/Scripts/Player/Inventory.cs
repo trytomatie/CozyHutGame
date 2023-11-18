@@ -118,6 +118,37 @@ public class Inventory : NetworkBehaviour
         return false;
     }
 
+    public bool HasItemSpaceInInventory(ulong id, int itemAmount)
+    {
+        Item item = ItemManager.GenerateItem(id);
+        item.stackSize = itemAmount;
+        Item itemToStackOn;
+        if (ItemAlreadyInventoryAndHasSpaceOnStack(id, out itemToStackOn))
+        {
+            itemToStackOn.stackSize += item.stackSize;
+            if (itemToStackOn.stackSize > itemToStackOn.maxStackSize)
+            {
+                int rest = itemToStackOn.stackSize - itemToStackOn.maxStackSize;
+                itemToStackOn.stackSize = itemToStackOn.maxStackSize;
+                AddItem(id, rest);
+            }
+            InventoryManagerUI.Instance.RefreshUI();
+            return true;
+        }
+        // find space for added Item
+        bool spaceFound = false;
+        for (int i = 0; i < maxItemSlots; i++)
+        {
+            if (items[i] == null)
+            {
+                items[i] = item;
+                spaceFound = true;
+                break;
+            }
+        }
+        return spaceFound;
+    }
+
     private bool CheckItemId(Item item,ulong idToCheck)
     {
         if(item == null || item.itemId != idToCheck)

@@ -99,6 +99,19 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    [ServerRpc]
+    public void GiveItemToPlayerServerRpc(ulong id, int amount,ulong playerId)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { playerId }
+            }
+        };
+        NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponent<Inventory>().AddItemClientRPC(id, amount, clientRpcParams);
+    }
+
 
     public static GameManager Instance { get => instance; set => instance = value; }
 
