@@ -5,7 +5,8 @@ using System.Linq;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
@@ -20,6 +21,7 @@ public class GameManager : NetworkBehaviour
     public string relayCode = "";
     public WorldSaveState worldSaveState;
     public List<BuildingBeacon> buildingBeacons;
+    public UnityEvent disconnectEvent;
 
     private void Awake()
     {
@@ -39,6 +41,28 @@ public class GameManager : NetworkBehaviour
         RegisterNetworkPrefabs();
     }
 
+    public void Disconnect()
+    {
+        disconnectEvent.Invoke();
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        StartCoroutine(LoadSceneAsync(sceneName));
+    }
+
+    IEnumerator LoadSceneAsync(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        LoadingScreenManager.Instance.CallLoadingScreen();
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        LoadingScreenManager.Instance.DismissLoadingScreen();
+        asyncLoad.allowSceneActivation = true;
+    }
 
 
     [ServerRpc (RequireOwnership = false)]

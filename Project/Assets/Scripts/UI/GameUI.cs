@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using MalbersAnimations;
 using MalbersAnimations.Events;
+using UnityEngine.SceneManagement;
 
 public class GameUI : MonoBehaviour
 {
@@ -16,12 +17,17 @@ public class GameUI : MonoBehaviour
     public Canvas canvas;
     public GameObject pauseMenu;
     public GameObject craftingMenu;
+    public GameObject inventoryMenu;
+    public GameObject equipmentSelectionMenu;
 
     private static GameUI instance;
 
     public UnityEvent pauseEvent;
     public UnityEvent negativePauseEvent;
+    public UnityEvent closeAllUIWindowsEvent;
     public MEvent equipmentEquipEvent;
+    public MEvent disableCameraControlls;
+
 
     [Header("Building Menu")]
     public TextMeshProUGUI gridSizeText;
@@ -38,6 +44,21 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    public void CloseAllUIWindows()
+    {
+        disableCameraControlls.Invoke(false);
+        craftingMenu.SetActive(false);
+        inventoryMenu.SetActive(false);
+        equipmentSelectionMenu.SetActive(false);
+        closeAllUIWindowsEvent.Invoke();
+        ShowMouseCursor(false);
+    }
+
+    public bool InterfaceWindowIsOpen()
+    {
+        return craftingMenu.activeSelf || inventoryMenu.activeSelf || equipmentSelectionMenu.activeSelf;
+    }
+
     public virtual void ShowMouseCursor(bool value)
     {
         if (value)
@@ -52,25 +73,46 @@ public class GameUI : MonoBehaviour
 
     public void CallPauseMenu()
     {
-        print("you called?");
-        if(!pauseMenu.activeSelf)
+        if(InterfaceWindowIsOpen())
         {
-            if (InventoryManagerUI.Instance.inventoryUI.activeSelf)
-            {
-                InventoryManagerUI.Instance.inventoryUI.SetActive(false);
-            }
-            else if(craftingMenu.activeSelf)
-            {
-                craftingMenu.SetActive(false);
-            }
-            else
-            {
-                pauseEvent.Invoke();
-            }
+            CloseAllUIWindows();
+            ShowMouseCursor(false);
+        }
+        else if (!pauseMenu.activeSelf)
+        {
+            pauseEvent.Invoke();
+            ShowMouseCursor(true);
         }
         else
         {
             negativePauseEvent.Invoke();
+        }
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit(0);
+    }
+
+    public void Disconnect()
+    {
+        NetworkManager.Singleton.Shutdown();
+        GameManager.Instance.Disconnect();
+        GameManager.Instance.LoadScene("LobbyScreen");
+    }
+
+    public void ToggleInventory()
+    {
+        if(inventoryMenu.activeSelf)
+        {
+            CloseAllUIWindows();
+        }
+        else
+        {
+            CloseAllUIWindows();
+            inventoryMenu.SetActive(true);
+            ShowMouseCursor(true);
+            disableCameraControlls.Invoke(true);
         }
     }
 

@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float yMaxSpeed;
     [SerializeField] private float xMaxSpeed;
 
-    public virtual void EnableCameraControlls(bool value)
+    public virtual void DisableCameraControlls(bool value)
     {
         if(value && freeLookCamera.m_YAxis.m_MaxSpeed > 0)
         {

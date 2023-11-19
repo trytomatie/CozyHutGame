@@ -43,14 +43,21 @@ public class LobbyManager : MonoBehaviour
 
     private async Task ConnectToRelayService()
     {
+
         NetworkManager.Singleton.NetworkConfig.NetworkTransport = relayTransportProtocol;
         InitializationOptions initializationOptions = new InitializationOptions();
         initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000000).ToString());
         await UnityServices.InitializeAsync(initializationOptions);
-        AuthenticationService.Instance.SignedIn += () => { Debug.Log("Has signed in" + AuthenticationService.Instance.PlayerId); };
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            AuthenticationService.Instance.SignedIn += () => { Debug.Log("Has signed in" + AuthenticationService.Instance.PlayerId); };
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+
+        }
         InvokeRepeating("InvokeHandleLobbyPollForUpdates", pollRate, pollRate);
         afterStart.Invoke();
+
     }
 
     public async void CreateLobby(Button p_button)

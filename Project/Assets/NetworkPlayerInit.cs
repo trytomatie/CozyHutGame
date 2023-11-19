@@ -59,7 +59,15 @@ public class NetworkPlayerInit : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Instance.playerList.Add(OwnerClientId, gameObject);
+        if (GameManager.Instance.playerList.ContainsKey(OwnerClientId))
+        {
+            GameManager.Instance.playerList[OwnerClientId] = gameObject;
+        }
+        else
+        {
+            GameManager.Instance.playerList.Add(OwnerClientId, gameObject);
+        }
+
         if (!IsOwner)
         {
             // Is other Client

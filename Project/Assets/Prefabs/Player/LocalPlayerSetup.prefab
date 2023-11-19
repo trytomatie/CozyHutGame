@@ -277,7 +277,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quit
+  m_text: Exit Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1416,16 +1416,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1222523869116773162}
-        m_TargetAssemblyTypeName: MalbersAnimations.MInput, MalbersAnimations
-        m_MethodName: ResetInput
-        m_Mode: 5
+      - m_Target: {fileID: 9001790374004021557}
+        m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+        m_MethodName: CallPauseMenu
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Pause
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &1609140025005302877
@@ -3320,7 +3320,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2827585366769470381}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9001790374004021557}
+        m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+        m_MethodName: Disconnect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3412834090715063431
 GameObject:
   m_ObjectHideFlags: 0
@@ -4246,6 +4258,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4168666063277857505}
+  - component: {fileID: 1377994144706846627}
+  - component: {fileID: 4246039853570367432}
   m_Layer: 0
   m_Name: LocalPlayerSetup
   m_TagString: Untagged
@@ -4272,6 +4286,102 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1377994144706846627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4168666063277857504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41eb9c17bc0693d448a412425a2d17b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Events:
+  - Event: {fileID: 11400000, guid: 503ec801e05396942afeb2ab0b553d41, type: 2}
+    useInt: 0
+    useFloat: 0
+    useVoid: 1
+    useString: 0
+    useBool: 0
+    useGO: 0
+    useTransform: 0
+    useVector3: 0
+    useVector2: 0
+    useComponent: 0
+    useSprite: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4246039853570367432}
+          m_TargetAssemblyTypeName: DestroyHandler, Assembly-CSharp
+          m_MethodName: DestroyGameObject
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 4168666063277857504}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    ResponseNull:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseInt:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBool:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolFalse:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolTrue:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseString:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseGO:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseTransform:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseComponent:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseSprite:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector3:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector2:
+      m_PersistentCalls:
+        m_Calls: []
+    IntEventList: []
+    AdvancedInteger: 0
+    AdvancedBool: 0
+    InvertBool: 0
+    multiplier: 1
+--- !u!114 &4246039853570367432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4168666063277857504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00521e26a47d22f4d8f2c5fdaacb2591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4253495704891720094
 GameObject:
   m_ObjectHideFlags: 0
@@ -7497,6 +7607,8 @@ MonoBehaviour:
   canvas: {fileID: 6020028723864325149}
   pauseMenu: {fileID: 5098864735660072243}
   craftingMenu: {fileID: 7129633109751731309}
+  inventoryMenu: {fileID: 5256486908249114039}
+  equipmentSelectionMenu: {fileID: 8536210756818085078}
   pauseEvent:
     m_PersistentCalls:
       m_Calls:
@@ -7551,7 +7663,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  closeAllUIWindowsEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 97d79945dd6a20d4eb36c9ed850f42ba, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
+        m_MethodName: Invoke
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   equipmentEquipEvent: {fileID: 11400000, guid: 8a72b017d5837ee478eac0d890e4aa72,
+    type: 2}
+  disableCameraControlls: {fileID: 11400000, guid: 10063d008db5f8f429d7131e2232a06a,
     type: 2}
   gridSizeText: {fileID: 5357726829348136241}
 --- !u!114 &5033865599758168011
@@ -7708,30 +7837,15 @@ MonoBehaviour:
       input: InputValue
       key: 9
       debug: 0
-      GetPressed: 5
+      GetPressed: 1
       ResetOnDisable: 1
       OnInputDown:
         m_PersistentCalls:
           m_Calls:
-          - m_Target: {fileID: 11400000, guid: 97d79945dd6a20d4eb36c9ed850f42ba, type: 2}
-            m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
-            m_MethodName: Invoke
-            m_Mode: 6
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 1
-            m_CallState: 2
-      OnInputUp:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 11400000, guid: 97d79945dd6a20d4eb36c9ed850f42ba, type: 2}
-            m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
-            m_MethodName: Invoke
-            m_Mode: 6
+          - m_Target: {fileID: 9001790374004021557}
+            m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+            m_MethodName: ToggleInventory
+            m_Mode: 1
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7740,6 +7854,9 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
+      OnInputUp:
+        m_PersistentCalls:
+          m_Calls: []
       OnLongPress:
         m_PersistentCalls:
           m_Calls: []
@@ -7751,19 +7868,7 @@ MonoBehaviour:
           m_Calls: []
       OnInputChanged:
         m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 5033865599758168011}
-            m_TargetAssemblyTypeName: InventoryManagerUI, Assembly-CSharp
-            m_MethodName: ToggleInventory
-            m_Mode: 0
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
+          m_Calls: []
       OnInputEnable:
         m_PersistentCalls:
           m_Calls: []
@@ -7797,6 +7902,18 @@ MonoBehaviour:
       OnInputDown:
         m_PersistentCalls:
           m_Calls:
+          - m_Target: {fileID: 9001790374004021557}
+            m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+            m_MethodName: CloseAllUIWindows
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 1
+            m_CallState: 2
           - m_Target: {fileID: 8536210756818085078}
             m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
             m_MethodName: SetActive
@@ -7971,19 +8088,7 @@ MonoBehaviour:
         m_Calls: []
     OnInputChanged:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 9001790374004021557}
-          m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
-          m_MethodName: ShowMouseCursor
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
     OnInputEnable:
       m_PersistentCalls:
         m_Calls: []
@@ -8376,6 +8481,18 @@ MonoBehaviour:
     ResponseBool:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 9001790374004021557}
+          m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+          m_MethodName: CloseAllUIWindows
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 7129633109751731309}
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
@@ -8402,10 +8519,34 @@ MonoBehaviour:
           m_CallState: 2
     ResponseBoolFalse:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: 10063d008db5f8f429d7131e2232a06a, type: 2}
+          m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
+          m_MethodName: Invoke
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     ResponseBoolTrue:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: 10063d008db5f8f429d7131e2232a06a, type: 2}
+          m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
+          m_MethodName: Invoke
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
     ResponseString:
       m_PersistentCalls:
         m_Calls: []
@@ -8429,7 +8570,7 @@ MonoBehaviour:
         m_Calls: []
     IntEventList: []
     AdvancedInteger: 0
-    AdvancedBool: 0
+    AdvancedBool: 1
     InvertBool: 0
     multiplier: 1
 --- !u!1 &7967618621931210430
@@ -9768,7 +9909,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7718004010500888695}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9001790374004021557}
+        m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8821884815658344555
 GameObject:
   m_ObjectHideFlags: 0
@@ -13174,6 +13327,11 @@ PrefabInstance:
     - target: {fileID: 5891792703611809443, guid: 7b69cee0a3866c540bd559677746ccb1,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5891792703611809447, guid: 7b69cee0a3866c540bd559677746ccb1,
+        type: 3}
+      propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
