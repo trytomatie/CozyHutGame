@@ -1,3 +1,4 @@
+using MalbersAnimations.Events;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler, IPointerEnterHandler , IPointerExitHandler
 {
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI stackSizeText;
@@ -13,6 +14,7 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     private Item item;
     private int slotId = 0;
     private GameObject draggedObject;
+    public MEvent hoverEvent;
 
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -46,6 +48,17 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
         }
         Destroy(draggedObject);
         draggedObject = null;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        hoverEvent.Invoke(true);
+        hoverEvent.Invoke(gameObject);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        hoverEvent.Invoke(false);
     }
 
     public int SlotId { get => slotId; set => slotId = value; }

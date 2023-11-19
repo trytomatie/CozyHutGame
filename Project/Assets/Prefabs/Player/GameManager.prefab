@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8902744434688445117}
   - component: {fileID: 802033068}
   - component: {fileID: 4892895951955657750}
+  - component: {fileID: 1147005810}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7382450290918164605
 MonoBehaviour:
@@ -169,6 +170,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 89d612fec48c00844802d63ad265e122, type: 2}
   - {fileID: 11400000, guid: aa9f2e752287e6b46969c9ee1e5ca04b, type: 2}
   - {fileID: 11400000, guid: 3773f4d24a1f8464cac44a94a08d7988, type: 2}
+  - {fileID: 11400000, guid: 87213d3d3ae06b04c85ec28122265d57, type: 2}
 --- !u!114 &802033068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +193,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 14a62fe7f351d1e4f83562184e3b4802, type: 2}
   - {fileID: 11400000, guid: d28d48d567b35bb4f8bc00f07cdc94e3, type: 2}
   - {fileID: 11400000, guid: b0cdf5ec59d65f344b00bcf300a30924, type: 2}
+  - {fileID: 11400000, guid: bede79065de0aa944b847f721f686566, type: 2}
 --- !u!114 &4892895951955657750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,3 +206,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc79dd50d6902124698824ffa9eb0ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1147005810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3383540671436574468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a465ad340967e9a4488497a43ce5a4f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  craftingRecepies:
+  - {fileID: 11400000, guid: 7fe0a3577c6ba1a4896b9683681e746e, type: 2}
+  - {fileID: 11400000, guid: 537b4a60cfb9eea4594bb8111ffc783e, type: 2}

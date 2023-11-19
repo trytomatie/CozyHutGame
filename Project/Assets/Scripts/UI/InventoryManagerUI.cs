@@ -1,5 +1,6 @@
 ﻿using MalbersAnimations;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -12,6 +13,7 @@ public class InventoryManagerUI : MonoBehaviour
     [SerializeField] private GameObject dragImage;
     private static InventoryManagerUI instance;
     [SerializeField] private Inventory inventory;
+    [SerializeField] private TextMeshProUGUI itemNameText;
 
     private void Awake()
     {
@@ -33,6 +35,17 @@ public class InventoryManagerUI : MonoBehaviour
     public void ToggleInventoryButton(object sender,InputAction.CallbackContext value)
     {
          inventoryUI.SetActive(!inventoryUI.activeSelf);
+    }
+
+    public virtual void DisplayName(GameObject go)
+    {
+        Item item = go.GetComponent<ItemSlotUI>().Item ?? null;
+        if (item != null)
+        {
+            itemNameText.text = go.GetComponent<ItemSlotUI>().Item.itemName;
+            itemNameText.transform.parent.gameObject.SetActive(true);
+        }
+
     }
 
 

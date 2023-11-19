@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 6936645199541586235}
   - component: {fileID: 6936645199541586234}
   m_Layer: 30
-  m_Name: WoodPickaxe HandProxy (Use as Template)
+  m_Name: CopperPickaxe HandProxy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -216,8 +216,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6935657287360082584}
-  m_LocalRotation: {x: -0.01891732, y: 0.0011349617, z: 0.8383478, w: 0.5448063}
-  m_LocalPosition: {x: 2.115, y: 0.739, z: 0.076438785}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -227,7 +227,7 @@ Transform:
   - {fileID: 6540722599031077150}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 3.244, y: -1.862, z: 241.127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7050077791510279170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,7 +476,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   GroundArmPose: 1
   RidingArmPose: 1
-  GroundCombo: -1
+  GroundCombo: 1
   RidingCombo: -1
   m_AimOrigin: {fileID: 0}
   m_AimSide: 0
