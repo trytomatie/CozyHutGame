@@ -8,14 +8,37 @@ public class Interactable_DroppedItem : Interactable
 {
     public NetworkVariable<ulong> claimedByPlayerId = new NetworkVariable<ulong>(9999,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public ulong droppedBy_clientId = 0;
-    public Item itemData;
+    public NetworkVariable<ulong> itemDropId = new NetworkVariable<ulong>(9999,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+    public int stackSize = 0;
     public GameObject target;
-    
+    public ParticleSystemRenderer materialVisual;
+    public GameObject itemParticlesSystem;
+    public GameObject spawnParticleSystem;
+    public bool hasSpawned = false;
+    public LayerMask raycastLayerMask;
+    public Rigidbody rb;
+    private float spawnTimer;
+
+    private void Start()
+    {
+
+    }
+
+    [ClientRpc]
+    public void SpawnParametersClientRpc(Vector3 direction, float force,ulong imgId)
+    {
+        spawnTimer = Time.time;
+        rb.velocity = direction * force;
+        Material newMaterial = materialVisual.material;
+        newMaterial.SetTexture("_MainTex", ItemManager.GenerateItem(imgId).sprite.texture);
+        materialVisual.material = newMaterial;
+    }
 
     public override void OnNetworkSpawn()
     {
         claimedByPlayerId.Value = 9999;
         claimedByPlayerId.OnValueChanged += SetTargetId;
+        itemDropId.OnValueChanged = SetItemIcon;
     }
 
     public override void ServerInteraction(GameObject source)
@@ -30,7 +53,11 @@ public class Interactable_DroppedItem : Interactable
         {
             source = NetworkManager.LocalClient.PlayerObject.gameObject;
         }
-        GiveToPlayerServerRpc(GetSourceClientId(source));
+        if(hasSpawned)
+        {
+            GiveToPlayerServerRpc(GetSourceClientId(source));
+        }
+
     }
 
     public ulong  GetSourceClientId(GameObject source)
@@ -55,23 +82,36 @@ public class Interactable_DroppedItem : Interactable
             if(GameManager.Instance.playerList.ContainsKey(newValue))
             {
                 target = GameManager.Instance.playerList[newValue];
-                transform.parent.GetComponent<Rigidbody>().isKinematic = true;
-                transform.parent.gameObject.layer = LayerMask.NameToLayer("IgnoreCollision");
             }
 
         }
 
     }
 
+    protected virtual void SetItemIcon(ulong previousValue, ulong newValue)
+    {
+
+    }
+
     public void Update()
     {
-        if(claimedByPlayerId.Value != 9999 && target != null)
+        if(claimedByPlayerId.Value != 9999 && target != null && hasSpawned)
         {
-            transform.parent.transform.position += (target.transform.position + new Vector3(0,0.5f,0)- transform.position).normalized * Time.deltaTime * 5;
+            transform.parent.transform.position += (target.transform.position + new Vector3(0,0.5f,0)- transform.position).normalized * Time.deltaTime * 10;
             float distance = Vector3.Distance(transform.parent.position, target.transform.position + new Vector3(0, 0.5f, 0));
             if(distance < 0.1f)
             {
                 DespawnItemServerRpc();
+            }
+        }
+        if(!hasSpawned)
+        {
+            if(spawnTimer + 0.15f < Time.time && Physics.Raycast(transform.position,Vector3.down, 0.6f,raycastLayerMask))
+            {
+                hasSpawned = true;
+                itemParticlesSystem.SetActive(true);
+                spawnParticleSystem.SetActive(false);
+                rb.isKinematic = true;
             }
         }
     }
@@ -86,7 +126,9 @@ public class Interactable_DroppedItem : Interactable
                 TargetClientIds = new ulong[] { claimedByPlayerId.Value }
             }
         };
-        target.GetComponent<Inventory>().AddItemClientRPC(itemData.itemId, itemData.stackSize, clientRpcParams);
+        Item itemToGive = ItemManager.GenerateItem(itemDropId.Value);
+        itemToGive.stackSize = stackSize;
+        target.GetComponent<Inventory>().AddItemClientRPC(itemToGive.itemId, itemToGive.stackSize, clientRpcParams);
         transform.parent.gameObject.GetComponent<NetworkObject>().Despawn(true);
         Destroy(transform.parent.gameObject);
     }

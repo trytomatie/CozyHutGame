@@ -7876,8 +7876,21 @@ MonoBehaviour:
         m_CallState: 2
   equipmentEquipEvent: {fileID: 11400000, guid: 8a72b017d5837ee478eac0d890e4aa72,
     type: 2}
-  disableCameraControlls: {fileID: 11400000, guid: 10063d008db5f8f429d7131e2232a06a,
-    type: 2}
+  showCursorEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 10063d008db5f8f429d7131e2232a06a, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
+        m_MethodName: Invoke
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   gridSizeText: {fileID: 5357726829348136241}
 --- !u!114 &5033865599758168011
 MonoBehaviour:

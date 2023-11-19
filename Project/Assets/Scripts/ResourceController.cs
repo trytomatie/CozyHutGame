@@ -52,7 +52,8 @@ public class ResourceController : NetworkBehaviour
                     TargetClientIds = new ulong[] { sourceId }
                 }
             };
-            source.GetComponent<Inventory>().AddItemClientRPC(itemDrop.itemId, dmg, clientRpcParams);
+            // source.GetComponent<Inventory>().AddItemClientRPC(itemDrop.itemId, dmg, clientRpcParams);
+            GameManager.Instance.SpawnDroppedItemServerRpc(itemDrop.itemId, dmg,transform.position + new Vector3(0,1,0));
             PlayFeedbackClientRpc(dmg, sourceId);
 
 

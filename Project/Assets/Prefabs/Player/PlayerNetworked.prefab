@@ -3208,7 +3208,7 @@ PrefabInstance:
     - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -3262,8 +3262,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
+      propertyPath: OnEquipWeapon.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEquipWeapon.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEquipWeapon.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 66631064849593359}
+    - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEquipWeapon.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEquipWeapon.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Restart
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
       propertyPath: holsters.Array.data[0].OnWeaponInHolster.m_PersistentCalls.m_Calls.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEquipWeapon.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: MalbersAnimations.Controller.ComboManager, MalbersAnimations
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -3285,6 +3315,11 @@ PrefabInstance:
         type: 3}
       propertyPath: holsters.Array.data[0].OnWeaponInHolster.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InvokeAsBool
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: OnEquipWeapon.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206775, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}

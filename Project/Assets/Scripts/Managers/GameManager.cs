@@ -64,6 +64,24 @@ public class GameManager : NetworkBehaviour
         asyncLoad.allowSceneActivation = true;
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnDroppedItemServerRpc(ulong itemId,int amount,Vector3 position)
+    {
+        Item item = ItemManager.GenerateItem(itemId);
+        GameObject droppedItem = Instantiate(item.droppedObject,position,Quaternion.identity);
+        droppedItem.GetComponent<NetworkObject>().Spawn(true);
+        Interactable_DroppedItem interactable_DroppedItem = droppedItem.GetComponentInChildren<Interactable_DroppedItem>() ?? null;
+        if(interactable_DroppedItem != null)
+        {
+            interactable_DroppedItem.itemDropId.Value = itemId;
+            interactable_DroppedItem.stackSize = amount;
+            interactable_DroppedItem.SpawnParametersClientRpc((Random.onUnitSphere + new Vector3(0,0.75f,0)) .normalized, 3,item.itemId);
+        }
+
+    }
+
+
+
 
     [ServerRpc (RequireOwnership = false)]
     public void PlaceBuildingServerRpc(ulong buildingId, Vector3 position, Quaternion rotation, bool flip)
@@ -105,7 +123,7 @@ public class GameManager : NetworkBehaviour
             for(int i = 0; i < boh.data.buildingObject.buildingMaterials.Length;i++)
             {
                 GameObject droppedItem = Instantiate(boh.data.buildingObject.buildingMaterials[i].droppedObject, building.transform.position, Quaternion.identity);
-                droppedItem.GetComponentInChildren<Interactable_DroppedItem>().itemData.stackSize = boh.data.buildingObject.buildingMaterialAmounts[i];
+                droppedItem.GetComponentInChildren<Interactable_DroppedItem>().stackSize = boh.data.buildingObject.buildingMaterialAmounts[i];
                 droppedItem.GetComponent<NetworkObject>().Spawn(true);
             }
 

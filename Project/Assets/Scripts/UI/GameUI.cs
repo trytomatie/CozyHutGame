@@ -26,7 +26,7 @@ public class GameUI : MonoBehaviour
     public UnityEvent negativePauseEvent;
     public UnityEvent closeAllUIWindowsEvent;
     public MEvent equipmentEquipEvent;
-    public MEvent disableCameraControlls;
+    public UnityEvent<bool> showCursorEvent;
 
 
     [Header("Building Menu")]
@@ -46,7 +46,6 @@ public class GameUI : MonoBehaviour
 
     public void CloseAllUIWindows()
     {
-        disableCameraControlls.Invoke(false);
         craftingMenu.SetActive(false);
         inventoryMenu.SetActive(false);
         equipmentSelectionMenu.SetActive(false);
@@ -63,10 +62,12 @@ public class GameUI : MonoBehaviour
     {
         if (value)
         {
+            showCursorEvent.Invoke(true);
             Cursor.lockState = CursorLockMode.None;
         }
         else
         {
+            showCursorEvent.Invoke(false);
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
@@ -112,7 +113,6 @@ public class GameUI : MonoBehaviour
             CloseAllUIWindows();
             inventoryMenu.SetActive(true);
             ShowMouseCursor(true);
-            disableCameraControlls.Invoke(true);
         }
     }
 
