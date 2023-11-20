@@ -42,6 +42,8 @@ public class Inventory : NetworkBehaviour
                     itemToStackOn.stackSize = itemToStackOn.maxStackSize;
                     AddItem(id, rest);
                 }
+                addItemEvents.Invoke(item);
+                NotificationManagerUI.Instance.SetNotification(item);
                 InventoryManagerUI.Instance.RefreshUI();
                 return true;
             }
@@ -57,6 +59,7 @@ public class Inventory : NetworkBehaviour
                 }
             }
             addItemEvents.Invoke(item);
+            NotificationManagerUI.Instance.SetNotification(item);
             InventoryManagerUI.Instance.RefreshUI();
             return spaceFound;
         }
