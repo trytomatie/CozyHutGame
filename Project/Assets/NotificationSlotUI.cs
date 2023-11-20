@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class NotificationSlotUI : MonoBehaviour
 {
     public Item notificationItem;
+    private int stackSize;
     public TextMeshProUGUI text;
     public TextMeshProUGUI amount;
     public Image image;
@@ -18,8 +19,9 @@ public class NotificationSlotUI : MonoBehaviour
     public void SetupNotification(Item item,float notificationOnlineTime)
     {
         notificationItem = item;
+        stackSize = item.stackSize;
         text.text = notificationItem.itemName;
-        amount.text = ""+ notificationItem.stackSize;
+        amount.text = ""+ stackSize;
         image.sprite = notificationItem.sprite;
         isAvailable = false;
         setupEvent.Invoke();
@@ -30,8 +32,8 @@ public class NotificationSlotUI : MonoBehaviour
 
     public void AddToItem(Item item,float notificationOnlineTime)
     {
-        notificationItem.stackSize += item.stackSize;
-        amount.text = ""+notificationItem.stackSize;
+        stackSize += item.stackSize;
+        amount.text = ""+ stackSize;
         addEvent.Invoke();
 
         CancelInvoke();
@@ -40,6 +42,7 @@ public class NotificationSlotUI : MonoBehaviour
 
     public void RemoveNotification()
     {
+        stackSize = 0;
         removeEvent.Invoke();
         isAvailable = true;
         notificationItem = null;
