@@ -9,6 +9,7 @@ public class BuildingObjectHandler : MonoBehaviour
     public Transform[] snappingPoints;
     public Transform[] pivots;
     public bool requireBuildingBeacon = true;
+    public bool grounded = false;
 
     public Vector3 GetClosestSnappingPoint(Vector3 position)
     {

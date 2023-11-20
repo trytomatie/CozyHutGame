@@ -1225,7 +1225,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3383540671436574468, guid: ff427381e3060f2448e9e69e0b3681a9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1696515731}
   m_SourcePrefab: {fileID: 100100000, guid: ff427381e3060f2448e9e69e0b3681a9, type: 3}
 --- !u!1 &168986660
 GameObject:
@@ -4724,12 +4728,12 @@ PrefabInstance:
     - target: {fileID: 2333188852074578136, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 3.420478
+      value: 1.28353
       objectReference: {fileID: 0}
     - target: {fileID: 2333188852074578136, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.227141
+      value: -5.005547
       objectReference: {fileID: 0}
     - target: {fileID: 2700418133495496392, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
@@ -4764,12 +4768,12 @@ PrefabInstance:
     - target: {fileID: 7193318628768774759, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 3.420478
+      value: 1.28353
       objectReference: {fileID: 0}
     - target: {fileID: 7193318628768774759, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.227141
+      value: -5.005547
       objectReference: {fileID: 0}
     - target: {fileID: 7407053819210450039, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
@@ -4784,12 +4788,12 @@ PrefabInstance:
     - target: {fileID: 8292485039796358035, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 3.420478
+      value: 1.28353
       objectReference: {fileID: 0}
     - target: {fileID: 8292485039796358035, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.227141
+      value: -5.005547
       objectReference: {fileID: 0}
     - target: {fileID: 9021154107758205886, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
@@ -6759,6 +6763,126 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682851029}
   m_CullTransparentMesh: 1
+--- !u!1 &1696515723 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3383540671436574468, guid: ff427381e3060f2448e9e69e0b3681a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 158368103}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1696515725 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4892895951955657750, guid: ff427381e3060f2448e9e69e0b3681a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 158368103}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696515723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc79dd50d6902124698824ffa9eb0ec6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1696515731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696515723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8097927ca26ab4343a884532eb8eb442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputs:
+  - name: Save
+    active:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    ignoreOnPause:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    type: 1
+    input: InputValue
+    key: 108
+    debug: 0
+    GetPressed: 0
+    ResetOnDisable: 1
+    OnInputDown:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1696515725}
+          m_TargetAssemblyTypeName: WorldSaveState, Assembly-CSharp
+          m_MethodName: SaveWorld
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnInputUp:
+      m_PersistentCalls:
+        m_Calls: []
+    OnLongPress:
+      m_PersistentCalls:
+        m_Calls: []
+    OnLongPressReleased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDoubleTap:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputEnable:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputDisable:
+      m_PersistentCalls:
+        m_Calls: []
+    DoubleTapTime: 0.3
+    LongPressTime: 0.5
+    SmoothDecrease: 0
+    OnInputPressed:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputFloat:
+      m_PersistentCalls:
+        m_Calls: []
+  AllInputs: []
+  actionMaps: []
+  ActiveMapIndex: 0
+  DefaultMap:
+    name:
+      UseConstant: 1
+      ConstantValue: New Map
+      Variable: {fileID: 0}
+    inputs: []
+  ActiveMap:
+    name:
+      UseConstant: 1
+      ConstantValue: New Map
+      Variable: {fileID: 0}
+    inputs: []
+  ResetAllInputsOnDisable: 1
+  showInputEvents: 0
+  ResetOnFocusLost: 0
+  OnInputEnabled:
+    m_PersistentCalls:
+      m_Calls: []
+  OnInputDisabled:
+    m_PersistentCalls:
+      m_Calls: []
+  IgnoreOnPause:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  PlayerID: Player0
 --- !u!1 &1699928972
 GameObject:
   m_ObjectHideFlags: 0

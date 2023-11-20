@@ -99,8 +99,7 @@ public class GameManager : NetworkBehaviour
 
         PlacedObjectData data = new PlacedObjectData()
         {
-            buildingObject = buildingObject,
-            prefab = prefab,
+            buildingId = buildingObject.buildingId,
             position = position,
             rotation = rotation,
             scale = scale
@@ -118,12 +117,13 @@ public class GameManager : NetworkBehaviour
     {
         NetworkObject building = NetworkManager.SpawnManager.SpawnedObjects[networkId];
         BuildingObjectHandler boh = building.GetComponent<BuildingObjectHandler>() ?? null;
+        BuildingObject buildingObject = BuildingObjectManager.GenerateBuildingObject(boh.data.buildingId);
         if(boh != null)
         { 
-            for(int i = 0; i < boh.data.buildingObject.buildingMaterials.Length;i++)
+            for(int i = 0; i < buildingObject.buildingMaterials.Length;i++)
             {
-                GameObject droppedItem = Instantiate(boh.data.buildingObject.buildingMaterials[i].droppedObject, building.transform.position, Quaternion.identity);
-                droppedItem.GetComponentInChildren<Interactable_DroppedItem>().stackSize = boh.data.buildingObject.buildingMaterialAmounts[i];
+                GameObject droppedItem = Instantiate(buildingObject.buildingMaterials[i].droppedObject, building.transform.position, Quaternion.identity);
+                droppedItem.GetComponentInChildren<Interactable_DroppedItem>().stackSize = buildingObject.buildingMaterialAmounts[i];
                 droppedItem.GetComponent<NetworkObject>().Spawn(true);
             }
 

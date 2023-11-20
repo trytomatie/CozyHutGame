@@ -75,6 +75,7 @@ public class BuildManager : MonoBehaviour
         if(value)
         {
             heightOffset += InputManager.Instance.cameraMovement.y * Options.Instance.mouseRotationSpeed * 0.025f;
+            heightOffset = 0; // Just remove the Hight Offset for now
             Vector3 orignPoint = CheckGridPlacement(lastSavedProjectionPosition);
             projectionInstance.transform.position = RoundVector(lastSavedProjectionPosition + new Vector3(0, heightOffset, 0), gridSize, orignPoint);
         }
@@ -137,7 +138,10 @@ public class BuildManager : MonoBehaviour
     public virtual void PlaceBuildingObject()
     {
         heightOffset = 0;
-        GameManager.Instance.PlaceBuildingServerRpc(currentBuildingId, projectionBuildingObjectHandler.basePivot.transform.position, projectionInstance.transform.rotation, flip);
+        if(projectionBuildingObjectHandler.basePivot.transform.position != Vector3.zero)
+        {
+            GameManager.Instance.PlaceBuildingServerRpc(currentBuildingId, projectionBuildingObjectHandler.basePivot.transform.position, projectionInstance.transform.rotation, flip);
+        }
     }
 
     public void DestroyBuilding()
@@ -153,6 +157,7 @@ public class BuildManager : MonoBehaviour
         }
     }
 
+    // Not used?
     public virtual void PlaceBuildingObject(int id)
     {
         GameManager.Instance.PlaceBuildingServerRpc((ulong)id, projectionInstance.transform.position, projectionInstance.transform.rotation, flip);
@@ -239,9 +244,22 @@ public class BuildManager : MonoBehaviour
                 }
                 if(!closestPointWithoutSnappingFound && snapHitbox == null)
                 {
-                    projectionBuildingObjectHandler.ChangePivot(0);
-                    lastSavedProjectionPosition = raycastHit.point + new Vector3(0, heightOffset, 0);
-                    closestPointWithoutSnappingFound = true;
+                    if(projectionBuildingObjectHandler.grounded)
+                    {
+                        if(Vector3.Dot(raycastHit.normal, Vector3.up) > 0.9f)
+                        {
+                            projectionBuildingObjectHandler.ChangePivot(0);
+                            lastSavedProjectionPosition = raycastHit.point + new Vector3(0, heightOffset, 0);
+                            closestPointWithoutSnappingFound = true;
+                        }
+                    }
+                    else
+                    {
+                        projectionBuildingObjectHandler.ChangePivot(0);
+                        lastSavedProjectionPosition = raycastHit.point + new Vector3(0, heightOffset, 0);
+                        closestPointWithoutSnappingFound = true;
+                    }
+
                 }
                 else
                 {
@@ -251,7 +269,7 @@ public class BuildManager : MonoBehaviour
         }
         else
         {
-            lastSavedProjectionPosition = new Ray(startPoint, direction).GetPoint(raycastMaxDistance);
+            lastSavedProjectionPosition = Vector3.zero;
         }
         return lastSavedProjectionPosition;
     }
