@@ -26,6 +26,8 @@ public class RenderTerrainMap : MonoBehaviour
     public float repeatRate = 5f;
     private Bounds bounds;
 
+    public float test;
+
     void GetBounds()
     {
 
