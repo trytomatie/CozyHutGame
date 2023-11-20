@@ -2,20 +2,27 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: URPBFGrassTerrain01
   m_Shader: {fileID: 4800000, guid: 374b0d9785a06b24bbbe612b37995204, type: 3}
-  m_ShaderKeywords: USE_RT USE_SC _RTEFFECT_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - USE_RT
+  - USE_SC
+  m_InvalidKeywords:
+  - _RTEFFECT_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -105,7 +112,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal5:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 4e1d764fa7e47f34eae88e37253c2542, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal6:
@@ -145,11 +152,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 1}
     - _Splat4:
-        m_Texture: {fileID: 2800000, guid: 3e9984bb4a8fe7140a3a2380897d51b6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 312b3c84e725b884fbf388d04107c2d0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat5:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3e9984bb4a8fe7140a3a2380897d51b6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat6:
@@ -185,6 +192,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _BiPlanarSize: 1
     - _BiPlanarStrength: 0.75
@@ -202,7 +210,7 @@ Material:
     - _GrassCut: 0
     - _GrassSaturation: 2.48
     - _GrassShading: 0.044
-    - _GrassThinness: 0.85
+    - _GrassThinness: 0.66
     - _GrassThinnessIntersection: 0.3
     - _LightIntensity: 1
     - _Metallic: 0
@@ -264,11 +272,12 @@ Material:
     - _Specular1: {r: 1, g: 1, b: 1, a: 1}
     - _Specular2: {r: 1, g: 1, b: 1, a: 1}
     - _Specular3: {r: 1, g: 1, b: 1, a: 1}
-    - _Specular4: {r: 0.8536898, g: 0.9622642, b: 0.8306337, a: 1}
-    - _Specular5: {r: 1, g: 1, b: 1, a: 1}
+    - _Specular4: {r: 0.8301887, g: 0.747953, b: 0.6069776, a: 1}
+    - _Specular5: {r: 0.9150943, g: 0.8906189, b: 0.58272517, a: 1}
     - _Specular6: {r: 1, g: 1, b: 1, a: 1}
     - _Specular7: {r: 1, g: 1, b: 1, a: 1}
-    - _Splat4_STn: {r: 1, g: 1, b: 3, a: 4.98}
-    - _Splat5_STn: {r: 1, g: 1, b: 0, a: 1}
+    - _Splat4_STn: {r: 1, g: 1, b: 15.16, a: 1.29}
+    - _Splat5_STn: {r: 1, g: 1, b: 0.63, a: 1.09}
     - _Splat6_STn: {r: 1, g: 1, b: 0, a: 1}
     - _Splat7_STn: {r: 1, g: 1, b: 0, a: 1}
+  m_BuildTextureStacks: []

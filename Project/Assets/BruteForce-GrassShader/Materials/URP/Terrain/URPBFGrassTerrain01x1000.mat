@@ -2,20 +2,27 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: URPBFGrassTerrain01x1000
   m_Shader: {fileID: 4800000, guid: 374b0d9785a06b24bbbe612b37995204, type: 3}
-  m_ShaderKeywords: USE_RT USE_SC _RTEFFECT_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - USE_RT
+  - USE_SC
+  m_InvalidKeywords:
+  - _RTEFFECT_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -28,7 +35,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Control0:
-        m_Texture: {fileID: -1785099152398206397, guid: ad3eccd2634a3024895edda95805fb25,
+        m_Texture: {fileID: 6173049559127220560, guid: ec169f916ed8a8541aed65a2d05157e3,
           type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -165,6 +172,10 @@ Material:
           type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TerrainHolesTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureA:
         m_Texture: {fileID: 2800000, guid: 369f6fef0ebe1f14aa6ed86d8e55cc6e, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -181,6 +192,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _BiPlanarSize: 1
     - _BiPlanarStrength: 0.75
@@ -200,6 +212,7 @@ Material:
     - _GrassShading: 0.044
     - _GrassThinness: 0.85
     - _GrassThinnessIntersection: 0.3
+    - _LightIntensity: 1
     - _Metallic: 0
     - _Metallic0: 0
     - _Metallic1: 0
@@ -238,6 +251,7 @@ Material:
     - _UseAmbientLight: 0
     - _UseBetterModelPrecision: 0
     - _UseBiplanar: 0
+    - _UsePreciseDepth: 0
     - _UseRT: 1
     - _UseShadowCast: 1
     - _UseVR: 0
@@ -266,3 +280,4 @@ Material:
     - _Splat5_STn: {r: 1, g: 1, b: 0, a: 1}
     - _Splat6_STn: {r: 1, g: 1, b: 0, a: 1}
     - _Splat7_STn: {r: 1, g: 1, b: 0, a: 1}
+  m_BuildTextureStacks: []
