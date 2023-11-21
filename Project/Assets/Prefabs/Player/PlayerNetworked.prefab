@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 5685696905736504847}
   - component: {fileID: 7848180765664601852}
   m_Layer: 20
-  m_Name: Ears_01
+  m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 9180679880451494050}
   - component: {fileID: 7115473929718621705}
   m_Layer: 20
-  m_Name: Ears_02
+  m_Name: Legs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -426,8 +426,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 8093551709830665217}
   m_AABB:
-    m_Center: {x: 2.3283064e-10, y: 0.007001672, z: 0.0012960468}
-    m_Extent: {x: 0.0027569034, y: 0.0009728223, z: 0.0006599735}
+    m_Center: {x: -0.00050079194, y: -0.0032092847, z: 0.00020178716}
+    m_Extent: {x: 0.0032576954, y: 0.004015106, z: 0.00045818632}
   m_DirtyAABB: 0
 --- !u!1 &8977530536243081214
 GameObject:
@@ -826,8 +826,23 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 2346716986137308042, guid: fc93d982fcab4b2458197f8560baa221,
+      objectReference: {fileID: 2346716986137308042, guid: 1139c2c2723218e4aa2900c684875628,
         type: 3}
+    - target: {fileID: 2497983618080528492, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497983618080528492, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 761bb99f87d3a9640b20de0045f0d6e7, type: 2}
+    - target: {fileID: 2497983618080528492, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 11ae2799a1ffd294db154bcaccf27faa, type: 2}
     - target: {fileID: 2626722734968635797, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: m_IsActive
@@ -3621,6 +3636,11 @@ PrefabInstance:
         type: 3}
       propertyPath: holsters.Array.data[0].OnWeaponInHolster.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6781475891633056856, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: m_Name
+      value: Torso
       objectReference: {fileID: 0}
     - target: {fileID: 7387559831301748598, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
