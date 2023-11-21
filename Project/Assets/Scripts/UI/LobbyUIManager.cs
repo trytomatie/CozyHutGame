@@ -16,6 +16,7 @@ public class LobbyUIManager : MonoBehaviour
     [Header("Lobby Creation Window")]
     public TextMeshProUGUI lobbyCreationUI_LobbyName;
     public TMP_Dropdown lobbyCreationUI_maxPlayers;
+    public TMP_Dropdown lobbyCreationUI_world;
 
     [Header("Lobby Window")]
     [SerializeField] private Transform playerList;
@@ -34,6 +35,7 @@ public class LobbyUIManager : MonoBehaviour
     {
         ChangeUIState(0);
         playerName.text = "Tindangle" + UnityEngine.Random.Range(1000, 10000);
+        SetWorldDropdown();
     }
 
     public void ChangeUIState(LobbyUIState i)
@@ -97,5 +99,15 @@ public class LobbyUIManager : MonoBehaviour
         RefreshPlayerList(p_lobby);
         serverName.text = p_lobby.Name;
         SetLobbyWindowStartButton(p_lobby.HostId == AuthenticationService.Instance.PlayerId);
+    }
+
+    public void SetWorldDropdown()
+    {
+        List<string> options = new List<string>();
+        options.Add("New World...");
+        options.AddRange(GameManager.Instance.worldSaveState.FindSavedWorlds());
+        lobbyCreationUI_world.ClearOptions();
+        lobbyCreationUI_world.AddOptions(options);
+        
     }
 }

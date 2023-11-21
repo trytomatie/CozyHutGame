@@ -100,9 +100,9 @@ public class GameManager : NetworkBehaviour
         PlacedObjectData data = new PlacedObjectData()
         {
             buildingId = buildingObject.buildingId,
-            position = position,
-            rotation = rotation,
-            scale = scale
+            position = new SerializedVector3(position.x,position.y,position.z),
+            rotation = new SerializedVector3(rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z),
+            scale = new SerializedVector3(scale.x, scale.y, scale.z)
         };
         if(spawnedPrefab.transform.root.GetComponent<BuildingObjectHandler>() != null)
         {
