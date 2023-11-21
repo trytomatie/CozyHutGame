@@ -961,7 +961,7 @@ PrefabInstance:
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: SelectedMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -2071,6 +2071,11 @@ PrefabInstance:
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       propertyPath: modes.Array.data[3].Abilities.Array.data[0].abilityTime.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      propertyPath: speedSets.Array.data[0].Speeds.Array.data[0].position.ConstantValue
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666020279206770, guid: 1c114219c5c9900429685479d61c0284,
@@ -4223,6 +4228,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4798668808129525621}
+    - targetCorrespondingSourceObject: {fileID: 5591343338541454398, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5998676119647789285}
     - targetCorrespondingSourceObject: {fileID: 1392788870, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       insertIndex: -1
@@ -5386,6 +5395,19 @@ MonoBehaviour:
   MovementEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5998676119647789285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5581307655371325742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab3847a6bd137e4e9d1efbd71c8ead8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.8
 --- !u!4 &5600374550158948136 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5572147231819932216, guid: 1c114219c5c9900429685479d61c0284,

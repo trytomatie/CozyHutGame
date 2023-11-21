@@ -74,7 +74,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   needWeaknessForEffectiveDamage: 1
-  weakness: {fileID: 0}
+  weakness: {fileID: 11400000, guid: 13703377eca2e584a97e42995c735ea6, type: 2}
   hp:
     m_InternalValue: 100
   stump: {fileID: 3956541484851244536}
@@ -1511,6 +1511,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1515705116033988632}
     m_Modifications:
+    - target: {fileID: 408765709601577030, guid: e18d5a2b5ddeb1d47bf52e683cce67ef,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1847765470402659035, guid: e18d5a2b5ddeb1d47bf52e683cce67ef,
         type: 3}
       propertyPath: m_Name

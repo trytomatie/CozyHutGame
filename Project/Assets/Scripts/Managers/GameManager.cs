@@ -122,9 +122,7 @@ public class GameManager : NetworkBehaviour
         { 
             for(int i = 0; i < buildingObject.buildingMaterials.Length;i++)
             {
-                GameObject droppedItem = Instantiate(buildingObject.buildingMaterials[i].droppedObject, building.transform.position, Quaternion.identity);
-                droppedItem.GetComponentInChildren<Interactable_DroppedItem>().stackSize = buildingObject.buildingMaterialAmounts[i];
-                droppedItem.GetComponent<NetworkObject>().Spawn(true);
+                SpawnDroppedItemServerRpc(buildingObject.buildingMaterials[i].itemId, buildingObject.buildingMaterialAmounts[0], building.transform.position + new Vector3(0,1,0));
             }
 
         }
