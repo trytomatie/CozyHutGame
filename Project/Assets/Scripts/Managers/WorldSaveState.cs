@@ -92,6 +92,12 @@ public struct PlacedObjectData
     public SerializedVector3 scale;
     public int state;
     public int secondaryState;
+
+    public ulong[] itemContainer1;
+    public int[] itemContainer1Amounts;
+
+    public ulong[] itemContainer2;
+    public int[] itemContainer2Amounts;
 }
 
 [Serializable]
