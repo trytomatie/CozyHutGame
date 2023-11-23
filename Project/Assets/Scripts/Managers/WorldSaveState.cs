@@ -84,7 +84,7 @@ public class WorldSaveState : MonoBehaviour
 }
 
 [Serializable]
-public struct PlacedObjectData
+public class PlacedObjectData
 {
     public ulong buildingId;
     public SerializedVector3 position;
