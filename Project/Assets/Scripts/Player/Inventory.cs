@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
+using static Item;
 
 public class Inventory : NetworkBehaviour
 {
@@ -13,6 +14,7 @@ public class Inventory : NetworkBehaviour
     [SerializeField] private const int toolSlots = 4;
     [SerializeField] private const int maxItemSlots = 40;
     public UnityEvent<Item> addItemEvents;
+    [HideInInspector]public NetworkVariable<bool> ableToTrade = new NetworkVariable<bool>(true,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
 
     private void Start()
     {
@@ -26,6 +28,26 @@ public class Inventory : NetworkBehaviour
     {
         AddItem(id, stackSize);
     }
+
+    [ClientRpc]
+    public void RemoveItemClientRPC(ulong id, int stackSize,int pos, ClientRpcParams clientRpcParams = default)
+    {
+        RemoveItem(id, stackSize,pos);
+    }
+
+    [ClientRpc]
+    public void ReplaceItemClientRpc(ulong id,int stackSize,int pos, ClientRpcParams clientRpcParams = default)
+    {
+        Item item = null;
+        if (id != 0)
+        {
+            item = ItemManager.GenerateItem(id);
+            item.stackSize = stackSize;
+        }
+        items[pos] = item;
+        InventoryManagerUI.Instance.RefreshUI();
+    }
+
     private bool AddItem(ulong id,int stackSize)
     {
         Item item = ItemManager.GenerateItem(id);
@@ -96,6 +118,30 @@ public class Inventory : NetworkBehaviour
             }
         }
         InventoryManagerUI.Instance.RefreshUI();
+    }
+
+    public void RemoveItem(ulong id, int amount, int pos)
+    {
+        if (items[pos] != null)
+        {
+            if (items[pos].itemId == id)
+            {
+                if (amount > items[pos].stackSize)
+                {
+                    amount -= items[pos].stackSize;
+                    items[pos] = null;
+                }
+                else if (amount < items[pos].stackSize)
+                {
+                    items[pos].stackSize -= amount;
+                    amount = 0;
+                }
+                else if (amount == items[pos].stackSize)
+                {
+                    items[pos] = null;
+                }
+            }
+        }
     }
 
 
@@ -223,6 +269,80 @@ public class Inventory : NetworkBehaviour
         }
 
         return false;
+    }
+
+    [ServerRpc (RequireOwnership =false)]
+    public void SwapItemsBetweenInveotryServerRpc(NetworkBehaviourReference inventory1, NetworkBehaviourReference inventory2,ItemData item1,int pos1,ItemData item2,int pos2)
+    {
+        Inventory inv1;
+        Inventory inv2;
+        if (inventory1.TryGet(out inv1) && inventory2.TryGet(out inv2)) // Both Inventory References are valid / not null
+        {
+            ClientRpcParams inv1ClientRpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { inv1.OwnerClientId }
+                }
+            };
+            ClientRpcParams inv2ClientRpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { inv2.OwnerClientId }
+                }
+            };
+
+            //if (!inv1.ableToTrade.Value && !inv2.ableToTrade.Value)
+            //{
+            print($"{inv1.gameObject}, {inv2.gameObject}, {pos1}, {inv1ClientRpcParams}");
+                inv1.ReplaceItemClientRpc(item2.itemId, item2.itemAmount, pos1, inv1ClientRpcParams);
+                inv2.ReplaceItemClientRpc(item1.itemId, item1.itemAmount, pos2, inv2ClientRpcParams);
+                inv1.RequestItemSyncClientRpc(inv2.OwnerClientId, inv1ClientRpcParams);
+                inv2.RequestItemSyncClientRpc(inv1.OwnerClientId, inv2ClientRpcParams);
+                inv1.ableToTrade.Value = true;
+                inv2.ableToTrade.Value = true;
+            //}
+        }
+    }
+
+    [ClientRpc]
+    public void RequestItemSyncClientRpc(ulong sendToTarget, ClientRpcParams clientRpcParams = default)
+    {
+        List<ItemData> itemData = new List<ItemData>();
+        foreach(Item item in items)
+        {
+            if(item != null)
+            {
+                itemData.Add(new ItemData() { itemId = item.itemId, itemAmount = item.stackSize });
+            }
+            else
+            {
+                itemData.Add(ItemData.Null());
+            }
+
+        }
+        SyncItemsAcrossNetworkClientRpc(itemData.ToArray(), clientRpcParams);
+    }
+
+    [ClientRpc]
+    public void SyncItemsAcrossNetworkClientRpc(ItemData[] itemData, ClientRpcParams clientRpcParams = default)
+    {
+        for(int i = 0; i < itemData.Length;i++)
+        {
+            Item item = ItemData.ReadItemData(itemData[i]);
+            items[i] = item;
+        }
+    }
+
+    public static void SwapItemsBetweenInventory(Inventory inventory1, int item1Pos, Inventory inventory2, int item2Pos)
+    {
+        if(inventory1.ableToTrade.Value && inventory2.ableToTrade.Value)
+        {
+            ItemData itemData1 = new ItemData(inventory1.items[item1Pos].itemId, inventory1.items[item1Pos].stackSize);
+            ItemData itemData2 = new ItemData(inventory2.items[item2Pos].itemId, inventory1.items[item2Pos].stackSize);
+            inventory1.SwapItemsBetweenInveotryServerRpc(inventory1, inventory2, itemData1, item1Pos, itemData2, item2Pos);
+        }
     }
 
     public int GetAmmountOfItem(ulong id)

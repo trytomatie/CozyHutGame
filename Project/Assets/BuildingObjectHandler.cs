@@ -10,33 +10,41 @@ public class BuildingObjectHandler : MonoBehaviour
     public Transform[] pivots;
     public bool requireBuildingBeacon = true;
     public bool grounded = false;
-    public Item[] itemContainer1;
-    public Item[] itemContainer2;
+    public Inventory itemContainer1;
+    public Inventory itemContainer2;
 
     public Vector3 GetClosestSnappingPoint(Vector3 position)
     {
         return GetClosestPoint(position, snappingPoints).position;
     }
 
-    public void UpdateItemSaveData(Inventory inventory)
+    public void UpdateItemSaveData()
     {
-        List<ulong> ids = new List<ulong>();
-        List<int> count = new List<int>();
-        foreach(Item item in itemContainer1)
+        if(itemContainer1 != null)
         {
-            ids.Add(item.itemId);
-            count.Add(item.stackSize);
+            List<ulong> ids = new List<ulong>();
+            List<int> count = new List<int>();
+            foreach (Item item in itemContainer1.items)
+            {
+                ids.Add(item.itemId);
+                count.Add(item.stackSize);
+            }
+            data.itemContainer1 = ids.ToArray();
+            data.itemContainer1Amounts = count.ToArray();
         }
-        data.itemContainer1 = ids.ToArray();
-        data.itemContainer1Amounts = count.ToArray();
 
-        foreach (Item item in itemContainer2)
+        if (itemContainer1 != null)
         {
-            ids.Add(item.itemId);
-            count.Add(item.stackSize);
+            List<ulong> ids = new List<ulong>();
+            List<int> count = new List<int>();
+            foreach (Item item in itemContainer2.items)
+            {
+                ids.Add(item.itemId);
+                count.Add(item.stackSize);
+            }
+            data.itemContainer2 = ids.ToArray();
+            data.itemContainer2Amounts = count.ToArray();
         }
-        data.itemContainer2 = ids.ToArray();
-        data.itemContainer2Amounts = count.ToArray();
     }
 
 

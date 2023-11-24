@@ -5,16 +5,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static Item;
 
 public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler, IPointerEnterHandler , IPointerExitHandler
 {
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI stackSizeText;
-    public Item.ItemType typeRestriction = Item.ItemType.None;
-    private Item item;
+    public Item.ItemType typeRestriction = global::Item.ItemType.None;
     private int slotId = 0;
     private GameObject draggedObject;
     public MEvent hoverEvent;
+    public Inventory assignedInveotry;
 
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -40,7 +41,17 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
                 ItemSlotUI slot = go.GetComponent<ItemSlotUI>();
                 if (slot.typeRestriction== Item.ItemType.None || slot.typeRestriction == Item.itemType)
                 {
-                    InventoryManagerUI.Instance.Inventory.SwapItemPlaces(slotId, go.GetComponent<ItemSlotUI>().SlotId);
+                    ItemData item1 = ItemData.Null();
+                    ItemData item2 = ItemData.Null();
+                    if (Item != null)
+                        item1 = new ItemData(Item.itemId, Item.stackSize);
+                    if (slot.Item != null)
+                        item2 = new ItemData(slot.Item.itemId, slot.Item.stackSize);
+                    int pos1 = SlotId;
+                    int pos2 = slot.slotId;
+                    print($"{assignedInveotry}___{slot.assignedInveotry}");
+                    assignedInveotry.SwapItemsBetweenInveotryServerRpc(assignedInveotry, slot.assignedInveotry, item1, pos1, item2, pos2);
+                    //InventoryManagerUI.Instance.Inventory.SwapItemPlaces(slotId, go.GetComponent<ItemSlotUI>().SlotId);
                     InventoryManagerUI.Instance.RefreshUI();
                     break;
                 }
@@ -63,6 +74,6 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
 
     public int SlotId { get => slotId; set => slotId = value; }
     public Image ItemImage { get => itemImage; set => itemImage = value; }
-    public Item Item { get => item; set => item = value; }
+    public Item Item { get => assignedInveotry.items[SlotId]; }
     public TextMeshProUGUI StackSizeText { get => stackSizeText; set => stackSizeText = value; }
 }

@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 7856554755545411034}
   - component: {fileID: 3376903948460706615}
   - component: {fileID: 5588860203257181352}
+  - component: {fileID: 1166938502}
   m_Layer: 0
   m_Name: State-Driven Camera
   m_TagString: Untagged
@@ -387,10 +388,34 @@ MonoBehaviour:
           m_CallState: 2
     ResponseBoolFalse:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 1166938502}
+          m_TargetAssemblyTypeName: AnimationParameterController, Assembly-CSharp
+          m_MethodName: SetAnimatorInteger
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     ResponseBoolTrue:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 1166938502}
+          m_TargetAssemblyTypeName: AnimationParameterController, Assembly-CSharp
+          m_MethodName: SetAnimatorInteger
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     ResponseString:
       m_PersistentCalls:
         m_Calls: []
@@ -414,7 +439,7 @@ MonoBehaviour:
         m_Calls: []
     IntEventList: []
     AdvancedInteger: 0
-    AdvancedBool: 0
+    AdvancedBool: 1
     InvertBool: 0
     multiplier: 1
   - Event: {fileID: 11400000, guid: 10063d008db5f8f429d7131e2232a06a, type: 2}
@@ -550,6 +575,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1166938502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225929641882195534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfefaf70ef7cc744ea0d3d7ac25568df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedParameter: cam
 --- !u!1 &9021154107758205887
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,7 +625,7 @@ Transform:
   - {fileID: 987148859}
   - {fileID: 3322170322517057990}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2754702308257160090
 MonoBehaviour:
@@ -881,12 +919,12 @@ PrefabInstance:
     - target: {fileID: 3686342116132906246, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 5
+      value: -1.463739
       objectReference: {fileID: 0}
     - target: {fileID: 3686342116132906246, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5
+      value: -5.298461
       objectReference: {fileID: 0}
     - target: {fileID: 5852266190923582718, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
@@ -926,22 +964,22 @@ PrefabInstance:
     - target: {fileID: 6943830775450758733, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 5
+      value: -1.463739
       objectReference: {fileID: 0}
     - target: {fileID: 6943830775450758733, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5
+      value: -5.298461
       objectReference: {fileID: 0}
     - target: {fileID: 8113920101445607353, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 5
+      value: -1.463739
       objectReference: {fileID: 0}
     - target: {fileID: 8113920101445607353, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5
+      value: -5.298461
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 671131572509205923, guid: 4d47ce2792cce664781eb41fc44fb8c6, type: 3}
@@ -1192,12 +1230,12 @@ PrefabInstance:
     - target: {fileID: 3686342116132906246, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -1.954988
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3686342116132906246, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -2.406024
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 5852266190923582718, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
@@ -1237,12 +1275,12 @@ PrefabInstance:
     - target: {fileID: 6943830775450758733, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -1.954988
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6943830775450758733, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -2.406024
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 7422901546966011315, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
@@ -1272,12 +1310,12 @@ PrefabInstance:
     - target: {fileID: 8113920101445607353, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -1.954988
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8113920101445607353, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -2.406024
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8342856820878512907, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}

@@ -24,10 +24,32 @@ public class Item : ScriptableObject
         public ulong itemId;
         public int itemAmount;
 
+        public ItemData(ulong itemId, int itemAmount)
+        {
+            this.itemId = itemId;
+            this.itemAmount = itemAmount;
+        }
+
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref itemId);
             serializer.SerializeValue(ref itemAmount);
+        }
+
+        public static ItemData Null()
+        {
+            return new ItemData(0, 0);
+        }
+
+        public static Item ReadItemData(ItemData data)
+        {
+            if(data.itemId == 0)
+            {
+                return null;
+            }
+            Item item = ItemManager.GenerateItem(data.itemId);
+            item.stackSize = data.itemAmount;
+            return item;
         }
     }
 }

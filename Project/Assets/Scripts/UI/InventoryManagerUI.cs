@@ -21,7 +21,7 @@ public class InventoryManagerUI : MonoBehaviour
         {
             instance = this;
             // assign the item slot ids
-            for(int i = 0; i < itemSlots.Length-1;i++)
+            for(int i = 0; i < itemSlots.Length;i++)
             {
                 itemSlots[i].SlotId = i;
             }
@@ -74,7 +74,6 @@ public class InventoryManagerUI : MonoBehaviour
         {
             if(inventory.items[i] != null)
             {
-                itemSlots[i].Item = inventory.items[i];
                 itemSlots[i].ItemImage.sprite = itemSlots[i].Item.sprite;
                 itemSlots[i].StackSizeText.text = "x" + itemSlots[i].Item.stackSize;
             }
@@ -85,5 +84,15 @@ public class InventoryManagerUI : MonoBehaviour
 
     public GameObject DragImage { get => dragImage; }
     public static InventoryManagerUI Instance { get => instance; }
-    public Inventory Inventory { get => inventory; set => inventory = value; }
+    public Inventory Inventory { get => inventory; set
+        {
+
+            inventory = value;
+            for (int i = 0; i < itemSlots.Length ; i++)
+            {
+                itemSlots[i].assignedInveotry = inventory;
+            }
+
+        }
+    }
 }
