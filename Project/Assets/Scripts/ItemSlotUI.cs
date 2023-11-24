@@ -16,6 +16,7 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     private GameObject draggedObject;
     public MEvent hoverEvent;
     public Inventory assignedInveotry;
+    public IContainerUI manager;
 
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -52,7 +53,8 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
                     print($"{assignedInveotry}___{slot.assignedInveotry}");
                     assignedInveotry.SwapItemsBetweenInveotryServerRpc(assignedInveotry, slot.assignedInveotry, item1, pos1, item2, pos2);
                     //InventoryManagerUI.Instance.Inventory.SwapItemPlaces(slotId, go.GetComponent<ItemSlotUI>().SlotId);
-                    InventoryManagerUI.Instance.RefreshUI();
+                    manager.RefreshUI();
+                    slot.manager.RefreshUI();
                     break;
                 }
             }

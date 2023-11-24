@@ -13,6 +13,7 @@ public class Inventory : NetworkBehaviour
     public Item[] items = new Item[(maxItemSlots + toolSlots)];
     [SerializeField] private const int toolSlots = 4;
     [SerializeField] private const int maxItemSlots = 40;
+    public List<ulong> observerList = new List<ulong>();
     public UnityEvent<Item> addItemEvents;
     [HideInInspector]public NetworkVariable<bool> ableToTrade = new NetworkVariable<bool>(true,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
 
@@ -332,6 +333,24 @@ public class Inventory : NetworkBehaviour
         {
             Item item = ItemData.ReadItemData(itemData[i]);
             items[i] = item;
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddToObserverListServerRpc(ulong id)
+    {
+        if (!observerList.Contains(id))
+        {
+            observerList.Add(id);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemoveFromObserverListServerRpc(ulong id)
+    {
+        if (observerList.Contains(id))
+        {
+            observerList.Remove(id);
         }
     }
 

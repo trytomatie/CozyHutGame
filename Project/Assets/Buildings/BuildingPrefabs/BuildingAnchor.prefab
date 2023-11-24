@@ -235,7 +235,6 @@ GameObject:
   - component: {fileID: 6284856653713181693}
   - component: {fileID: 2568032970765088761}
   - component: {fileID: 7630565946043873421}
-  - component: {fileID: -6723023540882035751}
   m_Layer: 0
   m_Name: BuildingAnchor
   m_TagString: Untagged
@@ -271,11 +270,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01688895e36068e41a4401c53d7e359f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    buildingId: 0
+    position:
+      x: 0
+      y: 0
+      z: 0
+    rotation:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 0
+      y: 0
+      z: 0
+    state: 0
+    secondaryState: 0
+    itemContainer1: 
+    itemContainer1Amounts: 
+    itemContainer2: 
+    itemContainer2Amounts: 
   basePivot: {fileID: 8392809167064190522}
   snappingPoints: []
   pivots:
   - {fileID: 6893974052786690371}
   requireBuildingBeacon: 0
+  grounded: 0
+  itemContainer1: {fileID: 0}
+  itemContainer2: {fileID: 0}
 --- !u!114 &2568032970765088761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,18 +331,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-6723023540882035751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5036726101530961046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c86463a9e3457e644b2d8938cf612240, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5081027199024190515
 GameObject:
   m_ObjectHideFlags: 0

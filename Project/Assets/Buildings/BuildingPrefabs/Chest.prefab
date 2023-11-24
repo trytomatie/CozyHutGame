@@ -89,6 +89,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  observerList: 
   addItemEvents:
     m_PersistentCalls:
       m_Calls: []
@@ -321,7 +322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6893974052786690371}
   - component: {fileID: 6284856653713181693}
-  - component: {fileID: 7213007036607437681}
+  - component: {fileID: 4039201371622871333}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -386,7 +387,7 @@ MonoBehaviour:
   grounded: 1
   itemContainer1: {fileID: 3101162949084449713}
   itemContainer2: {fileID: 0}
---- !u!114 &7213007036607437681
+--- !u!114 &4039201371622871333
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -982,7 +983,7 @@ GameObject:
   - component: {fileID: 3924506821799315237}
   - component: {fileID: 5801532176484098853}
   - component: {fileID: 6310053700444176016}
-  - component: {fileID: 5054838330887828058}
+  - component: {fileID: 820767344}
   m_Layer: 0
   m_Name: TriggerInteraction
   m_TagString: Untagged
@@ -1098,7 +1099,7 @@ MonoBehaviour:
   OnEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5054838330887828058}
+      - m_Target: {fileID: 820767344}
         m_TargetAssemblyTypeName: Interactable, Assembly-CSharp
         m_MethodName: FocusInteraction
         m_Mode: 0
@@ -1113,7 +1114,7 @@ MonoBehaviour:
   OnExit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5054838330887828058}
+      - m_Target: {fileID: 820767344}
         m_TargetAssemblyTypeName: Interactable, Assembly-CSharp
         m_MethodName: FocusInteractionExit
         m_Mode: 0
@@ -1183,7 +1184,7 @@ MonoBehaviour:
   DebugColor: {r: 0.8944069, g: 0.64586115, b: 0.2741447, a: 0.70780647}
   DrawAxis: 0
   AxisSize: 0.59
---- !u!114 &5054838330887828058
+--- !u!114 &820767344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1192,10 +1193,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8899128870690701952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0ec1cd069416364d91cf121e24c8987, type: 3}
+  m_Script: {fileID: 11500000, guid: ab17c81f5355d4f46b6bc5375dbfbcc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canBeOccupied: 0
+  prolongedInteraction: 1
   interactorId:
     m_InternalValue: 99999999
   localInteractionEvent:
@@ -1251,10 +1253,31 @@ MonoBehaviour:
         m_CallState: 2
   endInteractionEvent:
     m_PersistentCalls:
-      m_Calls: []
-  serverInteractionEvent:
-    m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 8c8a424260040f14783396397c4cd470, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
+        m_MethodName: Invoke
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 10063d008db5f8f429d7131e2232a06a, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
+        m_MethodName: Invoke
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   focusEnter:
     m_PersistentCalls:
       m_Calls:
@@ -1285,6 +1308,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  container1: {fileID: 3101162949084449713}
+  container2: {fileID: 0}
+  interactionDistance: 5
 --- !u!1001 &901269593425945211
 PrefabInstance:
   m_ObjectHideFlags: 0

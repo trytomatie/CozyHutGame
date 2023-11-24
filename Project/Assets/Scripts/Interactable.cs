@@ -10,15 +10,16 @@ public class Interactable : NetworkBehaviour
 {
     private const ulong maxValue = 99999999;
     public bool canBeOccupied = false;
+    public bool prolongedInteraction = false;
+
     public NetworkVariable<ulong> interactorId = new NetworkVariable<ulong>(maxValue);
 
     public UnityEvent<GameObject> localInteractionEvent;
-    public UnityEvent<GameObject> endInteractionEvent;
-    public UnityEvent serverInteractionEvent;
+    public UnityEvent endInteractionEvent;
     public UnityEvent focusEnter;
     public UnityEvent focusExit;
 
-    private GameObject source;
+    protected GameObject source;
     private const float serverRequestTimeDelay = 1;
     private float serverRequestTimer = 0;
 
@@ -29,7 +30,15 @@ public class Interactable : NetworkBehaviour
         if (source == null)
             source = NetworkManager.Singleton.LocalClient.PlayerObject.gameObject;
         InteractServerRpc(source.GetComponent<NetworkObject>().OwnerClientId);
+        if(prolongedInteraction)
+        {
+            InvokeRepeating("CheckForExitCondition", 0.1f, 0.1f);
+        }
+    }
 
+    public virtual void CheckForExitCondition()
+    {
+        CancelInvoke("CheckForExitCondition");
     }
 
     private void OnServerInitialized()
@@ -124,8 +133,8 @@ public class Interactable : NetworkBehaviour
                 TargetClientIds = new ulong[] { id }
             }
         };
-
-        if(canBeOccupied)
+        ServerInteraction(id);
+        if (canBeOccupied)
         {
             if (interactorId.Value == maxValue) // means it's not occupied
             {
@@ -139,6 +148,11 @@ public class Interactable : NetworkBehaviour
         }
     }
 
+    public virtual void ServerInteraction(ulong id)
+    {
+
+    }
+
     [ClientRpc]
     private void InteractClientRpc(ClientRpcParams clientRpcParams = default)
     {
@@ -149,13 +163,13 @@ public class Interactable : NetworkBehaviour
         LocalInteraction(source);
     }
 
-    public void EndInteraction(GameObject source)
+    public virtual void EndInteraction(GameObject source)
     {
-        if(canBeOccupied)
+        if(canBeOccupied || prolongedInteraction)
         {
             source.GetComponent<NetworkPlayerInit>().currentInteractable = null;
             EndInteractionServerRpc(source.GetComponent<NetworkObject>().OwnerClientId);
-            endInteractionEvent.Invoke(source);
+            endInteractionEvent.Invoke();
         }
     }
 

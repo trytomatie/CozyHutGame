@@ -152,6 +152,18 @@ public class GameManager : NetworkBehaviour
         NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponent<Inventory>().AddItemClientRPC(id, amount, clientRpcParams);
     }
 
+    public static ClientRpcParams GetClientRpcParams(ulong id)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { id }
+            }
+        };
+        return clientRpcParams;
+    }
+
 
     public static GameManager Instance { get => instance; set => instance = value; }
 

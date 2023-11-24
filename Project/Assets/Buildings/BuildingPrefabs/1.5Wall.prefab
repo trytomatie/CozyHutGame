@@ -491,6 +491,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01688895e36068e41a4401c53d7e359f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    buildingId: 0
+    position:
+      x: 0
+      y: 0
+      z: 0
+    rotation:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 0
+      y: 0
+      z: 0
+    state: 0
+    secondaryState: 0
+    itemContainer1: 
+    itemContainer1Amounts: 
+    itemContainer2: 
+    itemContainer2Amounts: 
   basePivot: {fileID: 8392809167064190522}
   snappingPoints: []
   pivots:
@@ -498,6 +518,9 @@ MonoBehaviour:
   - {fileID: 2464341215673571184}
   - {fileID: 1538885675774924242}
   requireBuildingBeacon: 1
+  grounded: 0
+  itemContainer1: {fileID: 0}
+  itemContainer2: {fileID: 0}
 --- !u!114 &-2018847484202702902
 MonoBehaviour:
   m_ObjectHideFlags: 0

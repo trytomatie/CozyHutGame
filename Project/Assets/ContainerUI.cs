@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContainerUI : MonoBehaviour
+public class ContainerUI : MonoBehaviour, IContainerUI
 {
     public Inventory syncedInvetory;
     public ItemSlotUI[] itemSlots;
@@ -12,6 +12,7 @@ public class ContainerUI : MonoBehaviour
         for (int i = 0; i < itemSlots.Length ; i++)
         {
             itemSlots[i].SlotId = i;
+            itemSlots[i].manager = this;
         }
     }
     public virtual void SetSyncedInvetory(GameObject go)

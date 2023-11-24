@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class InventoryManagerUI : MonoBehaviour
+public class InventoryManagerUI : MonoBehaviour, IContainerUI
 {
     [SerializeField] public GameObject inventoryUI;
     [Tooltip("The last few slots are reserved for tools")]
@@ -24,6 +24,7 @@ public class InventoryManagerUI : MonoBehaviour
             for(int i = 0; i < itemSlots.Length;i++)
             {
                 itemSlots[i].SlotId = i;
+                itemSlots[i].manager = this;
             }
         }
         else

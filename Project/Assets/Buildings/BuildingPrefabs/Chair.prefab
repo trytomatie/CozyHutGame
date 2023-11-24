@@ -264,12 +264,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01688895e36068e41a4401c53d7e359f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    buildingId: 0
+    position:
+      x: 0
+      y: 0
+      z: 0
+    rotation:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 0
+      y: 0
+      z: 0
+    state: 0
+    secondaryState: 0
+    itemContainer1: 
+    itemContainer1Amounts: 
+    itemContainer2: 
+    itemContainer2Amounts: 
   basePivot: {fileID: 8392809167064190522}
   snappingPoints: []
   pivots:
   - {fileID: 6893974052786690371}
   requireBuildingBeacon: 1
   grounded: 1
+  itemContainer1: {fileID: 0}
+  itemContainer2: {fileID: 0}
 --- !u!114 &7213007036607437681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1132,6 +1154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeOccupied: 1
+  prolongedInteraction: 0
   interactorId:
     m_InternalValue: 0
   localInteractionEvent:
@@ -1176,9 +1199,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  serverInteractionEvent:
-    m_PersistentCalls:
-      m_Calls: []
   focusEnter:
     m_PersistentCalls:
       m_Calls:
