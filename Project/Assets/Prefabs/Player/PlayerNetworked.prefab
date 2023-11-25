@@ -624,7 +624,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3baaad850a5879746b7a5f48f3040c54, type: 2}
+  - {fileID: 2100000, guid: ea40dd957e54f1245860229281fa434b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -649,7 +649,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 2840823874903811969, guid: fc93d982fcab4b2458197f8560baa221, type: 3}
+  m_Mesh: {fileID: -8464400841726249925, guid: 854310608759ddf4bb078454e7246e2d, type: 3}
   m_Bones:
   - {fileID: 8093551709830665217}
   - {fileID: 491438386923319202}
@@ -5549,6 +5549,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3773f4d24a1f8464cac44a94a08d7988, type: 2}
   - {fileID: 11400000, guid: 87213d3d3ae06b04c85ec28122265d57, type: 2}
   - {fileID: 0}
+  observerList: 
   addItemEvents:
     m_PersistentCalls:
       m_Calls:
@@ -5564,6 +5565,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ableToTrade:
+    m_InternalValue: 1
 --- !u!114 &1180042201660877434
 MonoBehaviour:
   m_ObjectHideFlags: 0
