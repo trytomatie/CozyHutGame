@@ -1,4 +1,5 @@
-﻿using Unity.Netcode;
+﻿using System;
+using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Items/Generic Item")]
@@ -19,26 +20,50 @@ public class Item : ScriptableObject
 
 
 
-    public struct ItemData : INetworkSerializable
+    public struct ItemData : INetworkSerializable, IEquatable<ItemData>
     {
         public ulong itemId;
-        public int itemAmount;
+        public int stackSize;
 
         public ItemData(ulong itemId, int itemAmount)
         {
             this.itemId = itemId;
-            this.itemAmount = itemAmount;
+            this.stackSize = itemAmount;
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref itemId);
-            serializer.SerializeValue(ref itemAmount);
+            serializer.SerializeValue(ref stackSize);
         }
 
-        public static ItemData Null()
+        public static ItemData Null
         {
-            return new ItemData(0, 0);
+            get
+            {
+                return new ItemData(0,0);
+            }
+
+        }
+        public bool IsEmpty
+        {
+            get
+            {
+                if (itemId == 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+        }
+
+        public int MaxStackSize
+        {
+            get
+            {
+                return ItemManager.GetMaxStackSize(itemId);
+            }
         }
 
         public static Item ReadItemData(ItemData data)
@@ -48,8 +73,37 @@ public class Item : ScriptableObject
                 return null;
             }
             Item item = ItemManager.GenerateItem(data.itemId);
-            item.stackSize = data.itemAmount;
+            item.stackSize = data.stackSize;
             return item;
+        }
+
+        public override bool Equals(object other)
+        {
+
+            if (((ItemData)other).itemId == itemId && ((ItemData)other).stackSize == stackSize) 
+                return true;
+            return false;
+        }
+
+        public bool Equals(ItemData other)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Override == operator
+        public static bool operator ==(ItemData obj1, ItemData obj2)
+        {
+            if (ReferenceEquals(obj1, obj2))
+            {
+                return true;
+            }
+
+            return obj1.Equals(obj2);
+        }
+
+        public static bool operator !=(ItemData obj1, ItemData obj2)
+        {
+            return !(obj1 == obj2);
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ContainerUI : MonoBehaviour, IContainerUI
 {
-    public Inventory syncedInvetory;
+    public Container syncedContainer;
     public ItemSlotUI[] itemSlots;
 
     private void Start()
@@ -17,34 +17,32 @@ public class ContainerUI : MonoBehaviour, IContainerUI
     }
     public virtual void SetSyncedInvetory(GameObject go)
     {
-        SetSyncedInvetory(go.GetComponent<Inventory>());
+        SetSyncedInvetory(go.GetComponent<Container>());
         RefreshUI();
     }
-    public void SetSyncedInvetory(Inventory inventory)
+    public void SetSyncedInvetory(Container inventory)
     {
-        syncedInvetory = inventory;
+        syncedContainer = inventory;
         for (int i = 0; i < itemSlots.Length ; i++)
         {
-            itemSlots[i].assignedInveotry = syncedInvetory;
+            itemSlots[i].assignedContainer = syncedContainer;
         }
     }
 
     public void RefreshUI()
     {
-        // Refresh the invenotry
         foreach (ItemSlotUI itemslotUI in itemSlots)
         {
             itemslotUI.ItemImage.sprite = null;
             itemslotUI.StackSizeText.text = "";
         }
-        for (int i = 0; i < syncedInvetory.items.Length; i++)
+        for (int i = 0; i < syncedContainer.items.Length; i++)
         {
-            if (syncedInvetory.items[i] != null)
+            if (syncedContainer.items[i] != null)
             {
                 itemSlots[i].ItemImage.sprite = itemSlots[i].Item.sprite;
                 itemSlots[i].StackSizeText.text = "x" + itemSlots[i].Item.stackSize;
             }
-
         }
     }
 

@@ -40,13 +40,13 @@ public class Interactable_Container: Interactable
 
     public override void ServerInteraction(ulong id)
     {
-        container1.RequestItemSyncClientRpc(id,GameManager.GetClientRpcParams(container1.OwnerClientId));
+        AddToObservationList(id);
+        container1.RequestItemSyncClientRpc(GameManager.GetClientRpcParams(container1.OwnerClientId));
     }
 
     public override void LocalInteraction(GameObject source)
     {
         base.LocalInteraction(source);
-        AddToObservationList(source.GetComponent<NetworkObject>().NetworkObjectId);
     }
 
     public void AddToObservationList(ulong id)

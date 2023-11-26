@@ -5,34 +5,27 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class InventoryManagerUI : MonoBehaviour, IContainerUI
+public class InventoryManagerUI : ContainerUI, IContainerUI
 {
-    [SerializeField] public GameObject inventoryUI;
-    [Tooltip("The last few slots are reserved for tools")]
-    [SerializeField] private ItemSlotUI[] itemSlots;
-    [SerializeField] private GameObject dragImage;
+    public GameObject dragImage;
+    public TextMeshProUGUI itemNameText;
+    public GameObject inventoryUI;
+    public Container equipmentContainer;
     private static InventoryManagerUI instance;
-    [SerializeField] private Inventory inventory;
-    [SerializeField] private TextMeshProUGUI itemNameText;
+    public static InventoryManagerUI Instance { get { return instance; } }
 
-    private void Awake()
+    private void Start()
     {
-        if(Instance == null)
+        if(instance == null)
         {
             instance = this;
-            // assign the item slot ids
-            for(int i = 0; i < itemSlots.Length;i++)
-            {
-                itemSlots[i].SlotId = i;
-                itemSlots[i].manager = this;
-            }
         }
         else
         {
             Destroy(this);
         }
-    }
 
+    }
     public void ToggleInventoryButton(object sender,InputAction.CallbackContext value)
     {
          inventoryUI.SetActive(!inventoryUI.activeSelf);
@@ -60,40 +53,9 @@ public class InventoryManagerUI : MonoBehaviour, IContainerUI
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
-        Instance.inventoryUI.SetActive(value);
-    }
-
-    public void RefreshUI()
-    {
-        // Refresh the invenotry
-        foreach(ItemSlotUI itemslotUI in itemSlots)
-        {
-            itemslotUI.ItemImage.sprite = null;
-            itemslotUI.StackSizeText.text = "";
-        }
-        for (int i = 0; i < inventory.items.Length; i++)
-        {
-            if(inventory.items[i] != null)
-            {
-                itemSlots[i].ItemImage.sprite = itemSlots[i].Item.sprite;
-                itemSlots[i].StackSizeText.text = "x" + itemSlots[i].Item.stackSize;
-            }
-
-        }
+        inventoryUI.SetActive(value);
     }
 
 
     public GameObject DragImage { get => dragImage; }
-    public static InventoryManagerUI Instance { get => instance; }
-    public Inventory Inventory { get => inventory; set
-        {
-
-            inventory = value;
-            for (int i = 0; i < itemSlots.Length ; i++)
-            {
-                itemSlots[i].assignedInveotry = inventory;
-            }
-
-        }
-    }
 }

@@ -2,6 +2,7 @@ using MalbersAnimations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,7 +22,19 @@ public class Inventory : NetworkBehaviour
     {
         if (!IsOwner)
             return;
+        List<ItemData> itemData = new List<ItemData>();
+        foreach (Item item in items)
+        {
+            ItemData data = ItemData.Null;
+            if (item != null)
+            {
+                data = new ItemData() { itemId = item.itemId, stackSize = item.stackSize };
+                itemData.Add(data);
+            }
+            print(Marshal.SizeOf(data));
+            
 
+        }
     }
 
     [ClientRpc]
@@ -297,10 +310,10 @@ public class Inventory : NetworkBehaviour
             //if (!inv1.ableToTrade.Value && !inv2.ableToTrade.Value)
             //{
             print($"{inv1.gameObject}, {inv2.gameObject}, {pos1}, {inv1ClientRpcParams}");
-                inv1.ReplaceItemClientRpc(item2.itemId, item2.itemAmount, pos1, inv1ClientRpcParams);
-                inv2.ReplaceItemClientRpc(item1.itemId, item1.itemAmount, pos2, inv2ClientRpcParams);
-                inv1.RequestItemSyncClientRpc(inv2.OwnerClientId, inv1ClientRpcParams);
-                inv2.RequestItemSyncClientRpc(inv1.OwnerClientId, inv2ClientRpcParams);
+                inv1.ReplaceItemClientRpc(item2.itemId, item2.stackSize, pos1, inv1ClientRpcParams);
+                inv2.ReplaceItemClientRpc(item1.itemId, item1.stackSize, pos2, inv2ClientRpcParams);
+                inv1.RequestItemSyncClientRpc(inv1ClientRpcParams);
+                inv2.RequestItemSyncClientRpc(inv2ClientRpcParams);
                 inv1.ableToTrade.Value = true;
                 inv2.ableToTrade.Value = true;
             //}
@@ -308,22 +321,22 @@ public class Inventory : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RequestItemSyncClientRpc(ulong sendToTarget, ClientRpcParams clientRpcParams = default)
+    public void RequestItemSyncClientRpc(ClientRpcParams clientRpcParams = default)
     {
         List<ItemData> itemData = new List<ItemData>();
         foreach(Item item in items)
         {
             if(item != null)
             {
-                itemData.Add(new ItemData() { itemId = item.itemId, itemAmount = item.stackSize });
+                itemData.Add(new ItemData() { itemId = item.itemId, stackSize = item.stackSize });
             }
             else
             {
-                itemData.Add(ItemData.Null());
+                itemData.Add(ItemData.Null);
             }
 
         }
-        SyncItemsAcrossNetworkClientRpc(itemData.ToArray(), clientRpcParams);
+        SyncItemsAcrossNetworkClientRpc(itemData.ToArray(), GameManager.GetClientRpcParams(observerList.ToArray()));
     }
 
     [ClientRpc]

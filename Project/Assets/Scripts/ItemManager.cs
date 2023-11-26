@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Item;
 
 public class ItemManager : MonoBehaviour
 {
@@ -37,6 +38,14 @@ public class ItemManager : MonoBehaviour
     {
         return Instantiate(Instance.items[i]);
     }
+
+    public static Item GenerateItem(ItemData data)
+    {
+        Item item = Instance.items[data.itemId];
+        item.stackSize = data.stackSize;
+        return Instantiate(item);
+    }
+
     public static Item GenerateItem(string name)
     {
         int i = 0;
@@ -50,6 +59,11 @@ public class ItemManager : MonoBehaviour
         }
         return null;
 
+    }
+
+    public static int GetMaxStackSize(ulong id)
+    {
+        return Instance.items[id].maxStackSize;
     }
 
     public static ulong GetItemId(string itemName)

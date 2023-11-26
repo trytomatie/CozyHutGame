@@ -55,14 +55,15 @@ public class CraftingManagerUI : MonoBehaviour
         {
             
             ItemData[] itemData = GetItemData();
-            Inventory inventory = player.GetComponent<Inventory>();
-            if (inventory.HasItemSpaceInInventory(ItemManager.GetItemId(selectedRecipe.recepieRessult.itemName), 1))
+            Container inventory = player.GetComponent<Container>();
+            if (inventory.HasItemSpaceInInventory(new ItemData(selectedRecipe.recepieRessult.itemId, 1)))
             {
                 foreach (ItemData data in itemData)
                 {
-                    inventory.RemoveItem(data.itemId, data.itemAmount);
+                    inventory.RequestRemoveItemServerRpc(data);
                 }
-                GameManager.Instance.GiveItemToPlayerServerRpc(ItemManager.GetItemId(selectedRecipe.recepieRessult.itemName), 1, NetworkManager.Singleton.LocalClientId);
+                inventory.AddItemServerRpc(new ItemData(selectedRecipe.craftingId, 1));
+                // GameManager.Instance.GiveItemToPlayerServerRpc(ItemManager.GetItemId(selectedRecipe.recepieRessult.itemName), 1, NetworkManager.Singleton.LocalClientId);
                 SetCraftingRecipe(selectedCraftingSlot);
             }
             else
@@ -77,12 +78,12 @@ public class CraftingManagerUI : MonoBehaviour
     private bool CanCraft()
     {
         GameObject player = GetLocalPlayer();
-        Inventory inventory = player.GetComponent<Inventory>();
+        Container inventory = player.GetComponent<Container>();
 
         ItemData[] itemData = GetItemData();
         foreach (ItemData data in itemData)
         {
-            if(!(inventory.GetAmmountOfItem(data.itemId) >= data.itemAmount))
+            if(!(inventory.GetAmmountOfItem(data.itemId) >= data.stackSize))
             {
                 SetCraftingButton(false);
                 return false;
@@ -115,7 +116,7 @@ public class CraftingManagerUI : MonoBehaviour
             itemData[i] = new ItemData()
             {
                 itemId = selectedRecipe.requiredItems[i].itemId,
-                itemAmount = selectedRecipe.requieredItemsCount[i]
+                stackSize = selectedRecipe.requieredItemsCount[i]
             };
         }
         return itemData;

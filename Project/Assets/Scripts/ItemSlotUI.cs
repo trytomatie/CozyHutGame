@@ -15,7 +15,7 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
     private int slotId = 0;
     private GameObject draggedObject;
     public MEvent hoverEvent;
-    public Inventory assignedInveotry;
+    public Container assignedContainer;
     public IContainerUI manager;
 
 
@@ -39,19 +39,20 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
         {
             if(go.GetComponent<ItemSlotUI>() != null)
             {
+                Item itemObject = Item;
                 ItemSlotUI slot = go.GetComponent<ItemSlotUI>();
-                if (slot.typeRestriction== Item.ItemType.None || slot.typeRestriction == Item.itemType)
+                if (slot.typeRestriction== Item.ItemType.None || slot.typeRestriction == itemObject.itemType)
                 {
-                    ItemData item1 = ItemData.Null();
-                    ItemData item2 = ItemData.Null();
-                    if (Item != null)
-                        item1 = new ItemData(Item.itemId, Item.stackSize);
+                    ItemData item1 = ItemData.Null;
+                    ItemData item2 = ItemData.Null;
+                    if (itemObject != null)
+                        item1 = new ItemData(itemObject.itemId, itemObject.stackSize);
                     if (slot.Item != null)
                         item2 = new ItemData(slot.Item.itemId, slot.Item.stackSize);
                     int pos1 = SlotId;
                     int pos2 = slot.slotId;
-                    print($"{assignedInveotry}___{slot.assignedInveotry}");
-                    assignedInveotry.SwapItemsBetweenInveotryServerRpc(assignedInveotry, slot.assignedInveotry, item1, pos1, item2, pos2);
+                    print($"{assignedContainer}___{slot.assignedContainer}");
+                    assignedContainer.RequestItemSwapServerRpc( slot.assignedContainer, pos1, pos2, item1, item2);
                     //InventoryManagerUI.Instance.Inventory.SwapItemPlaces(slotId, go.GetComponent<ItemSlotUI>().SlotId);
                     manager.RefreshUI();
                     slot.manager.RefreshUI();
@@ -76,6 +77,6 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
 
     public int SlotId { get => slotId; set => slotId = value; }
     public Image ItemImage { get => itemImage; set => itemImage = value; }
-    public Item Item { get => assignedInveotry.items[SlotId]; }
+    public Item Item { get => ItemManager.GenerateItem(assignedContainer.items[SlotId]); }
     public TextMeshProUGUI StackSizeText { get => stackSizeText; set => stackSizeText = value; }
 }

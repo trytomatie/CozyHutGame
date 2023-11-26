@@ -22,7 +22,8 @@ public class NetworkPlayerInit : NetworkBehaviour
     [HideInInspector] public GameObject handPivot;
     [HideInInspector] public GameObject visual;
     [HideInInspector]public NetworkVariable<FixedString32Bytes> playerName = new NetworkVariable<FixedString32Bytes>("T", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-
+    public Container inventory;
+    public Container equipmentInventory;
     public override void OnNetworkSpawn()
     {
         playerName.OnValueChanged += SetPlayerNameCard;
@@ -98,7 +99,8 @@ public class NetworkPlayerInit : NetworkBehaviour
             GameManager.Instance.inputManager = GetComponent<MInput>();
             GameObject playerSetup = Instantiate(playerSetupPrefab);
             DontDestroyOnLoad(playerSetup);
-            playerSetup.GetComponentInChildren<InventoryManagerUI>().Inventory = GetComponent<Inventory>();
+            playerSetup.GetComponentInChildren<InventoryManagerUI>().syncedContainer = inventory;
+            playerSetup.GetComponentInChildren<InventoryManagerUI>().equipmentContainer = equipmentInventory;
             Collider col = GetComponent<Collider>();
            
             if(col.isTrigger)

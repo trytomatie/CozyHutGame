@@ -7,6 +7,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using static Item;
 
 public class GameManager : NetworkBehaviour
 {
@@ -139,19 +140,6 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
-    public void GiveItemToPlayerServerRpc(ulong id, int amount,ulong playerId)
-    {
-        ClientRpcParams clientRpcParams = new ClientRpcParams
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new ulong[] { playerId }
-            }
-        };
-        NetworkManager.ConnectedClients[playerId].PlayerObject.GetComponent<Inventory>().AddItemClientRPC(id, amount, clientRpcParams);
-    }
-
     public static ClientRpcParams GetClientRpcParams(ulong id)
     {
         ClientRpcParams clientRpcParams = new ClientRpcParams
@@ -159,6 +147,18 @@ public class GameManager : NetworkBehaviour
             Send = new ClientRpcSendParams
             {
                 TargetClientIds = new ulong[] { id }
+            }
+        };
+        return clientRpcParams;
+    }
+
+    public static ClientRpcParams GetClientRpcParams(ulong[] ids)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = ids.ToList().AsReadOnly()
             }
         };
         return clientRpcParams;
