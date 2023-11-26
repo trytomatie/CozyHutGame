@@ -49,6 +49,9 @@ public class PlayerCustomization : MonoBehaviour
     [Range(0, 4)]
     public int eyelashIndex;
 
+    [Range(0, 5)]
+    public int highlightIndex;
+
 
     public PlayerCustomizationAsset[] torso;
     public PlayerCustomizationAsset[] legs;
@@ -260,6 +263,47 @@ public class PlayerCustomization : MonoBehaviour
             case 3:
 
                 eyeMaterial.SetVector("_SwitchEyelashes", new Vector2(0, -0.69f));
+
+                break;
+
+
+        }
+
+        switch (highlightIndex)
+        {
+            case 0:
+
+                eyeMaterial.SetVector("_SwitchHighlight", new Vector2(0, 0));
+
+                break;
+
+            case 1:
+
+                eyeMaterial.SetVector("_SwitchHighlight", new Vector2(-1, 0));
+
+                break;
+
+            case 2:
+
+                eyeMaterial.SetVector("_SwitchHighlight", new Vector2(0, -1));
+
+                break;
+
+            case 3:
+
+                eyeMaterial.SetVector("_SwitchHighlight", new Vector2(-1, -1));
+
+                break;
+
+            case 4:
+
+                eyeMaterial.SetVector("_SwitchHighlight", new Vector2(-1, -2));
+
+                break;
+
+            case 5:
+
+                eyeMaterial.SetVector("_SwitchHighlight", new Vector2(-2, -2));
 
                 break;
 
