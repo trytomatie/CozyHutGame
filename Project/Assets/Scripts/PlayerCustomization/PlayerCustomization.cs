@@ -22,22 +22,22 @@ public class PlayerCustomization : MonoBehaviour
     [Range(0, 2)]
     public int feetIndex;
 
-    [Range(0, 4)]
+    [Range(0, 3)]
     public int irisColorIndex;
 
-    [Range(0, 4)]
+    [Range(0, 3)]
     public int pupilColorIndex;
 
-    [Range(0, 4)]
+    [Range(0, 3)]
     public int highlightColorIndex;
 
-    [Range(0, 4)]
+    [Range(0, 3)]
     public int eyelashColorIndex;
 
-    [Range(0, 4)]
+    [Range(0, 3)]
     public int eyebrowColorIndex;
 
-    [Range(0, 6)]
+    [Range(0, 5)]
     public int skinColorIndex;
 
     [Range(0, 5)]
