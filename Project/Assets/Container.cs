@@ -1,6 +1,7 @@
 using MalbersAnimations.Events;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,14 +11,14 @@ public class Container : NetworkBehaviour
 {
     public ItemData[] items;
     public UnityEvent<Item> addItemEvents;
-    public List<ulong> observerList = new List<ulong>() { 0 };
+    public List<ulong> observerList = new List<ulong>() {};
     public MEvent observationEvent;
+    public bool cursorObserver = false;
 
     private void Start()
     {
-        if(IsServer)
+        if(IsServer && !cursorObserver)
         {
-            AddToObserverListServerRpc(NetworkManager.ServerClientId);
             AddToObserverListServerRpc(OwnerClientId);
         }
     }
@@ -37,6 +38,11 @@ public class Container : NetworkBehaviour
 
                 ClientRpcParams clientRpcParams = GameManager.GetClientRpcParams(observerList.ToArray());
                 SwapItemsClientRpc(pos1, pos2, validationData1, validationData2, otherContainer, clientRpcParams);
+            }
+            else
+            {
+                Debug.LogError("Inventory Desync, syncing Inventory Again");
+                SyncContainerClientRpc(items, GameManager.GetClientRpcParams(observerList.ToArray()));
             }
         }
         else
@@ -141,21 +147,55 @@ public class Container : NetworkBehaviour
         {
             SyncContainerServerRpc(id);
             observerList.Add(id);
+            UpdateObserverListClientRpc(observerList.ToArray(),GameManager.GetClientRpcParams(observerList.ToArray()));
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void RemoveFromObserverListServerRpc(ulong id)
     {
-        if (id == NetworkManager.ServerClientId) // the Server is always observing! You cannot get rid of him
-            return;
         if (observerList.Contains(id))
         {
-
+            ClientRpcParams senderList = GameManager.GetClientRpcParams(observerList.ToArray()); // we also need to notify the removed client that he is removed
             observerList.Remove(id);
+            UpdateObserverListClientRpc(observerList.ToArray(), senderList);
         }
     }
 
+    [ClientRpc]
+    public void UpdateObserverListClientRpc(ulong[] ids, ClientRpcParams clientRpcParams = default)
+    {
+        observerList = ids.ToList();
+        if (!cursorObserver)
+        {
+            return;
+        }
+        UpdateObserverCursors();
+    }
+
+    private void UpdateObserverCursors()
+    {
+        bool localClientIsObsvering = false;
+        foreach (ulong id in observerList)
+        {
+            if (id == NetworkManager.LocalClientId)
+            {
+                localClientIsObsvering = true;
+                break;
+            }
+        }
+        foreach (ulong id in GameManager.Instance.playerList.Keys)
+        {
+            GameManager.Instance.playerList[id].GetComponent<NetworkPlayerInit>().observerCursor.SetVisible(false);
+        }
+        if (localClientIsObsvering)
+        {
+            foreach (ulong id in observerList)
+            {
+                GameManager.Instance.playerList[id].GetComponent<NetworkPlayerInit>().observerCursor.SetVisible(true);
+            }
+        }
+    }
 
     [ServerRpc]
     public void SyncContainerServerRpc(ulong clientId)

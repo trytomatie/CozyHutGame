@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using static Item;
 
@@ -8,7 +9,7 @@ public class ContainerUI : MonoBehaviour, IContainerUI
     public Container syncedContainer;
     public ItemSlotUI[] itemSlots;
 
-    private void Start()
+    public void Start()
     {
         for (int i = 0; i < itemSlots.Length ; i++)
         {
@@ -32,7 +33,6 @@ public class ContainerUI : MonoBehaviour, IContainerUI
 
     public virtual void RefreshUI(GameObject container)
     {
-
         if (container.GetComponent<Container>() == syncedContainer)
         {
             foreach (ItemSlotUI itemslotUI in itemSlots)
@@ -50,5 +50,4 @@ public class ContainerUI : MonoBehaviour, IContainerUI
             }
         }
     }
-
 }

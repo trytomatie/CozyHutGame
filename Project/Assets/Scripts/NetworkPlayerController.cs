@@ -53,6 +53,7 @@ public class NetworkPlayerController : State
     private Inventory inventory;
     public InteractionManager interactionManager;
 
+
     [Header("PlayerSetup")]
     public GameObject playerSetupPrefab;
     public GameObject playerSetup;

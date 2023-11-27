@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Item;
 
 public class BuildingObjectHandler : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class BuildingObjectHandler : MonoBehaviour
     public Transform[] pivots;
     public bool requireBuildingBeacon = true;
     public bool grounded = false;
-    public Inventory itemContainer1;
-    public Inventory itemContainer2;
+    public Container itemContainer1;
+    public Container itemContainer2;
 
     public Vector3 GetClosestSnappingPoint(Vector3 position)
     {
@@ -24,7 +25,7 @@ public class BuildingObjectHandler : MonoBehaviour
         {
             List<ulong> ids = new List<ulong>();
             List<int> count = new List<int>();
-            foreach (Item item in itemContainer1.items)
+            foreach (ItemData item in itemContainer1.items)
             {
                 ids.Add(item.itemId);
                 count.Add(item.stackSize);
@@ -37,7 +38,7 @@ public class BuildingObjectHandler : MonoBehaviour
         {
             List<ulong> ids = new List<ulong>();
             List<int> count = new List<int>();
-            foreach (Item item in itemContainer2.items)
+            foreach (ItemData item in itemContainer2.items)
             {
                 ids.Add(item.itemId);
                 count.Add(item.stackSize);

@@ -25,14 +25,17 @@ public class NetworkPlayerInit : NetworkBehaviour
     [HideInInspector]public NetworkVariable<FixedString32Bytes> playerName = new NetworkVariable<FixedString32Bytes>("T", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public Container inventory;
     public Container equipmentInventory;
+    public ObserverCursor observerCursor;
     public override void OnNetworkSpawn()
     {
         playerName.OnValueChanged += SetPlayerNameCard;
+        playerName.Value = playerName.Value;
     }
 
     protected virtual void SetPlayerNameCard(FixedString32Bytes previousValue, FixedString32Bytes newValue)
     {
         playerNameCard.text = newValue.ToString();
+        observerCursor.text.text = newValue.ToString();
     }
 
     [ServerRpc (RequireOwnership = false)]
@@ -45,6 +48,7 @@ public class NetworkPlayerInit : NetworkBehaviour
     public void SetNameCardClientRpc(ulong id,string name)
     {
         playerNameCard.text = name;
+        observerCursor.text.text = name;
     }
 
     /// <summary>
@@ -55,6 +59,7 @@ public class NetworkPlayerInit : NetworkBehaviour
     protected virtual void UpdatePlayerName(FixedString64Bytes previousValue, FixedString64Bytes newValue)
     {
             playerNameCard.text = newValue.ConvertToString();
+        observerCursor.text.text = newValue.ConvertToString();
     }
 
 

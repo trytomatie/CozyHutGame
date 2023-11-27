@@ -8,9 +8,9 @@ using UnityEngine.Events;
 
 public class Interactable_Container: Interactable
 {
-    public Inventory container1;
-    public Inventory container2;
-    public float interactionDistance = 5;
+    public Container container1;
+    public Container container2;
+    private float interactionDistance = 3;
 
     public override void CheckForExitCondition()
     {
@@ -33,7 +33,7 @@ public class Interactable_Container: Interactable
 
         if(prolongedInteraction)
         {
-            RemoveFromObservationList(source.GetComponent<NetworkObject>().NetworkObjectId);
+            RemoveFromObservationList(source.GetComponent<NetworkObject>().OwnerClientId);
         }
         base.EndInteraction(source);
     }
@@ -41,7 +41,6 @@ public class Interactable_Container: Interactable
     public override void ServerInteraction(ulong id)
     {
         AddToObservationList(id);
-        container1.RequestItemSyncClientRpc(GameManager.GetClientRpcParams(container1.OwnerClientId));
     }
 
     public override void LocalInteraction(GameObject source)

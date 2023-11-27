@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5004955773292059668}
-  - component: {fileID: 3101162949084449713}
+  - component: {fileID: 490204713186557350}
   m_Layer: 0
   m_Name: Container_01
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 4852793288164980086}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3101162949084449713
+--- !u!114 &490204713186557350
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,60 +41,96 @@ MonoBehaviour:
   m_GameObject: {fileID: 2775699141425311096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3972e1d7af4def14c913f3dd2bb49352, type: 3}
+  m_Script: {fileID: 11500000, guid: a378c3a998d21c9418032ed3d60c9dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 11400000, guid: ef4298f35ac41ca4485d03702feb2517, type: 2}
-  - {fileID: 11400000, guid: 111bd6536e3f152489b496036b6f5d7e, type: 2}
-  - {fileID: 11400000, guid: 89d612fec48c00844802d63ad265e122, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  observerList: 
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
   addItemEvents:
     m_PersistentCalls:
       m_Calls: []
-  ableToTrade:
-    m_InternalValue: 1
+  observerList: 0000000000000000
+  observationEvent: {fileID: 11400000, guid: 1d9003563830d3a49b68f876a35297db, type: 2}
+  cursorObserver: 1
 --- !u!1 &4780905199910684373
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +421,7 @@ MonoBehaviour:
   - {fileID: 6893974052786690371}
   requireBuildingBeacon: 1
   grounded: 1
-  itemContainer1: {fileID: 3101162949084449713}
+  itemContainer1: {fileID: 490204713186557350}
   itemContainer2: {fileID: 0}
 --- !u!114 &4039201371622871333
 MonoBehaviour:
@@ -1308,9 +1344,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  container1: {fileID: 3101162949084449713}
+  container1: {fileID: 490204713186557350}
   container2: {fileID: 0}
-  interactionDistance: 5
 --- !u!1001 &901269593425945211
 PrefabInstance:
   m_ObjectHideFlags: 0
