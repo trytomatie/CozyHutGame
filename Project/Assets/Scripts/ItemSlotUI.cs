@@ -39,7 +39,7 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
         {
             if(go.GetComponent<ItemSlotUI>() != null)
             {
-                Item itemObject = Item;
+                Item itemObject = ItemManager.GenerateItem(ItemRef);
                 ItemSlotUI slot = go.GetComponent<ItemSlotUI>();
                 if (slot.typeRestriction== Item.ItemType.None || slot.typeRestriction == itemObject.itemType)
                 {
@@ -47,15 +47,15 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
                     ItemData item2 = ItemData.Null;
                     if (itemObject != null)
                         item1 = new ItemData(itemObject.itemId, itemObject.stackSize);
-                    if (slot.Item != null)
-                        item2 = new ItemData(slot.Item.itemId, slot.Item.stackSize);
+                    if (slot.ItemRef != null)
+                        item2 = slot.ItemRef;
                     int pos1 = SlotId;
                     int pos2 = slot.slotId;
                     print($"{assignedContainer}___{slot.assignedContainer}");
                     assignedContainer.RequestItemSwapServerRpc( slot.assignedContainer, pos1, pos2, item1, item2);
                     //InventoryManagerUI.Instance.Inventory.SwapItemPlaces(slotId, go.GetComponent<ItemSlotUI>().SlotId);
-                    manager.RefreshUI();
-                    slot.manager.RefreshUI();
+                    //manager.RefreshUI();
+                    //slot.manager.RefreshUI();
                     break;
                 }
             }
@@ -77,6 +77,6 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
 
     public int SlotId { get => slotId; set => slotId = value; }
     public Image ItemImage { get => itemImage; set => itemImage = value; }
-    public Item Item { get => ItemManager.GenerateItem(assignedContainer.items[SlotId]); }
+    public ItemData ItemRef { get => assignedContainer.items[SlotId]; }
     public TextMeshProUGUI StackSizeText { get => stackSizeText; set => stackSizeText = value; }
 }

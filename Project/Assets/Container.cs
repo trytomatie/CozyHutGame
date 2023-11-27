@@ -26,16 +26,22 @@ public class Container : NetworkBehaviour
     public void RequestItemSwapServerRpc(NetworkBehaviourReference otherContainerRef,int pos1, int pos2,ItemData validationData1,ItemData validationData2)
     {
         Container otherContainer;
+        print($"{pos1} {pos2} {validationData1.itemId} {validationData2.itemId} {validationData1.stackSize} {validationData2.stackSize} {gameObject.name}");
         if (otherContainerRef.TryGet(out otherContainer)) // Both Inventory References are valid / not null
         {
             if (ValidateDataSwap(otherContainer, pos1, pos2, validationData1, validationData2)) // The Item Positions are also Valid
             {
+                print("Valide");
                 // Swap Items here
                 // Replicate this Operation on all Observers
 
                 ClientRpcParams clientRpcParams = GameManager.GetClientRpcParams(observerList.ToArray());
                 SwapItemsClientRpc(pos1, pos2, validationData1, validationData2, otherContainer, clientRpcParams);
             }
+        }
+        else
+        {
+            Debug.LogError("Other Container not Valid / is null");
         }
     }
     [ClientRpc]
@@ -44,9 +50,10 @@ public class Container : NetworkBehaviour
         Container otherContainer;
         if (otherContainerRef.TryGet(out otherContainer)) // Both Inventory References are valid / not null
         {
-            otherContainer.items[pos1] = validationData1;
-            items[pos2] = validationData2;
+            otherContainer.items[pos2] = validationData1;
+            items[pos1] = validationData2;
             observationEvent.Invoke(gameObject);
+            otherContainer.observationEvent.Invoke(otherContainer.gameObject);
         }
     }
 
@@ -173,18 +180,19 @@ public class Container : NetworkBehaviour
     [ClientRpc]
     private void AddItemClientRpc(ItemData itemData,ClientRpcParams clientRpcParams = default)
     {
+
         Item item = ItemManager.GenerateItem(itemData.itemId);
         item.stackSize = itemData.stackSize;
         if (item != null)
         {
-            ItemData itemToStackOn;
-            if (ItemAlreadyInventoryAndHasSpaceOnStack(itemData.itemId, out itemToStackOn))
+            int itemToStackOnPos;
+            if (ItemAlreadyInventoryAndHasSpaceOnStack(itemData.itemId, out itemToStackOnPos))
             {
-                itemToStackOn.stackSize += item.stackSize;
-                if (itemToStackOn.stackSize > itemToStackOn.MaxStackSize)
+                items[itemToStackOnPos].stackSize += item.stackSize;
+                if (items[itemToStackOnPos].stackSize > items[itemToStackOnPos].MaxStackSize)
                 {
-                    int rest = itemToStackOn.stackSize - itemToStackOn.MaxStackSize;
-                    itemToStackOn.stackSize = itemToStackOn.MaxStackSize;
+                    int rest = items[itemToStackOnPos].stackSize - items[itemToStackOnPos].MaxStackSize;
+                    items[itemToStackOnPos].stackSize = items[itemToStackOnPos].MaxStackSize;
                     ItemData restData = new ItemData(itemData.itemId, rest);
                     AddItemClientRpc(restData);
                 }
@@ -200,14 +208,14 @@ public class Container : NetworkBehaviour
             bool spaceFound = false;
             for (int i = 0; i < items.Length; i++)
             {
-                if (!items[i].IsEmpty)
+                if (items[i] == ItemData.Null)
                 {
                     items[i] = itemData;
                     spaceFound = true;
                     break;
                 }
             }
-            if(spaceFound)
+            if(!spaceFound)
             {
                 Debug.LogError("No Space in Container");
             }
@@ -225,38 +233,42 @@ public class Container : NetworkBehaviour
         }
     }
 
-    private bool ItemAlreadyInventoryAndHasSpaceOnStack(ulong id, out ItemData itemToStackOn)
+    private bool ItemAlreadyInventoryAndHasSpaceOnStack(ulong id, out int itemToStackOnId)
     {
+        int i = 0;
         foreach (ItemData item in items)
         {
             if (CheckItemId(item.itemId, id))
             {
+                print($"{item.stackSize} {ItemManager.GetMaxStackSize(id)}");
                 // there is no space left, so it is considered not in inventory for the purpose of stacking
                 if (item.stackSize == ItemManager.GetMaxStackSize(id))
                 {
+                    i++;
                     continue;
                 }
                 else
                 {
-                    itemToStackOn = item;
+                    itemToStackOnId = i;
                     return true;
                 }
             }
+            i++;
         }
-        itemToStackOn = ItemData.Null;
+        itemToStackOnId = -1;
         return false;
     }
 
     public bool HasItemSpaceInInventory(ItemData item)
     {
-        ItemData itemToStackOn;
-        if (ItemAlreadyInventoryAndHasSpaceOnStack(item.itemId, out itemToStackOn))
+        int itemToStackOnPos;
+        if (ItemAlreadyInventoryAndHasSpaceOnStack(item.itemId, out itemToStackOnPos))
         {
-            itemToStackOn.stackSize += item.stackSize;
-            if (itemToStackOn.stackSize > itemToStackOn.MaxStackSize)
+            items[itemToStackOnPos].stackSize += item.stackSize;
+            if (items[itemToStackOnPos].stackSize > items[itemToStackOnPos].MaxStackSize)
             {
-                int rest = itemToStackOn.stackSize - itemToStackOn.MaxStackSize;
-                itemToStackOn.stackSize = itemToStackOn.MaxStackSize;
+                int rest = items[itemToStackOnPos].stackSize - items[itemToStackOnPos].MaxStackSize;
+                items[itemToStackOnPos].stackSize = items[itemToStackOnPos].MaxStackSize;
                 ItemData restData = new ItemData(item.itemId, rest);
                 HasItemSpaceInInventory(restData);
             }

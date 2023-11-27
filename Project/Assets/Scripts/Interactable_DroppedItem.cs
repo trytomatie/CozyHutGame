@@ -126,9 +126,7 @@ public class Interactable_DroppedItem : Interactable
                 TargetClientIds = new ulong[] { claimedByPlayerId.Value }
             }
         };
-        Item itemToGive = ItemManager.GenerateItem(itemDropId.Value);
-        itemToGive.stackSize = stackSize;
-        target.GetComponent<Inventory>().AddItemClientRPC(itemToGive.itemId, itemToGive.stackSize, clientRpcParams);
+        target.GetComponent<Container>().AddItemServerRpc(new Item.ItemData(itemDropId.Value,stackSize));
         transform.parent.gameObject.GetComponent<NetworkObject>().Despawn(true);
         Destroy(transform.parent.gameObject);
     }

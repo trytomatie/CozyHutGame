@@ -29,6 +29,7 @@ public class LocalDamageObject : MonoBehaviour
             int elementId = weapon.element?.ID ?? 0;
 
             other.GetComponent<ResourceController>().PlayFeedbackServerRpc(damage,elementId,source.OwnerClientId);
+            other.GetComponent<ResourceController>().PlayFeedback(damage);
         }
     }
 

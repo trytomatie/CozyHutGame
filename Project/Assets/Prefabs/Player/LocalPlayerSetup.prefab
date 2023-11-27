@@ -5053,7 +5053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1814f9b867d754242b50efdbca1d96d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncedInvetory: {fileID: 0}
+  syncedContainer: {fileID: 0}
   itemSlots:
   - {fileID: 2368030777426913795}
   - {fileID: 7238038561977003537}
@@ -8737,7 +8737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df478b132632f8349ad93810ab2771fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 5256486908249114039}
+  syncedContainer: {fileID: 0}
   itemSlots:
   - {fileID: 2394363947016137786}
   - {fileID: 8724157792712525161}
@@ -8779,14 +8779,16 @@ MonoBehaviour:
   - {fileID: 7381374350600991433}
   - {fileID: 6333781851900789445}
   - {fileID: 6374963537721170152}
+  dragImage: {fileID: 2410161999219612961, guid: 3af8a42defeb0574384fd4baa9d775ae,
+    type: 3}
+  itemNameText: {fileID: 5084030535788874367}
+  inventoryUI: {fileID: 5256486908249114039}
+  equipmentContainer: {fileID: 0}
+  equipmentSlots:
   - {fileID: 2167772347557463026}
   - {fileID: 5723315617572729947}
   - {fileID: 3540299639696516829}
   - {fileID: 7293834537285676885}
-  dragImage: {fileID: 2410161999219612961, guid: 3af8a42defeb0574384fd4baa9d775ae,
-    type: 3}
-  inventory: {fileID: 0}
-  itemNameText: {fileID: 5084030535788874367}
 --- !u!114 &1222523869116773162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9922,6 +9924,89 @@ MonoBehaviour:
     IntEventList: []
     AdvancedInteger: 0
     AdvancedBool: 1
+    InvertBool: 0
+    multiplier: 1
+  - Event: {fileID: 11400000, guid: 1d9003563830d3a49b68f876a35297db, type: 2}
+    useInt: 0
+    useFloat: 0
+    useVoid: 0
+    useString: 0
+    useBool: 0
+    useGO: 1
+    useTransform: 0
+    useVector3: 0
+    useVector2: 0
+    useComponent: 0
+    useSprite: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseNull:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseInt:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBool:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolFalse:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolTrue:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseString:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseGO:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5033865599758168011}
+          m_TargetAssemblyTypeName: ContainerUI, Assembly-CSharp
+          m_MethodName: RefreshUI
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 5033865599758168011}
+          m_TargetAssemblyTypeName: InventoryManagerUI, Assembly-CSharp
+          m_MethodName: RefreshEquipmentUI
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    ResponseTransform:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseComponent:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseSprite:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector3:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector2:
+      m_PersistentCalls:
+        m_Calls: []
+    IntEventList: []
+    AdvancedInteger: 0
+    AdvancedBool: 0
     InvertBool: 0
     multiplier: 1
 --- !u!1 &7967618621931210430
@@ -25464,6 +25549,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7441885073376057596, guid: 2483596dea705934982706faa98f7f05,
+        type: 3}
+      propertyPath: typeRestriction
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7763456699896502974, guid: 2483596dea705934982706faa98f7f05,
         type: 3}

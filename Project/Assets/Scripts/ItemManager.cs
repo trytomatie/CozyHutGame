@@ -36,11 +36,19 @@ public class ItemManager : MonoBehaviour
 
     public static Item GenerateItem(ulong i)
     {
+        if(i == 0)
+        {
+            return null;
+        }
         return Instantiate(Instance.items[i]);
     }
 
     public static Item GenerateItem(ItemData data)
     {
+        if(data.itemId == 0)
+        {
+            return null;
+        }
         Item item = Instance.items[data.itemId];
         item.stackSize = data.stackSize;
         return Instantiate(item);

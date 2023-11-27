@@ -19,7 +19,7 @@ public class Item : ScriptableObject
     public int maxStackSize = 64;
 
 
-
+    [Serializable]
     public struct ItemData : INetworkSerializable, IEquatable<ItemData>
     {
         public ulong itemId;
@@ -93,12 +93,12 @@ public class Item : ScriptableObject
         // Override == operator
         public static bool operator ==(ItemData obj1, ItemData obj2)
         {
-            if (ReferenceEquals(obj1, obj2))
+            if (obj1.itemId == obj2.itemId && obj1.stackSize == obj2.stackSize)
             {
                 return true;
             }
 
-            return obj1.Equals(obj2);
+            return false;
         }
 
         public static bool operator !=(ItemData obj1, ItemData obj2)

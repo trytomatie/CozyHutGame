@@ -59,7 +59,7 @@ public class Inventory : NetworkBehaviour
             item.stackSize = stackSize;
         }
         items[pos] = item;
-        InventoryManagerUI.Instance.RefreshUI();
+       // InventoryManagerUI.Instance.RefreshUI();
     }
 
     private bool AddItem(ulong id,int stackSize)
@@ -80,7 +80,7 @@ public class Inventory : NetworkBehaviour
                 }
                 addItemEvents.Invoke(item);
                 NotificationManagerUI.Instance.SetNotification(item);
-                InventoryManagerUI.Instance.RefreshUI();
+                //InventoryManagerUI.Instance.RefreshUI();
                 return true;
             }
             // find space for added Item
@@ -96,7 +96,7 @@ public class Inventory : NetworkBehaviour
             }
             addItemEvents.Invoke(item);
             NotificationManagerUI.Instance.SetNotification(item);
-            InventoryManagerUI.Instance.RefreshUI();
+            //InventoryManagerUI.Instance.RefreshUI();
             return spaceFound;
         }
         else
@@ -131,7 +131,7 @@ public class Inventory : NetworkBehaviour
                 }
             }
         }
-        InventoryManagerUI.Instance.RefreshUI();
+        //InventoryManagerUI.Instance.RefreshUI();
     }
 
     public void RemoveItem(ulong id, int amount, int pos)
@@ -195,7 +195,7 @@ public class Inventory : NetworkBehaviour
                 itemToStackOn.stackSize = itemToStackOn.maxStackSize;
                 AddItem(id, rest);
             }
-            InventoryManagerUI.Instance.RefreshUI();
+            //InventoryManagerUI.Instance.RefreshUI();
             return true;
         }
         // find space for added Item
@@ -278,7 +278,7 @@ public class Inventory : NetworkBehaviour
 
                 }
             }
-            InventoryManagerUI.Instance.RefreshUI();
+            //InventoryManagerUI.Instance.RefreshUI();
             return true;
         }
 

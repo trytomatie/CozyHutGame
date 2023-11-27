@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using MalbersAnimations;
+using System.Linq;
 
 public class ResourceController : NetworkBehaviour
 {
@@ -45,26 +46,28 @@ public class ResourceController : NetworkBehaviour
 
             hp.Value -= dmg;
             var source = NetworkManager.Singleton.ConnectedClients[sourceId].PlayerObject;
+            List<ulong> clientList = NetworkManager.ConnectedClientsIds.ToList();
+            clientList.Remove(sourceId);
             ClientRpcParams clientRpcParams = new ClientRpcParams
             {
                 Send = new ClientRpcSendParams
                 {
-                    TargetClientIds = new ulong[] { sourceId }
+                    TargetClientIds = clientList.AsReadOnly()
                 }
             };
             // source.GetComponent<Inventory>().AddItemClientRPC(itemDrop.itemId, dmg, clientRpcParams);
             GameManager.Instance.SpawnDroppedItemServerRpc(itemDrop.itemId, dmg,transform.position + new Vector3(0,1,0));
-            PlayFeedbackClientRpc(dmg, sourceId);
+            PlayFeedbackClientRpc(dmg, sourceId, clientRpcParams);
 
 
         }
 
     }
     [ClientRpc]
-    private void PlayFeedbackClientRpc(int dmg, ulong sourceId)
+    private void PlayFeedbackClientRpc(int dmg, ulong sourceId,ClientRpcParams clientRpcParams = default)
     {
         MMF_FloatingText floatingText = damageFeedback.GetFeedbackOfType<MMF_FloatingText>();
-        floatingText.Value = string.Format( "+{0} {1}",dmg,itemDrop.itemName);
+        floatingText.Value = string.Format( "{0}",dmg);
         if(NetworkManager.LocalClientId == sourceId)
         {
             floatingText.AnimateColorGradient = GameManager.Instance.myColor;
@@ -75,7 +78,18 @@ public class ResourceController : NetworkBehaviour
         }
         damageFeedback.StopFeedbacks();
         damageFeedback.PlayFeedbacks();
+    }
 
+    public void PlayFeedback(int dmg)
+    {
+        MMF_FloatingText floatingText = damageFeedback.GetFeedbackOfType<MMF_FloatingText>();
+        floatingText.Value = string.Format("{0}", dmg);
+
+        floatingText.AnimateColorGradient = GameManager.Instance.myColor;
+
+
+        damageFeedback.StopFeedbacks();
+        damageFeedback.PlayFeedbacks();
     }
 
 

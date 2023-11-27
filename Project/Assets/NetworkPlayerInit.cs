@@ -8,6 +8,7 @@ using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
+using static Item;
 
 public class NetworkPlayerInit : NetworkBehaviour
 {
@@ -99,8 +100,10 @@ public class NetworkPlayerInit : NetworkBehaviour
             GameManager.Instance.inputManager = GetComponent<MInput>();
             GameObject playerSetup = Instantiate(playerSetupPrefab);
             DontDestroyOnLoad(playerSetup);
-            playerSetup.GetComponentInChildren<InventoryManagerUI>().syncedContainer = inventory;
-            playerSetup.GetComponentInChildren<InventoryManagerUI>().equipmentContainer = equipmentInventory;
+            playerSetup.GetComponentInChildren<InventoryManagerUI>().SetSyncedInvetory(inventory);
+            playerSetup.GetComponentInChildren<InventoryManagerUI>().SetSyncedEquipmentInventory(equipmentInventory);
+            inventory.AddToObserverListServerRpc(OwnerClientId);
+            equipmentInventory.AddToObserverListServerRpc(OwnerClientId);
             Collider col = GetComponent<Collider>();
            
             if(col.isTrigger)
@@ -150,12 +153,12 @@ public class NetworkPlayerInit : NetworkBehaviour
     {
         if(value)
         {
-            if (GetComponent<Inventory>().items[40] != null)
-            {
-                SpawnServerVisualServerRpc(GetComponent<Inventory>().items[40].itemName);
-                GameObject handProxy = Instantiate(GetComponent<Inventory>().items[40].handProxy);
-                GetComponent<MWeaponManager>().Equip_External(handProxy);
-            }
+            //if (GetComponent<Inventory>().items[40] != null)
+            //{
+            //    SpawnServerVisualServerRpc(GetComponent<Inventory>().items[40].itemName);
+            //    GameObject handProxy = Instantiate(GetComponent<Inventory>().items[40].handProxy);
+            //    GetComponent<MWeaponManager>().Equip_External(handProxy);
+            //}
         }
         else
         {
@@ -173,11 +176,10 @@ public class NetworkPlayerInit : NetworkBehaviour
         EquipWeapon(false);
         if (i>=0)
         {
-            print("int: " + i);
-            if(GetComponent<Inventory>().items[40 + i] != null)
+            if(equipmentInventory.items[i] != ItemData.Null)
             {
-                SpawnServerVisualServerRpc(GetComponent<Inventory>().items[40 + i].itemName);
-                GameObject handProxy = Instantiate(GetComponent<Inventory>().items[40 + i].handProxy);
+                SpawnServerVisualServerRpc(equipmentInventory.items[i].itemId);
+                GameObject handProxy = Instantiate(ItemManager.GenerateItem(equipmentInventory.items[i]).handProxy);
                 GetComponent<MWeaponManager>().Equip_External(handProxy);
             }
 
@@ -211,9 +213,9 @@ public class NetworkPlayerInit : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership =false)]
-    public void SpawnServerVisualServerRpc(string itemName)
+    public void SpawnServerVisualServerRpc(ulong id)
     {
-        visual = Instantiate(ItemManager.GenerateItem(itemName).serverHandProxy);
+        visual = Instantiate(ItemManager.GenerateItem(id).serverHandProxy);
         visual.GetComponent<NetworkObject>().Spawn();
         visual.GetComponent<NetworkObject>().TrySetParent(handPivot.transform,false);
         visual.transform.localPosition = Vector3.zero + visual.GetComponent<MWeapon>().RightHandOffset.Position;

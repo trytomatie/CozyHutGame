@@ -712,6 +712,76 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00050079194, y: -0.0032092847, z: 0.00020178716}
     m_Extent: {x: 0.0032576954, y: 0.004015106, z: 0.00045818632}
   m_DirtyAABB: 0
+--- !u!1 &8546440309309992081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7916272784888443760}
+  - component: {fileID: 8546350139505615501}
+  m_Layer: 20
+  m_Name: Equipment Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7916272784888443760
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8546440309309992081}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2795178991662121633}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8546350139505615501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8546440309309992081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a378c3a998d21c9418032ed3d60c9dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - itemId: 3
+    stackSize: 1
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  addItemEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1180042201660877434}
+        m_TargetAssemblyTypeName: PlayerSaveData, Assembly-CSharp
+        m_MethodName: DiscoverItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  observerList: 0000000000000000
+  observationEvent: {fileID: 11400000, guid: 1d9003563830d3a49b68f876a35297db, type: 2}
 --- !u!1 &8977530536243081214
 GameObject:
   m_ObjectHideFlags: 0
@@ -4618,6 +4688,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5411809854579364849}
+    - targetCorrespondingSourceObject: {fileID: 2749096701367605169, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7916272784888443760}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5591343338541454398, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -4655,6 +4729,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5998676119647789285}
+    - targetCorrespondingSourceObject: {fileID: 5591343338541454398, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1533681281162932127}
     - targetCorrespondingSourceObject: {fileID: 1392788870, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       insertIndex: -1
@@ -5472,6 +5550,8 @@ MonoBehaviour:
         byte0027: 0
         byte0028: 0
         byte0029: 0
+  inventory: {fileID: 1533681281162932127}
+  equipmentInventory: {fileID: 8546350139505615501}
 --- !u!114 &-820908590818749460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5834,6 +5914,116 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 0.8
+--- !u!114 &1533681281162932127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5581307655371325742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a378c3a998d21c9418032ed3d60c9dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  - itemId: 0
+    stackSize: 0
+  addItemEvents:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1180042201660877434}
+        m_TargetAssemblyTypeName: PlayerSaveData, Assembly-CSharp
+        m_MethodName: DiscoverItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  observerList: 0000000000000000
+  observationEvent: {fileID: 11400000, guid: 1d9003563830d3a49b68f876a35297db, type: 2}
 --- !u!4 &5600374550158948136 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5572147231819932216, guid: 1c114219c5c9900429685479d61c0284,

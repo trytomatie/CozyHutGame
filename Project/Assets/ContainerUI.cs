@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Item;
 
 public class ContainerUI : MonoBehaviour, IContainerUI
 {
@@ -18,7 +19,7 @@ public class ContainerUI : MonoBehaviour, IContainerUI
     public virtual void SetSyncedInvetory(GameObject go)
     {
         SetSyncedInvetory(go.GetComponent<Container>());
-        RefreshUI();
+        RefreshUI(go);
     }
     public void SetSyncedInvetory(Container inventory)
     {
@@ -29,19 +30,23 @@ public class ContainerUI : MonoBehaviour, IContainerUI
         }
     }
 
-    public void RefreshUI()
+    public virtual void RefreshUI(GameObject container)
     {
-        foreach (ItemSlotUI itemslotUI in itemSlots)
+
+        if (container.GetComponent<Container>() == syncedContainer)
         {
-            itemslotUI.ItemImage.sprite = null;
-            itemslotUI.StackSizeText.text = "";
-        }
-        for (int i = 0; i < syncedContainer.items.Length; i++)
-        {
-            if (syncedContainer.items[i] != null)
+            foreach (ItemSlotUI itemslotUI in itemSlots)
             {
-                itemSlots[i].ItemImage.sprite = itemSlots[i].Item.sprite;
-                itemSlots[i].StackSizeText.text = "x" + itemSlots[i].Item.stackSize;
+                itemslotUI.ItemImage.sprite = null;
+                itemslotUI.StackSizeText.text = "";
+            }
+            for (int i = 0; i < syncedContainer.items.Length; i++)
+            {
+                if (syncedContainer.items[i] != ItemData.Null)
+                {
+                    itemSlots[i].ItemImage.sprite = ItemManager.GenerateItem(itemSlots[i].ItemRef).sprite;
+                    itemSlots[i].StackSizeText.text = "x" + ItemManager.GenerateItem(itemSlots[i].ItemRef).stackSize;
+                }
             }
         }
     }
