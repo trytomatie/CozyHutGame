@@ -2,31 +2,40 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using static Item;
 
 public class BuildManager : MonoBehaviour
 {
     [HideInInspector]
     public float gridSize = 0.25f;
-    private float[] gridSizes = new float[] { 0, 0.25f};
-    private int gridSizeIndex = 1;
+
     public float raycastMaxDistance = 7;
     public LayerMask layerMask;
     public LayerMask layerMaskDelete;
     public ProjectionHandler projectionInstance;
     public BuildingObjectHandler projectionBuildingObjectHandler;
-    private Transform cameraMainTransform;
-    private bool canUpdateProjectionPosition = false;
-    private float sphereCastRadius = 0.1f;
-    private static BuildManager instance;
+
     public ulong currentBuildingId;
     public BuildingObject.BuildingType currentBuildingType;
 
     private float heightOffset;
     private Vector3 lastSavedProjectionPosition;
+    private float[] gridSizes = new float[] { 0, 0.25f };
+    private int gridSizeIndex = 1;
     public bool flip = false;
     public bool snapping = true;
+
+    private Transform cameraMainTransform;
+    private bool canUpdateProjectionPosition = false;
+    private float sphereCastRadius = 0.1f;
+    private static BuildManager instance;
+    public Container playerInventory;
+
+    public TextMeshProUGUI selectedBuildingText;
+    public ItemSlotUI[] buldingCostSlots;
 
     public bool CanUpdateProjectionPosition { get => canUpdateProjectionPosition; set => canUpdateProjectionPosition = value; }
     public static BuildManager Instance { get => instance; }
@@ -59,8 +68,6 @@ public class BuildManager : MonoBehaviour
         gridSize = gridSizes[gridSizeIndex];
         GameUI.Instance.UpdateGridSizeText();
     }
-
-
 
     private void FixedUpdate()
     {
@@ -138,10 +145,37 @@ public class BuildManager : MonoBehaviour
     public virtual void PlaceBuildingObject()
     {
         heightOffset = 0;
-        if(projectionBuildingObjectHandler.basePivot.transform.position != Vector3.zero)
+        ItemData[] requiredItems;
+        if(projectionBuildingObjectHandler.basePivot.transform.position != Vector3.zero && CanAffordSelectedBuilding(out requiredItems))
         {
+            foreach (ItemData data in requiredItems)
+            {
+                print($"{data.itemId}   {data.stackSize}");
+                playerInventory.RequestRemoveItemServerRpc(data);
+                playerInventory.RemoveItemClientSidePrediction(data);
+            }
+
             GameManager.Instance.PlaceBuildingServerRpc(currentBuildingId, projectionBuildingObjectHandler.basePivot.transform.position, projectionInstance.transform.rotation, flip);
+            RefreshBuildingDescription();
         }
+    }
+
+    public bool CanAffordSelectedBuilding(out ItemData[] requiredItems)
+    {
+        requiredItems = new ItemData[BuildingObjectManager.AccessStaticBuildingObjectData(currentBuildingId).buildingMaterialAmounts.Length];
+        for(int i = 0; i < requiredItems.Length;i++)
+        {
+            requiredItems[i] = new ItemData(BuildingObjectManager.AccessStaticBuildingObjectData(currentBuildingId).buildingMaterials[i].itemId,
+                BuildingObjectManager.AccessStaticBuildingObjectData(currentBuildingId).buildingMaterialAmounts[i]);
+        }
+        foreach(ItemData data in requiredItems)
+        {
+            if(data.stackSize > playerInventory.GetAmmountOfItem(data.itemId))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void DestroyBuilding()
@@ -155,12 +189,6 @@ public class BuildManager : MonoBehaviour
                 GameManager.Instance.DespawnBuildingServerRpc(boh.GetComponent<NetworkObject>().NetworkObjectId,NetworkManager.Singleton.LocalClientId);
             }
         }
-    }
-
-    // Not used?
-    public virtual void PlaceBuildingObject(int id)
-    {
-        GameManager.Instance.PlaceBuildingServerRpc((ulong)id, projectionInstance.transform.position, projectionInstance.transform.rotation, flip);
     }
 
     public void UpdateProjectionPosition()
@@ -203,7 +231,7 @@ public class BuildManager : MonoBehaviour
         RaycastHit[] raycastHits = Physics.SphereCastAll(startPoint, sphereCastRadius, direction, raycastMaxDistance, layerMask);
         if(raycastHits.Length > 0)
         {
-            raycastHits = raycastHits.OrderByDescending(hit => Vector3.Distance(startPoint, hit.collider.transform.position)).ToArray();
+            raycastHits = raycastHits.OrderBy(hit => Vector3.Distance(startPoint, hit.collider.transform.position)).ToArray();
             //raycastHits = raycastHits.OrderBy(hit =>
             //{
             //    float distanceToPoint = Vector3.Distance(startPoint, hit.point);
@@ -305,6 +333,71 @@ public class BuildManager : MonoBehaviour
             return value;
         }
         return Mathf.Round(value / precision) * precision;
+    }
+
+    public virtual void SetBuildingDescription(GameObject source)
+    {
+        BuildingSlotUI slot = source.GetComponent<BuildingSlotUI>() ?? null;
+        if(slot != null)
+        {
+            selectedBuildingText.text = "Selected Building: " + slot.buildingData.buildingName;
+            foreach (ItemSlotUI itemSlot in buldingCostSlots)
+            {
+                itemSlot.ItemImage.sprite = null;
+                itemSlot.StackSizeText.text = "";
+            }
+            for (int i = 0; i < slot.buildingData.buildingMaterials.Length;i++)
+            {
+                Item buildingItem = slot.buildingData.buildingMaterials[i];
+                buldingCostSlots[i].ItemImage.sprite = buildingItem.sprite;
+                buldingCostSlots[i].StackSizeText.text = $"x {slot.buildingData.buildingMaterialAmounts[i]}";
+                // Colorize it depending if resources are available or not
+                if (slot.buildingData.buildingMaterialAmounts[i] <= playerInventory.GetAmmountOfItem(buildingItem.itemId))
+                {
+                    buldingCostSlots[i].StackSizeText.color = Color.white;
+                }
+                else
+                {
+                    buldingCostSlots[i].StackSizeText.color = Color.red;
+                }
+            }
+        }
+    }
+
+    public virtual void RefreshBuildingDescription()
+    {
+        BuildingObject currentBuilding = BuildingObjectManager.AccessStaticBuildingObjectData(currentBuildingId);
+        selectedBuildingText.text = "Selected Building: " + currentBuilding.buildingName;
+        foreach (ItemSlotUI itemSlot in buldingCostSlots)
+        {
+            itemSlot.ItemImage.sprite = null;
+            itemSlot.StackSizeText.text = "";
+        }
+        for (int i = 0; i < currentBuilding.buildingMaterials.Length; i++)
+        {
+            Item buildingItem = currentBuilding.buildingMaterials[i];
+            buldingCostSlots[i].ItemImage.sprite = buildingItem.sprite;
+            buldingCostSlots[i].StackSizeText.text = $"x {currentBuilding.buildingMaterialAmounts[i]}";
+            // Colorize it depending if resources are available or not
+            if (currentBuilding.buildingMaterialAmounts[i] <= playerInventory.GetAmmountOfItem(buildingItem.itemId))
+            {
+                buldingCostSlots[i].StackSizeText.color = Color.white;
+            }
+            else
+            {
+                buldingCostSlots[i].StackSizeText.color = Color.red;
+            }
+        }
+    }
+
+    public void HideBuildingDescription()
+    {
+        selectedBuildingText.text = "Selected Building:";
+        foreach (ItemSlotUI itemSlot in buldingCostSlots)
+        {
+            itemSlot.ItemImage.sprite = null;
+            itemSlot.StackSizeText.text = "";
+        }
     }
 }
 

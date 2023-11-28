@@ -27,8 +27,19 @@ public class LocalDamageObject : MonoBehaviour
             var source = sourceObject.GetComponent<NetworkObject>();
             int damage = (int)Random.Range(weapon.MinDamage,weapon.MaxDamage+1);
             int elementId = weapon.element?.ID ?? 0;
+            ResourceController rc = other.GetComponent<ResourceController>();
 
-            other.GetComponent<ResourceController>().PlayFeedbackServerRpc(damage,elementId,source.OwnerClientId);
+            rc.PlayFeedbackServerRpc(damage,elementId,source.OwnerClientId);
+            // Redundant, it also beeing calculated by the server, consider doing this only on the client
+            if (rc.needWeaknessForEffectiveDamage && rc.weakness != null && rc.weakness.ID == elementId)
+            {
+                // Weakness is hit
+            }
+            else if (rc.needWeaknessForEffectiveDamage)
+            {
+                // Weakness is not hit
+                damage = 1;
+            }
             other.GetComponent<ResourceController>().PlayFeedback(damage);
         }
     }

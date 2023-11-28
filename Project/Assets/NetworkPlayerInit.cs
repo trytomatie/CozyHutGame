@@ -34,6 +34,7 @@ public class NetworkPlayerInit : NetworkBehaviour
 
     protected virtual void SetPlayerNameCard(FixedString32Bytes previousValue, FixedString32Bytes newValue)
     {
+
         playerNameCard.text = newValue.ToString();
         observerCursor.text.text = newValue.ToString();
     }
@@ -42,24 +43,6 @@ public class NetworkPlayerInit : NetworkBehaviour
     public void SetNameCardServerRpc(string name)
     {
         playerName.Value = name;
-    }
-
-    [ClientRpc]
-    public void SetNameCardClientRpc(ulong id,string name)
-    {
-        playerNameCard.text = name;
-        observerCursor.text.text = name;
-    }
-
-    /// <summary>
-    /// Updates the player name, usualy only set On Spawn
-    /// </summary>
-    /// <param name="previousValue"></param>
-    /// <param name="newValue"></param>
-    protected virtual void UpdatePlayerName(FixedString64Bytes previousValue, FixedString64Bytes newValue)
-    {
-            playerNameCard.text = newValue.ConvertToString();
-        observerCursor.text.text = newValue.ConvertToString();
     }
 
 
@@ -88,6 +71,7 @@ public class NetworkPlayerInit : NetworkBehaviour
                 Destroy(go);
             }
             playerNameCard.text = playerName.Value.ToString();
+            observerCursor.text.text = playerName.Value.ToString();
             // Disable the Collider so it doesn't desync on other clients???
             GetComponent<Collider>().enabled = false;
         }
@@ -107,6 +91,7 @@ public class NetworkPlayerInit : NetworkBehaviour
             DontDestroyOnLoad(playerSetup);
             playerSetup.GetComponentInChildren<InventoryManagerUI>().SetSyncedInvetory(inventory);
             playerSetup.GetComponentInChildren<InventoryManagerUI>().SetSyncedEquipmentInventory(equipmentInventory);
+            playerSetup.GetComponentInChildren<BuildManager>().playerInventory = inventory;
             inventory.AddToObserverListServerRpc(OwnerClientId);
             equipmentInventory.AddToObserverListServerRpc(OwnerClientId);
             Collider col = GetComponent<Collider>();
@@ -117,6 +102,7 @@ public class NetworkPlayerInit : NetworkBehaviour
                 print("-------- Had to Fix isTrigger of Character Spawn-------");
             }
             SetNameCardServerRpc(GameManager.Instance.playerName);
+            print(playerName.Value);
         }
         SpawnHandPivotSetupServerRpc();
 
