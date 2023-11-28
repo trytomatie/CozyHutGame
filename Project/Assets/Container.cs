@@ -73,9 +73,52 @@ public class Container : NetworkBehaviour
             {
                 if (items[i].stackSize >= amount)
                 {
+                    print($"Removing {itemData.itemId} {itemData.stackSize} {i}");
                     // If stackSize is greater than or equal to amount, subtract amount
-                    RemoveItem(new ItemData(items[i].itemId, amount),i);
+                    RemoveItemWithValidation(new ItemData(items[i].itemId, amount),i);
                     amount = 0;  
+                    break;
+                }
+                else
+                {
+                    // If stackSize is smaller, subtract stackSize and adjust amount
+                    amount -= items[i].stackSize;
+                    RemoveItemWithValidation(new ItemData(items[i].itemId, items[i].stackSize), i);
+                }
+            }
+        }
+        SyncContainerClientRpc(items, GameManager.GetClientRpcParams(observerList.ToArray()));
+    }
+
+    [ServerRpc (RequireOwnership =false)]
+    public void RequestRemoveItemServerRpc(ItemData itemData,int pos)
+    {
+        RemoveItemWithValidation(itemData, pos);
+    }
+
+    private void RemoveItemWithValidation(ItemData itemData, int pos)
+    {
+        if (ValidateData(this, pos, itemData))
+        {
+            RemoveItemClientRpc(itemData, pos);
+        }
+    }
+
+    /// <summary>
+    /// To Avoid double Crafts/Builds, since cost is calculated Clientside
+    /// </summary>
+    public void RemoveItemClientSidePrediction(ItemData itemData)
+    {
+        int amount = itemData.stackSize;
+        for (int i = items.Length - 1; i >= 0; i--)
+        {
+            if (itemData.itemId == items[i].itemId)
+            {
+                if (items[i].stackSize >= amount)
+                {
+                    // If stackSize is greater than or equal to amount, subtract amount
+                    RemoveItem(new ItemData(items[i].itemId, amount), i);
+                    amount = 0;
                     break;
                 }
                 else
@@ -88,23 +131,10 @@ public class Container : NetworkBehaviour
         }
     }
 
-    [ServerRpc (RequireOwnership =false)]
-    public void RequestRemoveItemServerRpc(ItemData itemData,int pos)
-    {
-        RemoveItem(itemData, pos);
-    }
-
-    private void RemoveItem(ItemData itemData, int pos)
-    {
-        if (ValidateData(this, pos, itemData))
-        {
-            RemoveItemClientRpc(itemData, pos);
-        }
-    }
-
     [ClientRpc]
     private void RemoveItemClientRpc(ItemData data, int pos)
     {
+        if (IsHost) return;
         if (items[pos].stackSize >= data.stackSize) // if The stacksize is sufficent
         {
             items[pos].stackSize -= data.stackSize;
@@ -120,6 +150,25 @@ public class Container : NetworkBehaviour
             SyncContainerServerRpc(NetworkManager.LocalClientId);
         }
     }
+
+    public void RemoveItem(ItemData data,int pos)
+    {
+        if (items[pos].stackSize >= data.stackSize) // if The stacksize is sufficent
+        {
+            items[pos].stackSize -= data.stackSize;
+            if (items[pos].stackSize == 0)
+            {
+                items[pos] = ItemData.Null;
+            }
+            observationEvent.Invoke(gameObject);
+        }
+        else // data missmatch must have happend / Invalid Request
+        {
+            Debug.LogError($"Data Missmatch happened Client: {NetworkManager.LocalClientId} for Removing Items");
+            SyncContainerServerRpc(NetworkManager.LocalClientId);
+        }
+    }
+
 
     private bool ValidateDataSwap(Container otherContainer, int pos1,int pos2,ItemData validationData1,ItemData validationData2)
     {

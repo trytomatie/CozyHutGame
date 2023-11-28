@@ -66,4 +66,9 @@ public class BuildingObjectManager : MonoBehaviour
         return 0;
     }
 
+    public static BuildingObject AccessStaticBuildingObjectData(ulong id)
+    {
+        return Instance.buildingObjects[id];
+    }
+
 }

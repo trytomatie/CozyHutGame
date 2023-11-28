@@ -57,6 +57,7 @@ public class ResourceController : NetworkBehaviour
             };
             // source.GetComponent<Inventory>().AddItemClientRPC(itemDrop.itemId, dmg, clientRpcParams);
             GameManager.Instance.SpawnDroppedItemServerRpc(itemDrop.itemId, dmg,transform.position + new Vector3(0,1,0));
+            print($"Damage: {dmg}");
             PlayFeedbackClientRpc(dmg, sourceId, clientRpcParams);
 
 

@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 6935657287360082584, guid: 6201363e32352ea4dab9e5736c3b9bc8,
         type: 3}
       propertyPath: m_Name
-      value: WoodAxe 2 HandProxy
+      value: StoneAxe HandProxy
       objectReference: {fileID: 0}
     - target: {fileID: 6936645199541586234, guid: 6201363e32352ea4dab9e5736c3b9bc8,
         type: 3}
@@ -85,19 +85,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
         type: 3}
+      propertyPath: GroundCombo
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
+        type: 3}
       propertyPath: Editor_Tabs1
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
         type: 3}
       propertyPath: Editor_Tabs2
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
         type: 3}
       propertyPath: meleeTrigger
       value: 
       objectReference: {fileID: 4970997705226787414}
+    - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
+        type: 3}
+      propertyPath: GroundAttackAbilities.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
+        type: 3}
+      propertyPath: statModifier.MaxValue.ConstantValue
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050077791510279170, guid: 6201363e32352ea4dab9e5736c3b9bc8,
+        type: 3}
+      propertyPath: statModifier.MinValue.ConstantValue
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3214988644840368356, guid: 6201363e32352ea4dab9e5736c3b9bc8, type: 3}
     - {fileID: 2405310584229142296, guid: 6201363e32352ea4dab9e5736c3b9bc8, type: 3}

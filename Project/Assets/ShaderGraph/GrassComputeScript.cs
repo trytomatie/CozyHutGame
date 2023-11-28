@@ -460,6 +460,11 @@ public class GrassComputeScript : MonoBehaviour
 
             for (int i = 0; i < interactors.Length; i++)
             {
+                if (interactors[i] == null)
+                {
+                    positions[i] = Vector4.zero;
+                    continue;
+                }
                 positions[i] = new Vector4(interactors[i].transform.position.x, interactors[i].transform.position.y, interactors[i].transform.position.z,
                 interactors[i].radius);
 
