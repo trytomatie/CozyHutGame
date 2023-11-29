@@ -126,6 +126,7 @@ public class Interactable : NetworkBehaviour
     [ServerRpc (RequireOwnership =false)]
     private void InteractServerRpc(ulong id)
     {
+        print(id);
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
             Send = new ClientRpcSendParams

@@ -106,7 +106,7 @@ public class Interactable_DroppedItem : Interactable
         }
         if(!hasSpawned)
         {
-            if(spawnTimer + 0.15f < Time.time && Physics.Raycast(transform.position,Vector3.down, 0.6f,raycastLayerMask))
+            if(spawnTimer + 0.25f < Time.time && Physics.Raycast(transform.position,Vector3.down, 0.6f,raycastLayerMask))
             {
                 hasSpawned = true;
                 itemParticlesSystem.SetActive(true);

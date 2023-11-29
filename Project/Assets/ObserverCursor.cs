@@ -25,7 +25,6 @@ public class ObserverCursor : NetworkBehaviour
 
     public void FixedUpdate()
     {
-        print(IsLocalPlayer);
         if (IsLocalPlayer && isVisible && frame % 3 == 0) // Updated 10 times per second max
         {
             mouseX.Value = Input.mousePosition.x / Screen.width;

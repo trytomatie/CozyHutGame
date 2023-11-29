@@ -51,9 +51,9 @@ public class CraftingManagerUI : MonoBehaviour
     {
         GameObject player = GetLocalPlayer();
 
-        if(CanCraft())
+        if (CanCraft())
         {
-            
+
             ItemData[] itemData = GetItemData();
             Container inventory = player.GetComponent<Container>();
             if (inventory.HasItemSpaceInInventory(new ItemData(selectedRecipe.recepieRessult.itemId, 1)))
@@ -62,8 +62,11 @@ public class CraftingManagerUI : MonoBehaviour
                 {
                     inventory.RequestRemoveItemServerRpc(data);
                 }
-                inventory.AddItemServerRpc(new ItemData(selectedRecipe.craftingId, 1));
-                // GameManager.Instance.GiveItemToPlayerServerRpc(ItemManager.GetItemId(selectedRecipe.recepieRessult.itemName), 1, NetworkManager.Singleton.LocalClientId);
+
+                // I NEVER TELL THE SERVER TO ADD AN ITEM; BUT IT JUST DOES IT... WHY?????????????ß EDIT: Nvm i found the issue, I just added it in HasItemSpaceInInventory
+
+                inventory.AddItemServerRpc(new ItemData(selectedRecipe.recepieRessult.itemId, 1));
+               
                 SetCraftingRecipe(selectedCraftingSlot);
             }
             else

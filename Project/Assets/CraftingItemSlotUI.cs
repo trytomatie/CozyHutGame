@@ -13,7 +13,7 @@ public class CraftingItemSlotUI : MonoBehaviour
     public void SetSlotInfo(Item item, int stackAmount)
     {
         itemImage.sprite = item.sprite;
-        Inventory inventory = GameManager.Instance.playerList[NetworkManager.Singleton.LocalClientId].GetComponent<Inventory>();
+        Container inventory = GameManager.Instance.playerList[NetworkManager.Singleton.LocalClientId].GetComponent<Container>();
         int stacksInInventory = inventory.GetAmmountOfItem(item.itemId);
         stackSizeText.text = stacksInInventory + " / "+ stackAmount ;
     }

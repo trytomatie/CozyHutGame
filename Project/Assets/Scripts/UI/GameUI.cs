@@ -46,7 +46,7 @@ public class GameUI : MonoBehaviour
 
     public void CloseAllUIWindows()
     {
-        craftingMenu.SetActive(false);
+        // craftingMenu.SetActive(false); // is now in inventory
         inventoryMenu.SetActive(false);
         equipmentSelectionMenu.SetActive(false);
         closeAllUIWindowsEvent.Invoke();

@@ -98,10 +98,8 @@ public class Container : NetworkBehaviour
 
     private void RemoveItemWithValidation(ItemData itemData, int pos)
     {
-        if (ValidateData(this, pos, itemData))
-        {
-            RemoveItemClientRpc(itemData, pos);
-        }
+        // No Validation Needed
+        RemoveItemClientRpc(itemData, pos);
     }
 
     /// <summary>
@@ -134,7 +132,7 @@ public class Container : NetworkBehaviour
     [ClientRpc]
     private void RemoveItemClientRpc(ItemData data, int pos)
     {
-        if (IsHost) return;
+        // if (IsHost) return;
         if (items[pos].stackSize >= data.stackSize) // if The stacksize is sufficent
         {
             items[pos].stackSize -= data.stackSize;
@@ -182,7 +180,7 @@ public class Container : NetworkBehaviour
 
     private static bool ValidateData(Container container,int pos,ItemData validationData)
     {
-        if(container.items[pos] == validationData)
+        if (container.items[pos] == validationData)
         {
             return true;
         }
@@ -269,9 +267,7 @@ public class Container : NetworkBehaviour
     [ClientRpc]
     private void AddItemClientRpc(ItemData itemData,ClientRpcParams clientRpcParams = default)
     {
-
-        Item item = ItemManager.GenerateItem(itemData.itemId);
-        item.stackSize = itemData.stackSize;
+        Item item = ItemManager.GenerateItem(itemData);
         if (item != null)
         {
             int itemToStackOnPos;
@@ -299,6 +295,7 @@ public class Container : NetworkBehaviour
             {
                 if (items[i] == ItemData.Null)
                 {
+
                     items[i] = itemData;
                     spaceFound = true;
                     break;
@@ -329,7 +326,7 @@ public class Container : NetworkBehaviour
         {
             if (CheckItemId(item.itemId, id))
             {
-                print($"{item.stackSize} {ItemManager.GetMaxStackSize(id)}");
+
                 // there is no space left, so it is considered not in inventory for the purpose of stacking
                 if (item.stackSize == ItemManager.GetMaxStackSize(id))
                 {
@@ -359,7 +356,7 @@ public class Container : NetworkBehaviour
                 int rest = items[itemToStackOnPos].stackSize - items[itemToStackOnPos].MaxStackSize;
                 items[itemToStackOnPos].stackSize = items[itemToStackOnPos].MaxStackSize;
                 ItemData restData = new ItemData(item.itemId, rest);
-                HasItemSpaceInInventory(restData);
+                return HasItemSpaceInInventory(restData); // Pretty sure there is gonna be a problem in the future?
             }
             return true;
         }
@@ -367,9 +364,8 @@ public class Container : NetworkBehaviour
         bool spaceFound = false;
         for (int i = 0; i < items.Length; i++)
         {
-            if (items[i] == null)
+            if (items[i] == ItemData.Null)
             {
-                items[i] = item;
                 spaceFound = true;
                 break;
             }

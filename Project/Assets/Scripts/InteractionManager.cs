@@ -51,7 +51,7 @@ public class InteractionManager : MonoBehaviour
 
     public void Interact(GameObject soruce)
     {
-        if(CurrentInteractionTarget != null)
+        if(CurrentInteractionTarget != null )
         {
             print("Hey");
             CurrentInteractionTarget.Interact();
