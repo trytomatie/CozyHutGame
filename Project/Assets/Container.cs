@@ -14,6 +14,7 @@ public class Container : NetworkBehaviour
     public List<ulong> observerList = new List<ulong>() {};
     public MEvent observationEvent;
     public bool cursorObserver = false;
+    public bool canNotify = false;
 
     private void Start()
     {
@@ -27,7 +28,7 @@ public class Container : NetworkBehaviour
     public void RequestItemSwapServerRpc(NetworkBehaviourReference otherContainerRef,int pos1, int pos2,ItemData validationData1,ItemData validationData2)
     {
         Container otherContainer;
-        print($"{pos1} {pos2} {validationData1.itemId} {validationData2.itemId} {validationData1.stackSize} {validationData2.stackSize} {gameObject.name}");
+        //print($"{pos1} {pos2} {validationData1.itemId} {validationData2.itemId} {validationData1.stackSize} {validationData2.stackSize} {gameObject.name}");
         if (otherContainerRef.TryGet(out otherContainer)) // Both Inventory References are valid / not null
         {
             if (ValidateDataSwap(otherContainer, pos1, pos2, validationData1, validationData2)) // The Item Positions are also Valid
@@ -261,11 +262,10 @@ public class Container : NetworkBehaviour
     public void AddItemServerRpc(ItemData item)
     {
         ClientRpcParams clientRpcParams = GameManager.GetClientRpcParams(observerList.ToArray());
-        AddItemClientRpc(item, clientRpcParams);
+        AddItem(item);
     }
 
-    [ClientRpc]
-    private void AddItemClientRpc(ItemData itemData,ClientRpcParams clientRpcParams = default)
+    private void AddItem(ItemData itemData)
     {
         Item item = ItemManager.GenerateItem(itemData);
         if (item != null)
@@ -279,10 +279,10 @@ public class Container : NetworkBehaviour
                     int rest = items[itemToStackOnPos].stackSize - items[itemToStackOnPos].MaxStackSize;
                     items[itemToStackOnPos].stackSize = items[itemToStackOnPos].MaxStackSize;
                     ItemData restData = new ItemData(itemData.itemId, rest);
-                    AddItemClientRpc(restData);
+                    AddItem(restData);
                 }
                 addItemEvents.Invoke(item);
-                if(NetworkManager.LocalClientId == OwnerClientId)
+                if(NetworkManager.LocalClientId == OwnerClientId && canNotify)
                 {
                     NotificationManagerUI.Instance.SetNotification(item);
                 }
@@ -310,7 +310,7 @@ public class Container : NetworkBehaviour
             {
                 NotificationManagerUI.Instance.SetNotification(item);
             }
-            observationEvent.Invoke(gameObject);
+            SyncContainerClientRpc(items, GameManager.GetClientRpcParams(observerList.ToArray()));
             return;
         }
         else

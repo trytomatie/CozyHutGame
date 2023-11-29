@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4892895951955657750}
   - component: {fileID: 1147005810}
   - component: {fileID: 1696515731}
+  - component: {fileID: 8405135758148207846}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -36,7 +37,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7382450290918164605
 MonoBehaviour:
@@ -174,6 +175,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 87213d3d3ae06b04c85ec28122265d57, type: 2}
   - {fileID: 11400000, guid: 13ce92d8ad880fd4d921952e4b989aa2, type: 2}
   - {fileID: 11400000, guid: a968e257b040e3a4587be6dcd949ff53, type: 2}
+  - {fileID: 11400000, guid: ac33937587526f44e9c03d4bbb7330df, type: 2}
 --- !u!114 &802033068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +201,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bede79065de0aa944b847f721f686566, type: 2}
   - {fileID: 11400000, guid: 82c762870849f794a87817afad57cec8, type: 2}
   - {fileID: 11400000, guid: 5aab0774325b095499f1322fe2a5e563, type: 2}
+  - {fileID: 11400000, guid: 659e381e367fcee449ce1bf522aec9f5, type: 2}
 --- !u!114 &4892895951955657750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +364,66 @@ MonoBehaviour:
     OnInputFloat:
       m_PersistentCalls:
         m_Calls: []
+  - name: GiveResources
+    active:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    ignoreOnPause:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    type: 1
+    input: InputValue
+    key: 112
+    debug: 0
+    GetPressed: 0
+    ResetOnDisable: 1
+    OnInputDown:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8405135758148207846}
+          m_TargetAssemblyTypeName: Cheats, Assembly-CSharp
+          m_MethodName: Cheat_GiveResourcesDebug
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnInputUp:
+      m_PersistentCalls:
+        m_Calls: []
+    OnLongPress:
+      m_PersistentCalls:
+        m_Calls: []
+    OnLongPressReleased:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDoubleTap:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputEnable:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputDisable:
+      m_PersistentCalls:
+        m_Calls: []
+    DoubleTapTime: 0.3
+    LongPressTime: 0.5
+    SmoothDecrease: 0
+    OnInputPressed:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputFloat:
+      m_PersistentCalls:
+        m_Calls: []
   AllInputs: []
   actionMaps: []
   ActiveMapIndex: 0
@@ -390,3 +453,15 @@ MonoBehaviour:
     ConstantValue: 1
     Variable: {fileID: 0}
   PlayerID: Player0
+--- !u!114 &8405135758148207846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3383540671436574468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1af7a5f8f040d342806b64959cd37a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

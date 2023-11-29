@@ -120,7 +120,7 @@ public class NetworkPlayerInit : NetworkBehaviour
 
     private void Update()
     {
-
+        
     }
 
     [ClientRpc]

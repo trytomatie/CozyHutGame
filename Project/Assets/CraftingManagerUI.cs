@@ -64,7 +64,7 @@ public class CraftingManagerUI : MonoBehaviour
                 }
 
                 // I NEVER TELL THE SERVER TO ADD AN ITEM; BUT IT JUST DOES IT... WHY?????????????ß EDIT: Nvm i found the issue, I just added it in HasItemSpaceInInventory
-
+                
                 inventory.AddItemServerRpc(new ItemData(selectedRecipe.recepieRessult.itemId, 1));
                
                 SetCraftingRecipe(selectedCraftingSlot);

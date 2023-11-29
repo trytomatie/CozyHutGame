@@ -32,6 +32,8 @@ public class GameUI : MonoBehaviour
     [Header("Building Menu")]
     public TextMeshProUGUI gridSizeText;
 
+    [Header("Refinment Menu")]
+    public TextMeshProUGUI refinmentTimer;
 
 
     private void Awake()
@@ -152,6 +154,10 @@ public class GameUI : MonoBehaviour
         }
     }
     
+    public virtual void SetRefinmentTimer(int timer)
+    {
+        refinmentTimer.text = $"Refining for: {timer} seconds!";
+    }
 
     #region BuildingMenu
     public void UpdateGridSizeText()
