@@ -12,9 +12,16 @@ public class ResourceController : NetworkBehaviour
     public Item itemDrop;
     [SerializeField] private MMF_Player damageFeedback;
     public UnityEvent deathEvent;
+    public UnityEvent respawnEvent;
     public bool needWeaknessForEffectiveDamage = true;
+    public bool canRespawn = false;
+    private float respawnTimer = 300;
     public StatElement weakness;
+    public int maxHp;
     public NetworkVariable<int> hp = new NetworkVariable<int>(100,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+
+    public VFXSpawner.VFX_Type spawnVFX = VFXSpawner.VFX_Type.None;
+    public VFXSpawner.VFX_Type deathVFX = VFXSpawner.VFX_Type.None;
 
     public override void OnNetworkSpawn()
     {
@@ -26,6 +33,11 @@ public class ResourceController : NetworkBehaviour
         if(newValue <= 0)
         {
             deathEvent.Invoke();
+            VFXSpawner.SpawnVFX(deathVFX, transform.position);
+            if(IsServer && canRespawn)
+            {
+                Invoke("Respawn", respawnTimer);
+            }
         }
     }
 
@@ -77,6 +89,7 @@ public class ResourceController : NetworkBehaviour
         {
             floatingText.AnimateColorGradient = GameManager.Instance.otherPlayerColor;
         }
+        VFXSpawner.SpawnVFX(spawnVFX, transform.position);
         damageFeedback.StopFeedbacks();
         damageFeedback.PlayFeedbacks();
     }
@@ -88,10 +101,24 @@ public class ResourceController : NetworkBehaviour
 
         floatingText.AnimateColorGradient = GameManager.Instance.myColor;
 
-
+        VFXSpawner.SpawnVFX(spawnVFX, transform.position);
         damageFeedback.StopFeedbacks();
         damageFeedback.PlayFeedbacks();
     }
+
+    public void Respawn()
+    {
+        hp.Value = maxHp;
+        RespawnClientRpc();
+    }
+
+    [ClientRpc]
+    public void RespawnClientRpc()
+    {
+        respawnEvent.Invoke();
+    }
+
+
 
 
 }
