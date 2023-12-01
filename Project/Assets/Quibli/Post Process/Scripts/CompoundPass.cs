@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 // ReSharper disable InconsistentNaming
 
 namespace UnityEngine.Rendering.Universal.PostProcessing {
@@ -217,9 +218,9 @@ public class CompoundPass : ScriptableRenderPass {
                 // If this is the first renderers then the source will be the external source (not intermediate).
                 source = m_Source;
                 if (m_ActivePostProcessRenderers.Count == 1) {
-                    #if UNITY_2023_1_OR_NEWER
+#if UNITY_2023_1_OR_NEWER
                     destination = m_Destination;
-                    #else
+#else
                     // There is only one renderer, check if the source is the same as the destination
                     if (m_Source == m_Destination) {
                         // Since we can't bind the same RT as a texture and a render target at the same time,
@@ -231,7 +232,7 @@ public class CompoundPass : ScriptableRenderPass {
                         // Otherwise, we can directly blit from source to destination.
                         destination = m_Destination;
                     }
-                    #endif
+#endif
                 } else {
                     // If there is more than one renderer, we will need to the intermediate RT anyway.
                     destination = GetIntermediate(cmd, intermediateIndex);
@@ -259,6 +260,16 @@ public class CompoundPass : ScriptableRenderPass {
         // If blit back is needed, blit from the intermediate RT to the destination (see above for explanation)
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         if (requireBlitBack) {
+            if (m_Intermediate[0].rt == null) {
+                RenderingUtils.ReAllocateIfNeeded(ref m_Intermediate[0], _intermediateDescriptor,
+                                                  name: "_IntermediateRT0");
+            }
+
+            if (m_Intermediate[1].rt == null) {
+                RenderingUtils.ReAllocateIfNeeded(ref m_Intermediate[1], _intermediateDescriptor,
+                                                  name: "_IntermediateRT1");
+            }
+
             Blit(cmd, m_Intermediate[0], m_Destination);
         }
 

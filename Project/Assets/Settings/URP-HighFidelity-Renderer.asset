@@ -18,6 +18,8 @@ MonoBehaviour:
     renderersBeforePostProcess:
     - CompoundRendererFeature.PostProcess.ColorGradingRenderer, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    - CompoundRendererFeature.PostProcess.StylizedDetailRenderer, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     renderersAfterPostProcess: []
 --- !u!114 &-1878332245247344467
 MonoBehaviour:
@@ -31,7 +33,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
   m_Name: SSAO
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   m_Settings:
     AOMethod: 1
     Downsample: 0
@@ -125,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e5811d9aeb3e04fb48321dce46f24d, type: 3}
   m_Name: HighlightsManagerURP
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   DepthLayerMask:
     serializedVersion: 2
     m_Bits: 0
