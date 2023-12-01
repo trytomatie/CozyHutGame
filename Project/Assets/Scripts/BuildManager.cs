@@ -140,6 +140,7 @@ public class BuildManager : MonoBehaviour
         currentBuildingType = buildingObject.buildingType;
         currentBuildingId = (ulong)id;
         UpdateProjectionPosition();
+        RefreshBuildingDescription();
     }
 
     public virtual void PlaceBuildingObject()
@@ -150,9 +151,7 @@ public class BuildManager : MonoBehaviour
         {
             foreach (ItemData data in requiredItems)
             {
-                print($"{data.itemId}   {data.stackSize}");
                 playerInventory.RequestRemoveItemServerRpc(data);
-                playerInventory.RemoveItemClientSidePrediction(data);
             }
 
             GameManager.Instance.PlaceBuildingServerRpc(currentBuildingId, projectionBuildingObjectHandler.basePivot.transform.position, projectionInstance.transform.rotation, flip);

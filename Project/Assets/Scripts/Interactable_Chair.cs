@@ -13,9 +13,10 @@ public class Interactable_Chair : Interactable
         soruce.GetComponent<Collider>().enabled = false;
     }
 
-    public virtual void EnableCollider(GameObject soruce)
+    public virtual void EnableCollider()
     {
-        soruce.GetComponent<Collider>().enabled = true;
+        source = NetworkManager.Singleton.LocalClient.PlayerObject.gameObject;
+        source.GetComponent<Collider>().enabled = true;
     }
 
     public override void LocalInteraction(GameObject source)

@@ -85,7 +85,6 @@ public class PlayerSaveData : MonoBehaviour
     public void SavePlayerData()
     {
         PlayerSaveDataSerialized saveData = GetPlayerSaveData();
-
         List<string> playerFiles = FindSavedPlayerData();
         if (playerFiles == null || !playerFiles.Contains(customization.playerName))
         {
@@ -95,7 +94,6 @@ public class PlayerSaveData : MonoBehaviour
             File.WriteAllText(filePath, json);
             print($"Playerdata is saved to {filePath}");
             return;
-
         }
         print($"PlayerName Already Exists");
 
@@ -105,7 +103,6 @@ public class PlayerSaveData : MonoBehaviour
     public void OverrideSavePlayerData()
     {
         PlayerSaveDataSerialized saveData = GetPlayerSaveData();
-
         List<string> playerFiles = FindSavedPlayerData();
         Directory.CreateDirectory(DirectoryPath());
         string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
@@ -120,7 +117,6 @@ public class PlayerSaveData : MonoBehaviour
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-
             PlayerSaveDataSerialized saveData = JsonConvert.DeserializeObject<PlayerSaveDataSerialized>(json);
             customization.torsoIndex = saveData.torsoIndex;
             customization.legIndex = saveData.legIndex;

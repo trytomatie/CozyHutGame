@@ -25,7 +25,7 @@ public class CraftingManagerUI : MonoBehaviour
         {
             Destroy(craftingSlotContainer.transform.GetChild(i).gameObject);
         }
-        foreach(CraftingRecepie cr in player.GetComponent<PlayerSaveData>().discoveredRecipies)
+        foreach(CraftingRecepie cr in GameManager.Instance.playerSaveData.discoveredRecipies)
         {
             GameObject go = Instantiate(craftingSlotUIprefab, craftingSlotContainer);
             go.GetComponent<CraftingSlotUI>().SetUpCraftingSlot(cr);
