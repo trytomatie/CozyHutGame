@@ -17,12 +17,14 @@ public class GameManager : NetworkBehaviour
     public NetworkPrefabsList networkPrefabsList;
     public Gradient myColor;
     public Gradient otherPlayerColor;
-    public string playerName;
+    public string selectedPlayer;
     public Dictionary<ulong, GameObject> playerList = new Dictionary<ulong, GameObject>();
     public string relayCode = "";
     public WorldSaveState worldSaveState;
     public List<BuildingBeacon> buildingBeacons;
     public UnityEvent disconnectEvent;
+    public PlayerSaveData playerSaveData;
+
 
     private void Awake()
     {
@@ -35,6 +37,17 @@ public class GameManager : NetworkBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SetSelectedPlayer(string value)
+    {
+        selectedPlayer = value;
+    }
+
+    public void LoadPlayerData(PlayerCustomization customization)
+    {
+        playerSaveData.customization = customization;
+        playerSaveData.LoadPlayerData(selectedPlayer);
     }
 
     private void Start()
@@ -179,6 +192,10 @@ public class GameManager : NetworkBehaviour
         return clientRpcParams;
     }
 
+    public virtual void DiscoverItem(Item item)
+    {
+        Instance.playerSaveData.DiscoverItem(item);
+    }
 
     public static GameManager Instance { get => instance; set => instance = value; }
 

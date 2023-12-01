@@ -151,12 +151,12 @@ public class LobbyManager : MonoBehaviour
 
     private Player GetPlayerData()
     {
-        GameManager.Instance.playerName = lobbyUI.playerName.text;
+        GameManager.Instance.selectedPlayer = lobbyUI.selectedPlayer.options[lobbyUI.selectedPlayer.value].text;
         return new Player(AuthenticationService.Instance.PlayerId)
         {
             Data = new Dictionary<string, PlayerDataObject>
                     {
-                        {"PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, GameManager.Instance.playerName) }
+                        {"PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, GameManager.Instance.selectedPlayer) }
                     }
         };
     }

@@ -1135,7 +1135,7 @@ MonoBehaviour:
   addItemEvents:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1180042201660877434}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerSaveData, Assembly-CSharp
         m_MethodName: DiscoverItem
         m_Mode: 0
@@ -5098,10 +5098,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5591343338541454398, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1180042201660877434}
-    - targetCorrespondingSourceObject: {fileID: 5591343338541454398, guid: 1c114219c5c9900429685479d61c0284,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4798668808129525621}
     - targetCorrespondingSourceObject: {fileID: 5591343338541454398, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
@@ -5111,6 +5107,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1533681281162932127}
+    - targetCorrespondingSourceObject: {fileID: 5591343338541454398, guid: 1c114219c5c9900429685479d61c0284,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5675133927506737158}
     - targetCorrespondingSourceObject: {fileID: 1392788870, guid: 1c114219c5c9900429685479d61c0284,
         type: 3}
       insertIndex: -1
@@ -5670,6 +5670,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 66631064785851664}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &2469703519460806012 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2497983618080528492, guid: 1c114219c5c9900429685479d61c0284,
+    type: 3}
+  m_PrefabInstance: {fileID: 66631064785851664}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2638905906064954501 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2626722734968635797, guid: 1c114219c5c9900429685479d61c0284,
@@ -5697,6 +5703,12 @@ Transform:
 --- !u!4 &2994535666589280548 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2981948974205484084, guid: 1c114219c5c9900429685479d61c0284,
+    type: 3}
+  m_PrefabInstance: {fileID: 66631064785851664}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3610399501992673150 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3672139787610106478, guid: 1c114219c5c9900429685479d61c0284,
     type: 3}
   m_PrefabInstance: {fileID: 66631064785851664}
   m_PrefabAsset: {fileID: 0}
@@ -5951,20 +5963,6 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &1180042201660877434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5581307655371325742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61aed2fbd233fb14ab70ecb56104265f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  discoverdItemIDs: 
-  discoveredRecipies: []
 --- !u!114 &4798668808129525621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6313,23 +6311,85 @@ MonoBehaviour:
     stackSize: 0
   addItemEvents:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1180042201660877434}
-        m_TargetAssemblyTypeName: PlayerSaveData, Assembly-CSharp
-        m_MethodName: DiscoverItem
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   observerList: 0000000000000000
   observationEvent: {fileID: 11400000, guid: 1d9003563830d3a49b68f876a35297db, type: 2}
   cursorObserver: 0
   canNotify: 1
+--- !u!114 &5675133927506737158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5581307655371325742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49adeeddee046ec4c9e079a4c3af0bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerName: 
+  playerTorso: {fileID: 2469703519460806012}
+  playerLegs: {fileID: 7115473929718621705}
+  playerFeet: {fileID: 2731343585284909076}
+  playerHead: {fileID: 7848180765664601852}
+  playerEars: {fileID: 3610399501992673150}
+  playerFace: {fileID: 8751105818297794768}
+  torsoIndex: 0
+  legIndex: 0
+  feetIndex: 0
+  irisColorIndex: 0
+  pupilColorIndex: 0
+  highlightColorIndex: 0
+  eyelashColorIndex: 0
+  eyebrowColorIndex: 0
+  skinColorIndex: 0
+  eyebrowIndex: 0
+  mouthIndex: 0
+  eyelashIndex: 0
+  highlightIndex: 0
+  torso:
+  - {fileID: 11400000, guid: 30baae3ea7e75e5478fa09d529aee772, type: 2}
+  - {fileID: 11400000, guid: b793e205e8dbde145a70e6abfccb5b68, type: 2}
+  - {fileID: 11400000, guid: bb086fb319f53d54f8752bb70f3da692, type: 2}
+  legs:
+  - {fileID: 11400000, guid: 6803f00a3578f7b409cd4ec9f3e7f3f2, type: 2}
+  - {fileID: 11400000, guid: 4a48a908f321c5b4eb62a936fb1b6858, type: 2}
+  - {fileID: 11400000, guid: b89a23fd83af2234b95745b198181fb5, type: 2}
+  feet:
+  - {fileID: 11400000, guid: 5bd8e0a5b70ad1243b4aae65460ea4d1, type: 2}
+  - {fileID: 11400000, guid: c62ecb8ab1a253346b47332f29e1aef7, type: 2}
+  - {fileID: 11400000, guid: 49122584d90030744b6cdab6047dedea, type: 2}
+  skinColor:
+  - {fileID: 2100000, guid: 3baaad850a5879746b7a5f48f3040c54, type: 2}
+  - {fileID: 2100000, guid: 714b4bc282b50ee499ca6b454aceb6b9, type: 2}
+  - {fileID: 2100000, guid: d69f946c3af870649baac11095dc636c, type: 2}
+  - {fileID: 2100000, guid: af76cae1f3a8bf345945840c2e8ce7af, type: 2}
+  - {fileID: 2100000, guid: b39252db4b9d61848b06045a3ce34ccf, type: 2}
+  - {fileID: 2100000, guid: 1ec2e01500ce8c645b2b56dbef0133f9, type: 2}
+  eyeMaterial: {fileID: 2100000, guid: 2c4604c56a915454db527721bd0636c8, type: 2}
+  eyebrowMaterial: {fileID: 2100000, guid: 4cae5009af7c22a4998f1878c35fc78c, type: 2}
+  mouthMaterial: {fileID: 2100000, guid: 53e9c2e48ff45e4438008c7afd9bcefa, type: 2}
+  irisColor:
+  - {r: 0.8, g: 0.88190526, b: 1, a: 1}
+  - {r: 0.6, g: 0.76470584, b: 1, a: 1}
+  - {r: 0.39999998, g: 0.6470588, b: 1, a: 1}
+  - {r: 0.19999999, g: 0.5294117, b: 1, a: 1}
+  pupilColor:
+  - {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  - {r: 0.6, g: 0.6, b: 0.6, a: 1}
+  - {r: 0.4, g: 0.4, b: 0.4, a: 1}
+  - {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  highlightColor:
+  - {r: 1, g: 0.9218267, b: 0.8, a: 1}
+  - {r: 1, g: 0.84313726, b: 0.6, a: 1}
+  - {r: 1, g: 0.7647059, b: 0.39999998, a: 1}
+  - {r: 1, g: 0.68627447, b: 0.19999999, a: 1}
+  eyebrowColor:
+  - {r: 0.254717, g: 0.23146918, b: 0.20377359, a: 1}
+  - {r: 0.25490198, g: 0.20784314, b: 0.15294118, a: 1}
+  - {r: 0.25490198, g: 0.18431371, b: 0.101960786, a: 1}
+  - {r: 0.25490198, g: 0.16078432, b: 0.050980393, a: 1}
 --- !u!4 &5600374550158948136 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5572147231819932216, guid: 1c114219c5c9900429685479d61c0284,

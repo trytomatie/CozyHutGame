@@ -25,6 +25,7 @@ public class LobbyUIManager : MonoBehaviour
 
     [Header("Lobby Menu")]
     public TMP_InputField playerName;
+    public TMP_Dropdown selectedPlayer;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject serverTuple;
@@ -36,6 +37,7 @@ public class LobbyUIManager : MonoBehaviour
         ChangeUIState(0);
         playerName.text = "Tindangle" + UnityEngine.Random.Range(1000, 10000);
         SetWorldDropdown();
+        SetPlayerDropdown();
     }
 
     public void ChangeUIState(LobbyUIState i)
@@ -109,5 +111,13 @@ public class LobbyUIManager : MonoBehaviour
         lobbyCreationUI_world.ClearOptions();
         lobbyCreationUI_world.AddOptions(options);
         
+    }
+
+    public void SetPlayerDropdown()
+    {
+        List<string> options = new List<string>();
+        options.AddRange(GameManager.Instance.playerSaveData.FindSavedPlayerData());
+        selectedPlayer.ClearOptions();
+        selectedPlayer.AddOptions(options);
     }
 }

@@ -1,16 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerCustomization : MonoBehaviour
+public class PlayerCustomization : NetworkBehaviour
 {
+    public string playerName;
     public SkinnedMeshRenderer playerTorso;
     public SkinnedMeshRenderer playerLegs;
     public SkinnedMeshRenderer playerFeet;
     public SkinnedMeshRenderer playerHead;
     public SkinnedMeshRenderer playerEars;
-
     public SkinnedMeshRenderer playerFace;
 
     [Range(0, 2)]
@@ -60,9 +61,9 @@ public class PlayerCustomization : MonoBehaviour
     [Range(0, 5)]
     public Material[] skinColor;
 
-    public Material eyeMaterial;
-    public Material eyebrowMaterial;
-    public Material mouthMaterial;
+    private Material eyeMaterial;
+    private Material eyebrowMaterial;
+    private Material mouthMaterial;
 
     public Color[] irisColor;
     public Color[] pupilColor;
@@ -114,21 +115,51 @@ public class PlayerCustomization : MonoBehaviour
                 highlightIndex = value;
                 break;
         }
+        UpdatePlayerAppearance();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        eyeMaterial = playerFace.materials[0];
+        mouthMaterial = playerFace.materials[1];
+        eyebrowMaterial = playerFace.materials[2];
+        playerFace.materials[0] = eyeMaterial;
+        playerFace.materials[1] = mouthMaterial;
+        playerFace.materials[2] = eyebrowMaterial;
+        SyncApearenceServerRpc(GameManager.Instance.playerSaveData.GetPlayerSaveData(), NetworkManager.Singleton.LocalClientId);
     }
 
-    // Update is called once per frame
-    void Update()
+    [ServerRpc (RequireOwnership =false)]
+    public void SyncApearenceServerRpc(PlayerSaveDataSerialized playerData,ulong id)
     {
+        SyncApearenceClientRpc(playerData, id);
+    }
+
+    [ClientRpc]
+    public void SyncApearenceClientRpc(PlayerSaveDataSerialized playerData, ulong id,ClientRpcParams clientRpcParams = default)
+    {
+        torsoIndex = playerData.torsoIndex;
+        legIndex = playerData.legIndex;
+        feetIndex = playerData.feetIndex;
+        irisColorIndex = playerData.irisColorIndex;
+        pupilColorIndex = playerData.pupilColorIndex;
+        highlightColorIndex = playerData.highlightColorIndex;
+        eyelashColorIndex = playerData.eyelashColorIndex;
+        eyebrowColorIndex = playerData.eyebrowColorIndex;
+        skinColorIndex = playerData.skinColorIndex;
+        eyebrowIndex = playerData.eyebrowIndex;
+        mouthIndex = playerData.mouthIndex;
+        eyelashIndex = playerData.eyelashIndex;
+        highlightIndex = playerData.highlightIndex;
         UpdatePlayerAppearance();
     }
+    public virtual void SetPlayerName(string name)
+    {
+        playerName = name;
+    }
 
-    private void UpdatePlayerAppearance()
+    public void UpdatePlayerAppearance()
     {
         UpdatePlayerAsset(torso[torsoIndex], playerTorso);
         UpdatePlayerAsset(legs[legIndex], playerLegs);
