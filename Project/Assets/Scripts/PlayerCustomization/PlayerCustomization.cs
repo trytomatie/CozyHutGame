@@ -70,6 +70,51 @@ public class PlayerCustomization : MonoBehaviour
     public Color[] eyebrowColor;
 
 
+    public void SetIndex(int value, int index)
+    {
+        switch(index)
+        {
+            case 0:
+                torsoIndex = value;
+                break;
+            case 01:
+                legIndex = value;
+                break;
+            case 02:
+                feetIndex = value;
+                break;
+            case 03:
+                irisColorIndex = value;
+                break;
+            case 04:
+                pupilColorIndex = value;
+                break;
+            case 05:
+                highlightColorIndex = value;
+                break;
+            case 06:
+                eyelashColorIndex = value;
+                break;
+            case 07:
+                eyebrowColorIndex = value;
+                break;
+            case 08:
+                skinColorIndex = value;
+                break;
+            case 09:
+                eyebrowIndex = value;
+                break;
+            case 10:
+                mouthIndex = value;
+                break;
+            case 11:
+                eyelashIndex = value;
+                break;
+            case 12:
+                highlightIndex = value;
+                break;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()

@@ -7,6 +7,20 @@ public class PlayerSaveData : MonoBehaviour
     public List<ulong> discoverdItemIDs = new List<ulong>();
     [HideInInspector] public List<CraftingRecepie> discoveredRecipies = new List<CraftingRecepie>();
 
+    public int torsoIndex;
+    public int legIndex;
+    public int feetIndex;
+    public int irisColorIndex;
+    public int pupilColorIndex;
+    public int highlightColorIndex;
+    public int eyelashColorIndex;
+    public int eyebrowColorIndex;
+    public int skinColorIndex;
+    public int eyebrowIndex;
+    public int mouthIndex;
+    public int eyelashIndex;
+    public int highlightIndex;
+
     private void Start()
     {
         DiscoverRecepies();
