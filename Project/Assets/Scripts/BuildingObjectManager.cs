@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuildingObjectManager : MonoBehaviour
 {
-    [SerializeField] private BuildingObject[] buildingObjects;
+    public BuildingObject[] buildingObjects;
 
     private static BuildingObjectManager instance;
 
