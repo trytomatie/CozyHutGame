@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1147005810}
   - component: {fileID: 1696515731}
   - component: {fileID: 8405135758148207846}
+  - component: {fileID: 598959737}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -37,7 +38,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7382450290918164605
 MonoBehaviour:
@@ -53,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameUI: {fileID: 0}
   inputManager: {fileID: 0}
-  networkPrefabsList: {fileID: 11400000, guid: a38647347184c544f9611b357842359a, type: 2}
+  networkPrefabsList: {fileID: 0}
   myColor:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -133,7 +134,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  playerSaveData: {fileID: 0}
+  playerSaveData: {fileID: 598959737}
 --- !u!114 &5625926184876296492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +370,7 @@ MonoBehaviour:
     OnInputFloat:
       m_PersistentCalls:
         m_Calls: []
-  - name: GiveResources
+  - name: DebugGiveHammer
     active:
       UseConstant: 1
       ConstantValue: 1
@@ -380,7 +381,7 @@ MonoBehaviour:
       Variable: {fileID: 0}
     type: 1
     input: InputValue
-    key: 112
+    key: 48
     debug: 0
     GetPressed: 0
     ResetOnDisable: 1
@@ -470,3 +471,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1af7a5f8f040d342806b64959cd37a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &598959737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3383540671436574468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61aed2fbd233fb14ab70ecb56104265f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customization: {fileID: 0}
+  discoverdItemIDs: 
+  discoveredRecipies: []
