@@ -58,7 +58,6 @@ public class PlayerCustomization : NetworkBehaviour
     public PlayerCustomizationAsset[] legs;
     public PlayerCustomizationAsset[] feet;
 
-    [Range(0, 5)]
     public Material[] skinColor;
 
     private Material eyeMaterial;
