@@ -126,10 +126,6 @@ public class Interactable : NetworkBehaviour
     [ServerRpc (RequireOwnership =false)]
     private void InteractServerRpc(ulong id)
     {
-        if(interactorId.Value == maxValue)
-        {
-            return;
-        }
         print(id);
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
