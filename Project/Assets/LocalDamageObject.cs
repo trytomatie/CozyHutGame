@@ -38,7 +38,7 @@ public class LocalDamageObject : MonoBehaviour
             else if (rc.needWeaknessForEffectiveDamage)
             {
                 // Weakness is not hit
-                damage = 1;
+                damage = 0;
             }
             other.GetComponent<ResourceController>().PlayFeedback(damage);
         }

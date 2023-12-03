@@ -81,17 +81,19 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void SpawnDroppedItemServerRpc(ulong itemId,int amount,Vector3 position)
     {
-        Item item = ItemManager.GenerateItem(itemId);
-        GameObject droppedItem = Instantiate(item.droppedObject,position,Quaternion.identity);
-        droppedItem.GetComponent<NetworkObject>().Spawn(true);
-        Interactable_DroppedItem interactable_DroppedItem = droppedItem.GetComponentInChildren<Interactable_DroppedItem>() ?? null;
-        if(interactable_DroppedItem != null)
+        if(amount > 0)
         {
-            interactable_DroppedItem.itemDropId.Value = itemId;
-            interactable_DroppedItem.stackSize = amount;
-            interactable_DroppedItem.SpawnParametersClientRpc((Random.onUnitSphere + new Vector3(0,0.75f,0)) .normalized, 3,item.itemId);
+            Item item = ItemManager.GenerateItem(itemId);
+            GameObject droppedItem = Instantiate(item.droppedObject, position, Quaternion.identity);
+            droppedItem.GetComponent<NetworkObject>().Spawn(true);
+            Interactable_DroppedItem interactable_DroppedItem = droppedItem.GetComponentInChildren<Interactable_DroppedItem>() ?? null;
+            if (interactable_DroppedItem != null)
+            {
+                interactable_DroppedItem.itemDropId.Value = itemId;
+                interactable_DroppedItem.stackSize = amount;
+                interactable_DroppedItem.SpawnParametersClientRpc((Random.onUnitSphere + new Vector3(0, 0.75f, 0)).normalized, 3, item.itemId);
+            }
         }
-
     }
     [ServerRpc(RequireOwnership = false)]
     public void SpawnDroppedItemServerRpc(ulong itemId, int amount, Vector3 position, Vector3 directon, float spawnVelocity)

@@ -53,10 +53,19 @@ public class ResourceController : NetworkBehaviour
             else if(needWeaknessForEffectiveDamage)
             {
                 // Weakness is not hit
-                dmg = 1;
+                dmg = 0;
+            }
+            if(hp.Value > dmg)
+            {
+                hp.Value -= dmg;
+            }
+            else
+            {
+                dmg = hp.Value;
+                hp.Value = 0;
             }
 
-            hp.Value -= dmg;
+            
             var source = NetworkManager.Singleton.ConnectedClients[sourceId].PlayerObject;
             List<ulong> clientList = NetworkManager.ConnectedClientsIds.ToList();
             clientList.Remove(sourceId);
