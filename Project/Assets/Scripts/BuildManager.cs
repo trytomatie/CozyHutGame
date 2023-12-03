@@ -279,6 +279,14 @@ public class BuildManager : MonoBehaviour
                             lastSavedProjectionPosition = raycastHit.point + new Vector3(0, heightOffset, 0);
                             closestPointWithoutSnappingFound = true;
                         }
+                        if(projectionBuildingObjectHandler.gigaGrounded)
+                        {
+                            print(raycastHit.normal);
+                            projectionBuildingObjectHandler.ChangePivot(0);
+                            projectionInstance.transform.rotation = Quaternion.LookRotation(CalculateAverageNormal(raycastHits));
+                            lastSavedProjectionPosition = raycastHit.point + new Vector3(0, heightOffset, 0);
+                            closestPointWithoutSnappingFound = true;
+                        }
                     }
                     else
                     {
@@ -299,6 +307,22 @@ public class BuildManager : MonoBehaviour
             lastSavedProjectionPosition = Vector3.zero;
         }
         return lastSavedProjectionPosition;
+    }
+
+    Vector3 CalculateAverageNormal(RaycastHit[] hits)
+    {
+        Vector3 sumNormals = Vector3.zero;
+
+        // Sum up all hit normals
+        foreach (var hit in hits)
+        {
+            sumNormals += hit.normal;
+        }
+
+        // Calculate the average normal
+        Vector3 averageNormal = sumNormals.normalized;
+
+        return averageNormal;
     }
 
     // Helper class to store RaycastHit and corresponding distance

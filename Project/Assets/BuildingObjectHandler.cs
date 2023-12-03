@@ -11,6 +11,8 @@ public class BuildingObjectHandler : MonoBehaviour
     public Transform[] pivots;
     public bool requireBuildingBeacon = true;
     public bool grounded = false;
+    [Tooltip("Building aligns to raycast.hit normal")]
+    public bool gigaGrounded = false;
     public Container itemContainer1;
     public Container itemContainer2;
 
