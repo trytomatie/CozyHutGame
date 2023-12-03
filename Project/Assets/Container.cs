@@ -33,12 +33,14 @@ public class Container : NetworkBehaviour
         {
             if (ValidateDataSwap(otherContainer, pos1, pos2, validationData1, validationData2)) // The Item Positions are also Valid
             {
-                print("Valide");
                 // Swap Items here
                 // Replicate this Operation on all Observers
 
                 ClientRpcParams clientRpcParams = GameManager.GetClientRpcParams(observerList.ToArray());
                 SwapItemsClientRpc(pos1, pos2, validationData1, validationData2, otherContainer, clientRpcParams);
+
+                // Just gonna sync stuff anyway, 
+                SyncContainerClientRpc(items, GameManager.GetClientRpcParams(observerList.ToArray()));
             }
             else
             {
@@ -159,7 +161,23 @@ public class Container : NetworkBehaviour
             {
                 items[pos] = ItemData.Null;
             }
-            observationEvent.Invoke(gameObject);
+            SyncContainerServerRpc(NetworkManager.LocalClientId);
+
+        }
+        else // data missmatch must have happend / Invalid Request
+        {
+            Debug.LogError($"Data Missmatch happened Client: {NetworkManager.LocalClientId} for Removing Items");
+            SyncContainerServerRpc(NetworkManager.LocalClientId);
+        }
+    }
+
+    public void AddItemToPos(ItemData data, int pos)
+    {
+
+        if (items[pos].stackSize + data.stackSize <= items[pos].MaxStackSize) // if The stacksize is sufficent
+        {
+            items[pos].stackSize += data.stackSize;
+            SyncContainerServerRpc(NetworkManager.LocalClientId);
         }
         else // data missmatch must have happend / Invalid Request
         {
@@ -316,6 +334,42 @@ public class Container : NetworkBehaviour
         else
         {
             return;
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestItemStackOntopOfServerRpc(NetworkBehaviourReference otherContainerRef, int pos1, int pos2, ItemData validationData1, ItemData validationData2)
+    {
+        Container otherContainer;
+        if (otherContainerRef.TryGet(out otherContainer)) // Both Inventory References are valid / not null
+        {
+            if (ValidateDataSwap(otherContainer, pos1, pos2, validationData1, validationData2)) // The Item Positions are also Valid
+            {
+                int spaceAvailable = validationData2.MaxStackSize - validationData2.stackSize;
+                if(spaceAvailable >= validationData1.stackSize)
+                {
+                    otherContainer.AddItemToPos(validationData1, pos2);
+                    RemoveItem(validationData1, pos1);
+                }
+                else if(spaceAvailable != 0)
+                {
+                    ItemData toAdd = new ItemData(validationData1.itemId, spaceAvailable);
+                    ItemData toRemove = new ItemData(validationData1.itemId, spaceAvailable);
+                    otherContainer.AddItemToPos(toAdd, pos2);
+                    RemoveItem(toRemove, pos1);
+                }
+                // Just gonna sync stuff anyway, 
+                SyncContainerClientRpc(items, GameManager.GetClientRpcParams(observerList.ToArray()));
+            }
+            else
+            {
+                Debug.LogError("Inventory Desync, syncing Inventory Again");
+                SyncContainerClientRpc(items, GameManager.GetClientRpcParams(observerList.ToArray()));
+            }
+        }
+        else
+        {
+            Debug.LogError("Other Container not Valid / is null");
         }
     }
 

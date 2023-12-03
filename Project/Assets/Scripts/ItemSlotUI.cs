@@ -51,11 +51,18 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
                         item2 = slot.ItemRef;
                     int pos1 = SlotId;
                     int pos2 = slot.slotId;
-                   // print($"{assignedContainer}___{slot.assignedContainer}");
-                    assignedContainer.RequestItemSwapServerRpc( slot.assignedContainer, pos1, pos2, item1, item2);
-                    //InventoryManagerUI.Instance.Inventory.SwapItemPlaces(slotId, go.GetComponent<ItemSlotUI>().SlotId);
-                    //manager.RefreshUI();
-                    //slot.manager.RefreshUI();
+                    if(ItemRef.itemId == slot.ItemRef.itemId)
+                    {
+                        assignedContainer.RequestItemStackOntopOfServerRpc(slot.assignedContainer, pos1, pos2, item1, item2);
+                    }
+                    else
+                    {
+                        // print($"{assignedContainer}___{slot.assignedContainer}");
+                        assignedContainer.RequestItemSwapServerRpc(slot.assignedContainer, pos1, pos2, item1, item2);
+                        //InventoryManagerUI.Instance.Inventory.SwapItemPlaces(slotId, go.GetComponent<ItemSlotUI>().SlotId);
+                        //manager.RefreshUI();
+                        //slot.manager.RefreshUI();
+                    }
                     break;
                 }
             }
