@@ -10,7 +10,7 @@ public class CraftingRecepiesManager : MonoBehaviour
 
     public static CraftingRecepiesManager Instance { get => instance; }
 
-    private void Start()
+    private void Awake()
     {
         if (Instance == null)
         {

@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 public class Interactable : NetworkBehaviour
 {
-    private const ulong maxValue = 99999999;
+    protected const ulong maxValue = 99999999;
     public bool canBeOccupied = false;
     public bool prolongedInteraction = false;
 
@@ -126,6 +126,10 @@ public class Interactable : NetworkBehaviour
     [ServerRpc (RequireOwnership =false)]
     private void InteractServerRpc(ulong id)
     {
+        if(interactorId.Value == maxValue)
+        {
+            return;
+        }
         print(id);
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {

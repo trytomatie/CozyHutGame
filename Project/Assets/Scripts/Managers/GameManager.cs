@@ -161,6 +161,7 @@ public class GameManager : NetworkBehaviour
 
     private void RegisterNetworkPrefabs()
     {
+        return;
         var prefabs = networkPrefabsList.PrefabList.Select(x => x.Prefab);
         foreach (var prefab in prefabs)
         {
