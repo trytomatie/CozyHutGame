@@ -51,6 +51,7 @@ public class GameUI : MonoBehaviour
         // craftingMenu.SetActive(false); // is now in inventory
         inventoryMenu.SetActive(false);
         equipmentSelectionMenu.SetActive(false);
+        craftingMenu.SetActive(false);
         closeAllUIWindowsEvent.Invoke();
         ShowMouseCursor(false);
     }
