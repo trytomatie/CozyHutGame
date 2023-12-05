@@ -23,6 +23,8 @@ public class BuildManager : MonoBehaviour
 
     private float heightOffset;
     private Vector3 lastSavedProjectionPosition;
+    public Vector3 groundedAlignment;
+    private Vector3 rotationOffset;
     private float[] gridSizes = new float[] { 0, 0.25f };
     private int gridSizeIndex = 1;
     public bool flip = false;
@@ -90,16 +92,40 @@ public class BuildManager : MonoBehaviour
 
     private void Update()
     {
-        if(CanUpdateProjectionPosition && Mathf.Abs(InputManager.Instance.CameraZoomDelta) > 0.1f)
+
+        if (CanUpdateProjectionPosition && Mathf.Abs(InputManager.Instance.CameraZoomDelta) > 0.1f)
         {
-            if(InputManager.Instance.CameraZoomDelta > 0)
+            if(projectionBuildingObjectHandler.gigaGrounded)
             {
-                projectionInstance.transform.eulerAngles += new Vector3(0, 22.5f, 0);
+                if(rotationOffset.y != 0)
+                {
+                    rotationOffset = Vector3.zero;
+                }
+                if (InputManager.Instance.CameraZoomDelta > 0)
+                {
+                    rotationOffset += new Vector3(0, 0, 22.5f);
+                }
+                else
+                {
+                    rotationOffset += new Vector3(0, 0, -22.5f);
+                }
             }
             else
             {
-                projectionInstance.transform.eulerAngles += new Vector3(0, -22.5f, 0);
+                if (InputManager.Instance.CameraZoomDelta > 0)
+                {
+                    rotationOffset += new Vector3(0, 22.5f, 0);
+                }
+                else
+                {
+                    rotationOffset += new Vector3(0, -22.5f, 0);
+                }
+                projectionInstance.transform.eulerAngles = rotationOffset;
             }
+        }
+        if (projectionBuildingObjectHandler.gigaGrounded && CanUpdateProjectionPosition)
+        {
+            projectionInstance.transform.eulerAngles = groundedAlignment + rotationOffset;
         }
     }
 
@@ -227,7 +253,7 @@ public class BuildManager : MonoBehaviour
     
     public Vector3 GetRaycastPosition(Vector3 startPoint, Vector3 direction)
     {
-        RaycastHit[] raycastHits = Physics.SphereCastAll(startPoint, sphereCastRadius, direction, raycastMaxDistance, layerMask);
+        RaycastHit[] raycastHits = Physics.RaycastAll(startPoint, direction, raycastMaxDistance, layerMask);
         if(raycastHits.Length > 0)
         {
             raycastHits = raycastHits.OrderBy(hit => Vector3.Distance(startPoint, hit.collider.transform.position)).ToArray();
@@ -283,7 +309,7 @@ public class BuildManager : MonoBehaviour
                         {
                             print(raycastHit.normal);
                             projectionBuildingObjectHandler.ChangePivot(0);
-                            projectionInstance.transform.rotation = Quaternion.LookRotation(CalculateAverageNormal(raycastHits));
+                            groundedAlignment = Quaternion.LookRotation(CalculateAverageNormal(raycastHits)).eulerAngles;
                             lastSavedProjectionPosition = raycastHit.point + new Vector3(0, heightOffset, 0);
                             closestPointWithoutSnappingFound = true;
                         }
