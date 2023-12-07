@@ -18,6 +18,7 @@ public class PlayerSaveData : MonoBehaviour
     }
     public virtual void DiscoverItem(Item item)
     {
+        if (item == null) return;
         if(!discoverdItemIDs.Contains(item.itemId))
         {
             discoverdItemIDs.Add(item.itemId);
