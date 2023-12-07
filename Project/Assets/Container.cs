@@ -60,6 +60,7 @@ public class Container : NetworkBehaviour
         if (otherContainerRef.TryGet(out otherContainer)) // Both Inventory References are valid / not null
         {
             otherContainer.items[pos2] = validationData1;
+            addItemEvents.Invoke(ItemManager.GenerateItem(validationData2));
             items[pos1] = validationData2;
             observationEvent.Invoke(gameObject);
             otherContainer.observationEvent.Invoke(otherContainer.gameObject);
