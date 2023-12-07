@@ -37,7 +37,7 @@ public class Container : NetworkBehaviour
                 // Replicate this Operation on all Observers
 
                 ClientRpcParams clientRpcParams = GameManager.GetClientRpcParams(observerList.ToArray());
-                SwapItemsClientRpc(pos1, pos2, validationData1, validationData2, otherContainer, clientRpcParams);
+                SwapItemsClientRpc(pos1, pos2, validationData1, validationData2, otherContainer, clientRpcParams);  
 
                 // Just gonna sync stuff anyway, 
                 SyncContainerClientRpc(items, GameManager.GetClientRpcParams(observerList.ToArray()));
@@ -60,7 +60,14 @@ public class Container : NetworkBehaviour
         if (otherContainerRef.TryGet(out otherContainer)) // Both Inventory References are valid / not null
         {
             otherContainer.items[pos2] = validationData1;
-            addItemEvents.Invoke(ItemManager.GenerateItem(validationData2));
+            if(validationData1.itemId != 0)
+            {
+                addItemEvents.Invoke(ItemManager.GenerateItem(validationData2));
+            }
+            if (validationData2.itemId != 0)
+            {
+                otherContainer.addItemEvents.Invoke(ItemManager.GenerateItem(validationData1));
+            }
             items[pos1] = validationData2;
             observationEvent.Invoke(gameObject);
             otherContainer.observationEvent.Invoke(otherContainer.gameObject);
