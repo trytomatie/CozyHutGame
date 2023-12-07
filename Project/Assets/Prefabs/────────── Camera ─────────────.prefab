@@ -539,7 +539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CollideAgainst:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 257
   m_IgnoreTag: Animal
   m_TransparentLayers:
     serializedVersion: 2
@@ -625,7 +625,7 @@ Transform:
   - {fileID: 987148859}
   - {fileID: 3322170322517057990}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2754702308257160090
 MonoBehaviour:
@@ -919,12 +919,12 @@ PrefabInstance:
     - target: {fileID: 3686342116132906246, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -1.463739
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3686342116132906246, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.298461
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5852266190923582718, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
@@ -964,22 +964,22 @@ PrefabInstance:
     - target: {fileID: 6943830775450758733, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -1.463739
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6943830775450758733, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.298461
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 8113920101445607353, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -1.463739
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8113920101445607353, guid: 4d47ce2792cce664781eb41fc44fb8c6,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.298461
+      value: -5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 671131572509205923, guid: 4d47ce2792cce664781eb41fc44fb8c6, type: 3}
@@ -2005,6 +2005,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DefaultBlend.m_Style
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3607939498922361546, guid: 7721b17458de7274da9fb6df12db1326,
+        type: 3}
+      propertyPath: m_Antialiasing
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3607939498922361546, guid: 7721b17458de7274da9fb6df12db1326,
         type: 3}

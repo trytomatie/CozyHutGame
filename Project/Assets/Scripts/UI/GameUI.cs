@@ -19,6 +19,7 @@ public class GameUI : MonoBehaviour
     public GameObject craftingMenu;
     public GameObject inventoryMenu;
     public GameObject equipmentSelectionMenu;
+    public GameObject buildingSelectionMenu;
 
     private static GameUI instance;
 
@@ -51,6 +52,7 @@ public class GameUI : MonoBehaviour
         // craftingMenu.SetActive(false); // is now in inventory
         inventoryMenu.SetActive(false);
         equipmentSelectionMenu.SetActive(false);
+        buildingSelectionMenu.SetActive(false);
         // craftingMenu.SetActive(false);
         closeAllUIWindowsEvent.Invoke();
         ShowMouseCursor(false);
@@ -58,7 +60,7 @@ public class GameUI : MonoBehaviour
 
     public bool InterfaceWindowIsOpen()
     {
-        return inventoryMenu.activeSelf || equipmentSelectionMenu.activeSelf;
+        return inventoryMenu.activeSelf || equipmentSelectionMenu.activeSelf || buildingSelectionMenu;
     }
 
     public virtual void ShowMouseCursor(bool value)

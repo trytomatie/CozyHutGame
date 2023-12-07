@@ -112,6 +112,7 @@ public class BuildManager : MonoBehaviour
             }
             else
             {
+                projectionInstance.transform.eulerAngles = Vector3.zero;
                 if (InputManager.Instance.CameraZoomDelta > 0)
                 {
                     rotationOffset += new Vector3(0, 22.5f, 0);
