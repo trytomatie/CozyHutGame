@@ -8,15 +8,19 @@ public class LocalDamageObject : MonoBehaviour
 {
     public MWeapon weapon;
     public GameObject sourceObject;
-
+    private Collider col;
+    private void Start()
+    {
+        col = GetComponent<Collider>();
+    }
     public virtual void ApplyDamage(Collider other)
     {
+
         ApplyDamage(other.transform);
     }
     
     public virtual void ApplyDamage(Transform other)
     {
-        print(other.name);
         print(NetworkManager.Singleton.LocalClientId + "   " + sourceObject.GetComponent<NetworkObject>().OwnerClientId);
         if(NetworkManager.Singleton.LocalClientId == sourceObject.GetComponent<NetworkObject>().OwnerClientId)
         {
@@ -28,8 +32,9 @@ public class LocalDamageObject : MonoBehaviour
             int damage = (int)Random.Range(weapon.MinDamage,weapon.MaxDamage+1);
             int elementId = weapon.element?.ID ?? 0;
             ResourceController rc = other.GetComponent<ResourceController>();
-
-            rc.PlayFeedbackServerRpc(damage,elementId,source.OwnerClientId);
+            Vector3 objectSpawnPoint = col.ClosestPoint(other.transform.position);
+            objectSpawnPoint.y = transform.position.y;
+            rc.PlayFeedbackServerRpc(damage,elementId,source.OwnerClientId, objectSpawnPoint);
             // Redundant, it also beeing calculated by the server, consider doing this only on the client
             if (rc.needWeaknessForEffectiveDamage && rc.weakness != null && rc.weakness.ID == elementId)
             {

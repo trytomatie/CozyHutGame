@@ -42,7 +42,7 @@ public class ResourceController : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership =false)]
-    public void PlayFeedbackServerRpc(int dmg,int statElementId,ulong sourceId)
+    public void PlayFeedbackServerRpc(int dmg,int statElementId,ulong sourceId,Vector3 objectSpawnPont)
     {
         if(hp.Value > 0)
         {
@@ -77,7 +77,7 @@ public class ResourceController : NetworkBehaviour
                 }
             };
             // source.GetComponent<Inventory>().AddItemClientRPC(itemDrop.itemId, dmg, clientRpcParams);
-            GameManager.Instance.SpawnDroppedItemServerRpc(itemDrop.itemId, dmg,transform.position + new Vector3(0,1,0));
+            GameManager.Instance.SpawnDroppedItemServerRpc(itemDrop.itemId, dmg, objectSpawnPont + new Vector3(0,1,0));
             print($"Damage: {dmg}");
             PlayFeedbackClientRpc(dmg, sourceId, clientRpcParams);
 
