@@ -959,8 +959,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3182512046059998504}
   m_HandleRect: {fileID: 1787405729624859622}
   m_Direction: 2
-  m_Value: 0.99999964
-  m_Size: 0.61111104
+  m_Value: 0.9999998
+  m_Size: 0.6111111
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1365,8 +1365,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1200.0001, y: -540.7462}
-  m_SizeDelta: {x: 480.00003, y: 1081.4924}
+  m_AnchoredPosition: {x: 1200.0001, y: -539.6323}
+  m_SizeDelta: {x: 480.00003, y: 1079.2646}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7975846978786396181
 CanvasRenderer:
@@ -3516,8 +3516,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 720.00006, y: -540.7462}
-  m_SizeDelta: {x: 480.00003, y: 1081.4924}
+  m_AnchoredPosition: {x: 720.00006, y: -539.6323}
+  m_SizeDelta: {x: 480.00003, y: 1079.2646}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8872902693358386178
 CanvasRenderer:
@@ -5852,7 +5852,7 @@ GameObject:
   - component: {fileID: 5045429455416021645}
   - component: {fileID: 8141034001857835988}
   m_Layer: 5
-  m_Name: Inventory/Stats
+  m_Name: Inventory and Stats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5963,8 +5963,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1680.0001, y: -540.7462}
-  m_SizeDelta: {x: 480.00003, y: 1081.4924}
+  m_AnchoredPosition: {x: 1680.0001, y: -539.6323}
+  m_SizeDelta: {x: 480.00003, y: 1079.2646}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6165446873569633066
 CanvasRenderer:
@@ -6085,8 +6085,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 240.00002, y: -540.7462}
-  m_SizeDelta: {x: 480.00003, y: 1081.4924}
+  m_AnchoredPosition: {x: 240.00002, y: -539.6323}
+  m_SizeDelta: {x: 480.00003, y: 1079.2646}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6659733618813933873
 CanvasRenderer:
@@ -7627,6 +7627,7 @@ GameObject:
   - component: {fileID: 4855182322820613864}
   - component: {fileID: 508506918483916651}
   - component: {fileID: 3126027162205772760}
+  - component: {fileID: 4731204243466915705}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -7743,12 +7744,13 @@ MonoBehaviour:
   inventoryMenu: {fileID: 5256486908249114039}
   equipmentSelectionMenu: {fileID: 8536210756818085078}
   buildingSelectionMenu: {fileID: 5080919158278673695}
+  showCursor: 0
   pauseEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 952ffc64015fa214582e7146c97a4f37, type: 2}
-        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
-        m_MethodName: Invoke
+      - m_Target: {fileID: 1222523869116773162}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7756,26 +7758,14 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: 97d79945dd6a20d4eb36c9ed850f42ba, type: 2}
-        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
-        m_MethodName: Invoke
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
   negativePauseEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 952ffc64015fa214582e7146c97a4f37, type: 2}
-        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
-        m_MethodName: Invoke
+      - m_Target: {fileID: 1222523869116773162}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7783,19 +7773,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: 97d79945dd6a20d4eb36c9ed850f42ba, type: 2}
-        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
-        m_MethodName: Invoke
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   closeAllUIWindowsEvent:
     m_PersistentCalls:
@@ -7948,7 +7926,7 @@ MonoBehaviour:
       OnInputChanged:
         m_PersistentCalls:
           m_Calls:
-          - m_Target: {fileID: 7062645093926044824}
+          - m_Target: {fileID: 6478861600896468852}
             m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
             m_MethodName: SetActive
             m_Mode: 0
@@ -8055,39 +8033,15 @@ MonoBehaviour:
           m_Calls:
           - m_Target: {fileID: 9001790374004021557}
             m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
-            m_MethodName: CloseAllUIWindows
-            m_Mode: 1
+            m_MethodName: SetUI_State
+            m_Mode: 3
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
+              m_IntArgument: 6
               m_FloatArgument: 0
               m_StringArgument: 
-              m_BoolArgument: 1
-            m_CallState: 2
-          - m_Target: {fileID: 8536210756818085078}
-            m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-            m_MethodName: SetActive
-            m_Mode: 6
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 1
-            m_CallState: 2
-          - m_Target: {fileID: 9001790374004021557}
-            m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
-            m_MethodName: ShowMouseCursor
-            m_Mode: 6
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 1
+              m_BoolArgument: 0
             m_CallState: 2
       OnInputUp:
         m_PersistentCalls:
@@ -8104,22 +8058,10 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
-          - m_Target: {fileID: 8536210756818085078}
-            m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-            m_MethodName: SetActive
-            m_Mode: 6
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
           - m_Target: {fileID: 9001790374004021557}
             m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
-            m_MethodName: ShowMouseCursor
-            m_Mode: 6
+            m_MethodName: SetUI_State
+            m_Mode: 3
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
               m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8489,11 +8431,14 @@ MonoBehaviour:
         m_Calls: []
     ResponseBool:
       m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolFalse:
+      m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 7209642887926405381}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 0
+        - m_Target: {fileID: 9001790374004021557}
+          m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+          m_MethodName: SetUI_State
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8502,12 +8447,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-    ResponseBoolFalse:
-      m_PersistentCalls:
-        m_Calls: []
     ResponseBoolTrue:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 9001790374004021557}
+          m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+          m_MethodName: SetUI_State
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 3
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     ResponseString:
       m_PersistentCalls:
         m_Calls: []
@@ -8531,7 +8485,7 @@ MonoBehaviour:
         m_Calls: []
     IntEventList: []
     AdvancedInteger: 0
-    AdvancedBool: 0
+    AdvancedBool: 1
     InvertBool: 0
     multiplier: 1
   - Event: {fileID: 11400000, guid: 8ec1adb979bde354d892fbc90dc86f5f, type: 2}
@@ -8967,10 +8921,10 @@ MonoBehaviour:
     ResponseBoolFalse:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 4139659503181172073}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 9001790374004021557}
+          m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+          m_MethodName: SetUI_State
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8979,53 +8933,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 7129633109751731309}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
     ResponseBoolTrue:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5256486908249114039}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 9001790374004021557}
+          m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+          m_MethodName: SetUI_State
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 4139659503181172073}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 7129633109751731309}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 2
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -9181,10 +9099,10 @@ MonoBehaviour:
     ResponseBoolFalse:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 812147873863894680}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 9001790374004021557}
+          m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+          m_MethodName: SetUI_State
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9193,53 +9111,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 7129633109751731309}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
     ResponseBoolTrue:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5256486908249114039}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
+        - m_Target: {fileID: 9001790374004021557}
+          m_TargetAssemblyTypeName: GameUI, Assembly-CSharp
+          m_MethodName: SetUI_State
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 812147873863894680}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 7129633109751731309}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 5
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -9569,6 +9451,26 @@ MonoBehaviour:
         m_CallState: 2
   Description: 
   ShowDescription: 0
+--- !u!95 &4731204243466915705
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7824668070868333883}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a8425c8431f73b24fb28f1d88b792d49, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &7876149938704201309
 GameObject:
   m_ObjectHideFlags: 0

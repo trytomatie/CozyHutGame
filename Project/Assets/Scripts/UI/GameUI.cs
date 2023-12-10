@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 public class GameUI : MonoBehaviour
 {
-
+    public enum UI_State { Base,Inventory,Container,Building,Pause}
     public TextMeshProUGUI woodText;
     public Canvas canvas;
     public GameObject pauseMenu;
@@ -20,6 +20,9 @@ public class GameUI : MonoBehaviour
     public GameObject inventoryMenu;
     public GameObject equipmentSelectionMenu;
     public GameObject buildingSelectionMenu;
+    public bool showCursor = false;
+    private bool previousCursorState = true;
+    private Animator anim;
 
     private static GameUI instance;
 
@@ -39,7 +42,8 @@ public class GameUI : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        anim = GetComponent<Animator>();
+        if (instance == null)
         {
             instance = this;
             GameManager.Instance.gameUI = this;
@@ -47,34 +51,52 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if(showCursor != previousCursorState)
+        {
+            if (showCursor)
+            {
+                showCursorEvent.Invoke(true);
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                showCursorEvent.Invoke(false);
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            previousCursorState = showCursor;
+        }
+    }
+
+    public void SetUI_State(int i)
+    {
+        anim.SetInteger("Ui_State", i);
+    }
+    public void SetUI_State(UI_State i)
+    {
+        anim.SetInteger("Ui_State", (int)i);
+    }
+
+
+    public int GetUI_State()
+    {
+        return anim.GetInteger("Ui_State");
+    }
+
     public void CloseAllUIWindows()
     {
-        // craftingMenu.SetActive(false); // is now in inventory
-        inventoryMenu.SetActive(false);
-        equipmentSelectionMenu.SetActive(false);
-        buildingSelectionMenu.SetActive(false);
-        // craftingMenu.SetActive(false);
-        closeAllUIWindowsEvent.Invoke();
-        ShowMouseCursor(false);
+        SetUI_State(0);
     }
 
     public bool InterfaceWindowIsOpen()
     {
-        return inventoryMenu.activeSelf || equipmentSelectionMenu.activeSelf || buildingSelectionMenu;
+        return GetUI_State() != 0;
     }
 
     public virtual void ShowMouseCursor(bool value)
     {
-        if (value)
-        {
-            showCursorEvent.Invoke(true);
-            Cursor.lockState = CursorLockMode.None;
-        }
-        else
-        {
-            showCursorEvent.Invoke(false);
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        // Not gonna be used anymore, cursor visibility is controlled via Animator
     }
 
     public void CallPauseMenu()
@@ -82,16 +104,17 @@ public class GameUI : MonoBehaviour
         if(InterfaceWindowIsOpen())
         {
             CloseAllUIWindows();
-            ShowMouseCursor(false);
+            SetUI_State(UI_State.Base);
         }
         else if (!pauseMenu.activeSelf)
         {
             pauseEvent.Invoke();
-            ShowMouseCursor(true);
+            SetUI_State(UI_State.Pause);
         }
         else
         {
             negativePauseEvent.Invoke();
+            SetUI_State(UI_State.Base);
         }
     }
 
@@ -111,13 +134,11 @@ public class GameUI : MonoBehaviour
     {
         if(inventoryMenu.activeSelf)
         {
-            CloseAllUIWindows();
+            SetUI_State(UI_State.Base);
         }
         else
         {
-            CloseAllUIWindows();
-            inventoryMenu.SetActive(true);
-            ShowMouseCursor(true);
+            SetUI_State(UI_State.Inventory);
         }
     }
 
