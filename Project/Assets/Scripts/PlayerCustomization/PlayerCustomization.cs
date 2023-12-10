@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerCustomization : NetworkBehaviour
 {
@@ -71,10 +69,6 @@ public class PlayerCustomization : NetworkBehaviour
     public Color[] highlightColor;
     public Color[] eyebrowColor;
 
-#if UNITY_EDITOR
-    [Header("Color Pallete Assigner")]
-    public Sprite colorPalleteLoaderIris;
-#endif
 
     public void SetIndex(int value, int index)
     {
@@ -392,34 +386,3 @@ public class PlayerCustomization : NetworkBehaviour
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(PlayerCustomization))]
-public class MyPlayerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        PlayerCustomization yourScript = (PlayerCustomization)target;
-
-        // Add a button to the inspector
-        if (GUILayout.Button("Define Player Colors"))
-        {
-            // Code to execute when the button is clicked
-            yourScript.irisColor = SetPixelData(yourScript.colorPalleteLoaderIris.texture);
-        }
-    }
-
-    private Color[] SetPixelData(Texture2D tex)
-    {
-        if (tex == null) return null;
-        Color[] result = tex.GetPixels();
-        if (result.Length > 1056)
-        {
-            return null;
-        }
-        return result;
-    }
-}
-#endif
