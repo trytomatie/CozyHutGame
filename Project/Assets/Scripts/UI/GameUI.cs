@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 public class GameUI : MonoBehaviour
 {
     public enum UI_State { Base,Inventory,Container,Building,Pause}
+    private int baseStateOverride = 0;
     public TextMeshProUGUI woodText;
     public Canvas canvas;
     public GameObject pauseMenu;
@@ -23,7 +24,6 @@ public class GameUI : MonoBehaviour
     public bool showCursor = false;
     private bool previousCursorState = true;
     private Animator anim;
-
     private static GameUI instance;
 
     public UnityEvent pauseEvent;
@@ -69,12 +69,31 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    public void SetShowCursor(bool value)
+    {
+        showCursor = value;
+    }
+
+    public void SetUI_StateBaseStateOverride(int i)
+    {
+        baseStateOverride = i;
+    }
+
     public void SetUI_State(int i)
     {
+        if(baseStateOverride != 0 && i == 0)
+        {
+            i = baseStateOverride;
+        }
         anim.SetInteger("Ui_State", i);
     }
     public void SetUI_State(UI_State i)
     {
+        if (baseStateOverride != 0 && i == 0)
+        {
+            anim.SetInteger("Ui_State", baseStateOverride);
+            return;
+        }
         anim.SetInteger("Ui_State", (int)i);
     }
 
@@ -91,7 +110,7 @@ public class GameUI : MonoBehaviour
 
     public bool InterfaceWindowIsOpen()
     {
-        return GetUI_State() != 0;
+        return GetUI_State() != 0 && GetUI_State() != 4;
     }
 
     public virtual void ShowMouseCursor(bool value)
@@ -153,7 +172,7 @@ public class GameUI : MonoBehaviour
             // Perform a raycast using the pointer data
             List<RaycastResult> result = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerData, result);
-
+            SetUI_StateBaseStateOverride(0);
             // Check if a UI element was hit
             if (result[0].gameObject != null)
             {
