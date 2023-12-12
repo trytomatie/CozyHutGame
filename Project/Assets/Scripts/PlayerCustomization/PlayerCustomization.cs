@@ -250,73 +250,73 @@ public class PlayerCustomization : NetworkBehaviour
 
             case 1:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.63f, 0));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.64f, 0));
 
                 break;
 
             case 2:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(1.28f, 0));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(1.285f, 0));
 
                 break;
 
             case 3:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0, -0.7f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.01f, -0.75f));
 
                 break;
 
             case 4:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.63f, -0.7f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.64f, -0.8f));
 
                 break;
 
             case 5:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(1.28f, -0.7f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(1.285f, -0.75f));
 
                 break;
 
             case 6:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0, -1.6f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(-0.01f, -1.6f));
 
                 break;
 
             case 7:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.63f, -1.6f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.63f, -1.65f));
 
                 break;
 
             case 8:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(1.28f, -1.6f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(1.3f, -1.65f));
 
                 break;
 
             case 9:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0, -2.35f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0, -2.425f));
 
                 break;
 
             case 10:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.63f, -2.35f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.63f, -2.45f));
 
                 break;
 
             case 11:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(1.28f, -2.35f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(1.28f, -2.4f));
 
                 break;
 
             case 12:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0, -3.15f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.005f, -3.18f));
 
                 break;
         }
