@@ -36,6 +36,7 @@ public class WorldSaveState : MonoBehaviour
 
     public void SaveWorld()
     {
+        ResourceController[] resources = FindObjectsOfType<ResourceController>();
         SaveData saveData = new SaveData()
         {
             placedObjects = placedObjects
@@ -119,7 +120,10 @@ public struct SerializedVector3
 [Serializable]
 public struct ResourceObjectData
 {
-    public ResourceController resource;
+    public int resource_id;
+    public SerializedVector3 positon;
+    public SerializedVector3 roation;
+    public SerializedVector3 scale;
 }
 
 [Serializable]
