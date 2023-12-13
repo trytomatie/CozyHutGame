@@ -1,0 +1,97 @@
+﻿#include "Common.compute"
+
+#pragma kernel AnisotropicKuwahara
+
+Texture2D<half4>   TextureTFMSRV;
+Texture2D<half3>   TextureColorSRV;
+RWTexture2D<half3> TextureColorUAV;
+
+[numthreads(8, 8, 1)]
+void AnisotropicKuwahara(uint3 id : SV_DispatchThreadID) {
+    
+    const int N = 8;
+       
+    half4 t = TextureTFMSRV[id.xy].xyzw;
+    half  a = KuwaharaRadius * clamp((KuwaharaAlpha + t.w) / KuwaharaAlpha, 0.1h, 5.0h);
+    half  b = KuwaharaRadius * clamp(KuwaharaAlpha / (t.w + KuwaharaAlpha), 0.1h, 5.0h);
+
+    half2x2 SR = half2x2(t.x / a, -t.y / b, t.y / a, t.x / b);
+    
+    int maxX = int(sqrt(a * a * t.x * t.x + b * b * t.y * t.y));
+    int maxY = int(sqrt(a * a * t.y * t.y + b * b * t.x * t.x));
+
+    half4 m[8];
+    half3 s[8];
+    {
+        half3 c = TextureColorSRV[id.xy];
+        half w = rcp(float(N));
+        for (int k = 0; k < N; k++) {
+            m[k] = half4(c * w, w);
+            s[k] = c * c * w;
+        }
+    }
+    
+    for (int j = 0; j <= maxY; j++) {
+        for (int i = -maxX; i <= maxX; i++) {
+            if ((j != 0) || (i > 0)) {
+                half2 v = mul(SR, half2(i, j));
+                half vdotv = dot(v, v);
+                
+                [branch]
+                if (vdotv <= 1.0f) {
+                 
+                    half3 c0 = TextureColorSRV[id.xy + int2(i, j)].xyz;
+                    half3 c1 = TextureColorSRV[id.xy - int2(i, j)].xyz;
+
+                    half3 cc0 = c0 * c0;
+                    half3 cc1 = c1 * c1;
+
+                    half sum = 0.0h;
+                    half w[8];
+                    half z, vxx, vyy;
+					
+                    vxx = 0.33h - 3.77h * v.x * v.x;
+                    vyy = 0.33h - 3.77h * v.y * v.y;
+                    z = max(0.0h, +v.y + vxx); sum += w[0] = z * z;
+                    z = max(0.0h, -v.x + vyy); sum += w[2] = z * z;
+                    z = max(0.0h, -v.y + vxx); sum += w[4] = z * z;
+                    z = max(0.0h, +v.x + vyy); sum += w[6] = z * z;
+
+                    v = M_HALF_SQRT2 * half2(v.x - v.y, v.x + v.y);
+
+                    vxx = 0.33h - 3.77h * v.x * v.x;
+                    vyy = 0.33h - 3.77h * v.y * v.y;
+                    
+                    z = max(0.0h, +v.y + vxx); sum += w[1] = z * z;
+                    z = max(0.0h, -v.x + vyy); sum += w[3] = z * z;
+                    z = max(0.0h, -v.y + vxx); sum += w[5] = z * z;
+                    z = max(0.0h, +v.x + vyy); sum += w[7] = z * z;
+
+                    half g = exp(-M_PI * vdotv) / sum;
+					
+                    for (int k = 0; k < N; ++k) {
+                        half wk = w[k] * g;
+                        m[k] += half4(c0 * wk, wk);
+                        s[k] += cc0 * wk;
+                        m[(k + 4) & 7] += half4(c1 * wk, wk);
+                        s[(k + 4) & 7] += cc1 * wk;
+                    }              
+                }
+            }
+        }
+    }
+    
+    half4 o = 0.0h;
+    [loop]
+    for (int k = 0; k < N; k++) {
+        m[k].rgb /= m[k].w;
+        s[k] = abs(s[k] / m[k].w - m[k].rgb * m[k].rgb);
+    
+        half sigma2 = s[k].r + s[k].g + s[k].b;
+        half w = rcp(1.0h + pow(abs(255.0h * sigma2), 0.5h * KuwaharaQ));
+        o += w * half4(m[k].rgb, 1.0h);
+    }  
+    TextureColorUAV[id.xy] = half3(o.rgb / o.w);  
+}
+
+

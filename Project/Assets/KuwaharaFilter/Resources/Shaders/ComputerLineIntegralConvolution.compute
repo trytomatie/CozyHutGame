@@ -1,0 +1,43 @@
+﻿#include "Common.compute"
+
+#pragma kernel LineIntegralConvolution
+
+Texture2D<half3>   TextureTFMSRV;
+Texture2D<half3>   TextureColorSRV;
+RWTexture2D<half3> TextureColorUAV;
+
+StructuredBuffer<float> BufferGaussKernel;
+SamplerState point_clamp_sampler;
+SamplerState linear_clamp_sampler;
+
+
+half4 Integrate(half2 position, half2 direction, half2 invDimension) {
+       
+    half4 sumWeight = 0.0h;
+ 
+    for (int xi = 1; xi <= GaussRadius; xi++){     
+        half2 G = TextureTFMSRV.SampleLevel(point_clamp_sampler, position, 0).xy;
+        direction = dot(direction, G) > 0.0h ? G : -G;
+        
+        sumWeight += BufferGaussKernel[xi + GaussRadius] * half4(TextureColorSRV.SampleLevel(linear_clamp_sampler, position, 0).xyz, 1.0);
+        position += direction * invDimension;
+    }  
+    return sumWeight;
+}
+
+[numthreads(8, 8, 1)]
+void LineIntegralConvolution(uint3 id : SV_DispatchThreadID) {
+    
+    half2 invDimension;
+    TextureTFMSRV.GetDimensions(invDimension.x, invDimension.y);
+    invDimension = rcp(invDimension);
+    
+    half4 sumWeight = 0.0;    
+    half2 P = id.xy * invDimension;
+    half2 G = TextureTFMSRV.SampleLevel(point_clamp_sampler, P, 0).xy;
+   
+    sumWeight += BufferGaussKernel[GaussRadius] * half4(TextureColorSRV.SampleLevel(linear_clamp_sampler, P, 0).xyz, 1.0);
+    sumWeight += Integrate(P + G * invDimension, +G, invDimension);
+    sumWeight += Integrate(P - G * invDimension, -G, invDimension);
+    TextureColorUAV[id.xy] = half3(sumWeight.xyz / sumWeight.w); 
+}

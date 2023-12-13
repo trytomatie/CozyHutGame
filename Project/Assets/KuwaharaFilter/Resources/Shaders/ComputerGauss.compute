@@ -1,0 +1,28 @@
+﻿#include "Common.compute"
+
+#pragma kernel GaussHS
+#pragma kernel GaussVS
+
+Texture2D<half3>   TextureColorSRV;
+RWTexture2D<half3> TextureColorUAV;
+
+StructuredBuffer<float> BufferGaussKernel;
+
+[numthreads(8, 8, 1)]
+void GaussHS(uint3 id : SV_DispatchThreadID) {  
+    
+    half3 sum = half3(0.0f, 0.0f, 0.0f);  
+    for (int x = -GaussRadius; x <= GaussRadius; x++) 
+        sum += BufferGaussKernel[x + GaussRadius] * TextureColorSRV[id.xy + uint2(x, 0)];    
+    TextureColorUAV[id.xy] = sum;
+}
+
+[numthreads(8, 8, 1)]
+void GaussVS(uint3 id : SV_DispatchThreadID) {    
+    
+    half3 sum = half3(0.0f, 0.0f, 0.0f);
+    for (int y = -GaussRadius; y <= GaussRadius; y++) 
+        sum += BufferGaussKernel[y + GaussRadius] * TextureColorSRV[id.xy + uint2(0, y)];  
+    TextureColorUAV[id.xy] = sum;
+}
+

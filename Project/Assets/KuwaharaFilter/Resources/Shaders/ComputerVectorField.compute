@@ -1,0 +1,26 @@
+﻿#include "Common.compute"
+
+#pragma kernel VectorField
+
+Texture2D<half4>   TextureColorSRV;
+RWTexture2D<half4> TextureColorUAV;
+
+
+[numthreads(8, 8, 1)]
+void VectorField(uint3 id : SV_DispatchThreadID) {
+    
+    half3 tensor = TextureColorSRV[id.xy].xyz;
+    
+    half E = tensor.x;
+    half G = tensor.y;
+    half F = tensor.z;
+    half D = sqrt((E - G) * (E - G) + 4.0h * F * F);
+       
+    half L1 = 0.5h * (E + G + D);
+    half L2 = 0.5h * (E + G - D);
+    
+    half phi = length(half2(-F, L1 - E)) > 0.0h ? atan2(-F, L1 - E) : atan2(0.0h, 1.0h);
+    half A = (L1 + L2 > 0.0h) ? (L1 - L2) / (L1 + L2) : 0.0h;
+    
+    TextureColorUAV[id.xy] = half4(cos(phi), sin(phi), phi, A);
+}
