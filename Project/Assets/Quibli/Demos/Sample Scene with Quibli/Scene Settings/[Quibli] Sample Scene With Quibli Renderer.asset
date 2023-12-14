@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ae16d209e106b40910a2554e26d893, type: 3}
   m_Name: AnisotropicKuwaharaFilter
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   Settings:
-    GaussRadius: 0
+    GaussRadius: 2
     GaussSigma: 0.1
-    KuwaharaAlpha: 0
-    KuwaharaRadius: 0
-    KuwaharaQ: 1
-    ResolutionScale: 0.1
-    RenderPassEvent: 1000
+    KuwaharaAlpha: 4
+    KuwaharaRadius: 3
+    KuwaharaQ: 20
+    ResolutionScale: 1
+    RenderPassEvent: 450
 --- !u!114 &-6476963597063376320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,10 +93,10 @@ MonoBehaviour:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7,
       type: 3}
   m_RendererFeatures:
+  - {fileID: -7032440541738419839}
   - {fileID: -6476963597063376320}
   - {fileID: -4114149918836338722}
-  - {fileID: -7032440541738419839}
-  m_RendererFeatureMap: 40b2e6c5ec331da6decf0e4f729ae7c68139a03596c0679e
+  m_RendererFeatureMap: 8139a03596c0679e40b2e6c5ec331da6decf0e4f729ae7c6
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
