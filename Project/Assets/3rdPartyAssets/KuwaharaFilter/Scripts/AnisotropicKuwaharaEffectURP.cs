@@ -45,10 +45,11 @@ namespace KuwaharaFilterURP
             name = "AnisotropicKuwaharaFilter";
         }
 
-        public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
+        public override void SetupRenderPasses(ScriptableRenderer renderer, in RenderingData renderingData)
         {
             m_KuwaharaFilterRenderPass.Setup(renderer.cameraColorTarget, renderer.cameraColorTarget);
             renderer.EnqueuePass(m_KuwaharaFilterRenderPass);
+            base.SetupRenderPasses(renderer, renderingData);
         }
 
         public void OnEnable()
@@ -59,6 +60,10 @@ namespace KuwaharaFilterURP
         public void OnDisable()
         {
             m_KernelGaussFilter.Release();
+        }
+
+        public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
+        {
         }
     }
 
