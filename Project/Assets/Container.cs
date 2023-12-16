@@ -280,6 +280,7 @@ public class Container : NetworkBehaviour
     [ClientRpc]
     public void SyncContainerClientRpc(ItemData[] serverItems, ClientRpcParams clientRpcParams = default)
     {
+        print($"Observed {NetworkManager.LocalClientId}");
         items = serverItems;
         observationEvent.Invoke(gameObject);
     }
@@ -308,9 +309,9 @@ public class Container : NetworkBehaviour
                     AddItem(restData);
                 }
                 addItemEvents.Invoke(item);
-                if(NetworkManager.LocalClientId == OwnerClientId && canNotify)
+                if (canNotify)
                 {
-                    NotificationManagerUI.Instance.SetNotification(item);
+                    SendItemNotifiactionClientRpc(itemData, GameManager.GetClientRpcParams(OwnerClientId));
                 }
                 observationEvent.Invoke(gameObject);
                 return;
@@ -332,9 +333,10 @@ public class Container : NetworkBehaviour
                 Debug.LogError("No Space in Container");
             }
             addItemEvents.Invoke(item);
-            if (NetworkManager.LocalClientId == OwnerClientId)
+            print($"{NetworkManager.LocalClientId} , {OwnerClientId}");
+            if (canNotify)
             {
-                NotificationManagerUI.Instance.SetNotification(item);
+                SendItemNotifiactionClientRpc(itemData, GameManager.GetClientRpcParams(OwnerClientId));
             }
             SyncContainerClientRpc(items, GameManager.GetClientRpcParams(observerList.ToArray()));
             return;
@@ -342,6 +344,16 @@ public class Container : NetworkBehaviour
         else
         {
             return;
+        }
+    }
+
+    [ClientRpc]
+    private void SendItemNotifiactionClientRpc(ItemData itemData, ClientRpcParams clientRpcParams = default)
+    {
+        Item item = ItemManager.GenerateItem(itemData);
+        if (NetworkManager.LocalClientId == OwnerClientId)
+        {
+            NotificationManagerUI.Instance.SetNotification(item);
         }
     }
 

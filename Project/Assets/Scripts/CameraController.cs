@@ -12,7 +12,6 @@ public class CameraController : MonoBehaviour
 
     public virtual void DisableCameraControlls(bool value)
     {
-        print("CameraControlls" + value);
         if(value && freeLookCamera.m_YAxis.m_MaxSpeed > 0)
         {
             yMaxSpeed = freeLookCamera.m_YAxis.m_MaxSpeed;
