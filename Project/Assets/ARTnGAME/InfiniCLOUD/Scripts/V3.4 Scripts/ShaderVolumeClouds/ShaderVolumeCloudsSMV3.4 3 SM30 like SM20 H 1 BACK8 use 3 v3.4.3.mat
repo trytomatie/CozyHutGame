@@ -2,20 +2,27 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ShaderVolumeCloudsSMV3.4 3 SM30 like SM20 H 1 BACK8 use 3 v3.4.3
   m_Shader: {fileID: 4800000, guid: d46699f963e3e1a4fa975c3d0c795c75, type: 3}
-  m_ShaderKeywords: CV_DEPTHBLEND_OFF CV_HORIZONBLEND_OFF CV_LIGHTING_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - CV_DEPTHBLEND_OFF
+  - CV_HORIZONBLEND_OFF
+  - CV_LIGHTING_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2800
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -51,6 +58,7 @@ Material:
         m_Texture: {fileID: 2800000, guid: d365d36f30dee7f4f8e7990e30da8e75, type: 3}
         m_Scale: {x: 0.31, y: 0.15}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Thickness: 1.67
     - _Alpha: 0.42
@@ -114,10 +122,11 @@ Material:
     - _LightingControl: {r: 1, g: 1, b: -1, a: 0}
     - _Shading: {r: 0.27681658, g: 0.29418916, b: 0.4705882, a: 0.172}
     - _ShadowColor: {r: 0.23921569, g: 0.23921569, b: 0.31764707, a: 0.27450982}
-    - _SunColor: {r: 0.9019608, g: 0.9019608, b: 0.9019608, a: 64.59843}
+    - _SunColor: {r: 0.33962262, g: 0.32389328, b: 0.3155927, a: 64.59843}
     - _SunDir: {r: 0, g: 1, b: 0, a: 0}
-    - _Velocity1: {r: 1.7936044, g: 0.0010060556, b: 0, a: 0.012573213}
-    - _Velocity2: {r: 3.4052143, g: 0.013859009, b: 0, a: 2}
+    - _Velocity1: {r: 1.9022614, g: 0.000989481, b: 0, a: 0.013333518}
+    - _Velocity2: {r: 3.5241752, g: 0.013679136, b: 0, a: 2}
     - _WindDirection: {r: 1, g: 0, b: 0, a: 0}
     - pointLightColor: {r: 1, g: 1, b: 1, a: 1}
     - pointLightPos: {r: -553.03937, g: 653.54767, b: -1569.6478, a: 0}
+  m_BuildTextureStacks: []

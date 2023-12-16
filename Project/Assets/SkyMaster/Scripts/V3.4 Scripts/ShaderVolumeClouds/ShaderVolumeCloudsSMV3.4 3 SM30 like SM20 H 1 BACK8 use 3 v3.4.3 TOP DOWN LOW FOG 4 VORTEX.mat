@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -10,13 +10,20 @@ Material:
   m_Name: ShaderVolumeCloudsSMV3.4 3 SM30 like SM20 H 1 BACK8 use 3 v3.4.3 TOP DOWN
     LOW FOG 4 VORTEX
   m_Shader: {fileID: 4800000, guid: b0e003c2754082f47ab1a32a70d18294, type: 3}
-  m_ShaderKeywords: CV_DEPTHBLEND_OFF CV_HORIZONBLEND_OFF CV_LIGHTING_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - CV_DEPTHBLEND_OFF
+  - CV_HORIZONBLEND_OFF
+  - CV_LIGHTING_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -52,6 +59,7 @@ Material:
         m_Texture: {fileID: 2800000, guid: d365d36f30dee7f4f8e7990e30da8e75, type: 3}
         m_Scale: {x: 0.31, y: 0.15}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Thickness: 6
     - _Alpha: 0.42
@@ -117,10 +125,11 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 0}
     - _SunColor: {r: 1, g: 1, b: 1, a: 1.5725491}
     - _SunDir: {r: 0, g: 1, b: 0, a: 0}
-    - _Velocity1: {r: 10.036489, g: 0.0000011965584, b: 0, a: 0.07025335}
-    - _Velocity2: {r: 30.018963, g: 0.0000035785426, b: 0, a: 2}
+    - _Velocity1: {r: 10.036354, g: 0.0000011965423, b: 0, a: 0.07025244}
+    - _Velocity2: {r: 30.018852, g: 0.0000035785295, b: 0, a: 2}
     - _WindDirection: {r: 1, g: 0, b: 0, a: 0}
     - pointLightColor: {r: 1, g: 1, b: 1, a: 1}
     - pointLightPos: {r: -432.51825, g: 1003.656, b: 640.9357, a: 0}
     - vortexControl: {r: -30, g: -0.62, b: 1.7, a: 1.33}
     - vortexPosRadius: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
