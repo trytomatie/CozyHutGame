@@ -56,8 +56,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CloudTestQuilbi
-  m_Shader: {fileID: -6465566751694194690, guid: 29f42145cbc814750965726259f1af2c,
-    type: 3}
+  m_Shader: {fileID: 4800000, guid: 852113d15a525b849b1d469228f450ce, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -108,9 +107,17 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 75b254a55f7e3f347ac8f2b5db9b11d9, type: 3}
+        m_Scale: {x: 1.68, y: -1.35}
+        m_Offset: {x: 1.43, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PanningNoise:
+        m_Texture: {fileID: 2800000, guid: bdca5e9a5f4be924782b84af1614d624, type: 3}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
@@ -144,8 +151,12 @@ Material:
     - Offset_Along_Normal: 0
     - Space_0: 0
     - _AlphaClip: 0
+    - _AlphaCutoff: 0.5
     - _AlphaThreshold: 0
     - _AlphaToMask: 0
+    - _AnimSpeedX: -2
+    - _AnimSpeedY: -2
+    - _AnimSpeedZ: -2
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -155,32 +166,55 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DirectLight: 0.01
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Height: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _PanningSpeed: 0.016
     - _Parallax: 0.005
     - _QueueControl: -1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RimPower: 0
+    - _Scale: 0
     - _ShadowStrength: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
+    - _Strength: 0
     - _Surface: 0
+    - _WindEffect: 0.015
+    - _WindNoiseScale: 0.019
+    - _WindWorldScale: 0.09
     - _WorkflowMode: 1
+    - _X_Multiplier: 1
+    - _Y_Multiplier: 1
     - _ZWrite: 1
+    - _Z_Multiplier: 2
+    - _lightDirMulti: 0.55
+    - _lightMax: 0.341
+    - _lightMin: 0.369
+    - _lightingContrast: 6.47
+    - _maxEmit: 0.89
+    - _minEmit: 0.266
+    - _minEmit_dir: 0.396
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CloudColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissiveColour: {r: 0.7215686, g: 0.8078431, b: 1, a: 0}
+    - _RimColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _TColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &845210292084433589
 MonoBehaviour:
