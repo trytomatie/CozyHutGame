@@ -24,10 +24,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: c7c0f1a7db1de3949a64c5e41831a1c4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _RECEIVE_SHADOWS_OFF
-  m_InvalidKeywords:
-  - _RECEIVESHADOWS_OFF
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -98,6 +96,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -134,7 +136,7 @@ Material:
     - _3DNoiseSizeB: 0.2
     - _3DNoiseSizeC: 0.2
     - _AdvancedCat: 1
-    - _AlphaClip: 0
+    - _AlphaClip: 0.78
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
     - _BackFaceCullTolerance: 5
@@ -144,7 +146,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _CloudBaseTextureDetail: 0.988
+    - _CloudBaseTextureDetail: 0.771
     - _CloudTextureScrollA: 0.33
     - _CloudTextureScrollB: -0.2
     - _Cull: 2
@@ -160,6 +162,7 @@ Material:
     - _EmissionStrenght: 1.37
     - _EnvironmentReflections: 1
     - _FactorInside: 3
+    - _Float1: 9.41
     - _FogCat: 1
     - _FrustumCullTolerance: 5
     - _GENERATE_NORMALS: 1
@@ -184,7 +187,7 @@ Material:
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 0
+    - _ReceiveShadows: 1
     - _SkyboxCat: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
