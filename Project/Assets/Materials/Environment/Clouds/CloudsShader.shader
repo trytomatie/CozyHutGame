@@ -4,8 +4,9 @@ Shader "CloudsShader"
 {
 	Properties
 	{
-		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
+		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
+		_TopTexture1("Top Texture 1", 2D) = "white" {}
 		_TopTexture0("Top Texture 0", 2D) = "white" {}
 		_noiseDirectionC("noiseDirectionC", Vector) = (0,1,0,0)
 		_noiseDirectionA("noiseDirectionA", Vector) = (0,1,0,0)
@@ -16,10 +17,16 @@ Shader "CloudsShader"
 		_NoiseStrengthB("NoiseStrengthB", Float) = 1
 		_NoiseStrengthC("NoiseStrengthC", Float) = 1
 		_NoiseStrengthA("NoiseStrengthA", Float) = 1
-		_Tiling("Tiling", Vector) = (1,1,0,0)
 		_3DNoiseSizeB("3DNoiseSizeB", Float) = 1
 		_3DNoiseSizeC("3DNoiseSizeC", Float) = 1
 		_3DNoiseSizeA("3DNoiseSizeA", Float) = 1
+		_CloudTextureScrollB("CloudTextureScrollB", Float) = -0.3
+		_CloudTextureScrollA("CloudTextureScrollA", Float) = 0.3
+		_CloudTextureTiling("CloudTextureTiling", Vector) = (0.1,0.1,0,0)
+		[HDR]_CloudBaseColor("CloudBaseColor", Color) = (0,0,0,0)
+		[HDR]_CloudSecondaryColor("CloudSecondaryColor", Color) = (0,0,0,0)
+		_CloudBaseTextureDetail("CloudBaseTextureDetail", Range( 0 , 1)) = 1
+		_AlphaClip("AlphaClip", Float) = 1
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -180,12 +187,12 @@ Shader "CloudsShader"
 		{
 			
 			Name "Forward"
-			Tags { "LightMode"="UniversalForward" }
+			Tags { "LightMode"="UniversalForwardOnly" }
 
 			Blend One Zero, One Zero
 			ZWrite On
 			ZTest LEqual
-			Offset 0 , 0
+			Offset 0,0
 			ColorMask RGBA
 
 			
@@ -198,7 +205,8 @@ Shader "CloudsShader"
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
-			#define _EMISSION
+			#define ASE_DEPTH_WRITE_ON
+			#define _ALPHATEST_ON 1
 			#define ASE_SRP_VERSION 140004
 
 
@@ -256,7 +264,6 @@ Shader "CloudsShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -300,19 +307,25 @@ Shader "CloudsShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _CloudSecondaryColor;
+			float4 _CloudBaseColor;
+			float3 _noiseDirectionC;
 			float3 _noiseDirectionA;
 			float3 _noiseDirectionB;
-			float3 _noiseDirectionC;
-			float2 _Tiling;
-			float _NoiseStrengthA;
-			float _NoiseSpeedA;
-			float _3DNoiseSizeA;
-			float _NoiseStrengthB;
-			float _NoiseSpeedB;
-			float _3DNoiseSizeB;
-			float _NoiseStrengthC;
-			float _NoiseSpeedC;
+			float2 _CloudTextureTiling;
+			float _CloudBaseTextureDetail;
+			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
+			float _NoiseSpeedC;
+			float _NoiseStrengthA;
+			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
+			float _NoiseSpeedB;
+			float _NoiseStrengthB;
+			float _3DNoiseSizeA;
+			float _NoiseSpeedA;
+			float _CloudTextureScrollB;
+			float _AlphaClip;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -344,6 +357,7 @@ Shader "CloudsShader"
 			#endif
 
 			sampler2D _TopTexture0;
+			sampler2D _TopTexture1;
 
 
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
@@ -393,7 +407,47 @@ Shader "CloudsShader"
 				return 42.0 * dot( m, px);
 			}
 			
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
+			
 			inline float4 TriplanarSampling269( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float4 TriplanarSampling318( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
 			{
 				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
 				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
@@ -415,7 +469,8 @@ Shader "CloudsShader"
 
 				float3 objToWorldDir182 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform167 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D145 = snoise( ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 )).xyz*_3DNoiseSizeA );
+				float4 temp_output_162_0 = ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 ));
+				float simplePerlin3D145 = snoise( temp_output_162_0.xyz*_3DNoiseSizeA );
 				simplePerlin3D145 = simplePerlin3D145*0.5 + 0.5;
 				float3 objToWorldDir194 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform189 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
@@ -423,7 +478,8 @@ Shader "CloudsShader"
 				simplePerlin3D184 = simplePerlin3D184*0.5 + 0.5;
 				float3 objToWorldDir210 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform205 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D200 = snoise( ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 )).xyz*_3DNoiseSizeC );
+				float4 temp_output_203_0 = ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 ));
+				float simplePerlin3D200 = snoise( temp_output_203_0.xyz*_3DNoiseSizeC );
 				simplePerlin3D200 = simplePerlin3D200*0.5 + 0.5;
 				
 
@@ -621,23 +677,24 @@ Shader "CloudsShader"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float4 appendResult279 = (float4(WorldPosition.x , ( WorldPosition.y + _TimeParameters.x ) , WorldPosition.z , 0.0));
-				float4 triplanar269 = TriplanarSampling269( _TopTexture0, appendResult279.xyz, WorldNormal, 1.0, _Tiling, 1.0, 0 );
-				
-				float fresnelNdotV242 = dot( WorldNormal, WorldViewDirection );
-				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
-				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
+				float mulTime293 = _TimeParameters.x * _CloudTextureScrollA;
+				float simplePerlin2D332 = snoise( ( WorldPosition + _TimeParameters.x ).xy*_CloudTextureTiling.x );
+				simplePerlin2D332 = simplePerlin2D332*0.5 + 0.5;
+				float4 triplanar269 = TriplanarSampling269( _TopTexture0, ( ( mulTime293 + WorldPosition ) + simplePerlin2D332 ), WorldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
+				float mulTime299 = _TimeParameters.x * _CloudTextureScrollB;
+				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), WorldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
+				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
 				
 
-				float3 BaseColor = triplanar269.xyz;
+				float3 BaseColor = lerpResult316.rgb;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = ( fresnelNode242 * color245 ).rgb;
+				float3 Emission = 0;
 				float3 Specular = 0.5;
-				float Metallic = 0;
+				float Metallic = 0.0;
 				float Smoothness = 0.0;
 				float Occlusion = 1;
 				float Alpha = 1;
-				float AlphaClipThreshold = 0.5;
+				float AlphaClipThreshold = _AlphaClip;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
 				float3 RefractionColor = 1;
@@ -886,7 +943,8 @@ Shader "CloudsShader"
 			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
-			#define _EMISSION
+			#define ASE_DEPTH_WRITE_ON
+			#define _ALPHATEST_ON 1
 			#define ASE_SRP_VERSION 140004
 
 
@@ -945,19 +1003,25 @@ Shader "CloudsShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _CloudSecondaryColor;
+			float4 _CloudBaseColor;
+			float3 _noiseDirectionC;
 			float3 _noiseDirectionA;
 			float3 _noiseDirectionB;
-			float3 _noiseDirectionC;
-			float2 _Tiling;
-			float _NoiseStrengthA;
-			float _NoiseSpeedA;
-			float _3DNoiseSizeA;
-			float _NoiseStrengthB;
-			float _NoiseSpeedB;
-			float _3DNoiseSizeB;
-			float _NoiseStrengthC;
-			float _NoiseSpeedC;
+			float2 _CloudTextureTiling;
+			float _CloudBaseTextureDetail;
+			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
+			float _NoiseSpeedC;
+			float _NoiseStrengthA;
+			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
+			float _NoiseSpeedB;
+			float _NoiseStrengthB;
+			float _3DNoiseSizeA;
+			float _NoiseSpeedA;
+			float _CloudTextureScrollB;
+			float _AlphaClip;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1050,7 +1114,8 @@ Shader "CloudsShader"
 
 				float3 objToWorldDir182 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform167 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D145 = snoise( ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 )).xyz*_3DNoiseSizeA );
+				float4 temp_output_162_0 = ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 ));
+				float simplePerlin3D145 = snoise( temp_output_162_0.xyz*_3DNoiseSizeA );
 				simplePerlin3D145 = simplePerlin3D145*0.5 + 0.5;
 				float3 objToWorldDir194 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform189 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
@@ -1058,7 +1123,8 @@ Shader "CloudsShader"
 				simplePerlin3D184 = simplePerlin3D184*0.5 + 0.5;
 				float3 objToWorldDir210 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform205 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D200 = snoise( ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 )).xyz*_3DNoiseSizeC );
+				float4 temp_output_203_0 = ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 ));
+				float simplePerlin3D200 = snoise( temp_output_203_0.xyz*_3DNoiseSizeC );
 				simplePerlin3D200 = simplePerlin3D200*0.5 + 0.5;
 				
 
@@ -1218,7 +1284,7 @@ Shader "CloudsShader"
 				
 
 				float Alpha = 1;
-				float AlphaClipThreshold = 0.5;
+				float AlphaClipThreshold = _AlphaClip;
 				float AlphaClipThresholdShadow = 0.5;
 
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -1263,7 +1329,8 @@ Shader "CloudsShader"
 			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
-			#define _EMISSION
+			#define ASE_DEPTH_WRITE_ON
+			#define _ALPHATEST_ON 1
 			#define ASE_SRP_VERSION 140004
 
 
@@ -1320,19 +1387,25 @@ Shader "CloudsShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _CloudSecondaryColor;
+			float4 _CloudBaseColor;
+			float3 _noiseDirectionC;
 			float3 _noiseDirectionA;
 			float3 _noiseDirectionB;
-			float3 _noiseDirectionC;
-			float2 _Tiling;
-			float _NoiseStrengthA;
-			float _NoiseSpeedA;
-			float _3DNoiseSizeA;
-			float _NoiseStrengthB;
-			float _NoiseSpeedB;
-			float _3DNoiseSizeB;
-			float _NoiseStrengthC;
-			float _NoiseSpeedC;
+			float2 _CloudTextureTiling;
+			float _CloudBaseTextureDetail;
+			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
+			float _NoiseSpeedC;
+			float _NoiseStrengthA;
+			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
+			float _NoiseSpeedB;
+			float _NoiseStrengthB;
+			float _3DNoiseSizeA;
+			float _NoiseSpeedA;
+			float _CloudTextureScrollB;
+			float _AlphaClip;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1422,7 +1495,8 @@ Shader "CloudsShader"
 
 				float3 objToWorldDir182 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform167 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D145 = snoise( ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 )).xyz*_3DNoiseSizeA );
+				float4 temp_output_162_0 = ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 ));
+				float simplePerlin3D145 = snoise( temp_output_162_0.xyz*_3DNoiseSizeA );
 				simplePerlin3D145 = simplePerlin3D145*0.5 + 0.5;
 				float3 objToWorldDir194 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform189 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
@@ -1430,7 +1504,8 @@ Shader "CloudsShader"
 				simplePerlin3D184 = simplePerlin3D184*0.5 + 0.5;
 				float3 objToWorldDir210 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform205 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D200 = snoise( ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 )).xyz*_3DNoiseSizeC );
+				float4 temp_output_203_0 = ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 ));
+				float simplePerlin3D200 = snoise( temp_output_203_0.xyz*_3DNoiseSizeC );
 				simplePerlin3D200 = simplePerlin3D200*0.5 + 0.5;
 				
 
@@ -1572,7 +1647,7 @@ Shader "CloudsShader"
 				
 
 				float Alpha = 1;
-				float AlphaClipThreshold = 0.5;
+				float AlphaClipThreshold = _AlphaClip;
 
 				#ifdef ASE_DEPTH_WRITE_ON
 					float DepthValue = IN.positionCS.z;
@@ -1608,7 +1683,8 @@ Shader "CloudsShader"
 
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_FOG 1
-			#define _EMISSION
+			#define ASE_DEPTH_WRITE_ON
+			#define _ALPHATEST_ON 1
 			#define ASE_SRP_VERSION 140004
 
 
@@ -1664,19 +1740,25 @@ Shader "CloudsShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _CloudSecondaryColor;
+			float4 _CloudBaseColor;
+			float3 _noiseDirectionC;
 			float3 _noiseDirectionA;
 			float3 _noiseDirectionB;
-			float3 _noiseDirectionC;
-			float2 _Tiling;
-			float _NoiseStrengthA;
-			float _NoiseSpeedA;
-			float _3DNoiseSizeA;
-			float _NoiseStrengthB;
-			float _NoiseSpeedB;
-			float _3DNoiseSizeB;
-			float _NoiseStrengthC;
-			float _NoiseSpeedC;
+			float2 _CloudTextureTiling;
+			float _CloudBaseTextureDetail;
+			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
+			float _NoiseSpeedC;
+			float _NoiseStrengthA;
+			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
+			float _NoiseSpeedB;
+			float _NoiseStrengthB;
+			float _3DNoiseSizeA;
+			float _NoiseSpeedA;
+			float _CloudTextureScrollB;
+			float _AlphaClip;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1708,6 +1790,7 @@ Shader "CloudsShader"
 			#endif
 
 			sampler2D _TopTexture0;
+			sampler2D _TopTexture1;
 
 
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
@@ -1757,7 +1840,47 @@ Shader "CloudsShader"
 				return 42.0 * dot( m, px);
 			}
 			
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
+			
 			inline float4 TriplanarSampling269( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float4 TriplanarSampling318( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
 			{
 				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
 				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
@@ -1779,7 +1902,8 @@ Shader "CloudsShader"
 
 				float3 objToWorldDir182 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform167 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D145 = snoise( ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 )).xyz*_3DNoiseSizeA );
+				float4 temp_output_162_0 = ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 ));
+				float simplePerlin3D145 = snoise( temp_output_162_0.xyz*_3DNoiseSizeA );
 				simplePerlin3D145 = simplePerlin3D145*0.5 + 0.5;
 				float3 objToWorldDir194 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform189 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
@@ -1787,7 +1911,8 @@ Shader "CloudsShader"
 				simplePerlin3D184 = simplePerlin3D184*0.5 + 0.5;
 				float3 objToWorldDir210 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform205 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D200 = snoise( ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 )).xyz*_3DNoiseSizeC );
+				float4 temp_output_203_0 = ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 ));
+				float simplePerlin3D200 = snoise( temp_output_203_0.xyz*_3DNoiseSizeC );
 				simplePerlin3D200 = simplePerlin3D200*0.5 + 0.5;
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
@@ -1947,20 +2072,19 @@ Shader "CloudsShader"
 				#endif
 
 				float3 ase_worldNormal = IN.ase_texcoord4.xyz;
-				float4 appendResult279 = (float4(WorldPosition.x , ( WorldPosition.y + _TimeParameters.x ) , WorldPosition.z , 0.0));
-				float4 triplanar269 = TriplanarSampling269( _TopTexture0, appendResult279.xyz, ase_worldNormal, 1.0, _Tiling, 1.0, 0 );
-				
-				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
-				ase_worldViewDir = normalize(ase_worldViewDir);
-				float fresnelNdotV242 = dot( ase_worldNormal, ase_worldViewDir );
-				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
-				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
+				float mulTime293 = _TimeParameters.x * _CloudTextureScrollA;
+				float simplePerlin2D332 = snoise( ( WorldPosition + _TimeParameters.x ).xy*_CloudTextureTiling.x );
+				simplePerlin2D332 = simplePerlin2D332*0.5 + 0.5;
+				float4 triplanar269 = TriplanarSampling269( _TopTexture0, ( ( mulTime293 + WorldPosition ) + simplePerlin2D332 ), ase_worldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
+				float mulTime299 = _TimeParameters.x * _CloudTextureScrollB;
+				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), ase_worldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
+				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
 				
 
-				float3 BaseColor = triplanar269.xyz;
-				float3 Emission = ( fresnelNode242 * color245 ).rgb;
+				float3 BaseColor = lerpResult316.rgb;
+				float3 Emission = 0;
 				float Alpha = 1;
-				float AlphaClipThreshold = 0.5;
+				float AlphaClipThreshold = _AlphaClip;
 
 				#ifdef _ALPHATEST_ON
 					clip(Alpha - AlphaClipThreshold);
@@ -1989,14 +2113,15 @@ Shader "CloudsShader"
 			Blend One Zero, One Zero
 			ZWrite On
 			ZTest LEqual
-			Offset 0 , 0
+			Offset 0,0
 			ColorMask RGBA
 
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_FOG 1
-			#define _EMISSION
+			#define ASE_DEPTH_WRITE_ON
+			#define _ALPHATEST_ON 1
 			#define ASE_SRP_VERSION 140004
 
 
@@ -2042,19 +2167,25 @@ Shader "CloudsShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _CloudSecondaryColor;
+			float4 _CloudBaseColor;
+			float3 _noiseDirectionC;
 			float3 _noiseDirectionA;
 			float3 _noiseDirectionB;
-			float3 _noiseDirectionC;
-			float2 _Tiling;
-			float _NoiseStrengthA;
-			float _NoiseSpeedA;
-			float _3DNoiseSizeA;
-			float _NoiseStrengthB;
-			float _NoiseSpeedB;
-			float _3DNoiseSizeB;
-			float _NoiseStrengthC;
-			float _NoiseSpeedC;
+			float2 _CloudTextureTiling;
+			float _CloudBaseTextureDetail;
+			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
+			float _NoiseSpeedC;
+			float _NoiseStrengthA;
+			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
+			float _NoiseSpeedB;
+			float _NoiseStrengthB;
+			float _3DNoiseSizeA;
+			float _NoiseSpeedA;
+			float _CloudTextureScrollB;
+			float _AlphaClip;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2086,6 +2217,7 @@ Shader "CloudsShader"
 			#endif
 
 			sampler2D _TopTexture0;
+			sampler2D _TopTexture1;
 
 
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
@@ -2135,7 +2267,47 @@ Shader "CloudsShader"
 				return 42.0 * dot( m, px);
 			}
 			
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
+			
 			inline float4 TriplanarSampling269( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float4 TriplanarSampling318( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
 			{
 				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
 				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
@@ -2157,7 +2329,8 @@ Shader "CloudsShader"
 
 				float3 objToWorldDir182 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform167 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D145 = snoise( ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 )).xyz*_3DNoiseSizeA );
+				float4 temp_output_162_0 = ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 ));
+				float simplePerlin3D145 = snoise( temp_output_162_0.xyz*_3DNoiseSizeA );
 				simplePerlin3D145 = simplePerlin3D145*0.5 + 0.5;
 				float3 objToWorldDir194 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform189 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
@@ -2165,7 +2338,8 @@ Shader "CloudsShader"
 				simplePerlin3D184 = simplePerlin3D184*0.5 + 0.5;
 				float3 objToWorldDir210 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform205 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D200 = snoise( ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 )).xyz*_3DNoiseSizeC );
+				float4 temp_output_203_0 = ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 ));
+				float simplePerlin3D200 = snoise( temp_output_203_0.xyz*_3DNoiseSizeC );
 				simplePerlin3D200 = simplePerlin3D200*0.5 + 0.5;
 				
 				float3 ase_worldNormal = TransformObjectToWorldNormal(v.normalOS);
@@ -2305,13 +2479,18 @@ Shader "CloudsShader"
 				#endif
 
 				float3 ase_worldNormal = IN.ase_texcoord2.xyz;
-				float4 appendResult279 = (float4(WorldPosition.x , ( WorldPosition.y + _TimeParameters.x ) , WorldPosition.z , 0.0));
-				float4 triplanar269 = TriplanarSampling269( _TopTexture0, appendResult279.xyz, ase_worldNormal, 1.0, _Tiling, 1.0, 0 );
+				float mulTime293 = _TimeParameters.x * _CloudTextureScrollA;
+				float simplePerlin2D332 = snoise( ( WorldPosition + _TimeParameters.x ).xy*_CloudTextureTiling.x );
+				simplePerlin2D332 = simplePerlin2D332*0.5 + 0.5;
+				float4 triplanar269 = TriplanarSampling269( _TopTexture0, ( ( mulTime293 + WorldPosition ) + simplePerlin2D332 ), ase_worldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
+				float mulTime299 = _TimeParameters.x * _CloudTextureScrollB;
+				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), ase_worldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
+				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
 				
 
-				float3 BaseColor = triplanar269.xyz;
+				float3 BaseColor = lerpResult316.rgb;
 				float Alpha = 1;
-				float AlphaClipThreshold = 0.5;
+				float AlphaClipThreshold = _AlphaClip;
 
 				half4 color = half4(BaseColor, Alpha );
 
@@ -2329,7 +2508,7 @@ Shader "CloudsShader"
 		{
 			
 			Name "DepthNormals"
-			Tags { "LightMode"="DepthNormals" }
+			Tags { "LightMode"="DepthNormalsOnly" }
 
 			ZWrite On
 			Blend One Zero
@@ -2342,7 +2521,8 @@ Shader "CloudsShader"
 			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
-			#define _EMISSION
+			#define ASE_DEPTH_WRITE_ON
+			#define _ALPHATEST_ON 1
 			#define ASE_SRP_VERSION 140004
 
 
@@ -2404,19 +2584,25 @@ Shader "CloudsShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _CloudSecondaryColor;
+			float4 _CloudBaseColor;
+			float3 _noiseDirectionC;
 			float3 _noiseDirectionA;
 			float3 _noiseDirectionB;
-			float3 _noiseDirectionC;
-			float2 _Tiling;
-			float _NoiseStrengthA;
-			float _NoiseSpeedA;
-			float _3DNoiseSizeA;
-			float _NoiseStrengthB;
-			float _NoiseSpeedB;
-			float _3DNoiseSizeB;
-			float _NoiseStrengthC;
-			float _NoiseSpeedC;
+			float2 _CloudTextureTiling;
+			float _CloudBaseTextureDetail;
+			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
+			float _NoiseSpeedC;
+			float _NoiseStrengthA;
+			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
+			float _NoiseSpeedB;
+			float _NoiseStrengthB;
+			float _3DNoiseSizeA;
+			float _NoiseSpeedA;
+			float _CloudTextureScrollB;
+			float _AlphaClip;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2506,7 +2692,8 @@ Shader "CloudsShader"
 
 				float3 objToWorldDir182 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform167 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D145 = snoise( ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 )).xyz*_3DNoiseSizeA );
+				float4 temp_output_162_0 = ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 ));
+				float simplePerlin3D145 = snoise( temp_output_162_0.xyz*_3DNoiseSizeA );
 				simplePerlin3D145 = simplePerlin3D145*0.5 + 0.5;
 				float3 objToWorldDir194 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform189 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
@@ -2514,7 +2701,8 @@ Shader "CloudsShader"
 				simplePerlin3D184 = simplePerlin3D184*0.5 + 0.5;
 				float3 objToWorldDir210 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform205 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D200 = snoise( ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 )).xyz*_3DNoiseSizeC );
+				float4 temp_output_203_0 = ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 ));
+				float simplePerlin3D200 = snoise( temp_output_203_0.xyz*_3DNoiseSizeC );
 				simplePerlin3D200 = simplePerlin3D200*0.5 + 0.5;
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -2673,7 +2861,7 @@ Shader "CloudsShader"
 
 				float3 Normal = float3(0, 0, 1);
 				float Alpha = 1;
-				float AlphaClipThreshold = 0.5;
+				float AlphaClipThreshold = _AlphaClip;
 				#ifdef ASE_DEPTH_WRITE_ON
 					float DepthValue = IN.positionCS.z;
 				#endif
@@ -2730,7 +2918,7 @@ Shader "CloudsShader"
 			Blend One Zero, One Zero
 			ZWrite On
 			ZTest LEqual
-			Offset 0 , 0
+			Offset 0,0
 			ColorMask RGBA
 			
 
@@ -2742,7 +2930,8 @@ Shader "CloudsShader"
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
-			#define _EMISSION
+			#define ASE_DEPTH_WRITE_ON
+			#define _ALPHATEST_ON 1
 			#define ASE_SRP_VERSION 140004
 
 
@@ -2795,7 +2984,6 @@ Shader "CloudsShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -2839,19 +3027,25 @@ Shader "CloudsShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _CloudSecondaryColor;
+			float4 _CloudBaseColor;
+			float3 _noiseDirectionC;
 			float3 _noiseDirectionA;
 			float3 _noiseDirectionB;
-			float3 _noiseDirectionC;
-			float2 _Tiling;
-			float _NoiseStrengthA;
-			float _NoiseSpeedA;
-			float _3DNoiseSizeA;
-			float _NoiseStrengthB;
-			float _NoiseSpeedB;
-			float _3DNoiseSizeB;
-			float _NoiseStrengthC;
-			float _NoiseSpeedC;
+			float2 _CloudTextureTiling;
+			float _CloudBaseTextureDetail;
+			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
+			float _NoiseSpeedC;
+			float _NoiseStrengthA;
+			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
+			float _NoiseSpeedB;
+			float _NoiseStrengthB;
+			float _3DNoiseSizeA;
+			float _NoiseSpeedA;
+			float _CloudTextureScrollB;
+			float _AlphaClip;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2883,6 +3077,7 @@ Shader "CloudsShader"
 			#endif
 
 			sampler2D _TopTexture0;
+			sampler2D _TopTexture1;
 
 
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
@@ -2934,7 +3129,47 @@ Shader "CloudsShader"
 				return 42.0 * dot( m, px);
 			}
 			
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
+			
 			inline float4 TriplanarSampling269( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float4 TriplanarSampling318( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
 			{
 				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
 				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
@@ -2956,7 +3191,8 @@ Shader "CloudsShader"
 
 				float3 objToWorldDir182 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform167 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D145 = snoise( ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 )).xyz*_3DNoiseSizeA );
+				float4 temp_output_162_0 = ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 ));
+				float simplePerlin3D145 = snoise( temp_output_162_0.xyz*_3DNoiseSizeA );
 				simplePerlin3D145 = simplePerlin3D145*0.5 + 0.5;
 				float3 objToWorldDir194 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform189 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
@@ -2964,7 +3200,8 @@ Shader "CloudsShader"
 				simplePerlin3D184 = simplePerlin3D184*0.5 + 0.5;
 				float3 objToWorldDir210 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform205 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D200 = snoise( ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 )).xyz*_3DNoiseSizeC );
+				float4 temp_output_203_0 = ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 ));
+				float simplePerlin3D200 = snoise( temp_output_203_0.xyz*_3DNoiseSizeC );
 				simplePerlin3D200 = simplePerlin3D200*0.5 + 0.5;
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -3155,23 +3392,24 @@ Shader "CloudsShader"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float4 appendResult279 = (float4(WorldPosition.x , ( WorldPosition.y + _TimeParameters.x ) , WorldPosition.z , 0.0));
-				float4 triplanar269 = TriplanarSampling269( _TopTexture0, appendResult279.xyz, WorldNormal, 1.0, _Tiling, 1.0, 0 );
-				
-				float fresnelNdotV242 = dot( WorldNormal, WorldViewDirection );
-				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
-				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
+				float mulTime293 = _TimeParameters.x * _CloudTextureScrollA;
+				float simplePerlin2D332 = snoise( ( WorldPosition + _TimeParameters.x ).xy*_CloudTextureTiling.x );
+				simplePerlin2D332 = simplePerlin2D332*0.5 + 0.5;
+				float4 triplanar269 = TriplanarSampling269( _TopTexture0, ( ( mulTime293 + WorldPosition ) + simplePerlin2D332 ), WorldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
+				float mulTime299 = _TimeParameters.x * _CloudTextureScrollB;
+				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), WorldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
+				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
 				
 
-				float3 BaseColor = triplanar269.xyz;
+				float3 BaseColor = lerpResult316.rgb;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = ( fresnelNode242 * color245 ).rgb;
+				float3 Emission = 0;
 				float3 Specular = 0.5;
-				float Metallic = 0;
+				float Metallic = 0.0;
 				float Smoothness = 0.0;
 				float Occlusion = 1;
 				float Alpha = 1;
-				float AlphaClipThreshold = 0.5;
+				float AlphaClipThreshold = _AlphaClip;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
 				float3 RefractionColor = 1;
@@ -3287,7 +3525,8 @@ Shader "CloudsShader"
 
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_FOG 1
-			#define _EMISSION
+			#define ASE_DEPTH_WRITE_ON
+			#define _ALPHATEST_ON 1
 			#define ASE_SRP_VERSION 140004
 
 
@@ -3329,19 +3568,25 @@ Shader "CloudsShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _CloudSecondaryColor;
+			float4 _CloudBaseColor;
+			float3 _noiseDirectionC;
 			float3 _noiseDirectionA;
 			float3 _noiseDirectionB;
-			float3 _noiseDirectionC;
-			float2 _Tiling;
-			float _NoiseStrengthA;
-			float _NoiseSpeedA;
-			float _3DNoiseSizeA;
-			float _NoiseStrengthB;
-			float _NoiseSpeedB;
-			float _3DNoiseSizeB;
-			float _NoiseStrengthC;
-			float _NoiseSpeedC;
+			float2 _CloudTextureTiling;
+			float _CloudBaseTextureDetail;
+			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
+			float _NoiseSpeedC;
+			float _NoiseStrengthA;
+			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
+			float _NoiseSpeedB;
+			float _NoiseStrengthB;
+			float _3DNoiseSizeA;
+			float _NoiseSpeedA;
+			float _CloudTextureScrollB;
+			float _AlphaClip;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -3439,7 +3684,8 @@ Shader "CloudsShader"
 
 				float3 objToWorldDir182 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform167 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D145 = snoise( ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 )).xyz*_3DNoiseSizeA );
+				float4 temp_output_162_0 = ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 ));
+				float simplePerlin3D145 = snoise( temp_output_162_0.xyz*_3DNoiseSizeA );
 				simplePerlin3D145 = simplePerlin3D145*0.5 + 0.5;
 				float3 objToWorldDir194 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform189 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
@@ -3447,7 +3693,8 @@ Shader "CloudsShader"
 				simplePerlin3D184 = simplePerlin3D184*0.5 + 0.5;
 				float3 objToWorldDir210 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform205 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D200 = snoise( ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 )).xyz*_3DNoiseSizeC );
+				float4 temp_output_203_0 = ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 ));
+				float simplePerlin3D200 = snoise( temp_output_203_0.xyz*_3DNoiseSizeC );
 				simplePerlin3D200 = simplePerlin3D200*0.5 + 0.5;
 				
 
@@ -3560,7 +3807,7 @@ Shader "CloudsShader"
 				
 
 				surfaceDescription.Alpha = 1;
-				surfaceDescription.AlphaClipThreshold = 0.5;
+				surfaceDescription.AlphaClipThreshold = _AlphaClip;
 
 				#if _ALPHATEST_ON
 					float alphaClipThreshold = 0.01f;
@@ -3597,7 +3844,8 @@ Shader "CloudsShader"
 
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_FOG 1
-			#define _EMISSION
+			#define ASE_DEPTH_WRITE_ON
+			#define _ALPHATEST_ON 1
 			#define ASE_SRP_VERSION 140004
 
 
@@ -3639,19 +3887,25 @@ Shader "CloudsShader"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _CloudSecondaryColor;
+			float4 _CloudBaseColor;
+			float3 _noiseDirectionC;
 			float3 _noiseDirectionA;
 			float3 _noiseDirectionB;
-			float3 _noiseDirectionC;
-			float2 _Tiling;
-			float _NoiseStrengthA;
-			float _NoiseSpeedA;
-			float _3DNoiseSizeA;
-			float _NoiseStrengthB;
-			float _NoiseSpeedB;
-			float _3DNoiseSizeB;
-			float _NoiseStrengthC;
-			float _NoiseSpeedC;
+			float2 _CloudTextureTiling;
+			float _CloudBaseTextureDetail;
+			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
+			float _NoiseSpeedC;
+			float _NoiseStrengthA;
+			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
+			float _NoiseSpeedB;
+			float _NoiseStrengthB;
+			float _3DNoiseSizeA;
+			float _NoiseSpeedA;
+			float _CloudTextureScrollB;
+			float _AlphaClip;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -3749,7 +4003,8 @@ Shader "CloudsShader"
 
 				float3 objToWorldDir182 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform167 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D145 = snoise( ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 )).xyz*_3DNoiseSizeA );
+				float4 temp_output_162_0 = ((transform167).xyzw*1.0 + float4( ( _noiseDirectionA * ( _TimeParameters.x * _NoiseSpeedA ) ) , 0.0 ));
+				float simplePerlin3D145 = snoise( temp_output_162_0.xyz*_3DNoiseSizeA );
 				simplePerlin3D145 = simplePerlin3D145*0.5 + 0.5;
 				float3 objToWorldDir194 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform189 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
@@ -3757,7 +4012,8 @@ Shader "CloudsShader"
 				simplePerlin3D184 = simplePerlin3D184*0.5 + 0.5;
 				float3 objToWorldDir210 = mul( GetObjectToWorldMatrix(), float4( float3(0,1,0), 0 ) ).xyz;
 				float4 transform205 = mul(GetObjectToWorldMatrix(),float4( v.positionOS.xyz , 0.0 ));
-				float simplePerlin3D200 = snoise( ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 )).xyz*_3DNoiseSizeC );
+				float4 temp_output_203_0 = ((transform205).xyzw*1.0 + float4( ( _noiseDirectionC * ( _TimeParameters.x * _NoiseSpeedC ) ) , 0.0 ));
+				float simplePerlin3D200 = snoise( temp_output_203_0.xyz*_3DNoiseSizeC );
 				simplePerlin3D200 = simplePerlin3D200*0.5 + 0.5;
 				
 
@@ -3869,7 +4125,7 @@ Shader "CloudsShader"
 				
 
 				surfaceDescription.Alpha = 1;
-				surfaceDescription.AlphaClipThreshold = 0.5;
+				surfaceDescription.AlphaClipThreshold = _AlphaClip;
 
 				#if _ALPHATEST_ON
 					float alphaClipThreshold = 0.01f;
@@ -3902,36 +4158,29 @@ Shader "CloudsShader"
 }
 /*ASEBEGIN
 Version=19202
-Node;AmplifyShaderEditor.CommentaryNode;284;-3213.107,872.988;Inherit;False;2254.4;889.5886;Comment;16;201;202;203;204;205;206;207;208;209;210;212;213;215;214;200;211;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;283;-3233.54,-98.74907;Inherit;False;1975.401;889.5886;Comment;15;184;185;186;187;188;189;190;192;194;195;196;197;198;199;191;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;282;-3217.993,-1077.515;Inherit;False;1967.385;820.6783;Comment;15;146;182;142;181;183;145;166;167;168;159;160;162;169;158;161;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;317;-3358.374,-2170.475;Inherit;False;2367.744;1004.659;CloudTexture;21;269;291;310;311;308;315;316;312;301;299;303;314;296;293;292;304;318;332;333;334;335;;0.3254717,0.8199261,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;284;-3213.107,872.988;Inherit;False;2254.4;889.5886;Noise C;17;201;202;203;204;205;206;207;208;209;210;212;213;215;214;200;211;285;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;283;-3233.54,-98.74907;Inherit;False;1975.401;889.5886;Noise B;15;184;185;186;187;188;189;190;192;194;195;196;197;198;199;191;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;282;-3217.993,-1077.515;Inherit;False;1967.385;820.6783;Noise A;16;146;182;142;181;183;145;166;167;168;159;160;162;169;158;161;286;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;193;-1159.106,301.6072;Inherit;False;3;3;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;216;-581.9302,335.1439;Inherit;True;3;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;180;-1149.607,-677.1593;Inherit;False;3;3;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.FresnelNode;242;-969.1222,-295.9294;Inherit;False;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;244;-534.7949,-88.80396;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;245;-834.7949,-21.80396;Inherit;False;Constant;_Color1;Color 1;13;0;Create;True;0;0;0;False;0;False;0.6083571,0.8050895,0.8773585,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;257;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;259;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;260;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;261;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;262;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;263;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormals;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;264;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalGBuffer;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;265;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;266;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;258;0,0;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;CloudsShader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;40;Workflow;1;0;Surface;0;638386735494291075;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.RangedFloatNode;267;-236.4912,112.2437;Inherit;False;Constant;_Smoothness;Smoothness;13;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TriplanarNode;269;-625.0096,-939.9495;Inherit;True;Spherical;World;False;Top Texture 0;_TopTexture0;white;0;Assets/Feel/MMTools/Tools/MMVFX/MMNoise/MMBrushNoise.png;Mid Texture 0;_MidTexture0;white;-1;None;Bot Texture 0;_BotTexture0;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.Vector2Node;272;-824.1448,-891.9167;Inherit;False;Property;_Tiling;Tiling;15;0;Create;True;0;0;0;False;0;False;1,1;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.WorldPosInputsNode;280;-1381.069,-1324.436;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.SimpleAddOpNode;281;-1194.069,-1110.436;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.DynamicAppendNode;279;-929.7737,-1161.196;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;257;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;259;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;260;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;261;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;262;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;False;False;True;0;False;;True;0;False;;True;False;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;263;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;264;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;0;False;;True;0;False;;True;False;0;False;;0;False;;True;1;LightMode=UniversalGBuffer;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;265;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;266;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.ColorNode;227;-1228.099,-300.9839;Inherit;False;Constant;_Color0;Color 0;23;0;Create;True;0;0;0;False;0;False;0.7820843,0.8485994,0.8962264,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TFHCRemapNode;146;-1470.74,-674.3374;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TransformDirectionNode;182;-1546.511,-1027.515;Inherit;False;Object;World;False;Fast;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;142;-2104.017,-530.65;Inherit;False;Property;_3DNoiseSizeA;3DNoiseSizeA;18;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;181;-1460.607,-774.1593;Inherit;False;Property;_NoiseStrengthA;NoiseStrengthA;14;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;142;-2104.017,-530.65;Inherit;False;Property;_3DNoiseSizeA;3DNoiseSizeA;13;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;181;-1460.607,-774.1593;Inherit;False;Property;_NoiseStrengthA;NoiseStrengthA;10;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;183;-1839.511,-1026.515;Inherit;False;Constant;_Vector0A;Vector0A;15;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.NoiseGeneratorNode;145;-1834.995,-674.8594;Inherit;True;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.PosVertexDataNode;166;-3156.32,-466.2371;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -3941,8 +4190,8 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;159;-2643.592,-949.1038;Inherit;Fa
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;160;-2825.591,-710.1049;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ScaleAndOffsetNode;162;-2253.583,-794.6575;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT;1;False;2;FLOAT4;0,0,0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.SimpleTimeNode;169;-3167.993,-773.6962;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector3Node;158;-2999.211,-950.8268;Inherit;False;Property;_noiseDirectionA;noiseDirectionA;7;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;161;-3165.591,-672.105;Inherit;False;Property;_NoiseSpeedA;NoiseSpeedA;10;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector3Node;158;-2999.211,-950.8268;Inherit;False;Property;_noiseDirectionA;noiseDirectionA;3;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode;161;-3165.591,-672.105;Inherit;False;Property;_NoiseSpeedA;NoiseSpeedA;6;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.NoiseGeneratorNode;184;-1841.526,305.9071;Inherit;True;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;185;-2651.123,29.66292;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;186;-2833.123,268.6614;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -3952,28 +4201,61 @@ Node;AmplifyShaderEditor.ObjectToWorldTransfNode;189;-2863.741,581.8395;Inherit;
 Node;AmplifyShaderEditor.ComponentMaskNode;190;-2570.21,581.3322;Inherit;False;True;True;True;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.TFHCRemapNode;192;-1478.272,304.4291;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TransformDirectionNode;194;-1554.044,-48.74907;Inherit;False;Object;World;False;Fast;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.Vector3Node;195;-3006.742,27.93892;Inherit;False;Property;_noiseDirectionB;noiseDirectionB;8;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;196;-3173.123,306.6616;Inherit;False;Property;_NoiseSpeedB;NoiseSpeedB;11;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;197;-2111.548,448.1164;Inherit;False;Property;_3DNoiseSizeB;3DNoiseSizeB;16;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;198;-1468.14,204.607;Inherit;False;Property;_NoiseStrengthB;NoiseStrengthB;12;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector3Node;195;-3006.742,27.93892;Inherit;False;Property;_noiseDirectionB;noiseDirectionB;4;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode;196;-3173.123,306.6616;Inherit;False;Property;_NoiseSpeedB;NoiseSpeedB;7;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;197;-2111.548,448.1164;Inherit;False;Property;_3DNoiseSizeB;3DNoiseSizeB;11;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;198;-1468.14,204.607;Inherit;False;Property;_NoiseStrengthB;NoiseStrengthB;8;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;199;-1847.043,-47.74907;Inherit;False;Constant;_Vector0B;Vector0B;15;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleTimeNode;191;-3174.524,206.07;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;201;-2630.69,1001.4;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;202;-2812.69,1240.399;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ScaleAndOffsetNode;203;-2240.681,1155.846;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT;1;False;2;FLOAT4;0,0,0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.PosVertexDataNode;204;-3163.107,1553.176;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ObjectToWorldTransfNode;205;-2843.308,1553.577;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ComponentMaskNode;206;-2549.777,1553.069;Inherit;False;True;True;True;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.SimpleTimeNode;207;-3155.091,1176.807;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;208;-1457.84,1276.167;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;209;-1136.706,1273.344;Inherit;False;3;3;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.TransformDirectionNode;210;-1533.611,922.988;Inherit;False;Object;World;False;Fast;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;212;-3149.69,1282.399;Inherit;False;Property;_NoiseSpeedC;NoiseSpeedC;9;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;213;-2091.116,1419.854;Inherit;False;Property;_3DNoiseSizeC;3DNoiseSizeC;17;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;213;-2091.116,1419.854;Inherit;False;Property;_3DNoiseSizeC;3DNoiseSizeC;12;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;215;-1826.61,923.988;Inherit;False;Constant;_Vector0C;Vector0C;15;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;214;-1447.707,1176.344;Inherit;False;Property;_NoiseStrengthC;NoiseStrengthC;13;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;214;-1447.707,1176.344;Inherit;False;Property;_NoiseStrengthC;NoiseStrengthC;9;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.NoiseGeneratorNode;200;-1821.094,1277.645;Inherit;True;Simplex3D;True;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector3Node;211;-2986.309,999.6763;Inherit;False;Property;_noiseDirectionC;noiseDirectionC;6;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.Vector3Node;211;-2986.309,999.6763;Inherit;False;Property;_noiseDirectionC;noiseDirectionC;2;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RegisterLocalVarNode;285;-2165.272,1343.164;Inherit;False;NoisePositionC;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;286;-2097.582,-640.9834;Inherit;False;NoisePostionA;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RangedFloatNode;212;-3149.69,1283.699;Inherit;False;Property;_NoiseSpeedC;NoiseSpeedC;5;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;207;-3155.091,1176.807;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;202;-2812.69,1240.399;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ScaleAndOffsetNode;203;-2240.681,1155.846;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT;1;False;2;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.ColorNode;245;-834.7949,-21.80396;Inherit;False;Constant;_Color1;Color 1;13;0;Create;True;0;0;0;False;0;False;0.6083571,0.8050895,0.8773585,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;306;-392.4401,56.82343;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;307;-631.4401,123.8234;Inherit;False;Property;_EmissionStrenght;EmissionStrenght;17;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;310;-2094.698,-1722.183;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;308;-1794.828,-2112.403;Inherit;False;Property;_CloudBaseColor;CloudBaseColor;18;1;[HDR];Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;315;-1791.629,-1939.242;Inherit;False;Property;_CloudSecondaryColor;CloudSecondaryColor;19;1;[HDR];Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;312;-2008.671,-1571.756;Inherit;False;Property;_CloudBaseTextureDetail;CloudBaseTextureDetail;20;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;304;-3308.374,-2093.273;Inherit;False;Property;_CloudTextureScrollA;CloudTextureScrollA;15;0;Create;True;0;0;0;False;0;False;0.3;-0.3;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;311;-1849.858,-1703.159;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TriplanarNode;269;-2517.564,-1733.97;Inherit;True;Spherical;World;False;Top Texture 0;_TopTexture0;white;1;Assets/Feel/MMTools/Tools/MMVFX/MMNoise/MMBrushNoise.png;Mid Texture 0;_MidTexture0;white;-1;None;Bot Texture 0;_BotTexture0;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;314;-1401.792,-1577.414;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RangedFloatNode;303;-2545.796,-1451.033;Inherit;False;Property;_CloudTextureScrollB;CloudTextureScrollB;14;0;Create;True;0;0;0;False;0;False;-0.3;-0.3;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;299;-2318.303,-1429.815;Inherit;False;1;0;FLOAT;-0.3;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;301;-2081.303,-1441.816;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.Vector2Node;291;-2869.873,-1558.641;Inherit;False;Property;_CloudTextureTiling;CloudTextureTiling;16;0;Create;True;0;0;0;False;0;False;0.1,0.1;0.1,0.1;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.RangedFloatNode;321;-780.2537,755.2823;Inherit;False;Property;_BlendFadeDistance;BlendFadeDistance;21;0;Create;True;0;0;0;False;0;False;0.5472598;0;0;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;316;-1141.774,-1706.401;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;258;-2,-17;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;CloudsShader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;True;True;0;False;;True;0;False;;True;False;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;40;Workflow;1;0;Surface;0;638386888551316599;  Refraction Model;0;638386873578875891;  Blend;0;0;Two Sided;1;638386876087155655;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;1;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;638386872369224782;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;638386876741068525;DOTS Instancing;0;0;Tessellation;0;638386876775621846;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;1;638386884231795501;  Early Z;0;638386884278798949;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.RangedFloatNode;267;-250.4912,103.2437;Inherit;False;Constant;_Smoothness;Smoothness;13;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DepthFade;320;-440.2537,741.2823;Inherit;False;True;False;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;329;-403.2229,202.6759;Inherit;False;Property;_AlphaClip;AlphaClip;22;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;331;-190.7036,-296.6207;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TriplanarNode;318;-1903.333,-1438.909;Inherit;True;Spherical;World;False;Top Texture 1;_TopTexture1;white;0;Assets/Feel/MMTools/Tools/MMVFX/MMNoise/MMBrushNoise.png;Mid Texture 1;_MidTexture1;white;-1;None;Bot Texture 1;_BotTexture1;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.WorldPosInputsNode;298;-2377.403,-1274.815;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SimpleAddOpNode;333;-2624.93,-1938.412;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode;332;-2873.972,-1809.752;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;0,0;False;1;FLOAT;0.1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;293;-3076.655,-2120.475;Inherit;False;1;0;FLOAT;0.2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;296;-2980.056,-1991.574;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;335;-3071.088,-1770.093;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.WorldPosInputsNode;292;-3298.256,-1960.874;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SimpleTimeNode;334;-3325.888,-1803.893;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 WireConnection;193;0;194;0
 WireConnection;193;1;198;0
 WireConnection;193;2;192;0
@@ -3985,17 +4267,6 @@ WireConnection;180;1;181;0
 WireConnection;180;2;146;0
 WireConnection;244;0;242;0
 WireConnection;244;1;245;0
-WireConnection;258;0;269;0
-WireConnection;258;2;244;0
-WireConnection;258;4;267;0
-WireConnection;258;8;216;0
-WireConnection;269;9;279;0
-WireConnection;269;3;272;0
-WireConnection;281;0;280;2
-WireConnection;281;1;169;0
-WireConnection;279;0;280;1
-WireConnection;279;1;281;0
-WireConnection;279;2;280;3
 WireConnection;146;0;145;0
 WireConnection;182;0;183;0
 WireConnection;145;0;162;0
@@ -4022,10 +4293,6 @@ WireConnection;192;0;184;0
 WireConnection;194;0;199;0
 WireConnection;201;0;211;0
 WireConnection;201;1;202;0
-WireConnection;202;0;207;0
-WireConnection;202;1;212;0
-WireConnection;203;0;206;0
-WireConnection;203;2;201;0
 WireConnection;205;0;204;0
 WireConnection;206;0;205;0
 WireConnection;208;0;200;0
@@ -4035,5 +4302,44 @@ WireConnection;209;2;208;0
 WireConnection;210;0;215;0
 WireConnection;200;0;203;0
 WireConnection;200;1;213;0
+WireConnection;285;0;203;0
+WireConnection;286;0;162;0
+WireConnection;202;0;207;0
+WireConnection;202;1;212;0
+WireConnection;203;0;206;0
+WireConnection;203;2;201;0
+WireConnection;306;0;244;0
+WireConnection;306;1;307;0
+WireConnection;310;0;269;1
+WireConnection;311;0;310;0
+WireConnection;311;1;312;0
+WireConnection;269;9;333;0
+WireConnection;269;3;291;0
+WireConnection;314;0;311;0
+WireConnection;314;1;318;0
+WireConnection;299;0;303;0
+WireConnection;301;0;299;0
+WireConnection;301;1;298;0
+WireConnection;316;0;308;0
+WireConnection;316;1;315;0
+WireConnection;316;2;314;0
+WireConnection;258;0;316;0
+WireConnection;258;3;267;0
+WireConnection;258;4;267;0
+WireConnection;258;7;329;0
+WireConnection;258;8;216;0
+WireConnection;320;0;321;0
+WireConnection;331;1;320;0
+WireConnection;318;9;301;0
+WireConnection;318;3;291;0
+WireConnection;333;0;296;0
+WireConnection;333;1;332;0
+WireConnection;332;0;335;0
+WireConnection;332;1;291;1
+WireConnection;293;0;304;0
+WireConnection;296;0;293;0
+WireConnection;296;1;292;0
+WireConnection;335;0;292;0
+WireConnection;335;1;334;0
 ASEEND*/
-//CHKSM=D95C8F545E10CED57BAD79E0DC20053B05E06357
+//CHKSM=A237406327A21C5E5E167825AF9D38C1ECADCB57

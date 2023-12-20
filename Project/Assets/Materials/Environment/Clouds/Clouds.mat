@@ -24,8 +24,10 @@ Material:
   m_Shader: {fileID: 4800000, guid: c7c0f1a7db1de3949a64c5e41831a1c4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ValidKeywords:
+  - _RECEIVE_SHADOWS_OFF
+  m_InvalidKeywords:
+  - _RECEIVESHADOWS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -96,6 +98,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTexture0:
+        m_Texture: {fileID: 2800000, guid: 75b254a55f7e3f347ac8f2b5db9b11d9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTexture1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -111,25 +129,38 @@ Material:
     m_Ints: []
     m_Floats:
     - _3DNoiseScale: 0.79
+    - _3DNoiseSize: 1
+    - _3DNoiseSizeA: 0.2
+    - _3DNoiseSizeB: 0.2
+    - _3DNoiseSizeC: 0.2
+    - _AdvancedCat: 1
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
     - _BackFaceCullTolerance: 5
     - _Blend: 0
+    - _BlendFadeDistance: 1.38
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _CloudBaseTextureDetail: 0.988
+    - _CloudTextureScrollA: 0.33
+    - _CloudTextureScrollB: -0.2
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DepthDistance: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DirectLight: 0.01
+    - _DirectionalCat: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EdgeLength: 15
+    - _EmissionStrenght: 1.37
     - _EnvironmentReflections: 1
     - _FactorInside: 3
+    - _FogCat: 1
     - _FrustumCullTolerance: 5
     - _GENERATE_NORMALS: 1
     - _GlossMapScale: 0
@@ -137,8 +168,15 @@ Material:
     - _GlossyReflections: 0
     - _HeightMapAltitude: 1.5
     - _Metallic: 0
+    - _NoiseCat: 1
+    - _NoiseSpeed1: 0.5
+    - _NoiseSpeedA: 2
+    - _NoiseSpeedB: 2
+    - _NoiseSpeedC: 2
     - _NoiseStrength: 1
-    - _NoiseStrengthA: 1
+    - _NoiseStrengthA: 0.000002
+    - _NoiseStrengthB: 0.000002
+    - _NoiseStrengthC: 0.000002
     - _NormalStrength: 0
     - _OcclusionStrength: 1
     - _PARTITIONING: 0
@@ -146,7 +184,8 @@ Material:
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
+    - _ReceiveShadows: 0
+    - _SkyboxCat: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -161,13 +200,19 @@ Material:
     - _TessMax: 20
     - _TessMaxDisp: 25
     - _TessMin: 10
-    - _TessPhongStrength: 0.5
+    - _TessPhongStrength: 0.072
     - _TessValue: 5
     - _TessellationBias: 1
     - _TessellationFactor: 3
     - _TessellationFactorVColors: 0
     - _TessellationSmoothing: 0.75
     - _TessellationSmoothingVColors: 0
+    - _TransAmbient: 0.1
+    - _TransDirect: 0.9
+    - _TransNormal: 0.5
+    - _TransScattering: 2
+    - _TransShadow: 0.5
+    - _TransStrength: 1
     - _WindEffect: 0.005
     - _WindNoiseScale: 0
     - _WindWorldScale: 0.05
@@ -186,6 +231,9 @@ Material:
     - _minEmit_dir: 0.626
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _CloudBaseColor: {r: 3.1139622, g: 4.0660353, b: 9.298027, a: 1}
+    - _CloudSecondaryColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 0}
+    - _CloudTextureTiling: {r: 0.1, g: 0.1, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Direction: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
@@ -193,5 +241,10 @@ Material:
     - _FactorEdge1: {r: 2, g: 2, b: 2, a: 0}
     - _NoiseScale: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Tiling: {r: 0.1, g: 0.1, b: 0, a: 0}
     - _Vector0: {r: 0, g: 1, b: 0, a: 0}
+    - _noiseDirection1: {r: 0, g: 1, b: 0, a: 0}
+    - _noiseDirectionA: {r: 0, g: 1, b: 0, a: 0}
+    - _noiseDirectionB: {r: 0, g: 0, b: 1, a: 0}
+    - _noiseDirectionC: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
