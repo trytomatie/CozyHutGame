@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Clouds
-  m_Shader: {fileID: 4800000, guid: 852113d15a525b849b1d469228f450ce, type: 3}
+  m_Shader: {fileID: 4800000, guid: c7c0f1a7db1de3949a64c5e41831a1c4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -110,6 +110,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _3DNoiseScale: 0.79
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
@@ -126,6 +127,7 @@ Material:
     - _DirectLight: 0.01
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EdgeLength: 15
     - _EnvironmentReflections: 1
     - _FactorInside: 3
     - _FrustumCullTolerance: 5
@@ -135,6 +137,8 @@ Material:
     - _GlossyReflections: 0
     - _HeightMapAltitude: 1.5
     - _Metallic: 0
+    - _NoiseStrength: 1
+    - _NoiseStrengthA: 1
     - _NormalStrength: 0
     - _OcclusionStrength: 1
     - _PARTITIONING: 0
@@ -153,6 +157,12 @@ Material:
     - _Surface: 0
     - _TESSELLATION_FACTOR: 0
     - _TESSELLATION_SMOOTHING: 0
+    - _TessEdgeLength: 16
+    - _TessMax: 20
+    - _TessMaxDisp: 25
+    - _TessMin: 10
+    - _TessPhongStrength: 0.5
+    - _TessValue: 5
     - _TessellationBias: 1
     - _TessellationFactor: 3
     - _TessellationFactorVColors: 0
@@ -166,6 +176,7 @@ Material:
     - _Y_Multiplier: 1
     - _ZWrite: 1
     - _Z_Multiplier: 1
+    - __dirty: 0
     - _lightDirMulti: 0.1
     - _lightMax: 0.457
     - _lightMin: 0.925
@@ -176,8 +187,11 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Direction: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColour: {r: 0.7215686, g: 0.8078431, b: 1, a: 0}
     - _FactorEdge1: {r: 2, g: 2, b: 2, a: 0}
+    - _NoiseScale: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Vector0: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
