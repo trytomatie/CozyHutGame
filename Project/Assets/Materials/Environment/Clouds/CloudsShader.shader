@@ -28,7 +28,6 @@ Shader "CloudsShader"
 		_CloudTextureScrollB("CloudTextureScrollB", Float) = -0.3
 		_CloudTextureScrollA("CloudTextureScrollA", Float) = 0.3
 		_CloudTextureTiling("CloudTextureTiling", Vector) = (0.1,0.1,0,0)
-		_EmissionStrenght("EmissionStrenght", Float) = 1
 		[HDR]_CloudBaseColor("CloudBaseColor", Color) = (0,0,0,0)
 		[HDR]_CloudSecondaryColor("CloudSecondaryColor", Color) = (0,0,0,0)
 		_CloudBaseTextureDetail("CloudBaseTextureDetail", Range( 0 , 1)) = 1
@@ -273,7 +272,6 @@ Shader "CloudsShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
 			//Atmospheric Height Fog Defines
 			//#define AHF_DISABLE_NOISE3D
@@ -327,18 +325,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -347,7 +344,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -759,9 +756,6 @@ Shader "CloudsShader"
 				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), WorldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
 				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
 				
-				float fresnelNdotV242 = dot( WorldNormal, WorldViewDirection );
-				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
-				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
 				float3 WorldPosition2_g914 = WorldPosition;
 				float temp_output_7_0_g1016 = AHF_FogDistanceStart;
 				float temp_output_155_0_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1016 ) / ( AHF_FogDistanceEnd - temp_output_7_0_g1016 ) ) );
@@ -830,8 +824,6 @@ Shader "CloudsShader"
 				float4 staticSwitch456_g914 = appendResult114_g914;
 				#endif
 				float3 temp_output_95_86_g1 = (staticSwitch456_g914).xyz;
-				float temp_output_95_87_g1 = (staticSwitch456_g914).w;
-				float3 lerpResult82_g1 = lerp( ( ( fresnelNode242 * color245 ) * _EmissionStrenght ).rgb , temp_output_95_86_g1 , temp_output_95_87_g1);
 				
 				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
@@ -841,7 +833,7 @@ Shader "CloudsShader"
 
 				float3 BaseColor = lerpResult316.rgb;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = lerpResult82_g1;
+				float3 Emission = temp_output_95_86_g1;
 				float3 Specular = 0.5;
 				float Metallic = 0.0;
 				float Smoothness = 0.0;
@@ -1169,18 +1161,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -1189,7 +1180,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1602,18 +1593,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -1622,7 +1612,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2004,18 +1994,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -2024,7 +2013,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2402,11 +2391,6 @@ Shader "CloudsShader"
 				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), ase_worldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
 				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
 				
-				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
-				ase_worldViewDir = normalize(ase_worldViewDir);
-				float fresnelNdotV242 = dot( ase_worldNormal, ase_worldViewDir );
-				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
-				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
 				float3 WorldPosition2_g914 = WorldPosition;
 				float temp_output_7_0_g1016 = AHF_FogDistanceStart;
 				float temp_output_155_0_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1016 ) / ( AHF_FogDistanceEnd - temp_output_7_0_g1016 ) ) );
@@ -2475,8 +2459,6 @@ Shader "CloudsShader"
 				float4 staticSwitch456_g914 = appendResult114_g914;
 				#endif
 				float3 temp_output_95_86_g1 = (staticSwitch456_g914).xyz;
-				float temp_output_95_87_g1 = (staticSwitch456_g914).w;
-				float3 lerpResult82_g1 = lerp( ( ( fresnelNode242 * color245 ) * _EmissionStrenght ).rgb , temp_output_95_86_g1 , temp_output_95_87_g1);
 				
 				float4 screenPos = IN.ase_texcoord5;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
@@ -2486,7 +2468,7 @@ Shader "CloudsShader"
 				
 
 				float3 BaseColor = lerpResult316.rgb;
-				float3 Emission = lerpResult82_g1;
+				float3 Emission = temp_output_95_86_g1;
 				float Alpha = distanceDepth376;
 				float AlphaClipThreshold = 0.5;
 
@@ -2584,18 +2566,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -2604,7 +2585,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3056,18 +3037,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -3076,7 +3056,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3495,7 +3475,6 @@ Shader "CloudsShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
 			//Atmospheric Height Fog Defines
 			//#define AHF_DISABLE_NOISE3D
@@ -3549,18 +3528,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -3569,7 +3547,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3976,9 +3954,6 @@ Shader "CloudsShader"
 				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), WorldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
 				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
 				
-				float fresnelNdotV242 = dot( WorldNormal, WorldViewDirection );
-				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
-				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
 				float3 WorldPosition2_g914 = WorldPosition;
 				float temp_output_7_0_g1016 = AHF_FogDistanceStart;
 				float temp_output_155_0_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1016 ) / ( AHF_FogDistanceEnd - temp_output_7_0_g1016 ) ) );
@@ -4047,8 +4022,6 @@ Shader "CloudsShader"
 				float4 staticSwitch456_g914 = appendResult114_g914;
 				#endif
 				float3 temp_output_95_86_g1 = (staticSwitch456_g914).xyz;
-				float temp_output_95_87_g1 = (staticSwitch456_g914).w;
-				float3 lerpResult82_g1 = lerp( ( ( fresnelNode242 * color245 ) * _EmissionStrenght ).rgb , temp_output_95_86_g1 , temp_output_95_87_g1);
 				
 				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
@@ -4058,7 +4031,7 @@ Shader "CloudsShader"
 
 				float3 BaseColor = lerpResult316.rgb;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = lerpResult82_g1;
+				float3 Emission = temp_output_95_86_g1;
 				float3 Specular = 0.5;
 				float Metallic = 0.0;
 				float Smoothness = 0.0;
@@ -4235,18 +4208,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -4255,7 +4227,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4607,18 +4579,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -4627,7 +4598,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -5018,7 +4989,7 @@ Node;AmplifyShaderEditor.DitheringNode;336;547.8372,555.431;Inherit;False;0;Fals
 Node;AmplifyShaderEditor.DepthFade;376;-490.562,682.8759;Inherit;False;True;False;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;377;-701.7275,706.2117;Inherit;False;Property;_Float1;Float 1;61;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;267;-261.9467,270.8123;Inherit;False;Constant;_Smoothness;Smoothness;13;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;378;-322.8158,48.72101;Inherit;False;Apply Height Fog;0;;1;950890317d4f36a48a68d150cdab0168;0;1;81;FLOAT3;0,0,0;False;3;FLOAT3;85;FLOAT3;86;FLOAT;87
+Node;AmplifyShaderEditor.FunctionNode;378;-349.8158,131.721;Inherit;False;Apply Height Fog;0;;1;950890317d4f36a48a68d150cdab0168;0;1;81;FLOAT3;0,0,0;False;3;FLOAT3;85;FLOAT3;86;FLOAT;87
 WireConnection;193;0;194;0
 WireConnection;193;1;198;0
 WireConnection;193;2;192;0
@@ -5094,7 +5065,7 @@ WireConnection;296;1;292;0
 WireConnection;335;0;292;0
 WireConnection;335;1;334;0
 WireConnection;367;0;316;0
-WireConnection;367;2;378;85
+WireConnection;367;2;378;86
 WireConnection;367;3;267;0
 WireConnection;367;4;267;0
 WireConnection;367;6;376;0
@@ -5107,4 +5078,4 @@ WireConnection;336;0;355;0
 WireConnection;376;0;377;0
 WireConnection;378;81;306;0
 ASEEND*/
-//CHKSM=90E1DC5D79C005041EF9D1F0E196D7ACBCB1F140
+//CHKSM=B0A37A0707342D36332411371EA88833243B8DDA
