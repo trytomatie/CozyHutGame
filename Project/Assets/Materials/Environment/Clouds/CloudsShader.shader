@@ -42,9 +42,9 @@ Shader "CloudsShader"
 		//_TransAmbient( "Trans Ambient", Range( 0, 1 ) ) = 0.1
 		//_TransShadow( "Trans Shadow", Range( 0, 1 ) ) = 0.5
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
-		//_TessValue( "Tess Max Tessellation", Range( 1, 32 ) ) = 16
-		//_TessMin( "Tess Min Distance", Float ) = 10
-		//_TessMax( "Tess Max Distance", Float ) = 25
+		_TessValue( "Max Tessellation", Range( 1, 32 ) ) = 16
+		_TessMin( "Tess Min Distance", Float ) = 10
+		_TessMax( "Tess Max Distance", Float ) = 25
 		//_TessEdgeLength ( "Tess Edge length", Range( 2, 50 ) ) = 16
 		//_TessMaxDisp( "Tess Max Displacement", Float ) = 25
 
@@ -213,6 +213,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -1091,6 +1096,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -1525,6 +1535,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -1927,6 +1942,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -2509,6 +2529,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -2964,6 +2989,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -3421,6 +3451,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -4156,6 +4191,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -4527,6 +4567,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -4971,7 +5016,7 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;335;-3071.088,-1770.093;Inherit;False;2
 Node;AmplifyShaderEditor.WorldPosInputsNode;292;-3298.256,-1960.874;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleTimeNode;334;-3325.888,-1803.893;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;366;-8.5,187.1;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;367;-8.5,187.1;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;CloudsShader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;0;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;40;Workflow;1;0;Surface;1;638387022191617057;  Refraction Model;0;0;  Blend;0;0;Two Sided;0;638387025587395747;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;1;638386925951077432;  Early Z;1;638386925961145395;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;367;-8.5,187.1;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;CloudsShader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;0;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;40;Workflow;1;0;Surface;1;638387022191617057;  Refraction Model;0;0;  Blend;0;0;Two Sided;0;638387025587395747;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;1;638387620528843446;  Phong;0;0;  Strength;0.5,False,;0;  Type;1;638387620546311515;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;1;638386925951077432;  Early Z;1;638386925961145395;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;368;-8.5,187.1;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;369;-8.5,187.1;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;370;-8.5,187.1;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
@@ -5078,4 +5123,4 @@ WireConnection;336;0;355;0
 WireConnection;376;0;377;0
 WireConnection;378;81;306;0
 ASEEND*/
-//CHKSM=B0A37A0707342D36332411371EA88833243B8DDA
+//CHKSM=F12CBFDDB1E544A197456165605556A651A57314
