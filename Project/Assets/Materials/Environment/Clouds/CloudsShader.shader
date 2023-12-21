@@ -28,7 +28,6 @@ Shader "CloudsShader"
 		_CloudTextureScrollB("CloudTextureScrollB", Float) = -0.3
 		_CloudTextureScrollA("CloudTextureScrollA", Float) = 0.3
 		_CloudTextureTiling("CloudTextureTiling", Vector) = (0.1,0.1,0,0)
-		_EmissionStrenght("EmissionStrenght", Float) = 1
 		[HDR]_CloudBaseColor("CloudBaseColor", Color) = (0,0,0,0)
 		[HDR]_CloudSecondaryColor("CloudSecondaryColor", Color) = (0,0,0,0)
 		_CloudBaseTextureDetail("CloudBaseTextureDetail", Range( 0 , 1)) = 1
@@ -43,9 +42,9 @@ Shader "CloudsShader"
 		//_TransAmbient( "Trans Ambient", Range( 0, 1 ) ) = 0.1
 		//_TransShadow( "Trans Shadow", Range( 0, 1 ) ) = 0.5
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
-		//_TessValue( "Tess Max Tessellation", Range( 1, 32 ) ) = 16
-		//_TessMin( "Tess Min Distance", Float ) = 10
-		//_TessMax( "Tess Max Distance", Float ) = 25
+		_TessValue( "Max Tessellation", Range( 1, 32 ) ) = 16
+		_TessMin( "Tess Min Distance", Float ) = 10
+		_TessMax( "Tess Max Distance", Float ) = 25
 		//_TessEdgeLength ( "Tess Edge length", Range( 2, 50 ) ) = 16
 		//_TessMaxDisp( "Tess Max Displacement", Float ) = 25
 
@@ -214,6 +213,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -273,7 +277,6 @@ Shader "CloudsShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
 			//Atmospheric Height Fog Defines
 			//#define AHF_DISABLE_NOISE3D
@@ -327,18 +330,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -347,7 +349,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -759,9 +761,6 @@ Shader "CloudsShader"
 				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), WorldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
 				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
 				
-				float fresnelNdotV242 = dot( WorldNormal, WorldViewDirection );
-				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
-				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
 				float3 WorldPosition2_g914 = WorldPosition;
 				float temp_output_7_0_g1016 = AHF_FogDistanceStart;
 				float temp_output_155_0_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1016 ) / ( AHF_FogDistanceEnd - temp_output_7_0_g1016 ) ) );
@@ -830,8 +829,6 @@ Shader "CloudsShader"
 				float4 staticSwitch456_g914 = appendResult114_g914;
 				#endif
 				float3 temp_output_95_86_g1 = (staticSwitch456_g914).xyz;
-				float temp_output_95_87_g1 = (staticSwitch456_g914).w;
-				float3 lerpResult82_g1 = lerp( ( ( fresnelNode242 * color245 ) * _EmissionStrenght ).rgb , temp_output_95_86_g1 , temp_output_95_87_g1);
 				
 				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
@@ -841,7 +838,7 @@ Shader "CloudsShader"
 
 				float3 BaseColor = lerpResult316.rgb;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = lerpResult82_g1;
+				float3 Emission = temp_output_95_86_g1;
 				float3 Specular = 0.5;
 				float Metallic = 0.0;
 				float Smoothness = 0.0;
@@ -1099,6 +1096,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -1169,18 +1171,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -1189,7 +1190,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1534,6 +1535,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -1602,18 +1608,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -1622,7 +1627,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1937,6 +1942,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -2004,18 +2014,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -2024,7 +2033,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2402,11 +2411,6 @@ Shader "CloudsShader"
 				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), ase_worldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
 				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
 				
-				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
-				ase_worldViewDir = normalize(ase_worldViewDir);
-				float fresnelNdotV242 = dot( ase_worldNormal, ase_worldViewDir );
-				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
-				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
 				float3 WorldPosition2_g914 = WorldPosition;
 				float temp_output_7_0_g1016 = AHF_FogDistanceStart;
 				float temp_output_155_0_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1016 ) / ( AHF_FogDistanceEnd - temp_output_7_0_g1016 ) ) );
@@ -2475,8 +2479,6 @@ Shader "CloudsShader"
 				float4 staticSwitch456_g914 = appendResult114_g914;
 				#endif
 				float3 temp_output_95_86_g1 = (staticSwitch456_g914).xyz;
-				float temp_output_95_87_g1 = (staticSwitch456_g914).w;
-				float3 lerpResult82_g1 = lerp( ( ( fresnelNode242 * color245 ) * _EmissionStrenght ).rgb , temp_output_95_86_g1 , temp_output_95_87_g1);
 				
 				float4 screenPos = IN.ase_texcoord5;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
@@ -2486,7 +2488,7 @@ Shader "CloudsShader"
 				
 
 				float3 BaseColor = lerpResult316.rgb;
-				float3 Emission = lerpResult82_g1;
+				float3 Emission = temp_output_95_86_g1;
 				float Alpha = distanceDepth376;
 				float AlphaClipThreshold = 0.5;
 
@@ -2527,6 +2529,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -2584,18 +2591,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -2604,7 +2610,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2983,6 +2989,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -3056,18 +3067,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -3076,7 +3086,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3441,6 +3451,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -3495,7 +3510,6 @@ Shader "CloudsShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
 			//Atmospheric Height Fog Defines
 			//#define AHF_DISABLE_NOISE3D
@@ -3549,18 +3563,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -3569,7 +3582,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3976,9 +3989,6 @@ Shader "CloudsShader"
 				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), WorldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
 				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
 				
-				float fresnelNdotV242 = dot( WorldNormal, WorldViewDirection );
-				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
-				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
 				float3 WorldPosition2_g914 = WorldPosition;
 				float temp_output_7_0_g1016 = AHF_FogDistanceStart;
 				float temp_output_155_0_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1016 ) / ( AHF_FogDistanceEnd - temp_output_7_0_g1016 ) ) );
@@ -4047,8 +4057,6 @@ Shader "CloudsShader"
 				float4 staticSwitch456_g914 = appendResult114_g914;
 				#endif
 				float3 temp_output_95_86_g1 = (staticSwitch456_g914).xyz;
-				float temp_output_95_87_g1 = (staticSwitch456_g914).w;
-				float3 lerpResult82_g1 = lerp( ( ( fresnelNode242 * color245 ) * _EmissionStrenght ).rgb , temp_output_95_86_g1 , temp_output_95_87_g1);
 				
 				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
@@ -4058,7 +4066,7 @@ Shader "CloudsShader"
 
 				float3 BaseColor = lerpResult316.rgb;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = lerpResult82_g1;
+				float3 Emission = temp_output_95_86_g1;
 				float3 Specular = 0.5;
 				float Metallic = 0.0;
 				float Smoothness = 0.0;
@@ -4183,6 +4191,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -4235,18 +4248,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -4255,7 +4267,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4555,6 +4567,11 @@ Shader "CloudsShader"
 			#define ASE_DEPTH_WRITE_ON
 			#define ASE_EARLY_Z_DEPTH_OPTIMIZE
 			#define _SURFACE_TYPE_TRANSPARENT 1
+			#define ASE_TESSELLATION 1
+			#pragma require tessellation tessHW
+			#pragma hull HullFunction
+			#pragma domain DomainFunction
+			#define ASE_DISTANCE_TESSELLATION
 			#define _EMISSION
 			#define ASE_SRP_VERSION 140004
 			#define REQUIRE_DEPTH_TEXTURE 1
@@ -4607,18 +4624,17 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionB;
 			float3 _noiseDirectionC;
+			float3 _noiseDirectionB;
 			float2 _CloudTextureTiling;
 			half _FogCat;
-			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
-			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
+			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -4627,7 +4643,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _EmissionStrenght;
+			float _3DNoiseSizeB;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -5000,7 +5016,7 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;335;-3071.088,-1770.093;Inherit;False;2
 Node;AmplifyShaderEditor.WorldPosInputsNode;292;-3298.256,-1960.874;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleTimeNode;334;-3325.888,-1803.893;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;366;-8.5,187.1;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;367;-8.5,187.1;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;CloudsShader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;0;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;40;Workflow;1;0;Surface;1;638387022191617057;  Refraction Model;0;0;  Blend;0;0;Two Sided;0;638387025587395747;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;1;638386925951077432;  Early Z;1;638386925961145395;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;367;-8.5,187.1;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;CloudsShader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;0;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;40;Workflow;1;0;Surface;1;638387022191617057;  Refraction Model;0;0;  Blend;0;0;Two Sided;0;638387025587395747;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;1;638387620528843446;  Phong;0;0;  Strength;0.5,False,;0;  Type;1;638387620546311515;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;1;638386925951077432;  Early Z;1;638386925961145395;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;368;-8.5,187.1;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;369;-8.5,187.1;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;370;-8.5,187.1;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
@@ -5018,7 +5034,7 @@ Node;AmplifyShaderEditor.DitheringNode;336;547.8372,555.431;Inherit;False;0;Fals
 Node;AmplifyShaderEditor.DepthFade;376;-490.562,682.8759;Inherit;False;True;False;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;377;-701.7275,706.2117;Inherit;False;Property;_Float1;Float 1;61;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;267;-261.9467,270.8123;Inherit;False;Constant;_Smoothness;Smoothness;13;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;378;-322.8158,48.72101;Inherit;False;Apply Height Fog;0;;1;950890317d4f36a48a68d150cdab0168;0;1;81;FLOAT3;0,0,0;False;3;FLOAT3;85;FLOAT3;86;FLOAT;87
+Node;AmplifyShaderEditor.FunctionNode;378;-349.8158,131.721;Inherit;False;Apply Height Fog;0;;1;950890317d4f36a48a68d150cdab0168;0;1;81;FLOAT3;0,0,0;False;3;FLOAT3;85;FLOAT3;86;FLOAT;87
 WireConnection;193;0;194;0
 WireConnection;193;1;198;0
 WireConnection;193;2;192;0
@@ -5094,7 +5110,7 @@ WireConnection;296;1;292;0
 WireConnection;335;0;292;0
 WireConnection;335;1;334;0
 WireConnection;367;0;316;0
-WireConnection;367;2;378;85
+WireConnection;367;2;378;86
 WireConnection;367;3;267;0
 WireConnection;367;4;267;0
 WireConnection;367;6;376;0
@@ -5107,4 +5123,4 @@ WireConnection;336;0;355;0
 WireConnection;376;0;377;0
 WireConnection;378;81;306;0
 ASEEND*/
-//CHKSM=90E1DC5D79C005041EF9D1F0E196D7ACBCB1F140
+//CHKSM=F12CBFDDB1E544A197456165605556A651A57314
