@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: StarDecal
-  m_Shader: {fileID: -6465566751694194690, guid: 6c49436286b312d4e83cca0277294959,
+  m_Shader: {fileID: -6465566751694194690, guid: c81cf1f950d86ab4b8884721d7706ef3,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -37,6 +37,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Albedo:
         m_Texture: {fileID: 2800000, guid: 473a990825b63c74fa97d9d73ae94cbb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaMask:
+        m_Texture: {fileID: 2800000, guid: 8a9e146eb20223f4ca24983071acd3b3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AlphaTex:
@@ -83,6 +87,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: 702b1d1236f93cd4aa7df9d374eb66a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -116,6 +124,7 @@ Material:
     - Normal_Blend: 0.5
     - _Alpha: 1
     - _AlphaClip: 0
+    - _AlphaMultiplier: 0.93
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 0
@@ -141,6 +150,7 @@ Material:
     - _GlossyReflections: 0
     - _InvertTexture: 0
     - _Metallic: 0
+    - _NormalStrenght: 333
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
