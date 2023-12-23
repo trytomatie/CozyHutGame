@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class PlayerCustomization : NetworkBehaviour
 {
@@ -25,22 +25,17 @@ public class PlayerCustomization : NetworkBehaviour
     [Range(0, 2)]
     public int feetIndex;
 
-    [Range(0, 3)]
-    public int irisColorIndex;
+    public Color irisColorIndex;
 
-    [Range(0, 3)]
-    public int pupilColorIndex;
+    public Color pupilColorIndex;
 
-    [Range(0, 3)]
-    public int highlightColorIndex;
+    public Color highlightColorIndex;
 
-    [Range(0, 3)]
-    public int eyelashColorIndex;
+    public Color eyelashColorIndex;
 
-    [Range(0, 3)]
-    public int eyebrowColorIndex;
+    public Color eyebrowColorIndex;
 
-    [Range(0, 5)]
+    // Has to be int
     public int skinColorIndex;
 
     [Range(0, 5)]
@@ -90,19 +85,19 @@ public class PlayerCustomization : NetworkBehaviour
                 feetIndex = value;
                 break;
             case 03:
-                irisColorIndex = value;
+                //irisColorIndex = value;
                 break;
             case 04:
-                pupilColorIndex = value;
+                //pupilColorIndex = value;
                 break;
             case 05:
-                highlightColorIndex = value;
+                //highlightColorIndex = value;
                 break;
             case 06:
-                eyelashColorIndex = value;
+                //eyelashColorIndex = value;
                 break;
             case 07:
-                eyebrowColorIndex = value;
+                //eyebrowColorIndex = value;
                 break;
             case 08:
                 skinColorIndex = value;
@@ -122,6 +117,31 @@ public class PlayerCustomization : NetworkBehaviour
         }
         UpdatePlayerAppearance();
     }
+
+    public void SetColor(int index, Image image)
+    {
+        Color color = image.color;
+        switch (index)
+        {
+            case 03:
+                irisColorIndex = color;
+                break;
+            case 04:
+                pupilColorIndex = color;
+                break;
+            case 05:
+                highlightColorIndex = color;
+                break;
+            case 06:
+                eyelashColorIndex = color;
+                break;
+            case 07:
+                eyebrowColorIndex = color;
+                break;
+        }
+        UpdatePlayerAppearance();
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -147,12 +167,12 @@ public class PlayerCustomization : NetworkBehaviour
         torsoIndex = playerData.torsoIndex;
         legIndex = playerData.legIndex;
         feetIndex = playerData.feetIndex;
-        irisColorIndex = playerData.irisColorIndex;
-        pupilColorIndex = playerData.pupilColorIndex;
-        highlightColorIndex = playerData.highlightColorIndex;
-        eyelashColorIndex = playerData.eyelashColorIndex;
-        eyebrowColorIndex = playerData.eyebrowColorIndex;
-        skinColorIndex = playerData.skinColorIndex;
+        irisColorIndex = playerData.irisColor;
+        pupilColorIndex = playerData.pupilColor;
+        highlightColorIndex = playerData.highlightColor;
+        eyelashColorIndex = playerData.eyelashColor;
+        eyebrowColorIndex = playerData.eyebrowColor;
+        skinColorIndex = playerData.skinColor;
         eyebrowIndex = playerData.eyebrowIndex;
         mouthIndex = playerData.mouthIndex;
         eyelashIndex = playerData.eyelashIndex;
@@ -194,11 +214,11 @@ public class PlayerCustomization : NetworkBehaviour
 
 
         /* Switch Color */
-        eyeMaterial.SetColor("_IrisColor", irisColor[irisColorIndex]);
-        eyeMaterial.SetColor("_PupilColor", pupilColor[pupilColorIndex]);
-        eyeMaterial.SetColor("_HighlightColor", highlightColor[highlightColorIndex]);
-        eyeMaterial.SetColor("_EyelashColor", eyebrowColor[eyelashColorIndex]);
-        eyebrowMaterial.SetColor("_EyebrowColor", eyebrowColor[eyebrowColorIndex]);
+        eyeMaterial.SetColor("_IrisColor", irisColorIndex);
+        eyeMaterial.SetColor("_PupilColor", pupilColorIndex);
+        eyeMaterial.SetColor("_HighlightColor", highlightColorIndex);
+        eyeMaterial.SetColor("_EyelashColor", eyelashColorIndex);
+        eyebrowMaterial.SetColor("_EyebrowColor", eyebrowColorIndex);
 
 
         switch (eyebrowIndex)

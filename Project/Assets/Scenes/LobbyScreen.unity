@@ -15101,11 +15101,11 @@ MonoBehaviour:
   torsoIndex: 0
   legIndex: 0
   feetIndex: 0
-  irisColorIndex: 0
-  pupilColorIndex: 0
-  highlightColorIndex: 0
-  eyelashColorIndex: 0
-  eyebrowColorIndex: 0
+  irisColorIndex: {r: 0.2867924, g: 0.48528168, b: 1, a: 1}
+  pupilColorIndex: {r: 0.20754719, g: 0.1260947, b: 0.1260947, a: 1}
+  highlightColorIndex: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 1}
+  eyelashColorIndex: {r: 0.2830189, g: 0.13723746, b: 0.13723746, a: 1}
+  eyebrowColorIndex: {r: 0.33962262, g: 0.13905303, b: 0.13905303, a: 1}
   skinColorIndex: 0
   eyebrowIndex: 0
   mouthIndex: 0
@@ -15124,7 +15124,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c62ecb8ab1a253346b47332f29e1aef7, type: 2}
   - {fileID: 11400000, guid: 49122584d90030744b6cdab6047dedea, type: 2}
   skinColor:
-  - {fileID: 2100000, guid: 3baaad850a5879746b7a5f48f3040c54, type: 2}
+  - {fileID: 2100000, guid: e378aaec20e3eeb48b0b878daf46da8e, type: 2}
   - {fileID: 2100000, guid: 714b4bc282b50ee499ca6b454aceb6b9, type: 2}
   - {fileID: 2100000, guid: d69f946c3af870649baac11095dc636c, type: 2}
   - {fileID: 2100000, guid: af76cae1f3a8bf345945840c2e8ce7af, type: 2}
@@ -17120,32 +17120,32 @@ PrefabInstance:
     - target: {fileID: 2333188852074578136, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 1.30317
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 2333188852074578136, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.006305
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 2700418133495496392, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 4.203682
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2700418133495496392, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.924937
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3872763520487411516, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 4.203682
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3872763520487411516, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.924937
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 6085691099867991141, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
@@ -17160,32 +17160,32 @@ PrefabInstance:
     - target: {fileID: 7193318628768774759, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 1.30317
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 7193318628768774759, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.006305
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 7407053819210450039, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 4.203682
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7407053819210450039, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.924937
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8292485039796358035, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 1.30317
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8292485039796358035, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.006305
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 9021154107758205886, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
@@ -17247,6 +17247,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Camera
         \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040679929371554516, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: field of view
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040679929371554516, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: far clip plane
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040679929371554516, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9040679929371554516, guid: c1e97422664ad4b48b3b3967cc6d6e25,
+        type: 3}
+      propertyPath: orthographic size
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28831,7 +28851,7 @@ GameObject:
   - component: {fileID: 2097488972}
   - component: {fileID: 2097488971}
   m_Layer: 5
-  m_Name: EyeColorContainer
+  m_Name: IrisColorContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

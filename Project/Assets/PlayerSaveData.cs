@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Unity.Netcode;
 using UnityEngine;
+using static Item;
 
 public class PlayerSaveData : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlayerSaveData : MonoBehaviour
     private void Start()
     {
         DiscoverRecepies();
+        ValidatePlayerData();
     }
     public virtual void DiscoverItem(Item item)
     {
@@ -112,6 +114,34 @@ public class PlayerSaveData : MonoBehaviour
         print($"Playerdata is saved to {filePath}");
     }
 
+    private void DeletePlayerData(string fileName)
+    {
+        string filePath = Path.Combine(DirectoryPath(), fileName + ".json");
+        File.Delete(filePath);
+    }
+
+    public void ValidatePlayerData()
+    {
+        foreach(string file in FindSavedPlayerData())
+        {
+            string filePath = Path.Combine(DirectoryPath(), file + ".json");
+            if (File.Exists(filePath))
+            {
+                string json = File.ReadAllText(filePath);
+                try
+                {
+                    PlayerSaveDataSerialized saveData = JsonConvert.DeserializeObject<PlayerSaveDataSerialized>(json);
+                }
+                catch(JsonException e)
+                {
+                    Debug.LogError($"File: {filePath} is invalid and will be deleted!");
+                    DeletePlayerData(file);
+
+                }
+            }
+        }
+    }
+
     public void LoadPlayerData(string fileName)
     {
         string filePath = Path.Combine(DirectoryPath(), fileName + ".json");
@@ -122,12 +152,12 @@ public class PlayerSaveData : MonoBehaviour
             customization.torsoIndex = saveData.torsoIndex;
             customization.legIndex = saveData.legIndex;
             customization.feetIndex = saveData.feetIndex;
-            customization.irisColorIndex = saveData.irisColorIndex;
-            customization.pupilColorIndex = saveData.pupilColorIndex;
-            customization.highlightColorIndex = saveData.highlightColorIndex;
-            customization.eyelashColorIndex = saveData.eyelashColorIndex;
-            customization.eyebrowColorIndex = saveData.eyebrowColorIndex;
-            customization.skinColorIndex = saveData.skinColorIndex;
+            customization.irisColorIndex = saveData.irisColor;
+            customization.pupilColorIndex = saveData.pupilColor;
+            customization.highlightColorIndex = saveData.highlightColor;
+            customization.eyelashColorIndex = saveData.eyelashColor;
+            customization.eyebrowColorIndex = saveData.eyebrowColor;
+            customization.skinColorIndex = saveData.skinColor;
             customization.eyebrowIndex = saveData.eyebrowIndex;
             customization.mouthIndex = saveData.mouthIndex;
             customization.eyelashIndex = saveData.eyelashIndex;
@@ -148,11 +178,11 @@ public class PlayerSaveData : MonoBehaviour
             torsoIndex = customization.torsoIndex,
             legIndex = customization.legIndex,
             feetIndex = customization.feetIndex,
-            irisColorIndex = customization.irisColorIndex,
-            highlightColorIndex = customization.highlightColorIndex,
-            eyelashColorIndex = customization.eyelashColorIndex,
-            eyebrowColorIndex = customization.eyelashColorIndex,
-            skinColorIndex = customization.skinColorIndex,
+            irisColor = customization.irisColorIndex,
+            highlightColor = customization.highlightColorIndex,
+            eyelashColor = customization.eyelashColorIndex,
+            eyebrowColor = customization.eyelashColorIndex,
+            skinColor = customization.skinColorIndex,
             eyebrowIndex = customization.eyebrowIndex,
             mouthIndex = customization.mouthIndex,
             eyelashIndex = customization.eyelashIndex,
@@ -171,12 +201,12 @@ public struct PlayerSaveDataSerialized : INetworkSerializable
     public int torsoIndex;
     public int legIndex;
     public int feetIndex;
-    public int irisColorIndex;
-    public int pupilColorIndex;
-    public int highlightColorIndex;
-    public int eyelashColorIndex;
-    public int eyebrowColorIndex;
-    public int skinColorIndex;
+    public SerializeableColor irisColor;
+    public SerializeableColor pupilColor;
+    public SerializeableColor highlightColor;
+    public SerializeableColor eyelashColor;
+    public SerializeableColor eyebrowColor;
+    public int skinColor;
     public int eyebrowIndex;
     public int mouthIndex;
     public int eyelashIndex;
@@ -189,16 +219,55 @@ public struct PlayerSaveDataSerialized : INetworkSerializable
         serializer.SerializeValue(ref torsoIndex);
         serializer.SerializeValue(ref legIndex);
         serializer.SerializeValue(ref feetIndex);
-        serializer.SerializeValue(ref irisColorIndex);
-        serializer.SerializeValue(ref pupilColorIndex);
-        serializer.SerializeValue(ref highlightColorIndex);
-        serializer.SerializeValue(ref eyelashColorIndex);
-        serializer.SerializeValue(ref eyelashColorIndex);
-        serializer.SerializeValue(ref eyebrowColorIndex);
-        serializer.SerializeValue(ref skinColorIndex);
+        serializer.SerializeValue(ref irisColor);
+        serializer.SerializeValue(ref pupilColor);
+        serializer.SerializeValue(ref highlightColor);
+        serializer.SerializeValue(ref eyelashColor);
+        serializer.SerializeValue(ref eyelashColor);
+        serializer.SerializeValue(ref eyebrowColor);
+        serializer.SerializeValue(ref skinColor);
         serializer.SerializeValue(ref eyebrowIndex);
         serializer.SerializeValue(ref mouthIndex);
         serializer.SerializeValue(ref eyelashIndex);
         serializer.SerializeValue(ref highlightIndex);
+    }
+}
+
+public struct SerializeableColor : INetworkSerializable, IEquatable<SerializeableColor>
+{
+    public float r;
+    public float g;
+    public float b;
+    public float a;
+
+    public SerializeableColor(float r,float g,float b,float a)
+    {
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = a;
+    }
+
+    public bool Equals(SerializeableColor other)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref r);
+        serializer.SerializeValue(ref g);
+        serializer.SerializeValue(ref b);
+        serializer.SerializeValue(ref a);
+    }
+
+    public static implicit operator Color(SerializeableColor serializableColor)
+    {
+        return new Color(serializableColor.r, serializableColor.g, serializableColor.b, serializableColor.a);
+    }
+
+    public static implicit operator SerializeableColor(Color color)
+    {
+        return new SerializeableColor(color.r, color.g, color.b, color.a);
     }
 }

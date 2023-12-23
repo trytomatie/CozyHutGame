@@ -25,12 +25,12 @@ public class PlayerCustomizationUI : MonoBehaviour
         AssignButtonFunctions(torsoButtons, 0);
         AssignButtonFunctions(legButtons, 1);
         AssignButtonFunctions(feetButtons, 2);
-        AssignButtonFunctions(irisButtons, 3);
-        AssignButtonFunctions(pupilButtons, 4);
-        AssignButtonFunctions(highlightButtons, 5);
+        AssignButtonFunctionsColor(irisButtons, 3);
+        AssignButtonFunctionsColor(pupilButtons, 4);
+        AssignButtonFunctionsColor(highlightButtons, 5);
         AssignButtonFunctions(eyelashButtons, 11);
-        AssignButtonFunctions(eyelashColorButtons, 6);
-        AssignButtonFunctions(eyebrowColorButtons, 7);
+        AssignButtonFunctionsColor(eyelashColorButtons, 6);
+        AssignButtonFunctionsColor(eyebrowColorButtons, 7);
         AssignButtonFunctions(skincolorButtons, 8);
         AssignButtonFunctions(eyebrowButtons, 9);
         AssignButtonFunctions(mouthButtons, 10);
@@ -46,6 +46,19 @@ public class PlayerCustomizationUI : MonoBehaviour
             {
                 int capturedIndex = i;
                 button.onClick.AddListener(() => customization.SetIndex(capturedIndex, index));
+            }
+        }
+    }
+
+    public void AssignButtonFunctionsColor(Button[] buttons, int index)
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            Button button = buttons[i];
+            if (button != null)
+            {
+                Image imageReference = button.GetComponent<Image>();
+                button.onClick.AddListener(() => customization.SetColor(index, imageReference));
             }
         }
     }
