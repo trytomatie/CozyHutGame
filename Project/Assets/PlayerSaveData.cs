@@ -10,6 +10,7 @@ using static Item;
 public class PlayerSaveData : MonoBehaviour
 {
     public PlayerCustomization customization;
+    public Container playerInventory;
     public List<ulong> discoverdItemIDs = new List<ulong>();
     [HideInInspector] public List<CraftingRecepie> discoveredRecipies = new List<CraftingRecepie>();
 
@@ -64,6 +65,11 @@ public class PlayerSaveData : MonoBehaviour
     {
         return Path.Combine(Application.persistentDataPath, "CozyPlayerData");
     }
+
+    public string DirectoryTempSaveDataPath()
+    {
+        return Path.Combine(DirectoryPath(), "TempSaveData");
+    }
     public List<string> FindSavedPlayerData()
     {
         if (Directory.Exists(DirectoryPath()))
@@ -78,23 +84,23 @@ public class PlayerSaveData : MonoBehaviour
         }
         else
         {
-            Debug.Log("No Files found");
+            Debug.Log("No Files found");;
             return null;
         }
     }
 
-
-
-    public void SavePlayerData()
+    public void CreatePlayerData()
     {
         PlayerSaveDataSerialized saveData = GetPlayerSaveData();
         List<string> playerFiles = FindSavedPlayerData();
         if (playerFiles == null || !playerFiles.Contains(customization.playerName))
         {
-            Directory.CreateDirectory(DirectoryPath());
+            CreateDirectories();
             string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
             string filePath = Path.Combine(DirectoryPath(), customization.playerName + ".json");
-            File.WriteAllText(filePath, json);
+            string tempFilePath = Path.Combine(DirectoryTempSaveDataPath(), $"{customization.playerName}_TEMP.json");
+            File.WriteAllText(tempFilePath, json); // Write to temp File in case of Crash
+            File.Replace(tempFilePath, filePath, null); // Replace Temp File (Atomic Replacement)
             print($"Playerdata is saved to {filePath}");
             return;
         }
@@ -102,16 +108,23 @@ public class PlayerSaveData : MonoBehaviour
 
     }
 
+    private void CreateDirectories()
+    {
+        Directory.CreateDirectory(DirectoryPath());
+        Directory.CreateDirectory(Path.Combine(DirectoryPath(), "TempSaveData"));
+    }
 
-    public void OverrideSavePlayerData()
+    public void SavePlayerData()
     {
         PlayerSaveDataSerialized saveData = GetPlayerSaveData();
         List<string> playerFiles = FindSavedPlayerData();
-        Directory.CreateDirectory(DirectoryPath());
+        CreateDirectories();
         string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
         string filePath = Path.Combine(DirectoryPath(), customization.playerName + ".json");
-        File.WriteAllText(filePath, json);
-        print($"Playerdata is saved to {filePath}");
+        string tempFilePath = Path.Combine(DirectoryTempSaveDataPath(), $"{customization.playerName}_TEMP.json");
+        File.WriteAllText(tempFilePath, json); // Write to temp File in case of Crash
+        File.Copy(tempFilePath, filePath); // Replace Temp File (Atomic Replacement)
+        print($"Playerdata is saved to {filePath}, TempFile Saved to {tempFilePath}");
     }
 
     private void DeletePlayerData(string fileName)
@@ -149,6 +162,7 @@ public class PlayerSaveData : MonoBehaviour
         {
             string json = File.ReadAllText(filePath);
             PlayerSaveDataSerialized saveData = JsonConvert.DeserializeObject<PlayerSaveDataSerialized>(json);
+            customization.playerName = saveData.playerName;
             customization.torsoIndex = saveData.torsoIndex;
             customization.legIndex = saveData.legIndex;
             customization.feetIndex = saveData.feetIndex;
@@ -163,6 +177,10 @@ public class PlayerSaveData : MonoBehaviour
             customization.eyelashIndex = saveData.eyelashIndex;
             customization.highlightIndex = saveData.highlightIndex;
             discoverdItemIDs = saveData.discoverdItemIDs;
+            if(saveData.inventory != null && saveData.inventory.Length > 0)
+            {
+                playerInventory.items = saveData.inventory;
+            }
         }
         else
         {
@@ -187,7 +205,8 @@ public class PlayerSaveData : MonoBehaviour
             mouthIndex = customization.mouthIndex,
             eyelashIndex = customization.eyelashIndex,
             highlightIndex = customization.highlightIndex,
-            discoverdItemIDs = discoverdItemIDs
+            discoverdItemIDs = discoverdItemIDs,
+            inventory = playerInventory.items
         };
     }
 
@@ -211,7 +230,9 @@ public struct PlayerSaveDataSerialized : INetworkSerializable
     public int mouthIndex;
     public int eyelashIndex;
     public int highlightIndex;
-    public List<ulong> discoverdItemIDs;
+    // No Network Sync for these Atributes
+    public List<ulong> discoverdItemIDs; 
+    public ItemData[] inventory;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {

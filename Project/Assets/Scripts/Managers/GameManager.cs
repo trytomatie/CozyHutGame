@@ -24,6 +24,11 @@ public class GameManager : NetworkBehaviour
     public List<BuildingBeacon> buildingBeacons;
     public UnityEvent disconnectEvent;
     public PlayerSaveData playerSaveData;
+    private bool playerIsLoaded = false;
+
+
+    // Periodic Player Auto Save
+    private float playerSaveInterval = 60;
 
 
     private void Awake()
@@ -31,6 +36,7 @@ public class GameManager : NetworkBehaviour
         if(Instance == null)
         {
             Instance = this;
+            StartCoroutine(PlayerAutoSave());
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -44,20 +50,45 @@ public class GameManager : NetworkBehaviour
         selectedPlayer = value;
     }
 
-    public void LoadPlayerData(PlayerCustomization customization)
+    public void LoadPlayerData(PlayerCustomization customization, Container playerInventory)
     {
         playerSaveData.customization = customization;
+        playerSaveData.playerInventory = playerInventory;
         playerSaveData.LoadPlayerData(selectedPlayer);
+        playerIsLoaded = true;
     }
 
     private void Start()
     {
         RegisterNetworkPrefabs();
+ 
+    }
+
+    private IEnumerator PlayerAutoSave()
+    {
+        while(Application.isPlaying) // Might as well just say true, but writing true into the condition of a loop is a big nono
+        { 
+            yield return new WaitForSeconds(playerSaveInterval);
+            if (playerIsLoaded)
+            {
+                playerSaveData.SavePlayerData();
+            }
+        }
     }
 
     public void Disconnect()
     {
+        playerSaveData.SavePlayerData();
+        playerIsLoaded = false;
         disconnectEvent.Invoke();
+    }
+
+    private void OnApplicationQuit()
+    {
+        if(playerIsLoaded)
+        {
+            playerSaveData.SavePlayerData();
+        }
     }
 
     public void LoadScene(string sceneName)

@@ -96,14 +96,8 @@ public class NetworkPlayerInit : NetworkBehaviour
             equipmentInventory.AddToObserverListServerRpc(OwnerClientId);
             inventory.addItemEvents.AddListener(GameManager.Instance.DiscoverItem);
             Collider col = GetComponent<Collider>();
-            GameManager.Instance.LoadPlayerData(GetComponent<PlayerCustomization>());
-            if(col.isTrigger)
-            {
-                col.isTrigger = false;
-                print("-------- Had to Fix isTrigger of Character Spawn-------");
-            }
+            GameManager.Instance.LoadPlayerData(GetComponent<PlayerCustomization>(),inventory);
             SetNameCardServerRpc(GameManager.Instance.selectedPlayer);
-            print(playerName.Value);
         }
         SpawnHandPivotSetupServerRpc();
 
@@ -117,11 +111,6 @@ public class NetworkPlayerInit : NetworkBehaviour
             handPivot.GetComponent<NetworkObject>().Spawn(false);
         }
         handPivot.GetComponent<HandSetupForParenting>().SetFollowTransformClientRpc(this);
-    }
-
-    private void Update()
-    {
-        
     }
 
     [ClientRpc]
