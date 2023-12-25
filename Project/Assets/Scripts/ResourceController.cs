@@ -127,6 +127,11 @@ public class ResourceController : NetworkBehaviour
         respawnEvent.Invoke();
     }
 
+    public void DestroyWithoutTrace()
+    {
+        Destroy(transform.parent);
+    }
+
 
 
 

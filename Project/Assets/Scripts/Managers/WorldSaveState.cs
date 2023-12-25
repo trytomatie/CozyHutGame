@@ -34,6 +34,11 @@ public class WorldSaveState : MonoBehaviour
         return Path.Combine(Application.persistentDataPath, "CozySaveData");
     }
 
+    public string DirectoryTempSaveDataPath()
+    {
+        return Path.Combine(DirectoryPath(), "TempSaveData");
+    }
+
     public void SaveWorld()
     {
         ResourceController[] resources = FindObjectsOfType<ResourceController>();
@@ -60,10 +65,17 @@ public class WorldSaveState : MonoBehaviour
             List<PlacedObjectData> placedObjects = saveData.placedObjects;
             List<ResourceObjectData> resourceObjects = saveData.resources;
 
+            // Place all the Objects
             foreach(PlacedObjectData placedObject in placedObjects)
             {
                 GameManager.Instance.PlaceBuildingServerRpc(placedObject.buildingId, new Vector3(placedObject.position.x, placedObject.position.y, placedObject.position.z), 
                     Quaternion.Euler(placedObject.rotation.x, placedObject.rotation.y, placedObject.rotation.z), false);
+            }
+            // Replace resources Prior in Scene with Resources stored in the Save
+            ResourceController[] scenePlacedResources = GameObject.FindObjectsOfType<ResourceController>();
+            foreach(ResourceController rc in scenePlacedResources)
+            {
+                rc.DestroyWithoutTrace();
             }
 
         }
