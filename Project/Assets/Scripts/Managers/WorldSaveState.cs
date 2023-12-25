@@ -3,7 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.Mathematics;
+using Unity.Netcode;
 using UnityEngine;
 
 public class WorldSaveState : MonoBehaviour
@@ -42,9 +44,11 @@ public class WorldSaveState : MonoBehaviour
     public void SaveWorld()
     {
         ResourceController[] resources = FindObjectsOfType<ResourceController>();
+        ResourceObjectData[] resourcesSaveData = ResourceObjectData.ConvertResources(resources);
         SaveData saveData = new SaveData()
         {
-            placedObjects = placedObjects
+            placedObjects = placedObjects,
+            resources = resourcesSaveData.ToList()
         };
         Directory.CreateDirectory(DirectoryPath());
         string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
@@ -79,7 +83,7 @@ public class WorldSaveState : MonoBehaviour
             }
             foreach(ResourceObjectData savedResources in resourceObjects)
             {
-                //ResourceManager.
+                GameManager.Instance.SpawnResource(savedResources);
             }
 
         }
@@ -136,6 +140,11 @@ public struct SerializedVector3
         return new SerializedVector3(obj.x, obj.y, obj.z);
     }
 
+    public static implicit operator Vector3(SerializedVector3 obj)
+    {
+        return new Vector3(obj.x, obj.y, obj.z);
+    }
+
 }
 
 [Serializable]
@@ -148,11 +157,6 @@ public struct ResourceObjectData
     public int hp;
     public int maxhp;
 
-    //public static implicit operator ResourceController(ResourceObjectData obj)
-    //{
-    //    return new Color(serializableColor.r, serializableColor.g, serializableColor.b, serializableColor.a);
-    //}
-
     public static implicit operator ResourceObjectData(ResourceController obj)
     {
         return new ResourceObjectData()
@@ -160,8 +164,20 @@ public struct ResourceObjectData
             resource_id = obj.resourceId,
             positon = obj.root.position,
             roation = obj.root.eulerAngles,
-
+            scale = obj.root.localScale,
+            hp = obj.hp.Value,
+            maxhp = obj.maxHp
         };
+    }
+
+    public static ResourceObjectData[] ConvertResources(ResourceController[] array)
+    {
+        ResourceObjectData[] result = new ResourceObjectData[array.Length];
+        for(int i = 0; i < array.Length;i++)
+        {
+            result[i] = array[i];
+        }
+        return result;
     }
 
 }
