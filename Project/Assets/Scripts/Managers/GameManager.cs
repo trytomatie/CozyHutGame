@@ -170,7 +170,6 @@ public class GameManager : NetworkBehaviour
         {
             spawnedPrefab.transform.root.GetComponent<BuildingObjectHandler>().data = data;
         }
-
         worldSaveState.AddPlacedObject(data);
     }
 
@@ -192,7 +191,15 @@ public class GameManager : NetworkBehaviour
         
     }
 
-    private void RegisterNetworkPrefabs()
+    public void SpawnResource(ResourceObjectData data)
+    {
+        GameObject spawnedPrefab = Instantiate(ResourceManager.instance.resources[data.resource_id],data.positon,Quaternion.Euler(data.roation));
+        spawnedPrefab.transform.localScale = data.scale;
+        spawnedPrefab.GetComponentInChildren<ResourceController>().hp.Value = data.hp;
+        spawnedPrefab.GetComponent<NetworkObject>().Spawn(true);
+    }
+
+        private void RegisterNetworkPrefabs()
     {
         return;
         var prefabs = networkPrefabsList.PrefabList.Select(x => x.Prefab);
