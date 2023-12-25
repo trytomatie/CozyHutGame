@@ -131,7 +131,7 @@ public class ResourceController : NetworkBehaviour
 
     public void DestroyWithoutTrace()
     {
-        Destroy(transform.parent);
+        Destroy(transform.parent.gameObject);
     }
 
 

@@ -123,7 +123,7 @@ public class PlayerSaveData : MonoBehaviour
         string filePath = Path.Combine(DirectoryPath(), customization.playerName + ".json");
         string tempFilePath = Path.Combine(DirectoryTempSaveDataPath(), $"{customization.playerName}_TEMP.json");
         File.WriteAllText(tempFilePath, json); // Write to temp File in case of Crash
-        File.Copy(tempFilePath, filePath); // Replace Temp File (Atomic Replacement)
+        File.Replace(tempFilePath, filePath,null); // Replace Temp File (Atomic Replacement)
         print($"Playerdata is saved to {filePath}, TempFile Saved to {tempFilePath}");
     }
 

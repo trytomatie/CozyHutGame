@@ -172,10 +172,18 @@ public struct ResourceObjectData
 
     public static ResourceObjectData[] ConvertResources(ResourceController[] array)
     {
-        ResourceObjectData[] result = new ResourceObjectData[array.Length];
-        for(int i = 0; i < array.Length;i++)
+        List<ResourceController> validatedArray = new List<ResourceController>();
+        foreach(ResourceController rc in array)
         {
-            result[i] = array[i];
+            if(rc.root != null)
+            {
+                validatedArray.Add(rc);
+            }
+        }
+        ResourceObjectData[] result = new ResourceObjectData[validatedArray.Count];
+        for(int i = 0; i < validatedArray.Count;i++)
+        {
+            result[i] = validatedArray[i];
         }
         return result;
     }
