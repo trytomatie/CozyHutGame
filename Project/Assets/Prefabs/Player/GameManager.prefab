@@ -39,7 +39,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7382450290918164605
 MonoBehaviour:
@@ -498,6 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   customization: {fileID: 0}
+  playerInventory: {fileID: 0}
   discoverdItemIDs: 
   discoveredRecipies: []
 --- !u!114 &1796689306304384812
@@ -512,4 +513,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81f471631968bc4429d62c598fbdcc4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resources: []
+  resources:
+  - {fileID: 5481559165730814728, guid: fa058f26bffaa6449bc0bdc67c3140d7, type: 3}
+  - {fileID: 5481559165730814728, guid: 63021bac7d3e94f449e43c93271096ed, type: 3}
+  - {fileID: 4147233858863818990, guid: cb5d6f6ba426e0b438a336771dbc3300, type: 3}
+  - {fileID: 4147233858863818990, guid: 3eaf2617f4498f948be94e59f99971c4, type: 3}
+  - {fileID: 8672333368195808002, guid: bb2f167a86b3de94698f61d4aa986349, type: 3}
+  - {fileID: 4699984702892729928, guid: b8abeb9a4b8f77046be0ee2b88c1a5d8, type: 3}
+  - {fileID: 5481559165730814728, guid: eb032753940a4ea47b42e0c5d28a2a2a, type: 3}
+  - {fileID: 5481559165730814728, guid: d2003e9f0252e394283aec1b7fe0ee2f, type: 3}

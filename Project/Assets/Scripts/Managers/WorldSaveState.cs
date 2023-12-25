@@ -77,6 +77,10 @@ public class WorldSaveState : MonoBehaviour
             {
                 rc.DestroyWithoutTrace();
             }
+            foreach(ResourceObjectData savedResources in resourceObjects)
+            {
+                //ResourceManager.
+            }
 
         }
         else
@@ -127,6 +131,11 @@ public struct SerializedVector3
         this.z = z;
     }
 
+    public static implicit operator SerializedVector3(Vector3 obj)
+    {
+        return new SerializedVector3(obj.x, obj.y, obj.z);
+    }
+
 }
 
 [Serializable]
@@ -136,6 +145,25 @@ public struct ResourceObjectData
     public SerializedVector3 positon;
     public SerializedVector3 roation;
     public SerializedVector3 scale;
+    public int hp;
+    public int maxhp;
+
+    //public static implicit operator ResourceController(ResourceObjectData obj)
+    //{
+    //    return new Color(serializableColor.r, serializableColor.g, serializableColor.b, serializableColor.a);
+    //}
+
+    public static implicit operator ResourceObjectData(ResourceController obj)
+    {
+        return new ResourceObjectData()
+        {
+            resource_id = obj.resourceId,
+            positon = obj.root.position,
+            roation = obj.root.eulerAngles,
+
+        };
+    }
+
 }
 
 [Serializable]

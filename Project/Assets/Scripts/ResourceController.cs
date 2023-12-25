@@ -9,6 +9,8 @@ using System.Linq;
 
 public class ResourceController : NetworkBehaviour
 {
+    public int resourceId;
+    public Transform root;
     public Item itemDrop;
     [SerializeField] private MMF_Player damageFeedback;
     public UnityEvent deathEvent;
