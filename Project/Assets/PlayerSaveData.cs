@@ -98,9 +98,7 @@ public class PlayerSaveData : MonoBehaviour
             CreateDirectories();
             string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
             string filePath = Path.Combine(DirectoryPath(), customization.playerName + ".json");
-            string tempFilePath = Path.Combine(DirectoryTempSaveDataPath(), $"{customization.playerName}_TEMP.json");
-            File.WriteAllText(tempFilePath, json); // Write to temp File in case of Crash
-            File.Replace(tempFilePath, filePath, null); // Replace Temp File (Atomic Replacement)
+            File.WriteAllText(filePath, json);
             print($"Playerdata is saved to {filePath}");
             return;
         }
@@ -190,7 +188,8 @@ public class PlayerSaveData : MonoBehaviour
 
     public PlayerSaveDataSerialized GetPlayerSaveData()
     {
-        return new PlayerSaveDataSerialized()
+
+        PlayerSaveDataSerialized data = new PlayerSaveDataSerialized()
         {
             playerName = customization.playerName,
             torsoIndex = customization.torsoIndex,
@@ -206,8 +205,12 @@ public class PlayerSaveData : MonoBehaviour
             eyelashIndex = customization.eyelashIndex,
             highlightIndex = customization.highlightIndex,
             discoverdItemIDs = discoverdItemIDs,
-            inventory = playerInventory.items
         };
+        if(playerInventory != null)
+        {
+            data.inventory = playerInventory.items;
+        }
+        return data;
     }
 
     #endregion
