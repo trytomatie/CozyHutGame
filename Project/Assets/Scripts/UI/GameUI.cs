@@ -14,7 +14,7 @@ public class GameUI : MonoBehaviour
 {
     public enum UI_State { Base,Inventory,Container,Building,Pause}
     private int baseStateOverride = 0;
-    public TextMeshProUGUI woodText;
+    public TextMeshProUGUI timeText;
     public Canvas canvas;
     public GameObject pauseMenu;
     public GameObject craftingMenu;

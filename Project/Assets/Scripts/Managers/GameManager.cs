@@ -242,6 +242,19 @@ public class GameManager : NetworkBehaviour
         Instance.playerSaveData.DiscoverItem(item);
     }
 
+    // Remap function
+    public static float Remap(float value, float fromMin, float fromMax, float toMin, float toMax)
+    {
+        // Clamp the value to the input range
+        value = Mathf.Clamp(value, fromMin, fromMax);
+
+        // Map the value from the input range to the output range
+        float t = Mathf.InverseLerp(fromMin, fromMax, value);
+        float remappedValue = Mathf.Lerp(toMin, toMax, t);
+
+        return remappedValue;
+    }
+
     public static GameManager Instance { get => instance; set => instance = value; }
 
 }

@@ -1994,22 +1994,22 @@ PrefabInstance:
     - target: {fileID: 20092073445527294, guid: 7721b17458de7274da9fb6df12db1326,
         type: 3}
       propertyPath: field of view
-      value: 60
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 20092073445527294, guid: 7721b17458de7274da9fb6df12db1326,
         type: 3}
       propertyPath: far clip plane
-      value: 1000
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 20092073445527294, guid: 7721b17458de7274da9fb6df12db1326,
         type: 3}
       propertyPath: near clip plane
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 20092073445527294, guid: 7721b17458de7274da9fb6df12db1326,
         type: 3}
       propertyPath: orthographic size
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 20092073445527294, guid: 7721b17458de7274da9fb6df12db1326,
         type: 3}
@@ -2045,6 +2045,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DefaultBlend.m_Style
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3607939498922361546, guid: 7721b17458de7274da9fb6df12db1326,
+        type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
