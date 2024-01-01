@@ -17,14 +17,18 @@ public class GameManager : NetworkBehaviour
     public NetworkPrefabsList networkPrefabsList;
     public Gradient myColor;
     public Gradient otherPlayerColor;
+
     public string selectedPlayer;
     public Dictionary<ulong, GameObject> playerList = new Dictionary<ulong, GameObject>();
     public string relayCode = "";
+
     public WorldSaveState worldSaveState;
     public List<BuildingBeacon> buildingBeacons;
     public UnityEvent disconnectEvent;
     public PlayerSaveData playerSaveData;
     private bool playerIsLoaded = false;
+
+    public System.TimeSpan currentTime;
 
 
     // Periodic Player Auto Save

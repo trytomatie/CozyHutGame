@@ -48,7 +48,8 @@ public class WorldSaveState : MonoBehaviour
         SaveData saveData = new SaveData()
         {
             placedObjects = placedObjects,
-            resources = resourcesSaveData.ToList()
+            resources = resourcesSaveData.ToList(),
+            dayTimeSeconds = (long)GameManager.Instance.currentTime.TotalSeconds
         };
         Directory.CreateDirectory(DirectoryPath());
         string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
@@ -85,6 +86,9 @@ public class WorldSaveState : MonoBehaviour
             {
                 GameManager.Instance.SpawnResource(savedResources);
             }
+
+            // Set Day Time
+            DayNightController.SetTime(TimeSpan.FromSeconds(saveData.dayTimeSeconds));
 
         }
         else
@@ -195,4 +199,5 @@ public struct SaveData
 {
     public List<PlacedObjectData> placedObjects;
     public List<ResourceObjectData> resources;
+    public long dayTimeSeconds;
 }
