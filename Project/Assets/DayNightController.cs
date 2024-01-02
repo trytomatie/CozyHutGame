@@ -11,11 +11,9 @@ public class DayNightController : MonoBehaviour
     public float normalizedDayTime;
     public float normalizedDayCycleTime; // The Time in the Current Cycle (Day-Cycle, Night-Cycle)
     public AnimationCurve sunIntensity;
+    [SerializeField]
+    public Gradient sunColor;
     public float sunAngleOffset = -90;
-
-    [Header("Sunrise")]
-    public float sunriseNormalizedStart = 0.85f;
-    public float sunriseNormalizedEnd = 1f;
 
     [Header("References")]
     public Light sun;
@@ -47,7 +45,8 @@ public class DayNightController : MonoBehaviour
         float angle = Mathf.Lerp(0f, 360f, normalizedDayTime);
         sun.transform.rotation = Quaternion.Euler(sunAngleOffset + angle, 169.6f, 0f);
         sun.intensity = sunIntensity.Evaluate(normalizedDayTime);
-        if(normalizedDayTime <= 0.6f)
+        sun.color = sunColor.Evaluate(normalizedDayTime);
+        if (normalizedDayTime <= 0.6f)
         {
             lensFlare.enabled = true;
         }
