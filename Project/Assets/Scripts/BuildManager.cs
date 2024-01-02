@@ -164,6 +164,7 @@ public class BuildManager : MonoBehaviour
         BuildingObject buildingObject = BuildingObjectManager.GenerateBuildingObject((ulong)id);
         GameObject projectionPrefab = buildingObject.buildingPrefab;
         projectionBuildingObjectHandler = projectionInstance.SpawnProjection(projectionPrefab).GetComponent<BuildingObjectHandler>();
+        projectionBuildingObjectHandler.enabled = false;
         currentBuildingType = buildingObject.buildingType;
         currentBuildingId = (ulong)id;
         UpdateProjectionPosition();
@@ -267,12 +268,20 @@ public class BuildManager : MonoBehaviour
             bool closestPointWithoutSnappingFound = false;
             foreach (RaycastHit raycastHit in raycastHits)
             {
+                if(projectionBuildingObjectHandler.terrainOnly)
+                {
+                    if(raycastHit.collider.gameObject.GetComponent<Terrain>() == null) // Basicly, don't place unless if it hits a terrain
+                    {
+                        lastSavedProjectionPosition = Vector3.zero;
+                        return lastSavedProjectionPosition;
+                    }
+                }
                 if(raycastHit.distance < 5) // Skip everything too close to the camera
                 {
                     continue;
                 }
                 SnapHitboxHandler snapHitbox = raycastHit.collider.GetComponent<SnapHitboxHandler>() ?? null;
-                if (snapHitbox != null && snapping)
+                if (snapHitbox != null && snapping) // Try to snapp to anything, if the object can snapp
                 {
                     int snapperIndex = 0;
                     foreach(BuildingObject.BuildingType permittedSnapper in snapHitbox.snapBuildingTypes)

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 using static Item;
 
 public class BuildingObjectHandler : MonoBehaviour
@@ -13,8 +15,35 @@ public class BuildingObjectHandler : MonoBehaviour
     public bool grounded = false;
     [Tooltip("Building aligns to raycast.hit normal")]
     public bool gigaGrounded = false;
+    public bool terrainOnly = false;
     public Container itemContainer1;
     public Container itemContainer2;
+
+    [Header("Events")]
+    public int countdownEventTimer = 0;
+    [HideInInspector] public int coutdownEventCurrentTime;
+    public UnityEvent countdownEvent;
+
+    private void Start()
+    {
+        
+        if(countdownEventTimer > 0 && NetworkManager.Singleton.IsServer)
+        {
+            coutdownEventCurrentTime = countdownEventTimer;
+            InvokeRepeating("CheckCountdownEvent", 1, 1);
+        }
+    }
+
+    private void CheckCountdownEvent()
+    {
+        if(!enabled) CancelInvoke("CheckCountdownEvent");
+        coutdownEventCurrentTime--;
+        if(coutdownEventCurrentTime <= 0)
+        {
+            countdownEvent.Invoke();
+            CancelInvoke("CheckCountdownEvent");
+        }
+    }
 
     public Vector3 GetClosestSnappingPoint(Vector3 position)
     {

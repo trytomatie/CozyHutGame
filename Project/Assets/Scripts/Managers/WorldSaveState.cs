@@ -45,6 +45,11 @@ public class WorldSaveState : MonoBehaviour
     {
         ResourceController[] resources = FindObjectsOfType<ResourceController>();
         ResourceObjectData[] resourcesSaveData = ResourceObjectData.ConvertResources(resources);
+        // Get the Current Event Time from the Reference
+        foreach(PlacedObjectData data in placedObjects)
+        {
+            data.eventCountdown = data.reference.coutdownEventCurrentTime;
+        }
         SaveData saveData = new SaveData()
         {
             placedObjects = placedObjects,
@@ -73,8 +78,7 @@ public class WorldSaveState : MonoBehaviour
             // Place all the Objects
             foreach(PlacedObjectData placedObject in placedObjects)
             {
-                GameManager.Instance.PlaceBuildingServerRpc(placedObject.buildingId, new Vector3(placedObject.position.x, placedObject.position.y, placedObject.position.z), 
-                    Quaternion.Euler(placedObject.rotation.x, placedObject.rotation.y, placedObject.rotation.z), false);
+                GameManager.Instance.PlaceBuildingAfterLoadingWorld(placedObject);
             }
             // Replace resources Prior in Scene with Resources stored in the Save
             ResourceController[] scenePlacedResources = GameObject.FindObjectsOfType<ResourceController>();
@@ -111,18 +115,21 @@ public class WorldSaveState : MonoBehaviour
 [Serializable]
 public class PlacedObjectData
 {
+    [JsonIgnore] public BuildingObjectHandler reference;
     public ulong buildingId;
     public SerializedVector3 position;
     public SerializedVector3 rotation;
     public SerializedVector3 scale;
     public int state;
     public int secondaryState;
+    public int eventCountdown;
 
     public ulong[] itemContainer1;
     public int[] itemContainer1Amounts;
 
     public ulong[] itemContainer2;
     public int[] itemContainer2Amounts;
+
 }
 
 [Serializable]

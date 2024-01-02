@@ -5,7 +5,7 @@ using UnityEngine;
 public class BuildingObject : ScriptableObject
 {
     public enum BuildingType { Other, Floor, Wall, Stair, Plliar}
-    public enum BuildingCategory { Building,Crafting,Furniture}
+    public enum BuildingCategory { Building,Crafting,Furniture,Agriculture}
     // Ids are getting Distributed from the BuildingManager on Start
     [HideInInspector]public ulong buildingId;
     public BuildingType buildingType;

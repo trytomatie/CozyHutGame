@@ -165,12 +165,38 @@ public class GameManager : NetworkBehaviour
 
         PlacedObjectData data = new PlacedObjectData()
         {
+            reference = spawnedPrefab.GetComponent<BuildingObjectHandler>(),
             buildingId = buildingObject.buildingId,
             position = new SerializedVector3(position.x,position.y,position.z),
             rotation = new SerializedVector3(rotation.eulerAngles.x, rotation.eulerAngles.y, rotation.eulerAngles.z),
             scale = new SerializedVector3(scale.x, scale.y, scale.z),
         };
         if(spawnedPrefab.transform.root.GetComponent<BuildingObjectHandler>() != null)
+        {
+            spawnedPrefab.transform.root.GetComponent<BuildingObjectHandler>().data = data;
+        }
+        worldSaveState.AddPlacedObject(data);
+    }
+    /// <summary>
+    /// Only gets called ServerSide Anyway
+    /// </summary>
+    /// <param name="placedObjectData"></param>
+    public void PlaceBuildingAfterLoadingWorld(PlacedObjectData placedObjectData)
+    {
+        Vector3 scale = placedObjectData.scale;
+        //if (flip)
+        //{
+        //    scale = new Vector3(-1, 1, 1 * Random.Range(0.99990000f, 1f));
+        //}
+        BuildingObject buildingObject = BuildingObjectManager.GenerateBuildingObject(placedObjectData.buildingId);
+        GameObject prefab = buildingObject.buildingPrefab;
+        GameObject spawnedPrefab = Instantiate(prefab, placedObjectData.position, Quaternion.Euler(placedObjectData.rotation));
+        spawnedPrefab.transform.localScale = scale;
+        spawnedPrefab.GetComponent<NetworkObject>().Spawn(true);
+
+        PlacedObjectData data = placedObjectData;
+        data.reference = spawnedPrefab.GetComponent<BuildingObjectHandler>();
+        if (spawnedPrefab.transform.root.GetComponent<BuildingObjectHandler>() != null)
         {
             spawnedPrefab.transform.root.GetComponent<BuildingObjectHandler>().data = data;
         }
@@ -199,8 +225,11 @@ public class GameManager : NetworkBehaviour
     {
         GameObject spawnedPrefab = Instantiate(ResourceManager.instance.resources[data.resource_id],data.positon,Quaternion.Euler(data.roation));
         spawnedPrefab.transform.localScale = data.scale;
+        print(data.hp);
         spawnedPrefab.GetComponentInChildren<ResourceController>().hp.Value = data.hp;
         spawnedPrefab.GetComponent<NetworkObject>().Spawn(true);
+
+
     }
 
         private void RegisterNetworkPrefabs()
