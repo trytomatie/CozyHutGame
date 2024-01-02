@@ -28,6 +28,7 @@ Shader "CloudsShader"
 		_CloudTextureScrollB("CloudTextureScrollB", Float) = -0.3
 		_CloudTextureScrollA("CloudTextureScrollA", Float) = 0.3
 		_CloudTextureTiling("CloudTextureTiling", Vector) = (0.1,0.1,0,0)
+		_EmissionStrenght("EmissionStrenght", Float) = 1
 		[HDR]_CloudBaseColor("CloudBaseColor", Color) = (0,0,0,0)
 		[HDR]_CloudSecondaryColor("CloudSecondaryColor", Color) = (0,0,0,0)
 		_CloudBaseTextureDetail("CloudBaseTextureDetail", Range( 0 , 1)) = 1
@@ -277,6 +278,7 @@ Shader "CloudsShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
 			//Atmospheric Height Fog Defines
 			//#define AHF_DISABLE_NOISE3D
@@ -330,17 +332,18 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionC;
 			float3 _noiseDirectionB;
+			float3 _noiseDirectionC;
 			float2 _CloudTextureTiling;
 			half _FogCat;
+			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
-			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -349,7 +352,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _3DNoiseSizeB;
+			float _EmissionStrenght;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -760,7 +763,6 @@ Shader "CloudsShader"
 				float mulTime299 = _TimeParameters.x * _CloudTextureScrollB;
 				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), WorldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
 				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
-				
 				float3 WorldPosition2_g914 = WorldPosition;
 				float temp_output_7_0_g1016 = AHF_FogDistanceStart;
 				float temp_output_155_0_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1016 ) / ( AHF_FogDistanceEnd - temp_output_7_0_g1016 ) ) );
@@ -828,7 +830,13 @@ Shader "CloudsShader"
 				#else
 				float4 staticSwitch456_g914 = appendResult114_g914;
 				#endif
+				float temp_output_95_87_g1 = (staticSwitch456_g914).w;
+				
+				float fresnelNdotV242 = dot( WorldNormal, WorldViewDirection );
+				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
+				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
 				float3 temp_output_95_86_g1 = (staticSwitch456_g914).xyz;
+				float3 lerpResult82_g1 = lerp( ( ( fresnelNode242 * _EmissionStrenght ) * color245 ).rgb , temp_output_95_86_g1 , temp_output_95_87_g1);
 				
 				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
@@ -836,9 +844,9 @@ Shader "CloudsShader"
 				float distanceDepth376 = abs( ( screenDepth376 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _Float1 ) );
 				
 
-				float3 BaseColor = lerpResult316.rgb;
+				float3 BaseColor = ( lerpResult316 * ( 1.0 - temp_output_95_87_g1 ) ).rgb;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = temp_output_95_86_g1;
+				float3 Emission = lerpResult82_g1;
 				float3 Specular = 0.5;
 				float Metallic = 0.0;
 				float Smoothness = 0.0;
@@ -1171,17 +1179,18 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionC;
 			float3 _noiseDirectionB;
+			float3 _noiseDirectionC;
 			float2 _CloudTextureTiling;
 			half _FogCat;
+			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
-			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -1190,7 +1199,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _3DNoiseSizeB;
+			float _EmissionStrenght;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1608,17 +1617,18 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionC;
 			float3 _noiseDirectionB;
+			float3 _noiseDirectionC;
 			float2 _CloudTextureTiling;
 			half _FogCat;
+			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
-			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -1627,7 +1637,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _3DNoiseSizeB;
+			float _EmissionStrenght;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2014,17 +2024,18 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionC;
 			float3 _noiseDirectionB;
+			float3 _noiseDirectionC;
 			float2 _CloudTextureTiling;
 			half _FogCat;
+			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
-			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -2033,7 +2044,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _3DNoiseSizeB;
+			float _EmissionStrenght;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2410,7 +2421,6 @@ Shader "CloudsShader"
 				float mulTime299 = _TimeParameters.x * _CloudTextureScrollB;
 				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), ase_worldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
 				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
-				
 				float3 WorldPosition2_g914 = WorldPosition;
 				float temp_output_7_0_g1016 = AHF_FogDistanceStart;
 				float temp_output_155_0_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1016 ) / ( AHF_FogDistanceEnd - temp_output_7_0_g1016 ) ) );
@@ -2478,7 +2488,15 @@ Shader "CloudsShader"
 				#else
 				float4 staticSwitch456_g914 = appendResult114_g914;
 				#endif
+				float temp_output_95_87_g1 = (staticSwitch456_g914).w;
+				
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float fresnelNdotV242 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
+				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
 				float3 temp_output_95_86_g1 = (staticSwitch456_g914).xyz;
+				float3 lerpResult82_g1 = lerp( ( ( fresnelNode242 * _EmissionStrenght ) * color245 ).rgb , temp_output_95_86_g1 , temp_output_95_87_g1);
 				
 				float4 screenPos = IN.ase_texcoord5;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
@@ -2487,8 +2505,8 @@ Shader "CloudsShader"
 				float distanceDepth376 = abs( ( screenDepth376 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _Float1 ) );
 				
 
-				float3 BaseColor = lerpResult316.rgb;
-				float3 Emission = temp_output_95_86_g1;
+				float3 BaseColor = ( lerpResult316 * ( 1.0 - temp_output_95_87_g1 ) ).rgb;
+				float3 Emission = lerpResult82_g1;
 				float Alpha = distanceDepth376;
 				float AlphaClipThreshold = 0.5;
 
@@ -2591,17 +2609,18 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionC;
 			float3 _noiseDirectionB;
+			float3 _noiseDirectionC;
 			float2 _CloudTextureTiling;
 			half _FogCat;
+			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
-			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -2610,7 +2629,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _3DNoiseSizeB;
+			float _EmissionStrenght;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2644,6 +2663,28 @@ Shader "CloudsShader"
 
 			sampler2D _TopTexture0;
 			sampler2D _TopTexture1;
+			half4 AHF_FogColorStart;
+			half4 AHF_FogColorEnd;
+			half AHF_FogDistanceStart;
+			half AHF_FogDistanceEnd;
+			half AHF_FogDistanceFalloff;
+			half AHF_FogColorDuo;
+			half4 AHF_DirectionalColor;
+			half3 AHF_DirectionalDir;
+			half AHF_DirectionalIntensity;
+			half AHF_DirectionalFalloff;
+			half3 AHF_FogAxisOption;
+			half AHF_FogHeightEnd;
+			half AHF_FogHeightStart;
+			half AHF_FogHeightFalloff;
+			half AHF_FogLayersMode;
+			half AHF_NoiseScale;
+			half3 AHF_NoiseSpeed;
+			half AHF_NoiseMin;
+			half AHF_NoiseMax;
+			half AHF_NoiseDistanceEnd;
+			half AHF_NoiseIntensity;
+			half AHF_FogIntensity;
 			uniform float4 _CameraDepthTexture_TexelSize;
 
 
@@ -2945,6 +2986,74 @@ Shader "CloudsShader"
 				float mulTime299 = _TimeParameters.x * _CloudTextureScrollB;
 				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), ase_worldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
 				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
+				float3 WorldPosition2_g914 = WorldPosition;
+				float temp_output_7_0_g1016 = AHF_FogDistanceStart;
+				float temp_output_155_0_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1016 ) / ( AHF_FogDistanceEnd - temp_output_7_0_g1016 ) ) );
+				#ifdef AHF_DISABLE_FALLOFF
+				float staticSwitch467_g914 = temp_output_155_0_g914;
+				#else
+				float staticSwitch467_g914 = ( 1.0 - pow( ( 1.0 - abs( temp_output_155_0_g914 ) ) , AHF_FogDistanceFalloff ) );
+				#endif
+				half FogDistanceMask12_g914 = staticSwitch467_g914;
+				float3 lerpResult258_g914 = lerp( (AHF_FogColorStart).rgb , (AHF_FogColorEnd).rgb , ( ( FogDistanceMask12_g914 * FogDistanceMask12_g914 * FogDistanceMask12_g914 ) * AHF_FogColorDuo ));
+				float3 normalizeResult318_g914 = normalize( ( WorldPosition2_g914 - _WorldSpaceCameraPos ) );
+				float dotResult145_g914 = dot( normalizeResult318_g914 , AHF_DirectionalDir );
+				half Jitter502_g914 = 0.0;
+				float temp_output_140_0_g914 = ( saturate( (( dotResult145_g914 + Jitter502_g914 )*0.5 + 0.5) ) * AHF_DirectionalIntensity );
+				#ifdef AHF_DISABLE_FALLOFF
+				float staticSwitch470_g914 = temp_output_140_0_g914;
+				#else
+				float staticSwitch470_g914 = pow( abs( temp_output_140_0_g914 ) , AHF_DirectionalFalloff );
+				#endif
+				float DirectionalMask30_g914 = staticSwitch470_g914;
+				float3 lerpResult40_g914 = lerp( lerpResult258_g914 , (AHF_DirectionalColor).rgb , DirectionalMask30_g914);
+				#ifdef AHF_DISABLE_DIRECTIONAL
+				float3 staticSwitch442_g914 = lerpResult258_g914;
+				#else
+				float3 staticSwitch442_g914 = lerpResult40_g914;
+				#endif
+				half3 Input_Color6_g1012 = staticSwitch442_g914;
+				#ifdef UNITY_COLORSPACE_GAMMA
+				float3 staticSwitch1_g1012 = Input_Color6_g1012;
+				#else
+				float3 staticSwitch1_g1012 = ( Input_Color6_g1012 * ( ( Input_Color6_g1012 * ( ( Input_Color6_g1012 * 0.305306 ) + 0.6821711 ) ) + 0.01252288 ) );
+				#endif
+				half3 Final_Color462_g914 = staticSwitch1_g1012;
+				half3 AHF_FogAxisOption181_g914 = AHF_FogAxisOption;
+				float3 break159_g914 = ( WorldPosition2_g914 * AHF_FogAxisOption181_g914 );
+				float temp_output_7_0_g1013 = AHF_FogHeightEnd;
+				float temp_output_167_0_g914 = saturate( ( ( ( break159_g914.x + break159_g914.y + break159_g914.z ) - temp_output_7_0_g1013 ) / ( AHF_FogHeightStart - temp_output_7_0_g1013 ) ) );
+				#ifdef AHF_DISABLE_FALLOFF
+				float staticSwitch468_g914 = temp_output_167_0_g914;
+				#else
+				float staticSwitch468_g914 = pow( abs( temp_output_167_0_g914 ) , AHF_FogHeightFalloff );
+				#endif
+				half FogHeightMask16_g914 = staticSwitch468_g914;
+				float lerpResult328_g914 = lerp( ( FogDistanceMask12_g914 * FogHeightMask16_g914 ) , saturate( ( FogDistanceMask12_g914 + FogHeightMask16_g914 ) ) , AHF_FogLayersMode);
+				float mulTime204_g914 = _TimeParameters.x * 2.0;
+				float3 temp_output_197_0_g914 = ( ( WorldPosition2_g914 * ( 1.0 / AHF_NoiseScale ) ) + ( -AHF_NoiseSpeed * mulTime204_g914 ) );
+				float3 p1_g1021 = temp_output_197_0_g914;
+				float localSimpleNoise3D1_g1021 = SimpleNoise3D( p1_g1021 );
+				float temp_output_7_0_g1017 = AHF_NoiseMin;
+				float temp_output_7_0_g1015 = AHF_NoiseDistanceEnd;
+				half NoiseDistanceMask7_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1015 ) / ( 0.0 - temp_output_7_0_g1015 ) ) );
+				float lerpResult198_g914 = lerp( 1.0 , saturate( ( ( localSimpleNoise3D1_g1021 - temp_output_7_0_g1017 ) / ( AHF_NoiseMax - temp_output_7_0_g1017 ) ) ) , ( NoiseDistanceMask7_g914 * AHF_NoiseIntensity ));
+				half NoiseSimplex3D24_g914 = lerpResult198_g914;
+				#ifdef AHF_DISABLE_NOISE3D
+				float staticSwitch42_g914 = lerpResult328_g914;
+				#else
+				float staticSwitch42_g914 = ( lerpResult328_g914 * NoiseSimplex3D24_g914 );
+				#endif
+				float temp_output_454_0_g914 = ( staticSwitch42_g914 * AHF_FogIntensity );
+				half Final_Alpha463_g914 = temp_output_454_0_g914;
+				float4 appendResult114_g914 = (float4(Final_Color462_g914 , Final_Alpha463_g914));
+				float4 appendResult457_g914 = (float4(WorldPosition2_g914 , 1.0));
+				#ifdef AHF_DEBUG_WORLDPOS
+				float4 staticSwitch456_g914 = appendResult457_g914;
+				#else
+				float4 staticSwitch456_g914 = appendResult114_g914;
+				#endif
+				float temp_output_95_87_g1 = (staticSwitch456_g914).w;
 				
 				float4 screenPos = IN.ase_texcoord3;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
@@ -2953,7 +3062,7 @@ Shader "CloudsShader"
 				float distanceDepth376 = abs( ( screenDepth376 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _Float1 ) );
 				
 
-				float3 BaseColor = lerpResult316.rgb;
+				float3 BaseColor = ( lerpResult316 * ( 1.0 - temp_output_95_87_g1 ) ).rgb;
 				float Alpha = distanceDepth376;
 				float AlphaClipThreshold = 0.5;
 
@@ -3067,17 +3176,18 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionC;
 			float3 _noiseDirectionB;
+			float3 _noiseDirectionC;
 			float2 _CloudTextureTiling;
 			half _FogCat;
+			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
-			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -3086,7 +3196,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _3DNoiseSizeB;
+			float _EmissionStrenght;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3510,6 +3620,7 @@ Shader "CloudsShader"
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
 			#define ASE_NEEDS_FRAG_SCREEN_POSITION
 			//Atmospheric Height Fog Defines
 			//#define AHF_DISABLE_NOISE3D
@@ -3563,17 +3674,18 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionC;
 			float3 _noiseDirectionB;
+			float3 _noiseDirectionC;
 			float2 _CloudTextureTiling;
 			half _FogCat;
+			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
-			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -3582,7 +3694,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _3DNoiseSizeB;
+			float _EmissionStrenght;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3988,7 +4100,6 @@ Shader "CloudsShader"
 				float mulTime299 = _TimeParameters.x * _CloudTextureScrollB;
 				float4 triplanar318 = TriplanarSampling318( _TopTexture1, ( mulTime299 + WorldPosition ), WorldNormal, 1.0, _CloudTextureTiling, 1.0, 0 );
 				float4 lerpResult316 = lerp( _CloudBaseColor , _CloudSecondaryColor , ( ( ( 1.0 - triplanar269.x ) * _CloudBaseTextureDetail ) * triplanar318 ));
-				
 				float3 WorldPosition2_g914 = WorldPosition;
 				float temp_output_7_0_g1016 = AHF_FogDistanceStart;
 				float temp_output_155_0_g914 = saturate( ( ( distance( WorldPosition2_g914 , _WorldSpaceCameraPos ) - temp_output_7_0_g1016 ) / ( AHF_FogDistanceEnd - temp_output_7_0_g1016 ) ) );
@@ -4056,7 +4167,13 @@ Shader "CloudsShader"
 				#else
 				float4 staticSwitch456_g914 = appendResult114_g914;
 				#endif
+				float temp_output_95_87_g1 = (staticSwitch456_g914).w;
+				
+				float fresnelNdotV242 = dot( WorldNormal, WorldViewDirection );
+				float fresnelNode242 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV242, 5.0 ) );
+				float4 color245 = IsGammaSpace() ? float4(0.6083571,0.8050895,0.8773585,0) : float4(0.3283884,0.6124898,0.7433497,0);
 				float3 temp_output_95_86_g1 = (staticSwitch456_g914).xyz;
+				float3 lerpResult82_g1 = lerp( ( ( fresnelNode242 * _EmissionStrenght ) * color245 ).rgb , temp_output_95_86_g1 , temp_output_95_87_g1);
 				
 				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
@@ -4064,9 +4181,9 @@ Shader "CloudsShader"
 				float distanceDepth376 = abs( ( screenDepth376 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _Float1 ) );
 				
 
-				float3 BaseColor = lerpResult316.rgb;
+				float3 BaseColor = ( lerpResult316 * ( 1.0 - temp_output_95_87_g1 ) ).rgb;
 				float3 Normal = float3(0, 0, 1);
-				float3 Emission = temp_output_95_86_g1;
+				float3 Emission = lerpResult82_g1;
 				float3 Specular = 0.5;
 				float Metallic = 0.0;
 				float Smoothness = 0.0;
@@ -4248,17 +4365,18 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionC;
 			float3 _noiseDirectionB;
+			float3 _noiseDirectionC;
 			float2 _CloudTextureTiling;
 			half _FogCat;
+			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
-			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -4267,7 +4385,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _3DNoiseSizeB;
+			float _EmissionStrenght;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4624,17 +4742,18 @@ Shader "CloudsShader"
 			float4 _CloudSecondaryColor;
 			float4 _CloudBaseColor;
 			float3 _noiseDirectionA;
-			float3 _noiseDirectionC;
 			float3 _noiseDirectionB;
+			float3 _noiseDirectionC;
 			float2 _CloudTextureTiling;
 			half _FogCat;
+			float _CloudTextureScrollB;
 			float _CloudBaseTextureDetail;
 			float _CloudTextureScrollA;
 			float _3DNoiseSizeC;
 			float _NoiseSpeedC;
 			float _NoiseStrengthC;
+			float _3DNoiseSizeB;
 			float _NoiseSpeedB;
-			float _CloudTextureScrollB;
 			float _NoiseStrengthB;
 			float _3DNoiseSizeA;
 			float _NoiseSpeedA;
@@ -4643,7 +4762,7 @@ Shader "CloudsShader"
 			half _NoiseCat;
 			half _AdvancedCat;
 			half _SkyboxCat;
-			float _3DNoiseSizeB;
+			float _EmissionStrenght;
 			float _Float1;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -5005,7 +5124,6 @@ Node;AmplifyShaderEditor.SimpleTimeNode;299;-2318.303,-1429.815;Inherit;False;1;
 Node;AmplifyShaderEditor.SimpleAddOpNode;301;-2081.303,-1441.816;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.Vector2Node;291;-2869.873,-1558.641;Inherit;False;Property;_CloudTextureTiling;CloudTextureTiling;56;0;Create;True;0;0;0;False;0;False;0.1,0.1;0.1,0.1;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.LerpOp;316;-1141.774,-1706.401;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;331;-190.7036,-296.6207;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TriplanarNode;318;-1903.333,-1438.909;Inherit;True;Spherical;World;False;Top Texture 1;_TopTexture1;white;40;Assets/Feel/MMTools/Tools/MMVFX/MMNoise/MMBrushNoise.png;Mid Texture 1;_MidTexture1;white;-1;None;Bot Texture 1;_BotTexture1;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.WorldPosInputsNode;298;-2377.403,-1274.815;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleAddOpNode;333;-2624.93,-1938.412;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
@@ -5026,15 +5144,17 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;373;-8.5,187.1;Float;False;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;374;-8.5,187.1;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;375;-8.5,187.1;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.ColorNode;245;-956.9946,-30.90396;Inherit;False;Constant;_Color1;Color 1;13;0;Create;True;0;0;0;False;0;False;0.6083571,0.8050895,0.8773585,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;306;-514.64,47.72343;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;307;-753.6398,114.7234;Inherit;False;Property;_EmissionStrenght;EmissionStrenght;57;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;244;-711.5943,-126.504;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;355;254.2589,557.6561;Inherit;False;Constant;_Float0;Float 0;22;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.DitheringNode;336;547.8372,555.431;Inherit;False;0;False;4;0;FLOAT;0;False;1;SAMPLER2D;;False;2;FLOAT4;0,0,0,0;False;3;SAMPLERSTATE;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DepthFade;376;-490.562,682.8759;Inherit;False;True;False;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;377;-701.7275,706.2117;Inherit;False;Property;_Float1;Float 1;61;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;267;-261.9467,270.8123;Inherit;False;Constant;_Smoothness;Smoothness;13;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;378;-349.8158,131.721;Inherit;False;Apply Height Fog;0;;1;950890317d4f36a48a68d150cdab0168;0;1;81;FLOAT3;0,0,0;False;3;FLOAT3;85;FLOAT3;86;FLOAT;87
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;306;-536.64,-188.2766;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;244;-490.5943,26.496;Inherit;False;2;2;0;FLOAT;1;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;307;-745.6398,-115.2766;Inherit;False;Property;_EmissionStrenght;EmissionStrenght;57;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;381;-179.6346,-13.62662;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.OneMinusNode;382;-141.6346,119.3734;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 WireConnection;193;0;194;0
 WireConnection;193;1;198;0
 WireConnection;193;2;192;0
@@ -5109,18 +5229,21 @@ WireConnection;296;0;293;0
 WireConnection;296;1;292;0
 WireConnection;335;0;292;0
 WireConnection;335;1;334;0
-WireConnection;367;0;316;0
-WireConnection;367;2;378;86
+WireConnection;367;0;381;0
+WireConnection;367;2;378;85
 WireConnection;367;3;267;0
 WireConnection;367;4;267;0
 WireConnection;367;6;376;0
 WireConnection;367;8;216;0
-WireConnection;306;0;244;0
-WireConnection;306;1;307;0
-WireConnection;244;0;242;0
-WireConnection;244;1;245;0
 WireConnection;336;0;355;0
 WireConnection;376;0;377;0
-WireConnection;378;81;306;0
+WireConnection;378;81;244;0
+WireConnection;306;0;242;0
+WireConnection;306;1;307;0
+WireConnection;244;0;306;0
+WireConnection;244;1;245;0
+WireConnection;381;0;316;0
+WireConnection;381;1;382;0
+WireConnection;382;0;378;87
 ASEEND*/
-//CHKSM=F12CBFDDB1E544A197456165605556A651A57314
+//CHKSM=DBFC1EA411DD961BE26FF6D62F75C22E0DC5E4DB
