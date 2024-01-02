@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: IL3DN_Rock_Boulder_Mountain
+  m_Name: RockBlending
   m_Shader: {fileID: 4800000, guid: 51446279158197c4e881fac319be542d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -49,7 +49,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BotTexture0:
-        m_Texture: {fileID: 2800000, guid: d354c15f9b2e58d41a9cf83f7c3cb992, type: 3}
+        m_Texture: {fileID: 2800000, guid: 39b4fe910d1f8744295ef435fdc0e725, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BotTexture_MaskMap:
@@ -57,7 +57,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BotTexture_Normal:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 521ceafff1ffd164294938dd33dbc3ab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -101,7 +101,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTexture0:
-        m_Texture: {fileID: 2800000, guid: d354c15f9b2e58d41a9cf83f7c3cb992, type: 3}
+        m_Texture: {fileID: 2800000, guid: 39b4fe910d1f8744295ef435fdc0e725, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTexture_MaskMap:
@@ -109,7 +109,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTexture_Normal:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 521ceafff1ffd164294938dd33dbc3ab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -213,7 +213,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DepthFadeDistance: 0.37
+    - _DepthFadeDistance: 0.41
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DirectionalCat: 1
@@ -256,7 +256,7 @@ Material:
     - _BaseColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
     - _BlendColor: {r: 1, g: 0.070754685, b: 0.070754685, a: 1}
     - _BlendRemap: {r: 0.26, g: 1.26, b: 0, a: 0}
-    - _BlendingRemap: {r: 0.6525425, g: 1, b: 0, a: 0}
+    - _BlendingRemap: {r: 0, g: 0.7669492, b: 0, a: 0}
     - _Color: {r: 0.32075468, g: 0.32075468, b: 0.32075468, a: 1}
     - _Color0: {r: 1, g: 1, b: 1, a: 0}
     - _Color1: {r: 1, g: 0, b: 0, a: 0}
