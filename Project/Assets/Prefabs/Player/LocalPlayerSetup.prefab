@@ -815,16 +815,16 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 1.0610242
-      outSlope: 1.0610242
+      value: 0.8273427
+      inSlope: 0.9618454
+      outSlope: 0.9618454
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.24569038
-      value: 1.2606834
+      time: 0.25180286
+      value: 1.0695381
       inSlope: -0.058605716
       outSlope: -0.058605716
       tangentMode: 0
@@ -850,7 +850,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.8189484
+      time: 0.92897284
       value: 0.044752903
       inSlope: 0
       outSlope: 0
@@ -860,9 +860,9 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 5.276104
-      outSlope: 5.276104
+      value: 0.8273427
+      inSlope: 11.018177
+      outSlope: 11.018177
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -870,9 +870,37 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  sunColor:
+    serializedVersion: 2
+    key0: {r: 1, g: 0.52144456, b: 0.14528298, a: 1}
+    key1: {r: 1, g: 0.9868689, b: 0.9765474, a: 1}
+    key2: {r: 0.88113207, g: 0.9654899, b: 1, a: 0}
+    key3: {r: 1, g: 1, b: 1, a: 0}
+    key4: {r: 0.94509804, g: 0.3002185, b: 0.1372549, a: 0}
+    key5: {r: 0.4188679, g: 0.56182903, b: 1, a: 0}
+    key6: {r: 0.41960788, g: 0.56078434, b: 1, a: 0}
+    key7: {r: 1, g: 0.5355197, b: 0.17042172, a: 0}
+    ctime0: 0
+    ctime1: 2891
+    ctime2: 18119
+    ctime3: 29298
+    ctime4: 33346
+    ctime5: 36237
+    ctime6: 63222
+    ctime7: 65535
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: 0
+    m_NumColorKeys: 8
+    m_NumAlphaKeys: 2
   sunAngleOffset: 0
-  sunriseNormalizedStart: 0.45
-  sunriseNormalizedEnd: 0.65
   sun: {fileID: 777998504832352347}
   lensFlare: {fileID: 8426840333657043967}
 --- !u!1 &893530112544733448
@@ -4777,8 +4805,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: -0.010920778
+      value: 0.0077748
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -4786,8 +4814,26 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 1
+      time: 0.12688981
+      value: 0.016657487
+      inSlope: 0.105756946
+      outSlope: 0.105756946
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.30874696
+      outWeight: 0.26029962
+    - serializedVersion: 3
+      time: 0.22836813
+      value: 0.021204576
+      inSlope: 0.00029721326
+      outSlope: 0.00029721326
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9857428
+      value: -0.0016162544
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -4813,8 +4859,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.51240844
+      value: 360
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
       time: 1
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -4845,14 +4900,23 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.15
-      value: 1
+      time: 0.11882767
+      value: 2.4390159
       inSlope: 0
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
+    - serializedVersion: 3
+      time: 0.25061616
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.85
       value: 1
