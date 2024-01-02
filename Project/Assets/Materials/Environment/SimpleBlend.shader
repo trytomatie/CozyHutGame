@@ -20,6 +20,7 @@ Shader "SimpleBlend"
 		[StyledCategory(Directional Settings, false, _HeightFogStandalone, 10, 10)]_DirectionalCat("[ Directional Cat ]", Float) = 1
 		[StyledCategory(Noise Settings, false, _HeightFogStandalone, 10, 10)]_NoiseCat("[ Noise Cat ]", Float) = 1
 		[StyledCategory(Advanced Settings, false, _HeightFogStandalone, 10, 10)]_AdvancedCat("[ Advanced Cat ]", Float) = 1
+		[RemapSliders]_BlendingRemap("BlendingRemap", Vector) = (0,1,0,0)
 		[Enum(Transperent,0,ColorBlend,1)]_TerrainBlendingMode("TerrainBlendingMode", Int) = 0
 		_BlendColor("BlendColor", Color) = (1,0.07075471,0.07075471,1)
 		_Falloff("Falloff", Float) = 0
@@ -318,6 +319,7 @@ Shader "SimpleBlend"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BlendColor;
+			float2 _BlendingRemap;
 			half _FogCat;
 			half _SkyboxCat;
 			half _AdvancedCat;
@@ -680,7 +682,8 @@ Shader "SimpleBlend"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float screenDepth13 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_screenPosNorm.xy ),_ZBufferParams);
 				float distanceDepth13 = abs( ( screenDepth13 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _DepthFadeDistance ) );
-				float DepthFade32 = distanceDepth13;
+				float temp_output_51_0 = (_BlendingRemap.x + (distanceDepth13 - 0.0) * (_BlendingRemap.y - _BlendingRemap.x) / (1.0 - 0.0));
+				float DepthFade32 = temp_output_51_0;
 				float temp_output_40_0 = saturate( ( 1.0 - DepthFade32 ) );
 				float4 break47 = ( _BlendColor * temp_output_40_0 );
 				float4 appendResult48 = (float4(break47.r , break47.g , break47.b , temp_output_40_0));
@@ -773,7 +776,7 @@ Shader "SimpleBlend"
 				
 				float ifLocalVar22 = 0;
 				if( TerrainBlendValue37 == 0.0 )
-				ifLocalVar22 = distanceDepth13;
+				ifLocalVar22 = temp_output_51_0;
 				else
 				ifLocalVar22 = 1.0;
 				
@@ -1106,6 +1109,7 @@ Shader "SimpleBlend"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BlendColor;
+			float2 _BlendingRemap;
 			half _FogCat;
 			half _SkyboxCat;
 			half _AdvancedCat;
@@ -1347,9 +1351,10 @@ Shader "SimpleBlend"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float screenDepth13 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_screenPosNorm.xy ),_ZBufferParams);
 				float distanceDepth13 = abs( ( screenDepth13 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _DepthFadeDistance ) );
+				float temp_output_51_0 = (_BlendingRemap.x + (distanceDepth13 - 0.0) * (_BlendingRemap.y - _BlendingRemap.x) / (1.0 - 0.0));
 				float ifLocalVar22 = 0;
 				if( TerrainBlendValue37 == 0.0 )
-				ifLocalVar22 = distanceDepth13;
+				ifLocalVar22 = temp_output_51_0;
 				else
 				ifLocalVar22 = 1.0;
 				
@@ -1469,6 +1474,7 @@ Shader "SimpleBlend"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BlendColor;
+			float2 _BlendingRemap;
 			half _FogCat;
 			half _SkyboxCat;
 			half _AdvancedCat;
@@ -1689,9 +1695,10 @@ Shader "SimpleBlend"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float screenDepth13 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_screenPosNorm.xy ),_ZBufferParams);
 				float distanceDepth13 = abs( ( screenDepth13 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _DepthFadeDistance ) );
+				float temp_output_51_0 = (_BlendingRemap.x + (distanceDepth13 - 0.0) * (_BlendingRemap.y - _BlendingRemap.x) / (1.0 - 0.0));
 				float ifLocalVar22 = 0;
 				if( TerrainBlendValue37 == 0.0 )
-				ifLocalVar22 = distanceDepth13;
+				ifLocalVar22 = temp_output_51_0;
 				else
 				ifLocalVar22 = 1.0;
 				
@@ -1801,6 +1808,7 @@ Shader "SimpleBlend"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BlendColor;
+			float2 _BlendingRemap;
 			half _FogCat;
 			half _SkyboxCat;
 			half _AdvancedCat;
@@ -2088,7 +2096,8 @@ Shader "SimpleBlend"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float screenDepth13 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_screenPosNorm.xy ),_ZBufferParams);
 				float distanceDepth13 = abs( ( screenDepth13 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _DepthFadeDistance ) );
-				float DepthFade32 = distanceDepth13;
+				float temp_output_51_0 = (_BlendingRemap.x + (distanceDepth13 - 0.0) * (_BlendingRemap.y - _BlendingRemap.x) / (1.0 - 0.0));
+				float DepthFade32 = temp_output_51_0;
 				float temp_output_40_0 = saturate( ( 1.0 - DepthFade32 ) );
 				float4 break47 = ( _BlendColor * temp_output_40_0 );
 				float4 appendResult48 = (float4(break47.r , break47.g , break47.b , temp_output_40_0));
@@ -2173,7 +2182,7 @@ Shader "SimpleBlend"
 				
 				float ifLocalVar22 = 0;
 				if( TerrainBlendValue37 == 0.0 )
-				ifLocalVar22 = distanceDepth13;
+				ifLocalVar22 = temp_output_51_0;
 				else
 				ifLocalVar22 = 1.0;
 				
@@ -2275,6 +2284,7 @@ Shader "SimpleBlend"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BlendColor;
+			float2 _BlendingRemap;
 			half _FogCat;
 			half _SkyboxCat;
 			half _AdvancedCat;
@@ -2520,7 +2530,8 @@ Shader "SimpleBlend"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float screenDepth13 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_screenPosNorm.xy ),_ZBufferParams);
 				float distanceDepth13 = abs( ( screenDepth13 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _DepthFadeDistance ) );
-				float DepthFade32 = distanceDepth13;
+				float temp_output_51_0 = (_BlendingRemap.x + (distanceDepth13 - 0.0) * (_BlendingRemap.y - _BlendingRemap.x) / (1.0 - 0.0));
+				float DepthFade32 = temp_output_51_0;
 				float temp_output_40_0 = saturate( ( 1.0 - DepthFade32 ) );
 				float4 break47 = ( _BlendColor * temp_output_40_0 );
 				float4 appendResult48 = (float4(break47.r , break47.g , break47.b , temp_output_40_0));
@@ -2534,7 +2545,7 @@ Shader "SimpleBlend"
 				
 				float ifLocalVar22 = 0;
 				if( TerrainBlendValue37 == 0.0 )
-				ifLocalVar22 = distanceDepth13;
+				ifLocalVar22 = temp_output_51_0;
 				else
 				ifLocalVar22 = 1.0;
 				
@@ -2651,6 +2662,7 @@ Shader "SimpleBlend"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BlendColor;
+			float2 _BlendingRemap;
 			half _FogCat;
 			half _SkyboxCat;
 			half _AdvancedCat;
@@ -2923,9 +2935,10 @@ Shader "SimpleBlend"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float screenDepth13 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_screenPosNorm.xy ),_ZBufferParams);
 				float distanceDepth13 = abs( ( screenDepth13 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _DepthFadeDistance ) );
+				float temp_output_51_0 = (_BlendingRemap.x + (distanceDepth13 - 0.0) * (_BlendingRemap.y - _BlendingRemap.x) / (1.0 - 0.0));
 				float ifLocalVar22 = 0;
 				if( TerrainBlendValue37 == 0.0 )
-				ifLocalVar22 = distanceDepth13;
+				ifLocalVar22 = temp_output_51_0;
 				else
 				ifLocalVar22 = 1.0;
 				
@@ -3111,6 +3124,7 @@ Shader "SimpleBlend"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BlendColor;
+			float2 _BlendingRemap;
 			half _FogCat;
 			half _SkyboxCat;
 			half _AdvancedCat;
@@ -3468,7 +3482,8 @@ Shader "SimpleBlend"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float screenDepth13 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_screenPosNorm.xy ),_ZBufferParams);
 				float distanceDepth13 = abs( ( screenDepth13 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _DepthFadeDistance ) );
-				float DepthFade32 = distanceDepth13;
+				float temp_output_51_0 = (_BlendingRemap.x + (distanceDepth13 - 0.0) * (_BlendingRemap.y - _BlendingRemap.x) / (1.0 - 0.0));
+				float DepthFade32 = temp_output_51_0;
 				float temp_output_40_0 = saturate( ( 1.0 - DepthFade32 ) );
 				float4 break47 = ( _BlendColor * temp_output_40_0 );
 				float4 appendResult48 = (float4(break47.r , break47.g , break47.b , temp_output_40_0));
@@ -3561,7 +3576,7 @@ Shader "SimpleBlend"
 				
 				float ifLocalVar22 = 0;
 				if( TerrainBlendValue37 == 0.0 )
-				ifLocalVar22 = distanceDepth13;
+				ifLocalVar22 = temp_output_51_0;
 				else
 				ifLocalVar22 = 1.0;
 				
@@ -3743,6 +3758,7 @@ Shader "SimpleBlend"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BlendColor;
+			float2 _BlendingRemap;
 			half _FogCat;
 			half _SkyboxCat;
 			half _AdvancedCat;
@@ -3946,9 +3962,10 @@ Shader "SimpleBlend"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float screenDepth13 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_screenPosNorm.xy ),_ZBufferParams);
 				float distanceDepth13 = abs( ( screenDepth13 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _DepthFadeDistance ) );
+				float temp_output_51_0 = (_BlendingRemap.x + (distanceDepth13 - 0.0) * (_BlendingRemap.y - _BlendingRemap.x) / (1.0 - 0.0));
 				float ifLocalVar22 = 0;
 				if( TerrainBlendValue37 == 0.0 )
-				ifLocalVar22 = distanceDepth13;
+				ifLocalVar22 = temp_output_51_0;
 				else
 				ifLocalVar22 = 1.0;
 				
@@ -4044,6 +4061,7 @@ Shader "SimpleBlend"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BlendColor;
+			float2 _BlendingRemap;
 			half _FogCat;
 			half _SkyboxCat;
 			half _AdvancedCat;
@@ -4246,9 +4264,10 @@ Shader "SimpleBlend"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float screenDepth13 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_screenPosNorm.xy ),_ZBufferParams);
 				float distanceDepth13 = abs( ( screenDepth13 - LinearEyeDepth( ase_screenPosNorm.z,_ZBufferParams ) ) / ( _DepthFadeDistance ) );
+				float temp_output_51_0 = (_BlendingRemap.x + (distanceDepth13 - 0.0) * (_BlendingRemap.y - _BlendingRemap.x) / (1.0 - 0.0));
 				float ifLocalVar22 = 0;
 				if( TerrainBlendValue37 == 0.0 )
-				ifLocalVar22 = distanceDepth13;
+				ifLocalVar22 = temp_output_51_0;
 				else
 				ifLocalVar22 = 1.0;
 				
@@ -4287,7 +4306,6 @@ Shader "SimpleBlend"
 }
 /*ASEBEGIN
 Version=19202
-Node;AmplifyShaderEditor.CommentaryNode;15;-2057.573,622.1715;Inherit;False;616.4559;186.6;DeptFade;2;13;14;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;SimpleBlend;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;40;Workflow;1;0;Surface;1;638387911579939632;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;1;638387925766618420;  Early Z;1;638387925789716332;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
@@ -4300,30 +4318,32 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.FunctionNode;12;-575.515,77.6087;Inherit;False;Apply Height Fog;9;;1;950890317d4f36a48a68d150cdab0168;0;1;81;FLOAT3;0,0,0;False;3;FLOAT3;85;FLOAT3;86;FLOAT;87
 Node;AmplifyShaderEditor.TriplanarNode;11;-1468.003,-416.8818;Inherit;True;Cylindrical;World;False;Top Texture 0;_TopTexture0;white;0;None;Mid Texture 0;_MidTexture0;white;3;None;Bot Texture 0;_BotTexture0;white;6;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT3;1,1,1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;18;-1917.158,-73.27286;Inherit;False;Property;_Falloff;Falloff;51;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;17;-1889.158,-307.2728;Inherit;True;Property;_Tiling;Tiling;52;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;18;-1917.158,-73.27286;Inherit;False;Property;_Falloff;Falloff;52;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;17;-1889.158,-307.2728;Inherit;True;Property;_Tiling;Tiling;53;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TriplanarNode;19;-1458.137,-140.8494;Inherit;True;Cylindrical;World;True;Top Texture_Normal;_TopTexture_Normal;white;1;None;Mid Texture_Normal;_MidTexture_Normal;white;4;None;Bot Texture_Normal;_BotTexture_Normal;white;7;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT3;1,1,1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TriplanarNode;20;-1447.248,90.68656;Inherit;True;Cylindrical;World;False;Top Texture_MaskMap;_TopTexture_MaskMap;white;2;None;Mid Texture_MaskMap;_MidTexture_MaskMap;white;5;None;Bot Texture_MaskMap;_BotTexture_MaskMap;white;8;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT3;1,1,1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;16;-763.9182,239.2879;Inherit;False;Constant;_Float0;Float 0;6;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;14;-2007.573,688.6548;Inherit;False;Property;_DepthFadeDistance;DepthFadeDistance;53;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ConditionalIfNode;22;-809.0595,738.064;Inherit;False;False;5;0;INT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;27;-1095.035,865.4023;Inherit;False;Constant;_NoAlpha;NoAlpha;15;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.DepthFade;13;-1715.117,672.1714;Inherit;False;True;False;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;30;-806.3013,-470.0849;Inherit;False;Constant;_NoAdd;NoAdd;16;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;35;-1176.318,-625.3073;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;32;-1518.16,903.295;Inherit;False;DepthFade;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.IntNode;26;-1362.805,646.2612;Inherit;False;Property;_TerrainBlendingMode;TerrainBlendingMode;49;1;[Enum];Create;True;0;2;Transperent;0;ColorBlend;1;0;False;0;False;0;0;False;0;1;INT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;37;-1074.546,602.7488;Inherit;False;TerrainBlendValue;-1;True;1;0;INT;0;False;1;INT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;38;-868.82,-693.2582;Inherit;False;37;TerrainBlendValue;1;0;OBJECT;;False;1;INT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;33;-1899.925,-599.2411;Inherit;False;32;DepthFade;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;39;-1619.152,-575.6574;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;40;-1429.516,-536.5626;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;34;-1476.848,-818.6798;Inherit;False;Property;_BlendColor;BlendColor;50;0;Create;True;0;0;0;False;0;False;1,0.07075471,0.07075471,1;1,0.07075471,0.07075471,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;34;-1476.848,-818.6798;Inherit;False;Property;_BlendColor;BlendColor;51;0;Create;True;0;0;0;False;0;False;1,0.07075471,0.07075471,1;1,0.07075471,0.07075471,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ConditionalIfNode;29;-547.2784,-652.5614;Inherit;False;False;5;0;INT;0;False;1;FLOAT;1;False;2;FLOAT;0;False;3;FLOAT4;0,0,0,0;False;4;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.LerpOp;45;-182.0308,-231.6376;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;46;-436.7838,-398.8685;Inherit;False;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.DynamicAppendNode;48;-829.7202,-616.4631;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;47;-1022.72,-774.4631;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.GetLocalVarNode;33;-2305.925,-690.2411;Inherit;False;32;DepthFade;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;39;-2025.152,-666.6574;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;40;-1835.516,-627.5626;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.IntNode;26;-1479.805,479.2612;Inherit;False;Property;_TerrainBlendingMode;TerrainBlendingMode;50;1;[Enum];Create;True;0;2;Transperent;0;ColorBlend;1;0;False;0;False;0;0;False;0;1;INT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;37;-1163.546,552.7488;Inherit;False;TerrainBlendValue;-1;True;1;0;INT;0;False;1;INT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;32;-1291.16,928.295;Inherit;False;DepthFade;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;14;-2279.573,725.6548;Inherit;False;Property;_DepthFadeDistance;DepthFadeDistance;54;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.DepthFade;13;-1987.117,709.1714;Inherit;False;True;False;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;51;-1600.169,778.0157;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;53;-1842.169,850.0157;Inherit;False;Property;_BlendingRemap;BlendingRemap;49;1;[RemapSliders];Create;True;0;0;0;False;0;False;0,1;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 WireConnection;1;0;45;0
 WireConnection;1;1;19;0
 WireConnection;1;2;12;85
@@ -4339,15 +4359,10 @@ WireConnection;20;3;17;0
 WireConnection;20;4;18;0
 WireConnection;22;0;37;0
 WireConnection;22;2;27;0
-WireConnection;22;3;13;0
+WireConnection;22;3;51;0
 WireConnection;22;4;27;0
-WireConnection;13;0;14;0
 WireConnection;35;0;34;0
 WireConnection;35;1;40;0
-WireConnection;32;0;13;0
-WireConnection;37;0;26;0
-WireConnection;39;0;33;0
-WireConnection;40;0;39;0
 WireConnection;29;0;38;0
 WireConnection;29;2;30;0
 WireConnection;29;3;48;0
@@ -4361,5 +4376,13 @@ WireConnection;48;1;47;1
 WireConnection;48;2;47;2
 WireConnection;48;3;40;0
 WireConnection;47;0;35;0
+WireConnection;39;0;33;0
+WireConnection;40;0;39;0
+WireConnection;37;0;26;0
+WireConnection;32;0;51;0
+WireConnection;13;0;14;0
+WireConnection;51;0;13;0
+WireConnection;51;3;53;1
+WireConnection;51;4;53;2
 ASEEND*/
-//CHKSM=6729D8FFC58C5E99109562409E2C14707AEF0F43
+//CHKSM=373E92851F63913FB9237B1BF3E386B223868906
