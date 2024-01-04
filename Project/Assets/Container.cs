@@ -354,7 +354,9 @@ public class Container : NetworkBehaviour
         if (NetworkManager.LocalClientId == OwnerClientId)
         {
             NotificationManagerUI.Instance.SetNotification(item);
+            SyncContainerServerRpc(OwnerClientId);
         }
+
     }
 
     [ServerRpc(RequireOwnership = false)]
