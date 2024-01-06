@@ -28,8 +28,7 @@ public class GrassPainterWindow : EditorWindow
     Vector3 hitPos;
     Vector3 hitNormal;
 
-    [SerializeField]
-    SO_GrassToolSettings toolSettings;
+    public SO_GrassToolSettings toolSettings;
 
 
     // options
