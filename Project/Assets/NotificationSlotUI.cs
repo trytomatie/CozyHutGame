@@ -15,6 +15,7 @@ public class NotificationSlotUI : MonoBehaviour
     public UnityEvent setupEvent;
     public UnityEvent addEvent;
     public UnityEvent removeEvent;
+
     public bool isAvailable = true;
     public void SetupNotification(Item item,float notificationOnlineTime)
     {
