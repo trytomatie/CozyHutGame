@@ -39,6 +39,9 @@ public class GameUI : MonoBehaviour
     [Header("Refinment Menu")]
     public TextMeshProUGUI refinmentTimer;
 
+    [Header("EquipmentSelection Menu")]
+    public EquipmentSelector[] equipmentSelectors;
+
 
     private void Awake()
     {
@@ -161,6 +164,18 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    public void SetUpEquipmentWindow()
+    {
+        Container equipmentContainer = GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().equipmentInventory;
+        int i = 0;
+        foreach(Item.ItemData item in equipmentContainer.items)
+        {
+            equipmentSelectors[i].SetUpEquipmentSelector(item);
+            i++;
+        }
+
+    }
+
     public void CheckHoveredEquipmentUI()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -179,16 +194,16 @@ public class GameUI : MonoBehaviour
                 int i = -1;
                 switch(result[0].gameObject.name)
                 {
-                    case "Image_00":
+                    case "Image_01":
                         i = 0;
                         break;
-                    case "Image_01":
+                    case "Image_02":
                         i = 1;
                         break;
-                    case "Image_02":
+                    case "Image_03":
                         i = 2;
                         break;
-                    case "Image_03":
+                    case "Image_04":
                         i = 3;
                         break;
                 }

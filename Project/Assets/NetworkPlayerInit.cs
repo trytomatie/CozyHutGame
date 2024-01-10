@@ -49,24 +49,17 @@ public class NetworkPlayerInit : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameManager.Instance.playerList.ContainsKey(OwnerClientId))
-        {
-            GameManager.Instance.playerList[OwnerClientId] = gameObject;
-        }
-        else
-        {
-            GameManager.Instance.playerList.Add(OwnerClientId, gameObject);
-        }
+        AddPlayerToPlayerList();
 
         if (!IsOwner)
         {
             // Is other Client
-            foreach(MonoBehaviour component in componentsToDisable)
+            foreach (MonoBehaviour component in componentsToDisable)
             {
                 component.enabled = false;
             }
 
-            foreach(GameObject go in objectsToDelete)
+            foreach (GameObject go in objectsToDelete)
             {
                 Destroy(go);
             }
@@ -96,12 +89,25 @@ public class NetworkPlayerInit : NetworkBehaviour
             equipmentInventory.AddToObserverListServerRpc(OwnerClientId);
             inventory.addItemEvents.AddListener(GameManager.Instance.DiscoverItem);
             Collider col = GetComponent<Collider>();
-            GameManager.Instance.LoadPlayerData(GetComponent<PlayerCustomization>(),inventory);
+            GameManager.Instance.LoadPlayerData(GetComponent<PlayerCustomization>(), inventory);
             SetNameCardServerRpc(GameManager.Instance.selectedPlayer);
         }
         SpawnHandPivotSetupServerRpc();
 
     }
+
+    private void AddPlayerToPlayerList()
+    {
+        if (GameManager.Instance.playerList.ContainsKey(OwnerClientId)) // Overrides if the key is already taken (Means someone Disconnected with that id)
+        {
+            GameManager.Instance.playerList[OwnerClientId] = gameObject;
+        }
+        else // Creates if key does not Exist
+        {
+            GameManager.Instance.playerList.Add(OwnerClientId, gameObject);
+        }
+    }
+
     [ServerRpc (RequireOwnership =false)]
     public void SpawnHandPivotSetupServerRpc()
     {

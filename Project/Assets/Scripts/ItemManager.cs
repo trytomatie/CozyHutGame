@@ -5,7 +5,7 @@ using static Item;
 
 public class ItemManager : MonoBehaviour
 {
-    [SerializeField] private Item[] items;
+    public Item[] items;
 
     private static ItemManager instance;
 

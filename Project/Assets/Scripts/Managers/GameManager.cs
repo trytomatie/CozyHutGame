@@ -68,6 +68,11 @@ public class GameManager : NetworkBehaviour
  
     }
 
+    public static GameObject GetLocalPlayer()
+    {
+        return Instance.playerList[Instance.OwnerClientId];
+    }
+
     private IEnumerator PlayerAutoSave()
     {
         while(Application.isPlaying) // Might as well just say true, but writing true into the condition of a loop is a big nono
