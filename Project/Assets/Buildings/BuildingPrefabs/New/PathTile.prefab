@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6893974052786690371}
   - component: {fileID: 6284856653713181693}
   - component: {fileID: 4039201371622871333}
+  - component: {fileID: 1259371292696557065}
   m_Layer: 0
   m_Name: PathTile
   m_TagString: Untagged
@@ -47,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
+    reference: {fileID: 0}
     buildingId: 0
     position:
       x: 0
@@ -62,6 +64,7 @@ MonoBehaviour:
       z: 0
     state: 0
     secondaryState: 0
+    eventCountdown: 0
     itemContainer1: 
     itemContainer1Amounts: 
     itemContainer2: 
@@ -73,8 +76,14 @@ MonoBehaviour:
   requireBuildingBeacon: 1
   grounded: 1
   gigaGrounded: 1
+  terrainOnly: 0
   itemContainer1: {fileID: 0}
   itemContainer2: {fileID: 0}
+  countdownEventTimer: 0
+  coutdownEventCurrentTime: 0
+  countdownEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4039201371622871333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +104,19 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &1259371292696557065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5036726101530961046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab3847a6bd137e4e9d1efbd71c8ead8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 1
 --- !u!1 &6548974771814826900
 GameObject:
   m_ObjectHideFlags: 0

@@ -128,6 +128,10 @@ public class BuildManager : MonoBehaviour
         {
             projectionInstance.transform.eulerAngles = groundedAlignment + rotationOffset;
         }
+        else
+        {
+            projectionInstance.transform.eulerAngles = rotationOffset;
+        }
     }
 
     public virtual void FlipModel(bool value)
