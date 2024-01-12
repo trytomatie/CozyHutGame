@@ -137,6 +137,10 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   playerSaveData: {fileID: 598959737}
+  sfxMixer: {fileID: -3211931005987585155, guid: 4f8f5cee84830884c84beb0ccb7573a3,
+    type: 2}
+  musicMixer: {fileID: -7329824710048697679, guid: 4f8f5cee84830884c84beb0ccb7573a3,
+    type: 2}
 --- !u!114 &5625926184876296492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,7 +589,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: c471e8fb238af8c4a9ec73bfac1c6430, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

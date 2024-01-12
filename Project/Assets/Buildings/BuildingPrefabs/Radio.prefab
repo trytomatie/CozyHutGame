@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 432937934}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.485858, y: 0.12, z: -3.3914957}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -112,7 +112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1695166316}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.485858, y: 1.02, z: -3.3914957}
+  m_LocalPosition: {x: 0, y: 0.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5145,7 +5145,7 @@ Transform:
   - {fileID: 1695166317}
   - {fileID: 4852793288164980086}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6284856653713181693
 MonoBehaviour:
@@ -5228,7 +5228,7 @@ GameObject:
   - component: {fileID: 3924506821799315237}
   - component: {fileID: 5801532176484098853}
   - component: {fileID: 6310053700444176016}
-  - component: {fileID: 820767344}
+  - component: {fileID: 2179907858627919489}
   m_Layer: 0
   m_Name: TriggerInteraction
   m_TagString: Untagged
@@ -5243,15 +5243,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8899128870690701952}
-  m_LocalRotation: {x: -0, y: -0.0000003576279, z: -0, w: -1}
-  m_LocalPosition: {x: -0.26000023, y: 0.27, z: -0.43999958}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3950223638169856436}
   m_Father: {fileID: 6893974052786690371}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 360, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3924506821799315237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5343,7 +5343,7 @@ MonoBehaviour:
   OnEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 820767344}
+      - m_Target: {fileID: 2179907858627919489}
         m_TargetAssemblyTypeName: Interactable, Assembly-CSharp
         m_MethodName: FocusInteraction
         m_Mode: 0
@@ -5358,7 +5358,7 @@ MonoBehaviour:
   OnExit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 820767344}
+      - m_Target: {fileID: 2179907858627919489}
         m_TargetAssemblyTypeName: Interactable, Assembly-CSharp
         m_MethodName: FocusInteractionExit
         m_Mode: 0
@@ -5408,8 +5408,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.68, y: 2.08, z: 1.2527978}
-  m_Center: {x: 1.5006103e-15, y: 0, z: 0.47360098}
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6310053700444176016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5428,7 +5428,7 @@ MonoBehaviour:
   DebugColor: {r: 0.8944069, g: 0.64586115, b: 0.2741447, a: 0.70780647}
   DrawAxis: 0
   AxisSize: 0.59
---- !u!114 &820767344
+--- !u!114 &2179907858627919489
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5437,7 +5437,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8899128870690701952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab17c81f5355d4f46b6bc5375dbfbcc7, type: 3}
+  m_Script: {fileID: 11500000, guid: ec026416924650343817c9ff252b7863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canBeOccupied: 0
@@ -5480,8 +5480,38 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  container1: {fileID: 0}
-  container2: {fileID: 0}
+  songIndex:
+    m_InternalValue: 0
+  startPlaying:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 432937936}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: StarRadioPlaying
+          m_BoolArgument: 0
+        m_CallState: 2
+  stopPlaying:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 432937936}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Empty
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &9958835
 PrefabInstance:
   m_ObjectHideFlags: 0

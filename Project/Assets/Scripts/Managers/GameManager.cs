@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using static Item;
@@ -30,6 +31,9 @@ public class GameManager : NetworkBehaviour
 
     public System.TimeSpan currentTime;
 
+    [Header("SoundMixer")]
+    public AudioMixerGroup sfxMixer;
+    public AudioMixerGroup musicMixer;
 
     // Periodic Player Auto Save
     private float playerSaveInterval = 60;
