@@ -42,6 +42,10 @@ public class GameUI : MonoBehaviour
     [Header("EquipmentSelection Menu")]
     public EquipmentSelector[] equipmentSelectors;
 
+    [Header("Quest UI")]
+    public TextMeshProUGUI questName;
+    public TextMeshProUGUI questDescription;
+
 
     private void Awake()
     {

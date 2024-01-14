@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using static Item;
@@ -175,7 +176,9 @@ public class PlayerSaveData : MonoBehaviour
             customization.eyelashIndex = saveData.eyelashIndex;
             customization.highlightIndex = saveData.highlightIndex;
             discoverdItemIDs = saveData.discoverdItemIDs;
-            if(saveData.inventory != null && saveData.inventory.Length > 0)
+
+            LoadQuestData(saveData);
+            if (saveData.inventory != null && saveData.inventory.Length > 0)
             {
                 playerInventory.items = saveData.inventory;
             }
@@ -184,6 +187,21 @@ public class PlayerSaveData : MonoBehaviour
         {
             Debug.LogWarning($"File not found: {filePath}");
         }
+    }
+
+    // Load QuestData into QuestManager
+    public void LoadQuestData(PlayerSaveDataSerialized saveData)
+    {
+        if(saveData.questData == null ||  saveData.questData.Length > 0)
+        {
+            Debug.LogError("No QuestData found");
+            return;
+        }
+        for (int i = 0; i < saveData.questData.Length; i++)
+        {
+            QuestManager.Instance.quests[i].questData.SetupDataFromSaveFile(saveData.questData[i]);
+        }
+        QuestManager.Instance.CurrentQuestIndex = saveData.currentQuestIndex;
     }
 
     public PlayerSaveDataSerialized GetPlayerSaveData()
@@ -205,6 +223,8 @@ public class PlayerSaveData : MonoBehaviour
             eyelashIndex = customization.eyelashIndex,
             highlightIndex = customization.highlightIndex,
             discoverdItemIDs = discoverdItemIDs,
+            currentQuestIndex = QuestManager.Instance.CurrentQuestIndex,
+            questData = QuestManager.Instance.quests.Select(x => x.questData).ToArray()
         };
         if(playerInventory != null)
         {
@@ -236,6 +256,8 @@ public struct PlayerSaveDataSerialized : INetworkSerializable
     // No Network Sync for these Atributes
     public List<ulong> discoverdItemIDs; 
     public ItemData[] inventory;
+    public int currentQuestIndex;
+    public QuestData[] questData;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {

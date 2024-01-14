@@ -280,9 +280,9 @@ public class Container : NetworkBehaviour
     [ClientRpc]
     public void SyncContainerClientRpc(ItemData[] serverItems, ClientRpcParams clientRpcParams = default)
     {
-        print($"Observed {NetworkManager.LocalClientId}");
         items = serverItems;
         observationEvent.Invoke(gameObject);
+        QuestManager.CheckQuestConditions();
     }
 
     [ServerRpc (RequireOwnership =false)]
