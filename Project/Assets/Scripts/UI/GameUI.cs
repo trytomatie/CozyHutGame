@@ -9,6 +9,8 @@ using UnityEngine.UI;
 using MalbersAnimations;
 using MalbersAnimations.Events;
 using UnityEngine.SceneManagement;
+using MoreMountains.Feedbacks;
+using MoreMountains.Tools;
 
 public class GameUI : MonoBehaviour
 {
@@ -38,6 +40,10 @@ public class GameUI : MonoBehaviour
 
     [Header("Refinment Menu")]
     public TextMeshProUGUI refinmentTimer;
+    public Image refinmentProgressBar;
+    public MMProgressBar refinmentProgressbarFeedback;
+    public GameObject refinementRecipiePanel;
+    public GameObject refinementRecipieSlotPrefab;
 
     [Header("EquipmentSelection Menu")]
     public EquipmentSelector[] equipmentSelectors;
@@ -88,6 +94,7 @@ public class GameUI : MonoBehaviour
 
     public void SetUI_State(int i)
     {
+        print("Setting UI State to: " + i);
         if(baseStateOverride != 0 && i == 0)
         {
             i = baseStateOverride;
@@ -96,12 +103,7 @@ public class GameUI : MonoBehaviour
     }
     public void SetUI_State(UI_State i)
     {
-        if (baseStateOverride != 0 && i == 0)
-        {
-            anim.SetInteger("Ui_State", baseStateOverride);
-            return;
-        }
-        anim.SetInteger("Ui_State", (int)i);
+        SetUI_State((int)i);
     }
 
 
@@ -215,7 +217,22 @@ public class GameUI : MonoBehaviour
             }
         }
     }
-    
+
+    #region RefinmentMenu
+
+    public void SetUpRefinmentMenu(RefiningRecipie[] recipies)
+    {
+        for(int i = 0; i < refinementRecipiePanel.transform.childCount; i++)
+        {
+            Destroy(refinementRecipiePanel.transform.GetChild(i).gameObject);
+        }
+        foreach(RefiningRecipie rr in recipies)
+        {
+            GameObject go = Instantiate(refinementRecipieSlotPrefab, refinementRecipiePanel.transform);
+            go.GetComponent<RefiningRecipieSlotUI>().Setup(rr);
+        }
+    }
+    #endregion
     public virtual void SetRefinmentTimer(int timer)
     {
         refinmentTimer.text = $"Refining for: {timer} seconds!";

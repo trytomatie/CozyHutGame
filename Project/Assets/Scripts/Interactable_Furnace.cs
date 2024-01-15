@@ -1,4 +1,6 @@
 using MalbersAnimations.Controller;
+using MoreMountains.Feedbacks;
+using MoreMountains.Tools;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +17,8 @@ public class Interactable_Furnace : Interactable
     public RefiningRecipie[] recipies;
     private bool isRefining = false;
     public int refinmentTime = 0;
+    public int currentStartRefinmentTime = 0;
     public List<ulong> observerList = new List<ulong>();
-    public UnityEvent<int> updateTimerEvent;
     public override void CheckForExitCondition()
     {
         if(prolongedInteraction)
@@ -41,6 +43,17 @@ public class Interactable_Furnace : Interactable
         {
             StartCoroutine(Refine(refiningRecipie));
         }
+    }
+
+    public override void LocalInteraction(GameObject source)
+    {
+        base.LocalInteraction(source);
+        SetUpRecipies();
+    }   
+
+    public void SetUpRecipies()
+    {
+        GameUI.Instance.SetUpRefinmentMenu(recipies);
     }
 
     private RefiningRecipie CanRefine()
@@ -75,6 +88,8 @@ public class Interactable_Furnace : Interactable
     {
         isRefining = true;
         int timer = (int)recipie.refiningTime;
+        currentStartRefinmentTime = timer;
+        UpdateRefinmentTimeClientRpc(timer, GameManager.GetClientRpcParams(observerList.ToArray()));
         while (timer > 0)
         {
             yield return new WaitForSeconds(1);
@@ -91,6 +106,7 @@ public class Interactable_Furnace : Interactable
         }
         if (isRefining)
         {
+            yield return new WaitForSeconds(1);
             isRefining = false;
             ItemData[] requiredItems = new ItemData[recipie.requiredItems.Length];
             for (int i = 0; i < recipie.requiredItems.Length; i++)
@@ -115,11 +131,6 @@ public class Interactable_Furnace : Interactable
     public override void ServerInteraction(ulong id)
     {
         AddToObservationList(id);
-    }
-
-    public override void LocalInteraction(GameObject source)
-    {
-        base.LocalInteraction(source);
     }
 
     public void AddToObservationList(ulong id)
@@ -155,7 +166,11 @@ public class Interactable_Furnace : Interactable
     [ClientRpc]
     public void UpdateRefinmentTimeClientRpc(int time, ClientRpcParams clientRpcParams = default)
     {
+
         refinmentTime = time;
-        updateTimerEvent.Invoke(refinmentTime);
+        // GameUI.Instance.refinmentProgressBar.fillAmount = (float)refinmentTime / (float)currentStartRefinmentTime;
+        GameUI.Instance.refinmentTimer.text = $"{refinmentTime} Seconds";
+        GameUI.Instance.refinmentProgressbarFeedback.UpdateBar01(1 - ((float)refinmentTime / (float)currentStartRefinmentTime));
+
     }
 }
