@@ -35,10 +35,9 @@ public class QuestManager : MonoBehaviour
         if (Instance.quests[Instance.currentQuestIndex].CheckQuestConditions())
         {
             Instance.quests[Instance.currentQuestIndex].CompleteQuest();
-            Instance.currentQuestIndex++;
-            if (Instance.currentQuestIndex >= Instance.quests.Length)
+            if (Instance.currentQuestIndex < Instance.quests.Length)
             {
-                Instance.currentQuestIndex = 0;
+                Instance.currentQuestIndex++;
             }
         }
         Instance.UpdateQuestUI();

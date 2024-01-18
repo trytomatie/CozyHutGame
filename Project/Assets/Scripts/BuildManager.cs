@@ -188,6 +188,7 @@ public class BuildManager : MonoBehaviour
 
             GameManager.Instance.PlaceBuildingServerRpc(currentBuildingId, projectionBuildingObjectHandler.basePivot.transform.position, projectionInstance.transform.rotation, flip);
             RefreshBuildingDescription();
+            StatisticsAPI.AddBuildingBuilt(currentBuildingId);
         }
     }
 

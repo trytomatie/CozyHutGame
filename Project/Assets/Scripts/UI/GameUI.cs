@@ -100,6 +100,7 @@ public class GameUI : MonoBehaviour
             i = baseStateOverride;
         }
         anim.SetInteger("Ui_State", i);
+        QuestManager.CheckQuestConditions();
     }
     public void SetUI_State(UI_State i)
     {
