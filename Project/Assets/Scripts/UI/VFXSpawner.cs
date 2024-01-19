@@ -10,6 +10,7 @@ public class VFXSpawner : MonoBehaviour
     private static VFXSpawner instance;
 
     public MMF_Player[] feedbacks;
+    public MMF_Player[] targetedFeedbacks;
     // Use this for initialization
     void Start()
     {
@@ -32,6 +33,12 @@ public class VFXSpawner : MonoBehaviour
         MMF_ParticlesInstantiation vfx = instance.feedbacks[(int)type].GetFeedbackOfType<MMF_ParticlesInstantiation>();
         vfx.TargetWorldPosition = pos;
         instance.feedbacks[(int)type].PlayFeedbacks();
+    }
+
+    public static void ApplyTargetedFeedback(int id, Transform target)
+    {
+        instance.targetedFeedbacks[id].GetFeedbackOfType<MMF_SquashAndStretch>().SquashAndStretchTarget = target;
+        instance.targetedFeedbacks[id].PlayFeedbacks();
     }
         
 }

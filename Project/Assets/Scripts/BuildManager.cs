@@ -261,19 +261,19 @@ public class BuildManager : MonoBehaviour
     public Vector3 GetRaycastPosition(Vector3 startPoint, Vector3 direction)
     {
         RaycastHit[] raycastHits = Physics.RaycastAll(startPoint, direction, raycastMaxDistance, layerMask);
-        if(raycastHits.Length > 0)
+        if(raycastHits.Length > 0) // If we hit something
         {
-            raycastHits = raycastHits.OrderBy(hit => Vector3.Distance(startPoint, hit.collider.transform.position)).ToArray();
+            raycastHits = raycastHits.OrderBy(hit => Vector3.Distance(startPoint, hit.collider.transform.position)).ToArray(); // Sort by distance to collider
             //raycastHits = raycastHits.OrderBy(hit =>
             //{
             //    float distanceToPoint = Vector3.Distance(startPoint, hit.point);
             //    float distanceToCollider = Vector3.Distance(startPoint, hit.collider.transform.position);
             //    return Tuple.Create(distanceToPoint, distanceToCollider);
             //}, new RaycastComparer()).ToArray();
-            bool closestPointWithoutSnappingFound = false;
-            foreach (RaycastHit raycastHit in raycastHits)
+            bool closestPointWithoutSnappingFound = false; //
+            foreach (RaycastHit raycastHit in raycastHits) // Loop through all hits
             {
-                if(projectionBuildingObjectHandler.terrainOnly)
+                if(projectionBuildingObjectHandler.terrainOnly) // If we only want to place on terrain
                 {
                     if(raycastHit.collider.gameObject.GetComponent<Terrain>() == null) // Basicly, don't place unless if it hits a terrain
                     {
@@ -289,7 +289,7 @@ public class BuildManager : MonoBehaviour
                 if (snapHitbox != null && snapping) // Try to snapp to anything, if the object can snapp
                 {
                     int snapperIndex = 0;
-                    foreach(BuildingObject.BuildingType permittedSnapper in snapHitbox.snapBuildingTypes)
+                    foreach(BuildingObject.BuildingType permittedSnapper in snapHitbox.snapBuildingTypes) // Loop through all permitted snappers
                     {
                         if(permittedSnapper == currentBuildingType)
                         {
@@ -310,26 +310,25 @@ public class BuildManager : MonoBehaviour
                     }
                     continue;
                 }
-                if(!closestPointWithoutSnappingFound && snapHitbox == null)
+                if(!closestPointWithoutSnappingFound && snapHitbox == null) // If we haven't found a closest point without snapping yet, and the object can't snap
                 {
-                    if(projectionBuildingObjectHandler.grounded)
+                    if(projectionBuildingObjectHandler.grounded) // If the object needs to be grounded
                     {
                         if(Vector3.Dot(raycastHit.normal, Vector3.up) > 0.9f)
                         {
-                            projectionBuildingObjectHandler.ChangePivot(0);
+                            projectionBuildingObjectHandler.ChangePivot(projectionBuildingObjectHandler.groundedPivotIndex);
                             lastSavedProjectionPosition = raycastHit.point + new Vector3(0, heightOffset, 0);
                             closestPointWithoutSnappingFound = true;
                         }
-                        if(projectionBuildingObjectHandler.gigaGrounded)
+                        if(projectionBuildingObjectHandler.gigaGrounded) // If the object needs to be gigaGrounded
                         {
-                            print(raycastHit.normal);
-                            projectionBuildingObjectHandler.ChangePivot(0);
+                            projectionBuildingObjectHandler.ChangePivot(projectionBuildingObjectHandler.groundedPivotIndex);
                             groundedAlignment = Quaternion.LookRotation(CalculateAverageNormal(raycastHits)).eulerAngles;
                             lastSavedProjectionPosition = raycastHit.point + new Vector3(0, heightOffset, 0);
                             closestPointWithoutSnappingFound = true;
                         }
                     }
-                    else
+                    else // If the object doesn't need to be grounded
                     {
                         projectionBuildingObjectHandler.ChangePivot(0);
                         lastSavedProjectionPosition = raycastHit.point + new Vector3(0, heightOffset, 0);

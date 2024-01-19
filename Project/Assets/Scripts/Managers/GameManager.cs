@@ -161,10 +161,11 @@ public class GameManager : NetworkBehaviour
     [ServerRpc (RequireOwnership = false)]
     public void PlaceBuildingServerRpc(ulong buildingId, Vector3 position, Quaternion rotation, bool flip)
     {
-        Vector3 scale = new Vector3(1, 1, 1 * Random.Range(0.99990000f, 1f));
+        float rnd = Random.Range(0.99990000f, 1f);
+        Vector3 scale = new Vector3(rnd, rnd, rnd);
         if (flip)
         {
-            scale = new Vector3(-1, 1, 1 * Random.Range(0.99990000f,1f));
+            scale = new Vector3(-rnd, rnd, rnd);
         }
         BuildingObject buildingObject = BuildingObjectManager.GenerateBuildingObject(buildingId);
         GameObject prefab = buildingObject.buildingPrefab;

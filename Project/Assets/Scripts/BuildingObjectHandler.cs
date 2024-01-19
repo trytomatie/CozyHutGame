@@ -1,6 +1,8 @@
+using ExternalPropertyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using static Item;
@@ -13,6 +15,7 @@ public class BuildingObjectHandler : MonoBehaviour
     public Transform[] pivots;
     public bool requireBuildingBeacon = true;
     public bool grounded = false;
+    public int groundedPivotIndex = 0;
     [Tooltip("Building aligns to raycast.hit normal")]
     public bool gigaGrounded = false;
     public bool terrainOnly = false;
@@ -26,7 +29,7 @@ public class BuildingObjectHandler : MonoBehaviour
 
     private void Start()
     {
-        
+        VFXSpawner.ApplyTargetedFeedback(0, basePivot);
         if(countdownEventTimer > 0 && NetworkManager.Singleton.IsServer)
         {
             coutdownEventCurrentTime = countdownEventTimer;
@@ -98,6 +101,7 @@ public class BuildingObjectHandler : MonoBehaviour
 
     public void ChangePivot(int i)
     {
-        basePivot.transform.position = pivots[i].transform.position;    
+        basePivot.transform.position = pivots[i].transform.position;
     }
 }
+

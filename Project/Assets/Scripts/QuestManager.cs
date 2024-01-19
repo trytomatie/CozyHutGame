@@ -31,6 +31,10 @@ public class QuestManager : MonoBehaviour
 
     public static void CheckQuestConditions()
     {
+        if(Instance.quests[Instance.currentQuestIndex] == null)
+        {
+            return;
+        }
         // Check the quest conditions of the current quest
         if (Instance.quests[Instance.currentQuestIndex].CheckQuestConditions())
         {
@@ -43,7 +47,7 @@ public class QuestManager : MonoBehaviour
         Instance.UpdateQuestUI();
     }
 
-    private void UpdateQuestUI()
+    public void UpdateQuestUI()
     {
         string questName = Instance.quests[Instance.currentQuestIndex].questData.questName;
         string[] questDescription = Instance.quests[Instance.currentQuestIndex].GetQuestDescription();

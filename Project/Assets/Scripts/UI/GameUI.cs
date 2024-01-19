@@ -60,7 +60,7 @@ public class GameUI : MonoBehaviour
         {
             instance = this;
             GameManager.Instance.gameUI = this;
-
+            QuestManager.Instance.UpdateQuestUI();
         }
     }
 
