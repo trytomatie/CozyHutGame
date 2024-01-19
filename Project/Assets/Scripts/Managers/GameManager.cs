@@ -162,11 +162,15 @@ public class GameManager : NetworkBehaviour
     public void PlaceBuildingServerRpc(ulong buildingId, Vector3 position, Quaternion rotation, bool flip)
     {
         float rnd = Random.Range(0.99990000f, 1f);
-        Vector3 scale = new Vector3(rnd, rnd, rnd);
+
+        position = new Vector3(position.x * rnd, position.y * rnd, position.z* rnd); // Randomize position a bit to prevent z-fighting
+
+        Vector3 scale = new Vector3(1, 1, 1);
         if (flip)
         {
-            scale = new Vector3(-rnd, rnd, rnd);
+            scale = new Vector3(-1, 1, 1);
         }
+
         BuildingObject buildingObject = BuildingObjectManager.GenerateBuildingObject(buildingId);
         GameObject prefab = buildingObject.buildingPrefab;
         GameObject spawnedPrefab = Instantiate(prefab, position, rotation);

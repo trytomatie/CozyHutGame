@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28cb9c6cf03923b409143db80d61769e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapBuildingTypes: 0300000001000000
+  snapBuildingTypes: 01000000
   pivotIndex: 0000000004000000
 --- !u!114 &7402748046099868423
 MonoBehaviour:
@@ -231,14 +231,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 947421778289033406}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.00000010430813}
+  m_LocalRotation: {x: -0.00000045307786, y: -0.70710784, z: 0.7071058, w: -0.00000007375708}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 3, y: 0.14999999, z: 2.1844537}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 988903904074709272}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: -180, z: 0}
 --- !u!65 &3850003905261566783
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -259,7 +259,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 0.1, z: 0.5}
-  m_Center: {x: 0, y: -1.08, z: -0.25}
+  m_Center: {x: 0, y: 0, z: -0.25}
 --- !u!114 &8889337499527399482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,8 +272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28cb9c6cf03923b409143db80d61769e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapBuildingTypes: 0100000003000000
-  pivotIndex: 0400000001000000
+  snapBuildingTypes: 03000000
+  pivotIndex: 00000000
 --- !u!114 &6045282672612856818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,7 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28cb9c6cf03923b409143db80d61769e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapBuildingTypes: 0300000001000000
+  snapBuildingTypes: 01000000
   pivotIndex: 0000000004000000
 --- !u!114 &1812127376703434815
 MonoBehaviour:
@@ -405,14 +405,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791860635864959212}
-  m_LocalRotation: {x: -0, y: -0.000000044703427, z: -0, w: 1}
+  m_LocalRotation: {x: -0.7071058, y: -0.000000031610284, z: -0.0000004952247, w: 0.70710784}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 3, y: 0.14999999, z: 2.1844537}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 988903904074709272}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!65 &9149718202103711002
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -433,7 +433,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 0.1, z: 0.5}
-  m_Center: {x: 0, y: -1.08, z: -0.25}
+  m_Center: {x: 0, y: 0, z: -0.25}
 --- !u!114 &8477263063331197243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,8 +446,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28cb9c6cf03923b409143db80d61769e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapBuildingTypes: 0100000003000000
-  pivotIndex: 0400000001000000
+  snapBuildingTypes: 03000000
+  pivotIndex: 01000000
 --- !u!114 &4324712701811088134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,7 +586,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2748289034699491673}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
   m_Name: 
@@ -675,6 +675,7 @@ MonoBehaviour:
   - {fileID: 7825934515626189552}
   requireBuildingBeacon: 1
   grounded: 0
+  groundedPivotIndex: 0
   gigaGrounded: 0
   terrainOnly: 0
   itemContainer1: {fileID: 0}
@@ -885,7 +886,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4567395083618166585}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
   m_Name: 
