@@ -7,6 +7,8 @@ public class BuildingPrefabScreenshotTool : MonoBehaviour
     public Transform stage;
     public int glowBorderPixelSize = 1;
     public Color borderColor = Color.white;
+    public Color keyColor = Color.green;
+    public float tolerance = 0.1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +42,9 @@ public class BuildingPrefabScreenshotTool : MonoBehaviour
                 for (int y = 0; y < tex.height; y++)
                 {
                     Color c = tex.GetPixel(x, y);
-                    if (c.g >= 1f)
+
+                    // check if color is similar to key color
+                    if (Mathf.Abs(c.r - keyColor.r) < tolerance && Mathf.Abs(c.g - keyColor.g) < tolerance && Mathf.Abs(c.b - keyColor.b) < tolerance)
                     {
                         c = new Color(0, 0, 0, 0);
                         tex.SetPixel(x, y, c);

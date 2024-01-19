@@ -383,7 +383,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -1167,7 +1167,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0, g: 0.20000005, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1522,6 +1522,8 @@ MonoBehaviour:
   stage: {fileID: 841594143}
   glowBorderPixelSize: 13
   borderColor: {r: 1, g: 1, b: 1, a: 1}
+  keyColor: {r: 0, g: 0.20000002, b: 1, a: 1}
+  tolerance: 0.3
 --- !u!4 &1783115463
 Transform:
   m_ObjectHideFlags: 0
