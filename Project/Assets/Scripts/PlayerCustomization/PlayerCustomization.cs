@@ -153,12 +153,7 @@ public class PlayerCustomization : NetworkBehaviour
         playerFace.materials[1] = mouthMaterial;
         playerFace.materials[2] = eyebrowMaterial;
         SyncApearenceServerRpc(GameManager.Instance.playerSaveData.GetPlayerSaveData(), NetworkManager.Singleton.LocalClientId);
-        // If We hae no connection, just update the apearence
-        if (NetworkManager.Singleton.IsConnectedClient == false)
-            {
-                AssignPlayerData(GameManager.Instance.playerSaveData.GetPlayerSaveData());
-            }   
-        }
+    }
 
     [ServerRpc (RequireOwnership =false)]
     public void SyncApearenceServerRpc(PlayerSaveDataSerialized playerData,ulong id)
@@ -208,6 +203,7 @@ public class PlayerCustomization : NetworkBehaviour
     private void UpdatePlayerAsset(PlayerCustomizationAsset playerCustomizationAsset, SkinnedMeshRenderer meshRenderer)
     {
         /* Switch Clothes */
+        print(torsoIndex);
         meshRenderer.sharedMesh = playerCustomizationAsset.meshReference;
         if (playerCustomizationAsset.hasSkin == true)
         {
@@ -423,34 +419,3 @@ public class PlayerCustomization : NetworkBehaviour
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(PlayerCustomization))]
-public class MyPlayerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        PlayerCustomization yourScript = (PlayerCustomization)target;
-
-        // Add a button to the inspector
-        if (GUILayout.Button("Define Player Colors"))
-        {
-            // Code to execute when the button is clicked
-            yourScript.irisColor = SetPixelData(yourScript.colorPalleteLoaderIris.texture);
-        }
-    }
-
-    private Color[] SetPixelData(Texture2D tex)
-    {
-        if (tex == null) return null;
-        Color[] result = tex.GetPixels();
-        if (result.Length > 1056)
-        {
-            return null;
-        }
-        return result;
-    }
-}
-#endif

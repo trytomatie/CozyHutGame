@@ -27,6 +27,8 @@ public class LobbyManager : MonoBehaviour
     private const float pollRate = 1.1f;
     public static Lobby selectedLobby;
     public string sceneToLoad = "PrototypeScene";
+    
+    bool lanGameIsStarting = false;
 
     private const string KEY_START_GAME = "KEY_START_GAME";
     public UnityEvent afterStart;
@@ -373,15 +375,21 @@ public class LobbyManager : MonoBehaviour
     public void StartLanGame()
     {
         LoadingScreenManager.Instance.CallLoadingScreen();
+        Invoke("LanGame", 4);
+    }
+
+    private void LanGame()
+    {
+        if(lanGameIsStarting)
+        {
+            return;
+        }
+        lanGameIsStarting = true;
         NetworkManager.Singleton.NetworkConfig.NetworkTransport = lanTransportProtocol;
         NetworkManager.Singleton.StartHost();
         NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, UnityEngine.SceneManagement.LoadSceneMode.Single);
         NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
         String name = NetworkManager.Singleton.name;
-
-
-
-        // TODO: Get the Save Game Screen to select world, Also Select Character First
     }
 
     public void StartBootstarpGame()

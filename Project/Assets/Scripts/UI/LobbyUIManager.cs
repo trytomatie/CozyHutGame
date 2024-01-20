@@ -137,6 +137,11 @@ public class LobbyUIManager : MonoBehaviour
     {
         characterNames = GameManager.Instance.playerSaveData.FindSavedPlayerData().ToArray();
         characterName.text = characterNames[characterIndex];
+        RefreshSavedPlayerUIElemetns();
+    }
+
+    private void RefreshSavedPlayerUIElemetns()
+    {
         GameManager.Instance.selectedPlayer = characterNames[characterIndex];
         GameManager.Instance.LoadPlayerData(playerVisual);
     }
@@ -150,6 +155,7 @@ public class LobbyUIManager : MonoBehaviour
         }
         characterName.text = characterNames[characterIndex];
         PlayerPrefs.SetInt("CharacterIndex", characterIndex);
+        RefreshSavedPlayerUIElemetns();
     }
 
     public void SwitchCharacterRight()
@@ -161,6 +167,7 @@ public class LobbyUIManager : MonoBehaviour
         }
         characterName.text = characterNames[characterIndex];
         PlayerPrefs.SetInt("CharacterIndex", characterIndex);
+        RefreshSavedPlayerUIElemetns();
     }
 
     public void ShowDeleteCharacterWarningWindow()

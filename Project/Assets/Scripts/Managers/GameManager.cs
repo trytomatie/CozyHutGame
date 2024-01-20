@@ -70,6 +70,7 @@ public class GameManager : NetworkBehaviour
     {
         playerSaveData.customization = customization;
         playerSaveData.LoadPlayerData(selectedPlayer);
+        playerSaveData.customization.UpdatePlayerAppearance();
         playerIsLoaded = true;
     }
 
