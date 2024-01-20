@@ -126,7 +126,7 @@ public class PlayerSaveData : MonoBehaviour
         print($"Playerdata is saved to {filePath}, TempFile Saved to {tempFilePath}");
     }
 
-    private void DeletePlayerData(string fileName)
+    public void DeletePlayerData(string fileName)
     {
         string filePath = Path.Combine(DirectoryPath(), fileName + ".json");
         File.Delete(filePath);

@@ -6,6 +6,7 @@ using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -25,19 +26,37 @@ public class LobbyUIManager : MonoBehaviour
 
     [Header("Lobby Menu")]
     public TMP_InputField playerName;
-    public TMP_Dropdown selectedPlayer;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject serverTuple;
     [SerializeField] private GameObject playerTuple;
 
+    [Header("Character Selection")]
+    public TextMeshProUGUI characterName;
+    public Button switchCharacterLeft;
+    public Button switchCharacterRight;
+    public string[] characterNames;
+    public int characterIndex = 0;
+    public GameObject deleteCharacterWarningWindow;
+    public Button deleteCharacterButtonForDeletionWindow;
+    public Button deleteCharacterButton;
+    public Button cancelDeleteCharacterButton;
+
     // Start is called before the first frame update
     void Start()
     {
+        // Load Character Index that was last used
+        characterIndex = PlayerPrefs.GetInt("CharacterIndex", 0);
+        // Assign Button Events
+        switchCharacterLeft.onClick.AddListener(SwitchCharacterLeft);
+        switchCharacterRight.onClick.AddListener(SwitchCharacterRight);
+        deleteCharacterButton.onClick.AddListener(DeleteCharacter);
+        deleteCharacterButtonForDeletionWindow.onClick.AddListener(ShowDeleteCharacterWarningWindow);
+        cancelDeleteCharacterButton.onClick.AddListener(HideDeleteCharacterWarningWindow);
         ChangeUIState(0);
         playerName.text = "Tindangle" + UnityEngine.Random.Range(1000, 10000);
         SetWorldDropdown();
-        SetPlayerDropdown();
+        RefreshSavedPlayerDataInUI();
     }
 
     public void ChangeUIState(LobbyUIState i)
@@ -113,11 +132,48 @@ public class LobbyUIManager : MonoBehaviour
         
     }
 
-    public void SetPlayerDropdown()
+    public void RefreshSavedPlayerDataInUI()
     {
-        List<string> options = new List<string>();
-        options.AddRange(GameManager.Instance.playerSaveData.FindSavedPlayerData());
-        selectedPlayer.ClearOptions();
-        selectedPlayer.AddOptions(options);
+        characterNames = GameManager.Instance.playerSaveData.FindSavedPlayerData().ToArray();
+        characterName.text = characterNames[characterIndex];
+    }
+
+    public void SwitchCharacterLeft()
+    {
+        characterIndex--;
+        if (characterIndex < 0)
+        {
+            characterIndex = characterNames.Length - 1;
+        }
+        characterName.text = characterNames[characterIndex];
+        PlayerPrefs.SetInt("CharacterIndex", characterIndex);
+    }
+
+    public void SwitchCharacterRight()
+    {
+        characterIndex++;
+        if (characterIndex >= characterNames.Length)
+        {
+            characterIndex = 0;
+        }
+        characterName.text = characterNames[characterIndex];
+        PlayerPrefs.SetInt("CharacterIndex", characterIndex);
+    }
+
+    public void ShowDeleteCharacterWarningWindow()
+    {
+        deleteCharacterWarningWindow.SetActive(true);
+    }
+
+    public void HideDeleteCharacterWarningWindow()
+    {
+        deleteCharacterWarningWindow.SetActive(false);
+    }
+
+    public void DeleteCharacter()
+    {
+        GameManager.Instance.playerSaveData.DeletePlayerData(characterName.text);
+        HideDeleteCharacterWarningWindow();
+        RefreshSavedPlayerDataInUI();
     }
 }

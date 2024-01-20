@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7829639688132846960}
   - component: {fileID: 7829639688132846961}
   - component: {fileID: 7829639688132846966}
-  - component: {fileID: 6572899036995851249}
+  - component: {fileID: 5137857117695482304}
   m_Layer: 5
-  m_Name: GenericButton
+  m_Name: GenericButton_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,8 +69,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0c43c5d9c019f1c4abb08003a46c1329, type: 3}
-  m_Type: 2
+  m_Sprite: {fileID: 21300000, guid: f344553e3dc93cb43aa58ddf67b91928, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -117,7 +117,7 @@ MonoBehaviour:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
-    m_SelectedTrigger: Highlighted
+    m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 7829639688132846961}
@@ -136,7 +136,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!95 &6572899036995851249
+--- !u!95 &5137857117695482304
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ Animator:
   m_GameObject: {fileID: 7829639688132846964}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2254b3fa5a00fdc4fbd4511bebea25fd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2d7438ca80bc05a478320eb296a2c750, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -183,7 +183,7 @@ RectTransform:
   m_GameObject: {fileID: 7829639689086960805}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7829639688132846967}
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New World
+  m_text: No
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 71d47da5b883a644eb31b59f0def0ed2, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 71d47da5b883a644eb31b59f0def0ed2, type: 2}
@@ -231,8 +231,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285219402
-  m_fontColor: {r: 0.2901961, g: 0.2588235, b: 0.4196079, a: 1}
+    rgba: 4292326867
+  m_fontColor: {r: 0.8274511, g: 0.7098039, b: 0.8431373, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

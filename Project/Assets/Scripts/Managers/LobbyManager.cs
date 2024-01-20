@@ -151,7 +151,7 @@ public class LobbyManager : MonoBehaviour
 
     private Player GetPlayerData()
     {
-        GameManager.Instance.selectedPlayer = lobbyUI.selectedPlayer.options[lobbyUI.selectedPlayer.value].text;
+        GameManager.Instance.selectedPlayer = lobbyUI.characterNames[lobbyUI.characterIndex];
         return new Player(AuthenticationService.Instance.PlayerId)
         {
             Data = new Dictionary<string, PlayerDataObject>
