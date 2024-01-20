@@ -56,7 +56,7 @@ public class LobbyUIManager : MonoBehaviour
         cancelDeleteCharacterButton.onClick.AddListener(HideDeleteCharacterWarningWindow);
         ChangeUIState(0);
         playerName.text = "Tindangle" + UnityEngine.Random.Range(1000, 10000);
-        SetWorldDropdown();
+        //SetWorldDropdown();
         RefreshSavedPlayerDataInUI();
     }
 
