@@ -66,6 +66,13 @@ public class GameManager : NetworkBehaviour
         playerIsLoaded = true;
     }
 
+    public void LoadPlayerData(PlayerCustomization customization)
+    {
+        playerSaveData.customization = customization;
+        playerSaveData.LoadPlayerData(selectedPlayer);
+        playerIsLoaded = true;
+    }
+
     private void Start()
     {
         RegisterNetworkPrefabs();
@@ -82,7 +89,7 @@ public class GameManager : NetworkBehaviour
         while(Application.isPlaying) // Might as well just say true, but writing true into the condition of a loop is a big nono
         { 
             yield return new WaitForSeconds(playerSaveInterval);
-            if (playerIsLoaded)
+            if (playerIsLoaded && SceneManager.GetActiveScene().name != "LobbyScreen")
             {
                 playerSaveData.SavePlayerData();
             }

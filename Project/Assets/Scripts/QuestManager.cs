@@ -16,7 +16,7 @@ public class QuestManager : MonoBehaviour
 
 
 
-    private void Start()
+    private void Awake()
     {
         // singlton pattern
         if (Instance == null)

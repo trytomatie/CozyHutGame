@@ -372,6 +372,7 @@ public class LobbyManager : MonoBehaviour
     }
     public void StartLanGame()
     {
+        LoadingScreenManager.Instance.CallLoadingScreen();
         NetworkManager.Singleton.NetworkConfig.NetworkTransport = lanTransportProtocol;
         NetworkManager.Singleton.StartHost();
         NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, UnityEngine.SceneManagement.LoadSceneMode.Single);

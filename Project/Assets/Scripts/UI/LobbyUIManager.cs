@@ -41,6 +41,7 @@ public class LobbyUIManager : MonoBehaviour
     public Button deleteCharacterButtonForDeletionWindow;
     public Button deleteCharacterButton;
     public Button cancelDeleteCharacterButton;
+    public PlayerCustomization playerVisual;
 
     // Start is called before the first frame update
     void Start()
@@ -136,6 +137,8 @@ public class LobbyUIManager : MonoBehaviour
     {
         characterNames = GameManager.Instance.playerSaveData.FindSavedPlayerData().ToArray();
         characterName.text = characterNames[characterIndex];
+        GameManager.Instance.selectedPlayer = characterNames[characterIndex];
+        GameManager.Instance.LoadPlayerData(playerVisual);
     }
 
     public void SwitchCharacterLeft()

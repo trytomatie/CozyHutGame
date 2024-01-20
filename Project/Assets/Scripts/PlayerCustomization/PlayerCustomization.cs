@@ -153,7 +153,12 @@ public class PlayerCustomization : NetworkBehaviour
         playerFace.materials[1] = mouthMaterial;
         playerFace.materials[2] = eyebrowMaterial;
         SyncApearenceServerRpc(GameManager.Instance.playerSaveData.GetPlayerSaveData(), NetworkManager.Singleton.LocalClientId);
-    }
+        // If We hae no connection, just update the apearence
+        if (NetworkManager.Singleton.IsConnectedClient == false)
+            {
+                AssignPlayerData(GameManager.Instance.playerSaveData.GetPlayerSaveData());
+            }   
+        }
 
     [ServerRpc (RequireOwnership =false)]
     public void SyncApearenceServerRpc(PlayerSaveDataSerialized playerData,ulong id)
@@ -163,6 +168,11 @@ public class PlayerCustomization : NetworkBehaviour
 
     [ClientRpc]
     public void SyncApearenceClientRpc(PlayerSaveDataSerialized playerData, ulong id,ClientRpcParams clientRpcParams = default)
+    {
+        AssignPlayerData(playerData);
+    }
+
+    private void AssignPlayerData(PlayerSaveDataSerialized playerData)
     {
         torsoIndex = playerData.torsoIndex;
         legIndex = playerData.legIndex;
@@ -179,6 +189,7 @@ public class PlayerCustomization : NetworkBehaviour
         highlightIndex = playerData.highlightIndex;
         UpdatePlayerAppearance();
     }
+
     public virtual void SetPlayerName(string name)
     {
         playerName = name;

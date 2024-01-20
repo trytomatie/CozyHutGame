@@ -178,7 +178,7 @@ public class PlayerSaveData : MonoBehaviour
             discoverdItemIDs = saveData.discoverdItemIDs;
 
             LoadQuestData(saveData);
-            if (saveData.inventory != null && saveData.inventory.Length > 0)
+            if (saveData.inventory != null && playerInventory != null && saveData.inventory.Length > 0)
             {
                 playerInventory.items = saveData.inventory;
             }
@@ -223,9 +223,12 @@ public class PlayerSaveData : MonoBehaviour
             eyelashIndex = customization.eyelashIndex,
             highlightIndex = customization.highlightIndex,
             discoverdItemIDs = discoverdItemIDs,
-            currentQuestIndex = QuestManager.Instance.CurrentQuestIndex,
-            questData = QuestManager.Instance.quests.Select(x => x.questData).ToArray()
         };
+        if(QuestManager.Instance != null)
+        {
+            data.currentQuestIndex = QuestManager.Instance.CurrentQuestIndex;
+            data.questData = QuestManager.Instance.quests.Select(x => x.questData).ToArray();
+        }
         if(playerInventory != null)
         {
             data.inventory = playerInventory.items;
