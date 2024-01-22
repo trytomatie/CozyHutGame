@@ -43,6 +43,9 @@ public class LobbyUIManager : MonoBehaviour
     public Button cancelDeleteCharacterButton;
     public PlayerCustomization playerVisual;
 
+    [Header("New World")]
+    public TMP_InputField newWorldName;
+
     // Start is called before the first frame update
     void Start()
     {

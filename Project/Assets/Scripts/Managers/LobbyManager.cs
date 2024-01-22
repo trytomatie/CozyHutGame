@@ -404,4 +404,14 @@ public class LobbyManager : MonoBehaviour
         // TODO: Get the Save Game Screen to select world, Also Select Character First
     }
 
+    public void SetNewWorldSaveName()
+    {
+        GameManager.Instance.worldSaveState.worldName = lobbyUI.newWorldName.text;
+    }
+
+    public void SetWorldSaveToBeLoaded()
+    {
+        // GameManager.Instance.worldSaveState.worldName = lobbyUI.lobbyCreationUI_world.options[lobbyUI.lobbyCreationUI_world.value].text;
+    }
+
 }
