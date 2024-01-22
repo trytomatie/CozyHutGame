@@ -31,11 +31,13 @@ public class DayNightController : MonoBehaviour
         UpdateDayNightCycle();
     }
 
+    private int NormalziedTimeAnimatorHash = Animator.StringToHash("NormalizedTime");
     private void UpdateTime()
     {
+        string ampm = (GameManager.Instance.currentTime.Hours % 24) < 12 ? "AM" : "PM";
         GameManager.Instance.currentTime = GameManager.Instance.currentTime.Add(TimeSpan.FromSeconds(Time.deltaTime * timeMultiplier));
-        GameUI.Instance.timeText.text = $"Time:{GameManager.Instance.currentTime.Hours.ToString("D2")}:{GameManager.Instance.currentTime.Minutes.ToString("D2")}\n" +
-            $"Days: {GameManager.Instance.currentTime.TotalDays.ToString("F0")}";
+        GameUI.Instance.timeText.text = $"{(GameManager.Instance.currentTime.Hours % 12).ToString("D2")}:{GameManager.Instance.currentTime.Minutes.ToString("D2")} {ampm}";
+        GameUI.Instance.timeIconAnmiator.SetFloat(NormalziedTimeAnimatorHash, normalizedDayTime);
     }
     private void UpdateDayNightCycle()
     {

@@ -37,6 +37,10 @@ public class LobbyManager : MonoBehaviour
     public UnityTransport relayTransportProtocol;
     public UnityTransport lanTransportProtocol;
 
+    [Header("LobbyCreation")]
+    private int timeout = 0;
+    private const int MAX_TIMEOUT = 20;
+
 
     // Start is called before the first frame update
     private async void Start()
@@ -66,12 +70,16 @@ public class LobbyManager : MonoBehaviour
 
     public async void CreateLobby(Button p_button)
     {
-        p_button!.interactable = false;
+        CreateLobby();
+    }
+
+    public async void CreateLobby()
+    {
         try
         {
             string lobbyName = lobbyUI.lobbyCreationUI_LobbyName.text;
             int maxPlayer = lobbyUI.lobbyCreationUI_maxPlayers.value + 1;
-   
+
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
             {
                 IsPrivate = false,
@@ -87,7 +95,7 @@ public class LobbyManager : MonoBehaviour
                 lobbyName = "Lobby of" + createLobbyOptions.Player.Data["PlayerName"].Value;
             }
 
-            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer,createLobbyOptions);
+            Lobby lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayer, createLobbyOptions);
 
             joinedLobby = lobby;
             Debug.Log("Lobby Created:" + lobby.Name + " " + lobby.Id);
@@ -95,14 +103,13 @@ public class LobbyManager : MonoBehaviour
             lobbyUI.ReloadLobbyUI(lobby);
             InvokeRepeating("InvokeHeartbeat", heartBeatTimer, heartBeatTimer);
         }
-        catch(LobbyServiceException e)
+        catch (LobbyServiceException e)
         {
             Debug.LogException(e);
-            
+
         }
         finally
         {
-            p_button!.interactable = true;
             afterLobbyCreation.Invoke();
         }
     }
@@ -305,12 +312,42 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
-    public async void StartGame()
+    public void StartGame()
     {
-        if(IsLobbyHost())
+        if(timeout == 0)
         {
+            StartCoroutine(StartGameAsync());
+        }
 
+    }
 
+    public IEnumerator StartGameAsync()
+    {
+        CreateLobby();
+        timeout = 0;
+        while (joinedLobby == null)
+        {
+            yield return new WaitForSeconds(0.5f);
+            timeout++;
+            if(timeout == MAX_TIMEOUT)
+            {
+                timeout = 0;
+                Debug.LogError("Lobby Creation Timed Out (10 Seconds)");
+                break;
+            }
+        }
+        timeout = 0;
+        if (joinedLobby != null)
+        {
+            StartGameWithCreatedLobby();
+        }
+
+    }
+
+    private async void StartGameWithCreatedLobby()
+    {
+        if (IsLobbyHost())
+        {
             string relayCode = await CreateRelay(joinedLobby);
             Debug.Log("Starting Game: " + relayCode);
             Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
@@ -323,7 +360,7 @@ public class LobbyManager : MonoBehaviour
             CancelInvoke("InvokeHandleLobbyPollForUpdates");
             Invoke("ChangeScene", 10);
             joinedLobby = lobby;
-            
+
         }
     }
 

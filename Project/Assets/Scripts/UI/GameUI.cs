@@ -16,7 +16,7 @@ public class GameUI : MonoBehaviour
 {
     public enum UI_State { Base,Inventory,Container,Building,Pause}
     private int baseStateOverride = 0;
-    public TextMeshProUGUI timeText;
+
     public Canvas canvas;
     public GameObject pauseMenu;
     public GameObject craftingMenu;
@@ -51,6 +51,10 @@ public class GameUI : MonoBehaviour
     [Header("Quest UI")]
     public TextMeshProUGUI questName;
     public TextMeshProUGUI questDescription;
+
+    [Header("Time UI")]
+    public TextMeshProUGUI timeText;
+    public Animator timeIconAnmiator;
 
 
     private void Awake()
