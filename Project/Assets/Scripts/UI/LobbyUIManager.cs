@@ -46,6 +46,11 @@ public class LobbyUIManager : MonoBehaviour
     [Header("New World")]
     public TMP_InputField newWorldName;
 
+    [Header("Loading World")]
+    public GameObject worldTuple;
+    public ToggleGroup toggleGroupContainer;
+    public List<GameObject> loadedList = new List<GameObject>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -126,16 +131,6 @@ public class LobbyUIManager : MonoBehaviour
         SetLobbyWindowStartButton(p_lobby.HostId == AuthenticationService.Instance.PlayerId);
     }
 
-    public void SetWorldDropdown()
-    {
-        List<string> options = new List<string>();
-        options.Add("New World...");
-        options.AddRange(GameManager.Instance.worldSaveState.FindSavedWorlds());
-        lobbyCreationUI_world.ClearOptions();
-        lobbyCreationUI_world.AddOptions(options);
-        
-    }
-
     public void RefreshSavedPlayerDataInUI()
     {
         characterNames = GameManager.Instance.playerSaveData.FindSavedPlayerData().ToArray();
@@ -188,5 +183,34 @@ public class LobbyUIManager : MonoBehaviour
         GameManager.Instance.playerSaveData.DeletePlayerData(characterName.text);
         HideDeleteCharacterWarningWindow();
         RefreshSavedPlayerDataInUI();
+    }
+
+    public void LoadSavedWorldsIntoUI()
+    {
+        // Clear the list
+        if(loadedList != null)
+        {
+            foreach (GameObject tuple in loadedList)
+            {
+                Destroy(tuple);
+            }
+            loadedList.Clear();
+        }
+        
+        // Load the list
+        List<string> worlds = GameManager.Instance.worldSaveState.FindSavedWorlds();
+        foreach (string world in worlds)
+        {
+            GameObject tuple = Instantiate(worldTuple, toggleGroupContainer.transform);
+            tuple.GetComponentInChildren<TextMeshProUGUI>().text = world;
+            tuple.GetComponent<Toggle>().group = toggleGroupContainer;
+            loadedList.Add(tuple);
+        }
+
+        // Set the first one to be selected
+        if(loadedList.Count > 0)
+        {
+            loadedList[0].GetComponent<Toggle>().isOn = true;
+        }
     }
 }

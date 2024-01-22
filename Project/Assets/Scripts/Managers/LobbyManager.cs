@@ -29,12 +29,14 @@ public class LobbyManager : MonoBehaviour
     public string sceneToLoad = "PrototypeScene";
     
     bool lanGameIsStarting = false;
+    public bool loadWorld = false;
 
     private const string KEY_START_GAME = "KEY_START_GAME";
     public UnityEvent afterStart;
     public UnityEvent afterLobbyCreation;
     public UnityTransport relayTransportProtocol;
     public UnityTransport lanTransportProtocol;
+
 
     // Start is called before the first frame update
     private async void Start()
@@ -359,16 +361,38 @@ public class LobbyManager : MonoBehaviour
 .PlayerObject.GetComponent<NetworkPlayerInit>().DismissLoadingScreenClientRpc();
                     if (clientOrServer == "server")
                     {
-
+                        if(loadWorld)
+                        {
+                            GameManager.Instance.worldSaveState.LoadWorld();
+                        }
                     }
                     break;
                 }
         }
-        
+    }
+
+    public void LoadWorld(SceneEvent sceneEvent)
+    {
+        var clientOrServer = sceneEvent.ClientId == NetworkManager.ServerClientId ? "server" : "client";
+        switch (sceneEvent.SceneEventType)
+        {
+            case SceneEventType.Load:
+                break;
+            case SceneEventType.LoadComplete:
+                {
+                    Debug.Log($"Loaded the {sceneEvent.SceneName} scene on " + $"{clientOrServer}-({sceneEvent.ClientId}).");
+                    if (clientOrServer == "server")
+                    {
+                        GameManager.Instance.worldSaveState.LoadWorld();
+                    }
+                    break;
+                }
+        }
     }
 
     public void ChangeScene()
     {
+
         NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
         NetworkManager.Singleton.SceneManager.OnSceneEvent += SpawnPlayerInWorld;
     }
@@ -411,7 +435,17 @@ public class LobbyManager : MonoBehaviour
 
     public void SetWorldSaveToBeLoaded()
     {
-        // GameManager.Instance.worldSaveState.worldName = lobbyUI.lobbyCreationUI_world.options[lobbyUI.lobbyCreationUI_world.value].text;
+        // Set the World Save to be loaded
+        foreach(GameObject worldTuple in lobbyUI.loadedList)
+        {
+            if(worldTuple.GetComponent<Toggle>().isOn)
+            {
+                GameManager.Instance.worldSaveState.worldName = worldTuple.GetComponentInChildren<TextMeshProUGUI>().text;
+                loadWorld = true;
+                break;
+            }
+        }
+
     }
 
 }

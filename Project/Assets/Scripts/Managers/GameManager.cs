@@ -100,6 +100,7 @@ public class GameManager : NetworkBehaviour
     public void Disconnect()
     {
         playerSaveData.SavePlayerData();
+        worldSaveState.SaveWorld();
         playerIsLoaded = false;
         disconnectEvent.Invoke();
     }
