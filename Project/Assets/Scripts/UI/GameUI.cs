@@ -218,6 +218,24 @@ public class GameUI : MonoBehaviour
                         i = 3;
                         break;
                 }
+                if(i== -1)
+                {
+                    switch (result[0].gameObject.transform.parent.gameObject.name)
+                    {
+                        case "Image_01":
+                            i = 0;
+                            break;
+                        case "Image_02":
+                            i = 1;
+                            break;
+                        case "Image_03":
+                            i = 2;
+                            break;
+                        case "Image_04":
+                            i = 3;
+                            break;
+                    }
+                }
                 equipmentEquipEvent.Invoke(i);
             }
         }
