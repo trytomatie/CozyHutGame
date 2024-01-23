@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -5,7 +6,8 @@ using UnityEngine;
 
 public class LoadingScreenManager : MonoBehaviour
 {
-    public CanvasGroup canvasGroup;
+    public CanvasGroup loadingScreen;
+    public CanvasGroup connectionLoadingScreen;
 
     public static LoadingScreenManager Instance { get; protected set; }
     public void Awake()
@@ -23,35 +25,30 @@ public class LoadingScreenManager : MonoBehaviour
     }
     public void CallLoadingScreen()
     {
-        CancelInvoke();
-        StopAllCoroutines();
-        canvasGroup.blocksRaycasts = true;
-        StartCoroutine(SetCanvasAlpha1());
+        loadingScreen.gameObject.SetActive(true);
+        loadingScreen.blocksRaycasts = true;
+        loadingScreen.GetComponent<Animator>().SetInteger("Show", 1);
         Invoke("DismissLoadingScreen", 40);
     }
 
-    IEnumerator SetCanvasAlpha1()
-    {
-        while(canvasGroup.alpha < 1)
-        {
-            canvasGroup.alpha += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-    }
-
-    IEnumerator SetCanvasAlpha0()
-    {
-        while (canvasGroup.alpha > 0)
-        {
-            canvasGroup.alpha -= Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-    }
     public void DismissLoadingScreen()
     {
-        CancelInvoke();
-        StopAllCoroutines();
-        canvasGroup.blocksRaycasts = false;
-        StartCoroutine(SetCanvasAlpha0());
+        loadingScreen.gameObject.SetActive(false);
+        loadingScreen.blocksRaycasts = false;
+        loadingScreen.GetComponent<Animator>().SetInteger("Show", 0);
+    }
+
+    public void CallConnectionLoadingScreen()
+    {
+        connectionLoadingScreen.gameObject.SetActive(true);
+        connectionLoadingScreen.blocksRaycasts = true;
+        connectionLoadingScreen.GetComponent<Animator>().SetInteger("Show", 1);
+    }
+
+    public void DismissConnectionLoadingScreen()
+    {
+        connectionLoadingScreen.gameObject.SetActive(false);
+        connectionLoadingScreen.blocksRaycasts = false;
+        connectionLoadingScreen.GetComponent<Animator>().SetInteger("Show", 0);
     }
 }

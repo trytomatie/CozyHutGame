@@ -321,8 +321,10 @@ public class LobbyManager : MonoBehaviour
 
     }
 
+
     public IEnumerator StartGameAsync()
     {
+        LoadingScreenManager.Instance.CallConnectionLoadingScreen();
         CreateLobby();
         timeout = 0;
         while (joinedLobby == null)
@@ -357,6 +359,7 @@ public class LobbyManager : MonoBehaviour
                     {KEY_START_GAME,new DataObject(DataObject.VisibilityOptions.Member,relayCode) }
                 }
             });
+            LoadingScreenManager.Instance.DismissConnectionLoadingScreen();
             CancelInvoke("InvokeHandleLobbyPollForUpdates");
             Invoke("ChangeScene", 10);
             joinedLobby = lobby;
