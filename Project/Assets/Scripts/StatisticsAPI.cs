@@ -46,5 +46,15 @@ public class StatisticsAPI : MonoBehaviour
         }
         return 0;
     }
+
+    public static int GetBuildingStatistic_TotalBuildingsBuilt()
+    {
+        int total = 0;
+        foreach (int value in Instance.buildingsBuilt.Values)
+        {
+            total += value;
+        }
+        return total;
+    }
 }
 
