@@ -7,7 +7,7 @@ Shader "Glass"
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		_Albedo("Albedo", 2D) = "white" {}
-		_NormalMap("NormalMap", 2D) = "white" {}
+		_NormalMap("NormalMap", 2D) = "bump" {}
 		_RoughnessMap("RoughnessMap", 2D) = "white" {}
 		_AlphaMap("AlphaMap", 2D) = "white" {}
 		_AlphaStrength("AlphaStrength", Float) = 0.5
@@ -540,16 +540,6 @@ Shader "Glass"
 				float2 uv_Albedo = IN.ase_texcoord8.xy * _Albedo_ST.xy + _Albedo_ST.zw;
 				
 				float2 uv_NormalMap = IN.ase_texcoord8.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float2 temp_output_2_0_g1 = uv_NormalMap;
-				float2 break6_g1 = temp_output_2_0_g1;
-				float temp_output_25_0_g1 = ( pow( 0.5 , 3.0 ) * 0.1 );
-				float2 appendResult8_g1 = (float2(( break6_g1.x + temp_output_25_0_g1 ) , break6_g1.y));
-				float4 tex2DNode14_g1 = tex2D( _NormalMap, temp_output_2_0_g1 );
-				float temp_output_4_0_g1 = 2.0;
-				float3 appendResult13_g1 = (float3(1.0 , 0.0 , ( ( tex2D( _NormalMap, appendResult8_g1 ).g - tex2DNode14_g1.g ) * temp_output_4_0_g1 )));
-				float2 appendResult9_g1 = (float2(break6_g1.x , ( break6_g1.y + temp_output_25_0_g1 )));
-				float3 appendResult16_g1 = (float3(0.0 , 1.0 , ( ( tex2D( _NormalMap, appendResult9_g1 ).g - tex2DNode14_g1.g ) * temp_output_4_0_g1 )));
-				float3 normalizeResult22_g1 = normalize( cross( appendResult13_g1 , appendResult16_g1 ) );
 				
 				float2 uv_RoughnessMap = IN.ase_texcoord8.xy * _RoughnessMap_ST.xy + _RoughnessMap_ST.zw;
 				
@@ -557,7 +547,7 @@ Shader "Glass"
 				
 
 				float3 BaseColor = tex2D( _Albedo, uv_Albedo ).rgb;
-				float3 Normal = normalizeResult22_g1;
+				float3 Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				float3 Emission = 0;
 				float3 Specular = 0.5;
 				float Metallic = 0;
@@ -2243,21 +2233,11 @@ Shader "Glass"
 				#endif
 
 				float2 uv_NormalMap = IN.ase_texcoord5.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float2 temp_output_2_0_g1 = uv_NormalMap;
-				float2 break6_g1 = temp_output_2_0_g1;
-				float temp_output_25_0_g1 = ( pow( 0.5 , 3.0 ) * 0.1 );
-				float2 appendResult8_g1 = (float2(( break6_g1.x + temp_output_25_0_g1 ) , break6_g1.y));
-				float4 tex2DNode14_g1 = tex2D( _NormalMap, temp_output_2_0_g1 );
-				float temp_output_4_0_g1 = 2.0;
-				float3 appendResult13_g1 = (float3(1.0 , 0.0 , ( ( tex2D( _NormalMap, appendResult8_g1 ).g - tex2DNode14_g1.g ) * temp_output_4_0_g1 )));
-				float2 appendResult9_g1 = (float2(break6_g1.x , ( break6_g1.y + temp_output_25_0_g1 )));
-				float3 appendResult16_g1 = (float3(0.0 , 1.0 , ( ( tex2D( _NormalMap, appendResult9_g1 ).g - tex2DNode14_g1.g ) * temp_output_4_0_g1 )));
-				float3 normalizeResult22_g1 = normalize( cross( appendResult13_g1 , appendResult16_g1 ) );
 				
 				float2 uv_AlphaMap = IN.ase_texcoord5.xy * _AlphaMap_ST.xy + _AlphaMap_ST.zw;
 				
 
-				float3 Normal = normalizeResult22_g1;
+				float3 Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				float Alpha = saturate( ( tex2D( _AlphaMap, uv_AlphaMap ) * _AlphaStrength ) ).r;
 				float AlphaClipThreshold = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -2668,16 +2648,6 @@ Shader "Glass"
 				float2 uv_Albedo = IN.ase_texcoord8.xy * _Albedo_ST.xy + _Albedo_ST.zw;
 				
 				float2 uv_NormalMap = IN.ase_texcoord8.xy * _NormalMap_ST.xy + _NormalMap_ST.zw;
-				float2 temp_output_2_0_g1 = uv_NormalMap;
-				float2 break6_g1 = temp_output_2_0_g1;
-				float temp_output_25_0_g1 = ( pow( 0.5 , 3.0 ) * 0.1 );
-				float2 appendResult8_g1 = (float2(( break6_g1.x + temp_output_25_0_g1 ) , break6_g1.y));
-				float4 tex2DNode14_g1 = tex2D( _NormalMap, temp_output_2_0_g1 );
-				float temp_output_4_0_g1 = 2.0;
-				float3 appendResult13_g1 = (float3(1.0 , 0.0 , ( ( tex2D( _NormalMap, appendResult8_g1 ).g - tex2DNode14_g1.g ) * temp_output_4_0_g1 )));
-				float2 appendResult9_g1 = (float2(break6_g1.x , ( break6_g1.y + temp_output_25_0_g1 )));
-				float3 appendResult16_g1 = (float3(0.0 , 1.0 , ( ( tex2D( _NormalMap, appendResult9_g1 ).g - tex2DNode14_g1.g ) * temp_output_4_0_g1 )));
-				float3 normalizeResult22_g1 = normalize( cross( appendResult13_g1 , appendResult16_g1 ) );
 				
 				float2 uv_RoughnessMap = IN.ase_texcoord8.xy * _RoughnessMap_ST.xy + _RoughnessMap_ST.zw;
 				
@@ -2685,7 +2655,7 @@ Shader "Glass"
 				
 
 				float3 BaseColor = tex2D( _Albedo, uv_Albedo ).rgb;
-				float3 Normal = normalizeResult22_g1;
+				float3 Normal = UnpackNormalScale( tex2D( _NormalMap, uv_NormalMap ), 1.0f );
 				float3 Emission = 0;
 				float3 Specular = 0.5;
 				float Metallic = 0;
@@ -3313,27 +3283,27 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TexturePropertyNode;10;-896.8872,-236.4781;Inherit;True;Property;_Albedo;Albedo;0;0;Create;True;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.SamplerNode;11;-606.8872,-235.4781;Inherit;True;Property;_TextureSample0;Texture Sample 0;1;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TexturePropertyNode;12;-893.8872,0.5218506;Inherit;True;Property;_NormalMap;NormalMap;3;0;Create;True;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.FunctionNode;13;-576.8872,-0.4781494;Inherit;False;NormalCreate;1;;1;e12f7ae19d416b942820e3932b56220f;0;4;1;SAMPLER2D;;False;2;FLOAT2;0,0;False;3;FLOAT;0.5;False;4;FLOAT;2;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.TexturePropertyNode;15;-896.3368,223.3621;Inherit;True;Property;_RoughnessMap;RoughnessMap;4;0;Create;True;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.TexturePropertyNode;15;-896.3368,223.3621;Inherit;True;Property;_RoughnessMap;RoughnessMap;2;0;Create;True;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.OneMinusNode;16;-292.3368,220.3621;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;14;-627.3368,220.3621;Inherit;True;Property;_TextureSample3;Texture Sample 3;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;18;-632.7655,456.025;Inherit;True;Property;_TextureSample4;Texture Sample 4;5;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TexturePropertyNode;17;-905.7655,456.025;Inherit;True;Property;_AlphaMap;AlphaMap;5;0;Create;True;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.TexturePropertyNode;17;-905.7655,456.025;Inherit;True;Property;_AlphaMap;AlphaMap;3;0;Create;True;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
 Node;AmplifyShaderEditor.SaturateNode;20;-83.65967,607.1894;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;22;-252.6597,607.1894;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;21;-461.6597,709.1894;Inherit;False;Property;_AlphaStrength;AlphaStrength;6;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;21;-461.6597,709.1894;Inherit;False;Property;_AlphaStrength;AlphaStrength;4;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TexturePropertyNode;12;-902.887,-11.47815;Inherit;True;Property;_NormalMap;NormalMap;1;0;Create;True;0;0;0;False;0;False;None;None;False;bump;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.SamplerNode;14;-627.3368,220.3621;Inherit;True;Property;_TextureSample3;Texture Sample 3;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;26;-609.1467,-12.71063;Inherit;True;Property;_TextureSample0;Texture Sample 0;5;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;1;0;11;0
-WireConnection;1;1;13;0
+WireConnection;1;1;26;0
 WireConnection;1;4;16;0
 WireConnection;1;6;20;0
 WireConnection;11;0;10;0
-WireConnection;13;1;12;0
 WireConnection;16;0;14;0
-WireConnection;14;0;15;0
 WireConnection;18;0;17;0
 WireConnection;20;0;22;0
 WireConnection;22;0;18;0
 WireConnection;22;1;21;0
+WireConnection;14;0;15;0
+WireConnection;26;0;12;0
 ASEEND*/
-//CHKSM=60867428C2E2E3D375711DF3059EE9B0FA878F4E
+//CHKSM=ABDE41E335C61E4FCAA5FABAEB5CAE28A668FB49
