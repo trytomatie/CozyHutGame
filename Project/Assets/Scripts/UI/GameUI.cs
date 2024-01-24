@@ -34,6 +34,8 @@ public class GameUI : MonoBehaviour
     public MEvent equipmentEquipEvent;
     public UnityEvent<bool> showCursorEvent;
 
+    [Header("Base UI")]
+    public Image selectedTool;
 
     [Header("Building Menu")]
     public TextMeshProUGUI gridSizeText;
@@ -55,6 +57,10 @@ public class GameUI : MonoBehaviour
     [Header("Time UI")]
     public TextMeshProUGUI timeText;
     public Animator timeIconAnmiator;
+
+    [Header("Pause Menu")]
+    public TextMeshProUGUI worldName;
+    public TextMeshProUGUI joinCode;
 
 
     private void Awake()
@@ -142,6 +148,8 @@ public class GameUI : MonoBehaviour
         else if (!pauseMenu.activeSelf)
         {
             pauseEvent.Invoke();
+            worldName.text = GameManager.Instance.worldSaveState.worldName;
+            joinCode.text = "Joincode: " + GameManager.Instance.relayCode;
             SetUI_State(UI_State.Pause);
         }
         else
@@ -149,6 +157,11 @@ public class GameUI : MonoBehaviour
             negativePauseEvent.Invoke();
             SetUI_State(UI_State.Base);
         }
+    }
+
+    public void CopyJoincodeToClipboard()
+    {
+        GUIUtility.systemCopyBuffer = GameManager.Instance.relayCode;
     }
 
     public void QuitGame()
@@ -218,6 +231,7 @@ public class GameUI : MonoBehaviour
                         i = 3;
                         break;
                 }
+                // if not the right element was hit, check if it was a child of the right element
                 if(i== -1)
                 {
                     switch (result[0].gameObject.transform.parent.gameObject.name)
@@ -236,13 +250,21 @@ public class GameUI : MonoBehaviour
                             break;
                     }
                 }
+                if(i != -1)
+                {
+                    selectedTool.sprite = equipmentSelectors[i].equipmentImage.sprite;
+                }
+                else
+                {
+                    selectedTool.sprite = equipmentSelectors[0].empty;
+                }
+
                 equipmentEquipEvent.Invoke(i);
             }
         }
     }
 
     #region RefinmentMenu
-
     public void SetUpRefinmentMenu(RefiningRecipie[] recipies)
     {
         for(int i = 0; i < refinementRecipiePanel.transform.childCount; i++)
