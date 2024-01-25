@@ -8,6 +8,8 @@ public class NewPlayerCustomizationUI : MonoBehaviour
     public PlayerCustomization playerCustomization;
     [Header("Toggle Container")]
     public GameObject skinColorToggleContainer;
+    public GameObject eyeBrowShapeToggleContainer;
+    public GameObject hairToggleContainer;
     // Singelton
     public static NewPlayerCustomizationUI instance;
     public void Start()
@@ -22,6 +24,8 @@ public class NewPlayerCustomizationUI : MonoBehaviour
             Destroy(this);
         }
         AssignToggleFunctionality(skinColorToggleContainer.GetComponentsInChildren<ToggleSelectionUI>(), 8);
+        AssignToggleFunctionality(eyeBrowShapeToggleContainer.GetComponentsInChildren<ToggleSelectionUI>(), 9);
+        AssignToggleFunctionality(hairToggleContainer.GetComponentsInChildren<ToggleSelectionUI>(), 13);
     }
 
     private void AssignToggleFunctionality(ToggleSelectionUI[] toggles, int changeValue)

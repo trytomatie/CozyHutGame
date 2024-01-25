@@ -107,7 +107,7 @@ public class GameManager : NetworkBehaviour
 
     private void OnApplicationQuit()
     {
-        if(playerIsLoaded)
+        if(playerIsLoaded && SceneManager.GetActiveScene().name != "LobbyScreen")
         {
             playerSaveData.SavePlayerData();
         }

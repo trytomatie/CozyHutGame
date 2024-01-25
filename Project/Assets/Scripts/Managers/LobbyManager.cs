@@ -99,7 +99,6 @@ public class LobbyManager : MonoBehaviour
 
             joinedLobby = lobby;
             Debug.Log("Lobby Created:" + lobby.Name + " " + lobby.Id);
-            lobbyUI.ChangeUIState(3);
             lobbyUI.ReloadLobbyUI(lobby);
             InvokeRepeating("InvokeHeartbeat", heartBeatTimer, heartBeatTimer);
         }

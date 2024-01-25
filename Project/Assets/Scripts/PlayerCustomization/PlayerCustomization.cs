@@ -15,6 +15,8 @@ public class PlayerCustomization : NetworkBehaviour
     public SkinnedMeshRenderer playerHead;
     public SkinnedMeshRenderer playerEars;
     public SkinnedMeshRenderer playerFace;
+    public MeshRenderer playerHair;
+    public MeshFilter playerHairMeshFilter;
 
     [Range(0, 2)]
     public int torsoIndex;
@@ -50,26 +52,26 @@ public class PlayerCustomization : NetworkBehaviour
     [Range(0, 5)]
     public int highlightIndex;
 
+    [Range(0, 60)]
+    public int hairColorIndex;
+
+    [Range(0, 1)]
+    public int hairIndex;
+
 
     public PlayerCustomizationAsset[] torso;
     public PlayerCustomizationAsset[] legs;
     public PlayerCustomizationAsset[] feet;
+    public Mesh[] hair;
 
     public Material[] skinColor;
+    public Material[] hairMaterialMale;
+    public Material[] hairMaterialFemale;
 
     private Material eyeMaterial;
     private Material eyebrowMaterial;
     private Material mouthMaterial;
 
-    public Color[] irisColor;
-    public Color[] pupilColor;
-    public Color[] highlightColor;
-    public Color[] eyebrowColor;
-
-#if UNITY_EDITOR
-    [Header("Color Pallete Assigner")]
-    public Sprite colorPalleteLoaderIris;
-#endif
 
     public void SetIndex(int value, int index)
     {
@@ -114,6 +116,12 @@ public class PlayerCustomization : NetworkBehaviour
             case 12:
                 highlightIndex = value;
                 break;
+            case 13:
+                hairIndex = value;
+                break;
+            case 14:
+                hairColorIndex = value;
+                break;
         }
         UpdatePlayerAppearance();
     }
@@ -144,7 +152,7 @@ public class PlayerCustomization : NetworkBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         eyeMaterial = playerFace.materials[0];
         mouthMaterial = playerFace.materials[1];
@@ -152,7 +160,6 @@ public class PlayerCustomization : NetworkBehaviour
         playerFace.materials[0] = eyeMaterial;
         playerFace.materials[1] = mouthMaterial;
         playerFace.materials[2] = eyebrowMaterial;
-        SyncApearenceServerRpc(GameManager.Instance.playerSaveData.GetPlayerSaveData(), NetworkManager.Singleton.LocalClientId);
     }
 
     [ServerRpc (RequireOwnership =false)]
@@ -182,6 +189,8 @@ public class PlayerCustomization : NetworkBehaviour
         mouthIndex = playerData.mouthIndex;
         eyelashIndex = playerData.eyelashIndex;
         highlightIndex = playerData.highlightIndex;
+        hairIndex = playerData.hairIndex;
+        hairColorIndex = playerData.hairColorIndex;
         UpdatePlayerAppearance();
     }
 
@@ -203,7 +212,6 @@ public class PlayerCustomization : NetworkBehaviour
     private void UpdatePlayerAsset(PlayerCustomizationAsset playerCustomizationAsset, SkinnedMeshRenderer meshRenderer)
     {
         /* Switch Clothes */
-        print(torsoIndex);
         meshRenderer.sharedMesh = playerCustomizationAsset.meshReference;
         if (playerCustomizationAsset.hasSkin == true)
         {
@@ -219,6 +227,10 @@ public class PlayerCustomization : NetworkBehaviour
             meshRenderer.material = playerCustomizationAsset.material;
         }
 
+        // Switch Hair
+
+
+
 
         /* Switch Color */
         eyeMaterial.SetColor("_IrisColor", irisColorIndex);
@@ -227,6 +239,7 @@ public class PlayerCustomization : NetworkBehaviour
         eyeMaterial.SetColor("_EyelashColor", eyelashColorIndex);
         eyebrowMaterial.SetColor("_EyebrowColor", eyebrowColorIndex);
 
+        UpdateHair();
 
         switch (eyebrowIndex)
         {
@@ -238,7 +251,7 @@ public class PlayerCustomization : NetworkBehaviour
 
             case 1:
 
-                eyebrowMaterial.SetVector("_SwitchEyebrow", new Vector2(0, 0));
+                eyebrowMaterial.SetVector("_SwitchEyebrow", new Vector2(1, 0));
 
                 break;
 
@@ -416,6 +429,19 @@ public class PlayerCustomization : NetworkBehaviour
                 break;
 
 
+        }
+    }
+
+    private void UpdateHair()
+    {
+        playerHairMeshFilter.mesh = hair[hairIndex];
+        if (hairIndex == 0)
+        {
+            playerHair.material = hairMaterialMale[hairColorIndex];
+        }
+        else
+        {
+            playerHair.material = hairMaterialFemale[hairColorIndex];
         }
     }
 }

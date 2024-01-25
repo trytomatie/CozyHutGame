@@ -26,6 +26,7 @@ public class NetworkPlayerInit : NetworkBehaviour
     public Container inventory;
     public Container equipmentInventory;
     public ObserverCursor observerCursor;
+    public PlayerCustomization playerCustomization;
     public override void OnNetworkSpawn()
     {
         playerName.OnValueChanged += SetPlayerNameCard;
@@ -45,6 +46,10 @@ public class NetworkPlayerInit : NetworkBehaviour
         playerName.Value = name;
     }
 
+    private void Awake()
+    {
+        
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -89,7 +94,8 @@ public class NetworkPlayerInit : NetworkBehaviour
             equipmentInventory.AddToObserverListServerRpc(OwnerClientId);
             inventory.addItemEvents.AddListener(GameManager.Instance.DiscoverItem);
             Collider col = GetComponent<Collider>();
-            GameManager.Instance.LoadPlayerData(GetComponent<PlayerCustomization>(), inventory);
+            GameManager.Instance.LoadPlayerData(playerCustomization, inventory);
+            playerCustomization.SyncApearenceServerRpc(GameManager.Instance.playerSaveData.GetPlayerSaveData(), NetworkManager.Singleton.LocalClientId);
             SetNameCardServerRpc(GameManager.Instance.selectedPlayer);
         }
         SpawnHandPivotSetupServerRpc();

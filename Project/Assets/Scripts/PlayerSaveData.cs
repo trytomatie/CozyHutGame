@@ -175,6 +175,8 @@ public class PlayerSaveData : MonoBehaviour
             customization.mouthIndex = saveData.mouthIndex;
             customization.eyelashIndex = saveData.eyelashIndex;
             customization.highlightIndex = saveData.highlightIndex;
+            customization.hairIndex = saveData.hairIndex;
+            customization.hairColorIndex = saveData.hairColorIndex;
             discoverdItemIDs = saveData.discoverdItemIDs;
 
             LoadQuestData(saveData);
@@ -222,6 +224,8 @@ public class PlayerSaveData : MonoBehaviour
             mouthIndex = customization.mouthIndex,
             eyelashIndex = customization.eyelashIndex,
             highlightIndex = customization.highlightIndex,
+            hairIndex = customization.hairIndex,
+            hairColorIndex = customization.hairColorIndex,
             discoverdItemIDs = discoverdItemIDs,
         };
         if(QuestManager.Instance != null)
@@ -256,6 +260,8 @@ public struct PlayerSaveDataSerialized : INetworkSerializable
     public int mouthIndex;
     public int eyelashIndex;
     public int highlightIndex;
+    public int hairIndex;
+    public int hairColorIndex;
     // No Network Sync for these Atributes
     public List<ulong> discoverdItemIDs; 
     public ItemData[] inventory;
@@ -279,6 +285,8 @@ public struct PlayerSaveDataSerialized : INetworkSerializable
         serializer.SerializeValue(ref mouthIndex);
         serializer.SerializeValue(ref eyelashIndex);
         serializer.SerializeValue(ref highlightIndex);
+        serializer.SerializeValue(ref hairIndex);
+        serializer.SerializeValue(ref hairColorIndex);
     }
 }
 
