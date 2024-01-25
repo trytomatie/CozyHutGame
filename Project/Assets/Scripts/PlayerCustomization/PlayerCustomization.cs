@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlayerCustomization : NetworkBehaviour
@@ -27,15 +28,15 @@ public class PlayerCustomization : NetworkBehaviour
     [Range(0, 2)]
     public int feetIndex;
 
-    public Color irisColorIndex;
+    public Color irisColor;
 
-    public Color pupilColorIndex;
+    public Color pupilColor;
 
-    public Color highlightColorIndex;
+    public Color highlightColor;
 
-    public Color eyelashColorIndex;
+    public Color eyelashColor;
 
-    public Color eyebrowColorIndex;
+    public Color eyebrowColor;
 
     // Has to be int
     public int skinColorIndex;
@@ -71,6 +72,8 @@ public class PlayerCustomization : NetworkBehaviour
     private Material eyeMaterial;
     private Material eyebrowMaterial;
     private Material mouthMaterial;
+
+    public UnityEvent OnUpdateCharacterApearence;
 
 
     public void SetIndex(int value, int index)
@@ -132,19 +135,19 @@ public class PlayerCustomization : NetworkBehaviour
         switch (index)
         {
             case 03:
-                irisColorIndex = color;
+                irisColor = color;
                 break;
             case 04:
-                pupilColorIndex = color;
+                pupilColor = color;
                 break;
             case 05:
-                highlightColorIndex = color;
+                highlightColor = color;
                 break;
             case 06:
-                eyelashColorIndex = color;
+                eyelashColor = color;
                 break;
             case 07:
-                eyebrowColorIndex = color;
+                eyebrowColor = color;
                 break;
         }
         UpdatePlayerAppearance();
@@ -179,11 +182,11 @@ public class PlayerCustomization : NetworkBehaviour
         torsoIndex = playerData.torsoIndex;
         legIndex = playerData.legIndex;
         feetIndex = playerData.feetIndex;
-        irisColorIndex = playerData.irisColor;
-        pupilColorIndex = playerData.pupilColor;
-        highlightColorIndex = playerData.highlightColor;
-        eyelashColorIndex = playerData.eyelashColor;
-        eyebrowColorIndex = playerData.eyebrowColor;
+        irisColor = playerData.irisColor;
+        pupilColor = playerData.pupilColor;
+        highlightColor = playerData.highlightColor;
+        eyelashColor = playerData.eyelashColor;
+        eyebrowColor = playerData.eyebrowColor;
         skinColorIndex = playerData.skinColor;
         eyebrowIndex = playerData.eyebrowIndex;
         mouthIndex = playerData.mouthIndex;
@@ -207,6 +210,7 @@ public class PlayerCustomization : NetworkBehaviour
 
         playerHead.material = skinColor[skinColorIndex];
         playerEars.material = skinColor[skinColorIndex];
+        OnUpdateCharacterApearence.Invoke();
     }
 
     private void UpdatePlayerAsset(PlayerCustomizationAsset playerCustomizationAsset, SkinnedMeshRenderer meshRenderer)
@@ -233,11 +237,11 @@ public class PlayerCustomization : NetworkBehaviour
 
 
         /* Switch Color */
-        eyeMaterial.SetColor("_IrisColor", irisColorIndex);
-        eyeMaterial.SetColor("_PupilColor", pupilColorIndex);
-        eyeMaterial.SetColor("_HighlightColor", highlightColorIndex);
-        eyeMaterial.SetColor("_EyelashColor", eyelashColorIndex);
-        eyebrowMaterial.SetColor("_EyebrowColor", eyebrowColorIndex);
+        eyeMaterial.SetColor("_IrisColor", irisColor);
+        eyeMaterial.SetColor("_PupilColor", pupilColor);
+        eyeMaterial.SetColor("_HighlightColor", highlightColor);
+        eyeMaterial.SetColor("_EyelashColor", eyelashColor);
+        eyebrowMaterial.SetColor("_EyebrowColor", eyebrowColor);
 
         UpdateHair();
 

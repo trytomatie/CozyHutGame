@@ -22,14 +22,17 @@ public class ToggleSelectionUI : MonoBehaviour
     {
         Toggle toggle = GetComponent<Toggle>();
         Animator anim = toggle.GetComponent<Animator>();
-        if(toggle.isOn)
+        if(anim != null)
         {
-            anim.SetBool("Selected", true);
-        }
-        else
-        {
-            anim.SetBool("Selected", false);
-            anim.SetTrigger("Normal");
+            if (toggle.isOn)
+            {
+                anim.SetBool("Selected", true);
+            }
+            else
+            {
+                anim.SetBool("Selected", false);
+                anim.SetTrigger("Normal");
+            }
         }
     }
     // Just there to not break old Unity Events

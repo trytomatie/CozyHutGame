@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2617830692255475159}
   - component: {fileID: 6329009448222269040}
+  - component: {fileID: 942626968047719447}
   m_Layer: 5
   m_Name: ColorSelectorContainer
   m_TagString: Untagged
@@ -86,6 +87,21 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &942626968047719447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545362946953330763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66311b2f669273c49bcf1fa904d2b4a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onToggleOn:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4680261057970679403
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCustomizationAsset : ScriptableObject
 {
     public Mesh meshReference;
-
+    public Sprite thumbnail;
     public Material material;
     public bool hasSkin;
 
