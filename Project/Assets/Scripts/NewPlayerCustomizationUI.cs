@@ -22,9 +22,16 @@ public class NewPlayerCustomizationUI : MonoBehaviour
     public Image pickerIcon;
     public Sprite[] IconList;
 
+    [Header("Eye Color Toggle Container")]
+    public GameObject eyeColorToggleContainer;
+
     [Header("PickedColor Indictaor")]
     public Image eyeBrowColorIndicator;
     public Image hairColorIndicator;
+    public Image lashesColorIndicator;
+    public Image pupilColorIndicator;
+    public Image irisColorIndicator;
+    public Image highLightColorIndicator;
     // Singelton
     public static NewPlayerCustomizationUI instance;
     public void Start()
@@ -46,7 +53,11 @@ public class NewPlayerCustomizationUI : MonoBehaviour
         AssignToggleFunctionality(mouthToggleContainer.GetComponentsInChildren<ToggleSelectionUI>(), 10);
         AssignToggleFunctionality(hairColorToggleContainer.GetComponentsInChildren<ToggleSelectionUI>(), 14);
         playerCustomization.OnUpdateCharacterApearence.AddListener(() => eyeBrowColorIndicator.color = playerCustomization.eyebrowColor);
-        playerCustomization.OnUpdateCharacterApearence.AddListener(() => eyeBrowColorIndicator.color = UngodlyMethodToGetTheHairColor(playerCustomization.hairColorIndex));
+        playerCustomization.OnUpdateCharacterApearence.AddListener(() => hairColorIndicator.color = UngodlyMethodToGetTheHairColor(playerCustomization.hairColorIndex));
+        playerCustomization.OnUpdateCharacterApearence.AddListener(() => irisColorIndicator.color = playerCustomization.irisColor);
+        playerCustomization.OnUpdateCharacterApearence.AddListener(() => lashesColorIndicator.color = playerCustomization.eyelashColor);
+        playerCustomization.OnUpdateCharacterApearence.AddListener(() => highLightColorIndicator.color = playerCustomization.highlightColor);
+        playerCustomization.OnUpdateCharacterApearence.AddListener(() => pupilColorIndicator.color = playerCustomization.pupilColor);
     }
 
     // Yes, i am aware that this is not the best way to do this, but that's just how it's setup for now
@@ -74,12 +85,23 @@ public class NewPlayerCustomizationUI : MonoBehaviour
 
     public void AssignToggleColorFunctionality(int changeValue)
     {
-        ToggleSelectionUI[] toggles = baseColorToggleContainer.GetComponentsInChildren<ToggleSelectionUI>();
-        pickerIcon.sprite = IconList[changeValue];
-        SetUIState(4);
+        ToggleSelectionUI[] toggles;
+        int uiStateToTransitionTo = 4;
+        if (changeValue>= 3) // Base Colors
+        {
+            pickerIcon.sprite = IconList[changeValue];
+            uiStateToTransitionTo = 4;
+            toggles = baseColorToggleContainer.GetComponentsInChildren<ToggleSelectionUI>();
+        }
+        else // Eye Colors
+        {
+            toggles = eyeColorToggleContainer.GetComponentsInChildren<ToggleSelectionUI>();
+            uiStateToTransitionTo = 6;
+        }
+        SetUIState(uiStateToTransitionTo);
         for (int i = 0; i < toggles.Length; i++)
         {
-            Color color = toggles[i].transform.Find("Color_").GetComponent<Image>().color;
+            Color color = toggles[i].transform.GetComponentInChildren<Image>().color;
             toggles[i].onToggleOn.RemoveAllListeners();
             switch (changeValue)
             {

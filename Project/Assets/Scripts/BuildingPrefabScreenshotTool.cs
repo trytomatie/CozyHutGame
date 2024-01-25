@@ -21,12 +21,11 @@ public class BuildingPrefabScreenshotTool : MonoBehaviour
     /// <returns></returns>
     public IEnumerator TakeScreenshot()
     {
+        yield return new WaitForSeconds(1);
         for (int i = 0; i < stage.childCount; i++)
         {
             stage.GetChild(i).gameObject.SetActive(false);
         }
-
-        yield return new WaitForSeconds(1); // Wait for Instantion of all objects
 
         // Take screenshot of each Object in the Stage
         for(int i = 0; i<stage.childCount; i++)
