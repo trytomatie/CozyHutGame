@@ -32,6 +32,12 @@ public class NewPlayerCustomizationUI : MonoBehaviour
     public Image pupilColorIndicator;
     public Image irisColorIndicator;
     public Image highLightColorIndicator;
+
+    [Header("Cloth Tab")]
+    public GameObject ccSelectorPrefab;
+    public GameObject torsoContainer;
+    public GameObject legsContainer;
+    public GameObject feetContainer;
     // Singelton
     public static NewPlayerCustomizationUI instance;
     public void Start()
@@ -58,6 +64,7 @@ public class NewPlayerCustomizationUI : MonoBehaviour
         playerCustomization.OnUpdateCharacterApearence.AddListener(() => lashesColorIndicator.color = playerCustomization.eyelashColor);
         playerCustomization.OnUpdateCharacterApearence.AddListener(() => highLightColorIndicator.color = playerCustomization.highlightColor);
         playerCustomization.OnUpdateCharacterApearence.AddListener(() => pupilColorIndicator.color = playerCustomization.pupilColor);
+        SetUpClothingTab();
     }
 
     // Yes, i am aware that this is not the best way to do this, but that's just how it's setup for now
@@ -80,6 +87,36 @@ public class NewPlayerCustomizationUI : MonoBehaviour
                 int capturedIndex = i;
                 toggles[i].onToggleOn.AddListener(() => playerCustomization.SetIndex(capturedIndex, changeValue));
             }
+        }
+    }
+
+    private void SetUpClothingTab()
+    {
+        // Set up the containers
+        if (playerCustomization != null)
+        {
+            // Torso
+            SetupContainer(playerCustomization.torso, torsoContainer.transform, 0);
+            // Legs
+            SetupContainer(playerCustomization.legs, legsContainer.transform, 1);
+            // Feet
+            SetupContainer(playerCustomization.feet, feetContainer.transform, 2);
+        }
+    }
+
+    private void SetupContainer(PlayerCustomizationAsset[] assets, Transform container, int type)
+    {
+        for (int i = 0; i < container.transform.childCount; i++)
+        {
+            Destroy(container.transform.GetChild(i).gameObject);
+        }
+        for (int i = 0; i < assets.Length; i++)
+        {
+            int capturedIndex = i;
+            GameObject go = Instantiate(ccSelectorPrefab, container);
+            go.transform.GetChild(0).GetComponent<Image>().sprite = assets[i].thumbnail;
+            go.GetComponent<Toggle>().group = container.GetComponent<ToggleGroup>();
+            go.GetComponent<ToggleSelectionUI>().onToggleOn.AddListener(() => playerCustomization.SetIndex(capturedIndex, type));
         }
     }
 
