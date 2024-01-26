@@ -1,3 +1,4 @@
+using MalbersAnimations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -72,7 +73,7 @@ public class NewPlayerCustomizationUI : MonoBehaviour
     {
         Color result = Color.white;
         ToggleSelectionUI[] toggles = baseColorToggleContainer.GetComponentsInChildren<ToggleSelectionUI>();
-        result = toggles[index].transform.Find("Color_").GetComponent<Image>().color;
+        result = toggles[index].transform.ChildContainsName("Color_").GetComponent<Image>().color;
         return result;
     }
 
