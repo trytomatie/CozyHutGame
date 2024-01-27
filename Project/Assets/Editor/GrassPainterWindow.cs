@@ -721,12 +721,14 @@ public class GrassPainterWindow : EditorWindow
                 GetRandomPointOnTerrain(localToWorld, ref maps, terrain, terrain.terrainData.size, ref newPoint, ref newNormal);
                 newData.position = newPoint;
 
+
                 Collider[] cols = Physics.OverlapBox(newData.position, Vector3.one * 0.2f, Quaternion.identity, toolSettings.paintBlockMask);
                 if (cols.Length > 0)
                 {
                     newPoint = Vector3.zero;
                 }
 
+                
 
                 float getFadeMap = 0;
                 // check map layers
@@ -737,6 +739,13 @@ public class GrassPainterWindow : EditorWindow
                     {
                         newPoint = Vector3.zero;
                     }
+                }
+
+                Ray ray = new Ray(newPoint, Vector3.down);
+                // check if postion is a hole in terrain
+                if (!Physics.Raycast(ray,1.1f))
+                {
+                    newPoint = Vector3.zero;
                 }
 
                 if (newNormal.y <= (1 + toolSettings.normalLimit) && newNormal.y >= (1 - toolSettings.normalLimit))
