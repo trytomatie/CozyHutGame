@@ -104,7 +104,12 @@ public class PlayerSaveData : MonoBehaviour
             return;
         }
         print($"PlayerName Already Exists");
+    }
 
+    public void CreatePlayerData(PlayerCustomization playerCustomization)
+    {
+        customization = playerCustomization;
+        CreatePlayerData();
     }
 
     private void CreateDirectories()

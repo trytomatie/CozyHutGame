@@ -1,6 +1,7 @@
 using MalbersAnimations;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,6 +40,9 @@ public class NewPlayerCustomizationUI : MonoBehaviour
     public GameObject torsoContainer;
     public GameObject legsContainer;
     public GameObject feetContainer;
+
+    [Header("Name Input")]
+    public TMP_InputField nameInputField;
     // Singelton
     public static NewPlayerCustomizationUI instance;
     public void Start()
@@ -179,5 +183,33 @@ public class NewPlayerCustomizationUI : MonoBehaviour
         {
             SetUIState(previousUIState);
         }
+    }
+
+    public void CreateNewPlayer()
+    {
+        string name = nameInputField.text;
+        if (name != "" && !CheckForSymbols(name))
+        {
+            playerCustomization.playerName = name;
+            GameManager.Instance.playerSaveData.CreatePlayerData(playerCustomization);
+        }
+        else
+        {
+            Debug.Log("Name must not be empty! Name may not contain special Symbols");
+        }
+    }
+
+    private bool CheckForSymbols(string text)
+    {
+        bool result = false;
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i] == '!' || text[i] == '@' || text[i] == '#' || text[i] == '$' || text[i] == '%' || text[i] == '^' || text[i] == '&' || text[i] == '*' || text[i] == '(' || text[i] == ')' || text[i] == '-' || text[i] == '_' || text[i] == '+' || text[i] == '=' || text[i] == '[' || text[i] == ']' || text[i] == '{' || text[i] == '}' || text[i] == '|' || text[i] == '\\' || text[i] == ':' || text[i] == ';' || text[i] == '"' || text[i] == '\'' || text[i] == '<' || text[i] == '>' || text[i] == ',' || text[i] == '.' || text[i] == '?' || text[i] == '/')
+            {
+                result = true;
+            }
+        }
+        return result;
+
     }
 }
