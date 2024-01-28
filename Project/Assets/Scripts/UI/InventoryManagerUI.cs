@@ -4,16 +4,22 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using static Item;
 
 public class InventoryManagerUI : ContainerUI, IContainerUI
 {
     public GameObject dragImage;
-    public TextMeshProUGUI itemNameText;
+
     public GameObject inventoryUI;
     public Container equipmentContainer;
     private static InventoryManagerUI instance;
     public ItemSlotUI[] equipmentSlots;
+
+    [Header("Hover Item")]
+    public TextMeshProUGUI itemNameText;
+    public TextMeshProUGUI itemNameDescription;
+    public Image itemImage;
     public static InventoryManagerUI Instance { get { return instance; } }
 
     private void Start()
@@ -37,7 +43,12 @@ public class InventoryManagerUI : ContainerUI, IContainerUI
             itemSlots[i].manager = this;
         }
 
+    }
 
+    public void RefreshUI()
+    {
+        RefreshUI(syncedContainer.gameObject);
+        RefreshEquipmentUI(equipmentContainer.gameObject);
     }
 
     public void SetSyncedEquipmentInventory(Container inventory)
@@ -60,6 +71,8 @@ public class InventoryManagerUI : ContainerUI, IContainerUI
         if (item != null)
         {
             itemNameText.text = item.itemName;
+            itemNameDescription.text = item.itemDescription;
+            itemImage.sprite = item.sprite;
             itemNameText.transform.parent.gameObject.SetActive(true);
         }
 
@@ -79,11 +92,9 @@ public class InventoryManagerUI : ContainerUI, IContainerUI
         inventoryUI.SetActive(value);
     }
 
-
-    public virtual void RefreshEquipmentUI(GameObject container)
+    public virtual void RefreshEquipmentUI(Container container)
     {
-
-        if (container.GetComponent<Container>() == equipmentContainer)
+        if (container == equipmentContainer)
         {
             foreach (ItemSlotUI itemslotUI in equipmentSlots)
             {
@@ -99,6 +110,10 @@ public class InventoryManagerUI : ContainerUI, IContainerUI
                 }
             }
         }
+    }
+    public virtual void RefreshEquipmentUI(GameObject container)
+    {
+        RefreshEquipmentUI(container.GetComponent<Container>());
     }
 
     public GameObject DragImage { get => dragImage; }
