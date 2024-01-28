@@ -10,6 +10,7 @@ public class SystemMessageManagerUI : MonoBehaviour
     private uint messageCounterPointer = 0;
     private uint messageCounter = 0;
     private bool isShowingMessage;
+    private string currentMessage;
 
     // Singleton
     public static SystemMessageManagerUI instance;
@@ -43,8 +44,13 @@ public class SystemMessageManagerUI : MonoBehaviour
     {
         while (messageCounterPointer != messageCounter)
         {
+            if(currentMessage == message)
+            {
+                break;
+            }
             yield return new WaitForSeconds(0.5f);
         }
+        currentMessage = message;
         isShowingMessage = true;
         systemMessageText.text = message;
         systemMessageAnimator.SetBool("Show", true);
