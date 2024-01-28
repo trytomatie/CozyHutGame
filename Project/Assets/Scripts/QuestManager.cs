@@ -41,6 +41,7 @@ public class QuestManager : MonoBehaviour
             Instance.quests[Instance.currentQuestIndex].CompleteQuest();
             if (Instance.currentQuestIndex < Instance.quests.Length)
             {
+                SystemMessageManagerUI.ShowSystemMessage("Quest completed!");
                 Instance.currentQuestIndex++;
             }
         }

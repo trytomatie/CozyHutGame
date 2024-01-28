@@ -162,6 +162,7 @@ public class GameUI : MonoBehaviour
     public void CopyJoincodeToClipboard()
     {
         GUIUtility.systemCopyBuffer = GameManager.Instance.relayCode;
+        SystemMessageManagerUI.ShowSystemMessage("Copied joincode to clipboard!");
     }
 
     public void QuitGame()
