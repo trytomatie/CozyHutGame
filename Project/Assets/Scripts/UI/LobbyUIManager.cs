@@ -137,8 +137,8 @@ public class LobbyUIManager : MonoBehaviour
     public void ReloadLobbyUI(Lobby p_lobby)
     {
         //RefreshPlayerList(p_lobby);
-        serverName.text = p_lobby.Name;
-        SetLobbyWindowStartButton(p_lobby.HostId == AuthenticationService.Instance.PlayerId);
+        //serverName.text = p_lobby.Name;
+       // SetLobbyWindowStartButton(p_lobby.HostId == AuthenticationService.Instance.PlayerId);
     }
 
     public void RefreshSavedPlayerDataInUI()

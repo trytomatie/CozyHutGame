@@ -11,6 +11,7 @@ public class ColorPickerCreator : MonoBehaviour
     public Color[] colors;
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(ColorPickerCreator))]
 public class ColorPickerCreatorEditor : Editor
 {
@@ -67,3 +68,4 @@ public class ColorPickerCreatorEditor : Editor
         Debug.Log($"Created {creator.colors.Length} objects");
     }
 }
+#endif

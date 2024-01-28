@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class BuildingPrefabScreenshotTool : MonoBehaviour
 {
     public Transform stage;
@@ -121,3 +122,4 @@ public class BuildingPrefabScreenshotTool : MonoBehaviour
         }
     }
 }
+#endif
