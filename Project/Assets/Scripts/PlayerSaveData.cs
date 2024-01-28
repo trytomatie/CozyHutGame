@@ -199,9 +199,9 @@ public class PlayerSaveData : MonoBehaviour
     // Load QuestData into QuestManager
     public void LoadQuestData(PlayerSaveDataSerialized saveData)
     {
-        if(saveData.questData == null ||  saveData.questData.Length > 0)
+        if(saveData.questData == null ||  saveData.questData.Length <= 0)
         {
-            Debug.LogError("No QuestData found");
+            Debug.LogWarning($"No QuestData found for {saveData.playerName}");
             return;
         }
         for (int i = 0; i < saveData.questData.Length; i++)
