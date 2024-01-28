@@ -11,6 +11,8 @@ public class Item : ScriptableObject
     // Ids are getting Distributed from the ItemManager on Start
     [HideInInspector]public ulong itemId;
     public string itemName;
+    [TextArea(3, 10)]
+    public string itemDescription;
     public GameObject droppedObject;
     public GameObject handProxy;
     public GameObject serverHandProxy;
