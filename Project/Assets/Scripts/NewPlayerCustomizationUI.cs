@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using MalbersAnimations;
 using System.Collections;
 using System.Collections.Generic;
@@ -192,10 +193,14 @@ public class NewPlayerCustomizationUI : MonoBehaviour
         {
             playerCustomization.playerName = name;
             GameManager.Instance.playerSaveData.CreatePlayerData(playerCustomization);
+            LobbyUIManager.Instance.SetCharacterIndex(LobbyUIManager.Instance.FindCharacterIndex(name));
+            LobbyUIManager.Instance.ChangeUIState(0);
         }
         else
         {
-            Debug.Log("Name must not be empty! Name may not contain special Symbols");
+            string error = "Name must not be empty! Name may not contain special Symbols!";
+            SystemMessageManagerUI.ShowSystemMessage(error);
+            Debug.Log(error);
         }
     }
 

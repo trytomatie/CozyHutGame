@@ -13,6 +13,7 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private Animator uiAnimator;
     public enum LobbyUIState { Base,CreateLobby,ServerList,InLobby};
     [SerializeField] private Transform serverList;
+    public static LobbyUIManager Instance;
 
     [Header("Lobby Creation Window")]
     public TextMeshProUGUI lobbyCreationUI_LobbyName;
@@ -24,8 +25,6 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI serverName;
     [SerializeField] private GameObject startButton;
 
-    [Header("Lobby Menu")]
-    public TMP_InputField playerName;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject serverTuple;
@@ -54,6 +53,16 @@ public class LobbyUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Singelton
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+            return;
+        }
         // Load Character Index that was last used
         characterIndex = PlayerPrefs.GetInt("CharacterIndex", 0);
         // Assign Button Events
@@ -63,8 +72,6 @@ public class LobbyUIManager : MonoBehaviour
         deleteCharacterButtonForDeletionWindow.onClick.AddListener(ShowDeleteCharacterWarningWindow);
         cancelDeleteCharacterButton.onClick.AddListener(HideDeleteCharacterWarningWindow);
         ChangeUIState(0);
-        playerName.text = "Tindangle" + UnityEngine.Random.Range(1000, 10000);
-        //SetWorldDropdown();
         RefreshSavedPlayerDataInUI();
     }
 
@@ -109,7 +116,10 @@ public class LobbyUIManager : MonoBehaviour
         GameObject tuple = Instantiate(serverTuple,serverList);
         tuple.GetComponent<ServerTupleManager>().SetupTuple(p_lobby);
     }
-
+    /// <summary>
+    /// Depricated
+    /// </summary>
+    /// <param name="p_lobby"></param>
     public void RefreshPlayerList(Lobby p_lobby)
     {
         for (int i = 0; i < playerList.childCount; i++)
@@ -126,7 +136,7 @@ public class LobbyUIManager : MonoBehaviour
 
     public void ReloadLobbyUI(Lobby p_lobby)
     {
-        RefreshPlayerList(p_lobby);
+        //RefreshPlayerList(p_lobby);
         serverName.text = p_lobby.Name;
         SetLobbyWindowStartButton(p_lobby.HostId == AuthenticationService.Instance.PlayerId);
     }
@@ -163,6 +173,27 @@ public class LobbyUIManager : MonoBehaviour
         {
             characterIndex = 0;
         }
+        characterName.text = characterNames[characterIndex];
+        PlayerPrefs.SetInt("CharacterIndex", characterIndex);
+        RefreshSavedPlayerUIElemetns();
+    }
+
+    public int FindCharacterIndex(string characterName)
+    {
+        RefreshSavedPlayerDataInUI();
+        for (int i = 0; i < characterNames.Length; i++)
+        {
+            if (characterNames[i] == characterName)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public void SetCharacterIndex(int i)
+    {
+        characterIndex = i;
         characterName.text = characterNames[characterIndex];
         PlayerPrefs.SetInt("CharacterIndex", characterIndex);
         RefreshSavedPlayerUIElemetns();

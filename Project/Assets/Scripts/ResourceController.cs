@@ -119,6 +119,7 @@ public class ResourceController : NetworkBehaviour
 
     public void Respawn()
     {
+        // Reset HP
         hp.Value = maxHp;
         RespawnClientRpc();
     }
