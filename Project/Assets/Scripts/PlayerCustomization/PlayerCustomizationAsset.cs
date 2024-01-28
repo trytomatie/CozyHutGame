@@ -35,6 +35,8 @@ public class PlayerCustomizationAssetEditor : Editor
         Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Screenshots/{asset.name}.png");
         asset.thumbnail = sprite;
         Debug.Log($"Loaded Sprite for{asset.name}: {sprite} as thumbnail");
+        // Set dirty to save changes
+        EditorUtility.SetDirty(asset);
 
     }
 }
