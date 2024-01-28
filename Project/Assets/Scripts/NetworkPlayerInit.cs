@@ -87,6 +87,8 @@ public class NetworkPlayerInit : NetworkBehaviour
             GameManager.Instance.inputManager = GetComponent<MInput>();
             GameObject playerSetup = Instantiate(playerSetupPrefab);
             DontDestroyOnLoad(playerSetup);
+            GameManager.Instance.LoadPlayerData(playerCustomization, inventory);
+            playerCustomization.SyncApearenceServerRpc(GameManager.Instance.playerSaveData.GetPlayerSaveData(), NetworkManager.Singleton.LocalClientId);
             playerSetup.GetComponentInChildren<InventoryManagerUI>().SetSyncedInvetory(inventory);
             playerSetup.GetComponentInChildren<InventoryManagerUI>().SetSyncedEquipmentInventory(equipmentInventory);
             playerSetup.GetComponentInChildren<BuildManager>().playerInventory = inventory;
@@ -94,8 +96,7 @@ public class NetworkPlayerInit : NetworkBehaviour
             equipmentInventory.AddToObserverListServerRpc(OwnerClientId);
             inventory.addItemEvents.AddListener(GameManager.Instance.DiscoverItem);
             Collider col = GetComponent<Collider>();
-            GameManager.Instance.LoadPlayerData(playerCustomization, inventory);
-            playerCustomization.SyncApearenceServerRpc(GameManager.Instance.playerSaveData.GetPlayerSaveData(), NetworkManager.Singleton.LocalClientId);
+
             SetNameCardServerRpc(GameManager.Instance.selectedPlayer);
         }
         SpawnHandPivotSetupServerRpc();
