@@ -13,31 +13,41 @@ public class PlayerCustomizationAsset : ScriptableObject
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(PlayerCustomizationAsset))]
+[CanEditMultipleObjects]
 public class PlayerCustomizationAssetEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        PlayerCustomizationAsset asset = (PlayerCustomizationAsset)target;
+        PlayerCustomizationAsset[] assets = Selection.GetFiltered<PlayerCustomizationAsset>(SelectionMode.Assets);
         //asset.meshReference = (Mesh)EditorGUILayout.ObjectField("Mesh Reference", asset.meshReference, typeof(Mesh), false);
         //asset.thumbnail = (Sprite)EditorGUILayout.ObjectField("Thumbnail", asset.thumbnail, typeof(Sprite), false);
         //asset.material = (Material)EditorGUILayout.ObjectField("Material", asset.material, typeof(Material), false);
         //asset.hasSkin = EditorGUILayout.Toggle("Has Skin", asset.hasSkin);
         if (GUILayout.Button("Set Thumbnail",GUILayout.Height(40)))
         {
-            SetThumbnail(asset);
+            SetThumbnail(assets);
         }
     }
 
-    private void SetThumbnail(PlayerCustomizationAsset asset)
+    private void SetThumbnail(PlayerCustomizationAsset[] assets)
     {
-        // Look for the Sprite in the Assets folder
-        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Screenshots/{asset.name}.png");
-        asset.thumbnail = sprite;
-        Debug.Log($"Loaded Sprite for{asset.name}: {sprite} as thumbnail");
-        // Set dirty to save changes
-        EditorUtility.SetDirty(asset);
-
+        foreach(PlayerCustomizationAsset asset in assets)
+        {
+            // Look for the Sprite in the Assets folder
+            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Screenshots/{asset.name}.png");
+            asset.thumbnail = sprite;
+            if(sprite != null)
+            {
+                Debug.Log($"Loaded Sprite for{asset.name}: {sprite} as thumbnail");
+            }
+            else
+            {
+                Debug.LogError($"Could not find Sprite for {asset.name}");
+            }
+            // Set dirty to save changes
+            EditorUtility.SetDirty(asset);
+        }
     }
 }
 #endif

@@ -439,11 +439,11 @@ public class PlayerCustomization : NetworkBehaviour
     private void UpdateHair()
     {
         playerHairMeshFilter.mesh = hair[hairIndex];
-        if (hairIndex == 0)
+        if (hairIndex == 1)
         {
             playerHair.material = hairMaterialMale[hairColorIndex];
         }
-        else
+        else 
         {
             playerHair.material = hairMaterialFemale[hairColorIndex];
         }
