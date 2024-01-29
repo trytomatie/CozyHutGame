@@ -26,11 +26,6 @@ public class Quest_MainIsland : Quest
         return false;
     }
 
-    public override void CompleteQuest()
-    {
-        Debug.Log("Quest Completed");
-    }
-
     public override string[] GetQuestDescription()
     {
         return new string[]

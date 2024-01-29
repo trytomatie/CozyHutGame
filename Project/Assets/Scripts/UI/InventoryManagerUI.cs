@@ -47,8 +47,11 @@ public class InventoryManagerUI : ContainerUI, IContainerUI
 
     public void RefreshUI()
     {
-        RefreshUI(syncedContainer.gameObject);
-        RefreshEquipmentUI(equipmentContainer.gameObject);
+        if(syncedContainer != null)
+        {
+            RefreshUI(syncedContainer.gameObject);
+            RefreshEquipmentUI(equipmentContainer.gameObject);
+        }
     }
 
     public void SetSyncedEquipmentInventory(Container inventory)

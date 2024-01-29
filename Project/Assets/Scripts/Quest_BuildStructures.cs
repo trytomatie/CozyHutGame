@@ -35,11 +35,6 @@ public class Quest_BuildStructures : Quest
         return false;
     }
 
-    public override void CompleteQuest()
-    {
-        Debug.Log("Quest Completed");
-    }
-
     public override string[] GetQuestDescription()
     {
         string[] result = new string[]

@@ -35,11 +35,6 @@ public class Quest_Furnace : Quest
         return false;
     }
 
-    public override void CompleteQuest()
-    {
-        Debug.Log("Quest Completed");
-    }
-
     public override string[] GetQuestDescription()
     {
         return new string[]
