@@ -213,6 +213,7 @@ public class LobbyUIManager : MonoBehaviour
     {
         GameManager.Instance.playerSaveData.DeletePlayerData(characterName.text);
         HideDeleteCharacterWarningWindow();
+        characterIndex = 0;
         RefreshSavedPlayerDataInUI();
     }
 
