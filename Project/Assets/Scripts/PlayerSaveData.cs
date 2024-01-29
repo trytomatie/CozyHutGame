@@ -109,6 +109,7 @@ public class PlayerSaveData : MonoBehaviour
 
     public void CreatePlayerData(PlayerCustomization playerCustomization)
     {
+        QuestManager.Instance.CurrentQuestIndex = 0;
         customization = playerCustomization;
         CreatePlayerData();
     }
