@@ -87,7 +87,7 @@ public class NetworkPlayerInit : NetworkBehaviour
             GameManager.Instance.inputManager = GetComponent<MInput>();
             GameObject playerSetup = Instantiate(playerSetupPrefab);
             DontDestroyOnLoad(playerSetup);
-            GameManager.Instance.LoadPlayerData(playerCustomization, inventory);
+            GameManager.Instance.LoadPlayerData(playerCustomization, inventory,equipmentInventory);
             playerCustomization.SyncApearenceServerRpc(GameManager.Instance.playerSaveData.GetPlayerSaveData(), NetworkManager.Singleton.LocalClientId);
             playerSetup.GetComponentInChildren<InventoryManagerUI>().SetSyncedInvetory(inventory);
             playerSetup.GetComponentInChildren<InventoryManagerUI>().SetSyncedEquipmentInventory(equipmentInventory);

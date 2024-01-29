@@ -12,6 +12,7 @@ public class PlayerSaveData : MonoBehaviour
 {
     public PlayerCustomization customization;
     public Container playerInventory;
+    public Container equipmentInventory;
     public List<ulong> discoverdItemIDs = new List<ulong>();
     [HideInInspector] public List<CraftingRecepie> discoveredRecipies = new List<CraftingRecepie>();
 
@@ -189,6 +190,10 @@ public class PlayerSaveData : MonoBehaviour
             {
                 playerInventory.items = saveData.inventory;
             }
+            if (saveData.equipmentInventory != null && equipmentInventory != null && saveData.equipmentInventory.Length > 0)
+            {
+                equipmentInventory.items = saveData.equipmentInventory;
+            }
         }
         else
         {
@@ -242,6 +247,11 @@ public class PlayerSaveData : MonoBehaviour
         {
             data.inventory = playerInventory.items;
         }
+        if(equipmentInventory != null)
+        {
+            data.inventory = equipmentInventory.items;
+        }
+
         return data;
     }
 
@@ -270,6 +280,7 @@ public struct PlayerSaveDataSerialized : INetworkSerializable
     // No Network Sync for these Atributes
     public List<ulong> discoverdItemIDs; 
     public ItemData[] inventory;
+    public ItemData[] equipmentInventory;
     public int currentQuestIndex;
     public QuestData[] questData;
 

@@ -58,8 +58,9 @@ public class GameManager : NetworkBehaviour
         selectedPlayer = value;
     }
 
-    public void LoadPlayerData(PlayerCustomization customization, Container playerInventory)
+    public void LoadPlayerData(PlayerCustomization customization, Container playerInventory, Container equipmentInventory)
     {
+        playerSaveData.equipmentInventory = equipmentInventory;
         playerSaveData.customization = customization;
         playerSaveData.playerInventory = playerInventory;
         playerSaveData.LoadPlayerData(selectedPlayer);
