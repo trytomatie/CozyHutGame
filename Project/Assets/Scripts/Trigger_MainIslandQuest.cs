@@ -14,17 +14,14 @@ public class Trigger_MainIslandQuest : MonoBehaviour
         // And check if the quest is completed
         if (other.gameObject.GetComponent<NetworkObject>().NetworkObjectId == NetworkManager.Singleton.LocalClientId)
         {
-            Quest_MainIsland quest = QuestManager.Instance.quests[2] as Quest_MainIsland;
-            if(QuestManager.Instance.CurrentQuestIndex == 2)
+            Quest quest = QuestManager.Instance.quests[QuestManager.Instance.CurrentQuestIndex];
+            bool isMainislandQuest = quest.GetType().Equals(typeof(Quest_MainIsland));
+            if(isMainislandQuest)
             {
                 quest.questData.questProgress[0].x = 1;
                 QuestManager.CheckQuestConditions();
                 gameObject.SetActive(false);
                 return;
-            }
-            if(QuestManager.Instance.CurrentQuestIndex > 2)
-            {
-                gameObject.SetActive(false);
             }
         }
     }

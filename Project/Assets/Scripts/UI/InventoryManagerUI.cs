@@ -99,12 +99,14 @@ public class InventoryManagerUI : ContainerUI, IContainerUI
             foreach (ItemSlotUI itemslotUI in equipmentSlots)
             {
                 itemslotUI.ItemImage.sprite = null;
+                itemslotUI.ItemImage.enabled = false;
                 itemslotUI.StackSizeText.text = "";
             }
             for (int i = 0; i < equipmentContainer.items.Length; i++)
             {
                 if (equipmentContainer.items[i] != ItemData.Null)
                 {
+                    equipmentSlots[i].ItemImage.enabled = true;
                     equipmentSlots[i].ItemImage.sprite = ItemManager.GenerateItem(equipmentSlots[i].ItemRef).sprite;
                     //equipmentSlots[i].StackSizeText.text = "x" + ItemManager.GenerateItem(itemSlots[i].ItemRef).stackSize;
                 }
