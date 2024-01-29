@@ -36,6 +36,8 @@ public class Quest_MainIsland : Quest
         return new string[]
         {
            $"{questData.questProgress[0].x} / {questData.questProgress[0].y} Main Island Reached",
+           $" ",
+           $"Reward: - {rewardAmounts[0]} {reward[0].itemName}"
         };
     }
 

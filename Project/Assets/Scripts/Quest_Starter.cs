@@ -37,11 +37,14 @@ public class Quest_Starter : Quest
 
     public override string[] GetQuestDescription()
     {
-        return new string[]
+        string[] result = new string[]
         {
             $"{questData.questProgress[0].x} / {questData.questProgress[0].y} Sticks Collected",
-            $"{questData.questProgress[1].x} / {questData.questProgress[1].y} Stones Collected"
+            $"{questData.questProgress[1].x} / {questData.questProgress[1].y} Stones Collected",
+            $" ",
+            $"Reward: - {rewardAmounts[0]} {reward[0].itemName}"
         };
+        return result;
     }
 
 }

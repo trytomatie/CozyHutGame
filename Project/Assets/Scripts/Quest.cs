@@ -26,7 +26,12 @@ public class Quest : ScriptableObject
 
     public virtual void CompleteQuest()
     {
-        Debug.Log("Quest Completed");
+        SystemMessageManagerUI.ShowSystemMessage("Quest completed!");
+        if(reward.Length > 0)
+        {
+            SystemMessageManagerUI.ShowSystemMessage($"You received {rewardAmounts[0]} {reward[0].itemName}");
+            AwardItems(GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().inventory);
+        }
     }
 
     public virtual void AwardItems(Container targetContainer)

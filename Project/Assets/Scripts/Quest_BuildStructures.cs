@@ -42,11 +42,15 @@ public class Quest_BuildStructures : Quest
 
     public override string[] GetQuestDescription()
     {
-        return new string[]
+        string[] result = new string[]
         {
            $"{questData.questProgress[0].x} / {questData.questProgress[0].y} Equip the Hammer and Open the Building Menu",
-           $"{questData.questProgress[1].x} / {questData.questProgress[1].y} Structures Built"
+           $"{questData.questProgress[1].x} / {questData.questProgress[1].y} Structures Built",
+           $" ",
+           $"Reward: - {rewardAmounts[0]} {reward[0].itemName}"
         };
+        return result;
+
     }
 
 }
