@@ -12,8 +12,9 @@ public class QuestManager : MonoBehaviour
 {
     public Quest[] quests;
     private int currentQuestIndex = 0;
-    public static QuestManager Instance;
+    private static QuestManager instance;
 
+    private bool questCompleted = false;
 
 
     private void Awake()
@@ -31,27 +32,28 @@ public class QuestManager : MonoBehaviour
 
     public static void CheckQuestConditions()
     {
-        if(Instance.quests[Instance.currentQuestIndex] == null)
+        if(Instance.quests[Instance.CurrentQuestIndex] == null || Instance.questCompleted)
         {
             return;
         }
         // Check the quest conditions of the current quest
-        if (Instance.quests[Instance.currentQuestIndex].CheckQuestConditions())
+        if (Instance.quests[Instance.CurrentQuestIndex].CheckQuestConditions())
         {
-            Instance.quests[Instance.currentQuestIndex].CompleteQuest();
-            if (Instance.currentQuestIndex < Instance.quests.Length)
+            Instance.questCompleted = true;
+            Instance.quests[Instance.CurrentQuestIndex].CompleteQuest();
+            if (Instance.CurrentQuestIndex < Instance.quests.Length)
             {
-                SystemMessageManagerUI.ShowSystemMessage("Quest completed!");
-                Instance.currentQuestIndex++;
+                Instance.CurrentQuestIndex++;
             }
+            Instance.questCompleted = false;
         }
         Instance.UpdateQuestUI();
     }
 
     public void UpdateQuestUI()
     {
-        string questName = Instance.quests[Instance.currentQuestIndex].questData.questName;
-        string[] questDescription = Instance.quests[Instance.currentQuestIndex].GetQuestDescription();
+        string questName = Instance.quests[Instance.CurrentQuestIndex].questData.questName;
+        string[] questDescription = Instance.quests[Instance.CurrentQuestIndex].GetQuestDescription();
 
         GameUI.Instance.questName.text = questName;
         GameUI.Instance.questDescription.text = "";
@@ -64,8 +66,13 @@ public class QuestManager : MonoBehaviour
     public int CurrentQuestIndex 
     { 
         get => currentQuestIndex;
-        set => currentQuestIndex = value; 
-    }
+        set 
+        {
 
+            Debug.Log("Quest Index Increased");
+            currentQuestIndex = value;
+        }
+    }
+    public static QuestManager Instance { get => instance; set => instance = value; }
 }
 
