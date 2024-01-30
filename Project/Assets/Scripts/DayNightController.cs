@@ -1,3 +1,4 @@
+using AtmosphericHeightFog;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,11 +14,14 @@ public class DayNightController : MonoBehaviour
     public AnimationCurve sunIntensity;
     [SerializeField]
     public Gradient sunColor;
+    public Gradient heightFogColorStart;
+    public Gradient heightFogColorEnd;
     public float sunAngleOffset = -90;
 
     [Header("References")]
     public Light sun;
     public LensFlareComponentSRP lensFlare;
+    public HeightFogGlobal fog;
 
     public static void SetTime(TimeSpan value)
     {
@@ -48,6 +52,8 @@ public class DayNightController : MonoBehaviour
         sun.transform.rotation = Quaternion.Euler(sunAngleOffset + angle, 169.6f, 0f);
         sun.intensity = sunIntensity.Evaluate(normalizedDayTime);
         sun.color = sunColor.Evaluate(normalizedDayTime);
+        fog.fogColorStart = heightFogColorStart.Evaluate(normalizedDayTime);
+        fog.fogColorEnd = heightFogColorEnd.Evaluate(normalizedDayTime);
         if (normalizedDayTime <= 0.6f)
         {
             lensFlare.enabled = true;

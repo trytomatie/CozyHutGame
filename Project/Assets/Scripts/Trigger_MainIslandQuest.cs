@@ -12,16 +12,20 @@ public class Trigger_MainIslandQuest : MonoBehaviour
         // Check if the player has entered the trigger
         // If so, update the quest progress
         // And check if the quest is completed
-        if (other.gameObject.GetComponentInParent<NetworkObject>().NetworkObjectId == NetworkManager.Singleton.LocalClientId)
+        if (other.gameObject.GetComponent<NetworkPlayerInit>() != null)
         {
-            Quest quest = QuestManager.Instance.quests[QuestManager.Instance.CurrentQuestIndex];
-            bool isMainislandQuest = quest.GetType().Equals(typeof(Quest_MainIsland));
-            if(isMainislandQuest)
+            NetworkPlayerInit player = other.gameObject.GetComponent<NetworkPlayerInit>();
+            if(player.gameObject == GameManager.GetLocalPlayer())
             {
-                quest.questData.questProgress[0].x = 1;
-                QuestManager.CheckQuestConditions();
-                gameObject.SetActive(false);
-                return;
+                Quest quest = QuestManager.Instance.quests[QuestManager.Instance.CurrentQuestIndex];
+                bool isMainislandQuest = quest.GetType().Equals(typeof(Quest_MainIsland));
+                if (isMainislandQuest)
+                {
+                    quest.questData.questProgress[0].x = 1;
+                    QuestManager.CheckQuestConditions();
+                    gameObject.SetActive(false);
+                    return;
+                }
             }
         }
     }
