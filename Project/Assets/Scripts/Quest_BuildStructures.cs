@@ -9,7 +9,7 @@ public class Quest_BuildStructures : Quest
     {
         // Setup Quest
         questData = new QuestData();
-        questData.questId = 0;
+        questData.questId = 2;
         questData.questName = "Time to Build";
         questData.questProgress = new Vector2Int[] 
         { 
@@ -37,7 +37,7 @@ public class Quest_BuildStructures : Quest
 
     public override string[] GetQuestDescription()
     {
-        string[] result = new string[]
+        string[] result = new string[]  
         {
            $"{questData.questProgress[0].x} / {questData.questProgress[0].y} Equip the Hammer and Open the Building Menu",
            $"{questData.questProgress[1].x} / {questData.questProgress[1].y} Structures Built",

@@ -50,6 +50,7 @@ public class SystemMessageManagerUI : MonoBehaviour
             }
             yield return new WaitForSeconds(0.5f);
         }
+        yield return new WaitForSeconds(0.5f);
         currentMessage = message;
         isShowingMessage = true;
         systemMessageText.text = message;

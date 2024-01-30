@@ -9,7 +9,7 @@ public class Quest_Furnace : Quest
     {
         // Setup Quest
         questData = new QuestData();
-        questData.questId = 0;
+        questData.questId = 4;
         questData.questName = "They are Minerals!";
         questData.questProgress = new Vector2Int[] 
         { 

@@ -48,26 +48,8 @@ public class ResourceController : NetworkBehaviour
     {
         if(hp.Value > 0)
         {
-            if(needWeaknessForEffectiveDamage && weakness != null && weakness.ID == statElementId)
-            {
-                // Weakness is hit
-            }
-            else if(needWeaknessForEffectiveDamage)
-            {
-                // Weakness is not hit
-                dmg = 0;
-            }
-            if(hp.Value > dmg)
-            {
-                hp.Value -= dmg;
-            }
-            else
-            {
-                dmg = hp.Value;
-                hp.Value = 0;
-            }
+            dmg = CalculateDamage(dmg, statElementId);
 
-            
             var source = NetworkManager.Singleton.ConnectedClients[sourceId].PlayerObject;
             List<ulong> clientList = NetworkManager.ConnectedClientsIds.ToList();
             clientList.Remove(sourceId);
@@ -78,21 +60,56 @@ public class ResourceController : NetworkBehaviour
                     TargetClientIds = clientList.AsReadOnly()
                 }
             };
-            // source.GetComponent<Inventory>().AddItemClientRPC(itemDrop.itemId, dmg, clientRpcParams);
-            GameManager.Instance.SpawnDroppedItemServerRpc(itemDrop.itemId, dmg, objectSpawnPont + new Vector3(0,1,0));
-            print($"Damage: {dmg}");
-            PlayFeedbackClientRpc(dmg, sourceId, clientRpcParams);
 
+            GameManager.Instance.SpawnDroppedItemServerRpc(itemDrop.itemId, dmg, objectSpawnPont + new Vector3(0, 1, 0));
+            ClientResolutionClientRpc(dmg, sourceId, clientRpcParams);
 
+            // Update Statistics for the player who destroyed the resource
+            if (hp.Value <= 0)
+            {
+                clientRpcParams = new ClientRpcParams
+                {
+                    Send = new ClientRpcSendParams
+                    {
+                        TargetClientIds = new List<ulong> { sourceId }.AsReadOnly()
+                    }
+                };
+                UpdateStatisticsClientRPC(dmg, sourceId, clientRpcParams);
+            }
         }
 
     }
+
+    private int CalculateDamage(int dmg, int statElementId)
+    {
+        if (needWeaknessForEffectiveDamage && weakness != null && weakness.ID == statElementId)
+        {
+            // Weakness is hit
+        }
+        else if (needWeaknessForEffectiveDamage)
+        {
+            // Weakness is not hit
+            dmg = 0;
+        }
+        if (hp.Value > dmg)
+        {
+            hp.Value -= dmg;
+        }
+        else
+        {
+            dmg = hp.Value;
+            hp.Value = 0;
+        }
+
+        return dmg;
+    }
+
     [ClientRpc]
-    private void PlayFeedbackClientRpc(int dmg, ulong sourceId,ClientRpcParams clientRpcParams = default)
+    private void ClientResolutionClientRpc(int dmg, ulong sourceId, ClientRpcParams clientRpcParams = default)
     {
         MMF_FloatingText floatingText = damageFeedback.GetFeedbackOfType<MMF_FloatingText>();
         floatingText.Value = string.Format( "{0}",dmg);
-        if(NetworkManager.LocalClientId == sourceId)
+        if(GameManager.GetLocalPlayer().GetComponent<NetworkObject>().OwnerClientId == sourceId)
         {
             floatingText.AnimateColorGradient = GameManager.Instance.myColor;
         }
@@ -103,6 +120,15 @@ public class ResourceController : NetworkBehaviour
         VFXSpawner.SpawnVFX(spawnVFX, transform.position);
         damageFeedback.StopFeedbacks();
         damageFeedback.PlayFeedbacks();
+    }
+
+    [ClientRpc]
+    private void UpdateStatisticsClientRPC(int dmg, ulong sourceId, ClientRpcParams clientRpcParams = default)
+    {
+        if (NetworkManager.Singleton.LocalClientId == sourceId)
+        {
+            StatisticsAPI.AddResourceDestroyed((ulong)resourceId);
+        }
     }
 
     public void PlayFeedback(int dmg)

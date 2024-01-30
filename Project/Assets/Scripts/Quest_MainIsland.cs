@@ -9,7 +9,7 @@ public class Quest_MainIsland : Quest
     {
         // Setup Quest
         questData = new QuestData();
-        questData.questId = 0;
+        questData.questId = 3;
         questData.questName = "Finding new Lands.";
         questData.questProgress = new Vector2Int[] 
         { 

@@ -13,6 +13,7 @@ public class StatisticsAPI : MonoBehaviour
 
     // Building Stats
     public Dictionary<ulong, int> buildingsBuilt = new Dictionary<ulong, int>();
+    public Dictionary<ulong, int> resorucesDestroyed = new Dictionary<ulong, int>();
 
     public void Start()
     {
@@ -36,6 +37,37 @@ public class StatisticsAPI : MonoBehaviour
         {
             Instance.buildingsBuilt.Add(buildingId, 1);
         }
+    }
+
+    public static void AddResourceDestroyed(ulong resourceId)
+    {
+        if (Instance.resorucesDestroyed.ContainsKey(resourceId))
+        {
+            Instance.resorucesDestroyed[resourceId]++;
+        }
+        else
+        {
+            Instance.resorucesDestroyed.Add(resourceId, 1);
+        }
+    }
+
+    public static int GetResourceStatistic_ResourceDestroyed(ulong id)
+    {
+        if (Instance.resorucesDestroyed.ContainsKey(id))
+        {
+            return Instance.resorucesDestroyed[id];
+        }
+        return 0;
+    }
+
+    public static int GetResourceStatistic_ResourceDestroyed(ulong[] id)
+    {
+        int total = 0;
+        foreach (ulong value in id)
+        {
+            total += GetResourceStatistic_ResourceDestroyed(value);
+        }
+        return total;
     }
 
     public static int GetBuildingsStatistic_BuildingsBuilt(ulong id) 
