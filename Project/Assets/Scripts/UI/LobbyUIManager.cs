@@ -41,6 +41,7 @@ public class LobbyUIManager : MonoBehaviour
     public Button deleteCharacterButton;
     public Button cancelDeleteCharacterButton;
     public PlayerCustomization playerVisual;
+    public RawImage playerVisualImage;
 
     [Header("New World")]
     public TMP_InputField newWorldName;
@@ -152,13 +153,16 @@ public class LobbyUIManager : MonoBehaviour
 
     public void RefreshSavedPlayerDataInUI()
     {
-        if(characterNames.Length == 0)
+        characterNames = GameManager.Instance.playerSaveData.FindSavedPlayerData().ToArray();
+        if (characterNames.Length == 0)
         {
-            playerVisual.gameObject.SetActive(false);
+            playerVisualImage.enabled = false;
             return;
         }
-        playerVisual.gameObject.SetActive(true);
-        characterNames = GameManager.Instance.playerSaveData.FindSavedPlayerData().ToArray();
+        else
+        {
+            playerVisualImage.enabled = true;
+        }
         characterName.text = characterNames[characterIndex];
         RefreshSavedPlayerUIElemetns();
     }
@@ -216,6 +220,11 @@ public class LobbyUIManager : MonoBehaviour
 
     public void ShowDeleteCharacterWarningWindow()
     {
+        if(characterNames.Length == 0)
+        {
+            SystemMessageManagerUI.ShowSystemMessage("There is no Character to Delete");
+            return;
+        }
         deleteCharacterWarningWindow.SetActive(true);
     }
 

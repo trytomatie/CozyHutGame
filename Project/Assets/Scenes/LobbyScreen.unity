@@ -18426,12 +18426,12 @@ PrefabInstance:
     - target: {fileID: 2333188852074578136, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -0.7579265
+      value: 0.6990402
       objectReference: {fileID: 0}
     - target: {fileID: 2333188852074578136, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.191798
+      value: -5.006667
       objectReference: {fileID: 0}
     - target: {fileID: 2700418133495496392, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
@@ -18466,12 +18466,12 @@ PrefabInstance:
     - target: {fileID: 7193318628768774759, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -0.7579265
+      value: 0.6990402
       objectReference: {fileID: 0}
     - target: {fileID: 7193318628768774759, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.191798
+      value: -5.006667
       objectReference: {fileID: 0}
     - target: {fileID: 7407053819210450039, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
@@ -18486,12 +18486,12 @@ PrefabInstance:
     - target: {fileID: 8292485039796358035, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -0.7579265
+      value: 0.6990402
       objectReference: {fileID: 0}
     - target: {fileID: 8292485039796358035, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.191798
+      value: -5.006667
       objectReference: {fileID: 0}
     - target: {fileID: 9021154107758205886, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
@@ -19764,6 +19764,18 @@ MonoBehaviour:
       - m_Target: {fileID: 601497197}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1554848330}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -52650,6 +52662,7 @@ MonoBehaviour:
   deleteCharacterButton: {fileID: 2015099308}
   cancelDeleteCharacterButton: {fileID: 881955636}
   playerVisual: {fileID: 1929966483}
+  playerVisualImage: {fileID: 1554848330}
   newWorldName: {fileID: 2114775935}
   worldTuple: {fileID: 7756727179742601771, guid: 5a692a47aae95c14790bf8a61ddb297c,
     type: 3}
@@ -60542,7 +60555,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Elena
+  m_text: None
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 23e15b8cf0b44894eaa9348308297d9c, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 23e15b8cf0b44894eaa9348308297d9c, type: 2}
@@ -69702,7 +69715,7 @@ GameObject:
   - component: {fileID: 1554848329}
   - component: {fileID: 1554848330}
   m_Layer: 5
-  m_Name: Image
+  m_Name: PlayerUIImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
