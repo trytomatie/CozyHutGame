@@ -21,7 +21,7 @@ public class Trigger_MainIslandQuest : MonoBehaviour
                 bool isMainislandQuest = quest.GetType().Equals(typeof(Quest_MainIsland));
                 if (isMainislandQuest)
                 {
-                    quest.questData.questProgress[0].x = 1;
+                    quest.questData.questProgress[0] = 1;
                     QuestManager.CheckQuestConditions();
                     gameObject.SetActive(false);
                     return;

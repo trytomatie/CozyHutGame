@@ -11,20 +11,16 @@ public class Quest_Starter : Quest
         questData = new QuestData();
         questData.questId = 0;
         questData.questName = "STARting out";
-        questData.questProgress = new Vector2Int[] 
-        { 
-            new Vector2Int(0, 3), // Sticks
-            new Vector2Int(0, 3)  // Stones
-        };
+        questData.questProgress = new int[] { 0, 0 };
+        questData.questProgressCap = new int[] { 3, 3 };
     }
 
     public override bool CheckQuestConditions()
     {
         // Check if quest is completed by checking if the player has the required items
-        SystemMessageManagerUI.ShowSystemMessage($"Checking quest conditions:{ GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().inventory.GetAmmountOfItem(condtionItems[0].itemId)}");
-        questData.questProgress[0].x = GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().inventory.GetAmmountOfItem(condtionItems[0].itemId);
-        questData.questProgress[1].x = GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().inventory.GetAmmountOfItem(condtionItems[1].itemId);
-        if (questData.questProgress[0].x >= questData.questProgress[0].y && questData.questProgress[1].x >= questData.questProgress[1].y)
+        questData.questProgress[0] = GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().inventory.GetAmmountOfItem(condtionItems[0].itemId);
+        questData.questProgress[1] = GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().inventory.GetAmmountOfItem(condtionItems[1].itemId);
+        if (questData.questProgress[0] >= questData.questProgressCap[0] && questData.questProgress[1] >= questData.questProgressCap[1])
         {
             return true;
         }
@@ -35,8 +31,8 @@ public class Quest_Starter : Quest
     {
         string[] result = new string[]
         {
-            $"{questData.questProgress[0].x} / {questData.questProgress[0].y} Sticks Collected",
-            $"{questData.questProgress[1].x} / {questData.questProgress[1].y} Stones Collected",
+            $"{questData.questProgress[0]} / {questData.questProgressCap[0]} Sticks Collected",
+            $"{questData.questProgress[1]} / {questData.questProgressCap[1]} Stones Collected",
             $" ",
             $"Reward: - {rewardAmounts[0]} {reward[0].itemName}"
         };

@@ -11,15 +11,13 @@ public class Quest_MainIsland : Quest
         questData = new QuestData();
         questData.questId = 3;
         questData.questName = "Finding new Lands.";
-        questData.questProgress = new Vector2Int[] 
-        { 
-            new Vector2Int(0, 1), // Reached Main Island
-        };
+        questData.questProgress = new int[] { 0};
+        questData.questProgressCap = new int[] { 1};
     }
 
     public override bool CheckQuestConditions()
     {
-        if (questData.questProgress[0].x >= questData.questProgress[0].y)
+        if (questData.questProgress[0] >= questData.questProgressCap[0])
         {
             return true;
         }
@@ -30,7 +28,7 @@ public class Quest_MainIsland : Quest
     {
         return new string[]
         {
-           $"{questData.questProgress[0].x} / {questData.questProgress[0].y} Main Island Reached",
+           $"{questData.questProgress[0]} / {questData.questProgressCap[0]} Main Island Reached",
            $" ",
            $"Reward: - {rewardAmounts[0]} {reward[0].itemName}"
         };

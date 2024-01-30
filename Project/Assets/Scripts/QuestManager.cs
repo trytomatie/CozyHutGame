@@ -68,8 +68,6 @@ public class QuestManager : MonoBehaviour
         get => currentQuestIndex;
         set 
         {
-
-            Debug.Log("Quest Index Increased");
             currentQuestIndex = value;
         }
     }

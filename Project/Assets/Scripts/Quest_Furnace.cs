@@ -11,24 +11,21 @@ public class Quest_Furnace : Quest
         questData = new QuestData();
         questData.questId = 4;
         questData.questName = "They are Minerals!";
-        questData.questProgress = new Vector2Int[] 
-        { 
-            new Vector2Int(0, 1), // Built Furnace
-            new Vector2Int(0, 1), // Interacted with Furnace
-        };
+        questData.questProgress = new int[] { 0, 0 };
+        questData.questProgressCap = new int[] { 1, 3 };
     }
 
     public override bool CheckQuestConditions()
     {
         if(StatisticsAPI.GetBuildingsStatistic_BuildingsBuilt(12) >= 1)
         {
-            questData.questProgress[0].x = 1;
+            questData.questProgress[0] = 1;
         }   
         if(GameUI.Instance.GetComponent<Animator>().GetInteger("Ui_State") == 5) 
         {
-            questData.questProgress[1].x = 1;
+            questData.questProgress[1] = 1;
         }
-        if (questData.questProgress[1].x >= questData.questProgress[1].y)
+        if (questData.questProgress[1] >= questData.questProgressCap[1])
         {
             return true;
         }
@@ -39,8 +36,8 @@ public class Quest_Furnace : Quest
     {
         return new string[]
         {
-           $"{questData.questProgress[0].x} / {questData.questProgress[0].y} Build furnace",
-           $"{questData.questProgress[1].x} / {questData.questProgress[1].y} Interact with furnace"
+           $"{questData.questProgress[0]} / {questData.questProgressCap[0]} Build furnace",
+           $"{questData.questProgress[1]} / {questData.questProgressCap[1]} Interact with furnace"
         };
     }
 

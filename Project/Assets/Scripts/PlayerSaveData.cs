@@ -99,7 +99,7 @@ public class PlayerSaveData : MonoBehaviour
         {
             for(int o = 0; o < saveData.questData[i].questProgress.Length; o++)
             {
-                saveData.questData[i].questProgress[o] = new Vector2Int(0, 0);
+                saveData.questData[i].questProgress[o] = 0;
             }
         }
         List<string> playerFiles = FindSavedPlayerData();

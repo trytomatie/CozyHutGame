@@ -46,29 +46,27 @@ public class Quest : ScriptableObject
 public struct QuestData
 {
     public int questId;
-    public Vector2Int[] questProgress;
+    public int[] questProgress;
+    public int[] questProgressCap;
     [JsonIgnore]
     public string questName;
 
     // constructor
-    public QuestData(int questId, ItemData[] reward, int[] rewardAmounts, Vector2Int[] questProgress, string questName, string questDescription)
+    public QuestData(int questId, int[] questProgress, int[] questProgressCap, string questName)
     {
         this.questId = questId;
         this.questProgress = questProgress;
+        this.questProgressCap = questProgressCap;
         this.questName = questName;
     }
 
     // Setup Questdata from SaveFile
-    public void SetupDataFromSaveFile(QuestData questData)
+    public void SetupDataFromSaveFile(QuestData saveQuestData)
     {
-        if(this.questId == questData.questId)
+        if(this.questId == saveQuestData.questId)
         {
-            int i = 0;
-            foreach(Vector2Int progress in questData.questProgress)
-            {
-                this.questProgress[i].x = progress.x;
-                i++;
-            }
+            this.questProgress = saveQuestData.questProgress;
+            Debug.Log($"Quest {questName} Progress: {questProgress[0]} / {questProgressCap[0]}");
         }
     }
 }

@@ -12,24 +12,21 @@ public class Quest_CutTree : Quest
         questData = new QuestData();
         questData.questId = 1;
         questData.questName = "Getting Wood!";
-        questData.questProgress = new Vector2Int[] 
-        { 
-            new Vector2Int(0, 1), // Equip Axe
-            new Vector2Int(0, 1), // Cut down Tree
-        };
+        questData.questProgress = new int[] { 0, 0 };
+        questData.questProgressCap = new int[] { 1, 1 };
     }
 
-    public override bool CheckQuestConditions()
+    public override bool CheckQuestConditions() 
     {
 
         if (GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().equipmentInventory.GetAmmountOfItem(condtionItems[0].itemId) > 0) 
         {
-            questData.questProgress[0].x = 1;
+            questData.questProgress[0] = 1;
         }
 
-        questData.questProgress[1].x = StatisticsAPI.GetResourceStatistic_ResourceDestroyed(new ulong[] { 2, 3,4 });
+        questData.questProgress[1] = StatisticsAPI.GetResourceStatistic_ResourceDestroyed(new ulong[] { 2, 3,4 });
 
-        if (questData.questProgress[1].x >= questData.questProgress[1].y)
+        if (questData.questProgress[1] >= questData.questProgressCap[1])
         {
             return true;
         }
@@ -40,8 +37,8 @@ public class Quest_CutTree : Quest
     {
         string[] result = new string[]
         {
-           $"{questData.questProgress[0].x} / {questData.questProgress[0].y} Equip the Axe",
-           $"{questData.questProgress[1].x} / {questData.questProgress[1].y} Trees Felled",
+           $"{questData.questProgress[0]} / {questData.questProgressCap[0]} Equip the Axe",
+           $"{questData.questProgress[1]} / {questData.questProgressCap[1]} Trees Felled",
            $" ",
            $"Reward: - {rewardAmounts[0]} {reward[0].itemName}"
         };
