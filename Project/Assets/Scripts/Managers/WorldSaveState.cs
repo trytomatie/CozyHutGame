@@ -76,17 +76,12 @@ public class WorldSaveState : MonoBehaviour
             List<ResourceObjectData> resourceObjects = saveData.resources;
 
             // Place all the Objects
-            foreach(PlacedObjectData placedObject in placedObjects)
+            foreach (PlacedObjectData placedObject in placedObjects)
             {
                 GameManager.Instance.PlaceBuildingAfterLoadingWorld(placedObject);
             }
-            // Replace resources Prior in Scene with Resources stored in the Save
-            ResourceController[] scenePlacedResources = GameObject.FindObjectsOfType<ResourceController>();
-            foreach(ResourceController rc in scenePlacedResources)
-            {
-                rc.DestroyWithoutTrace();
-            }
-            foreach(ResourceObjectData savedResources in resourceObjects)
+            RemoveResorucesFromInitialScene();
+            foreach (ResourceObjectData savedResources in resourceObjects)
             {
                 GameManager.Instance.SpawnResource(savedResources);
             }
@@ -98,6 +93,16 @@ public class WorldSaveState : MonoBehaviour
         else
         {
             Debug.LogWarning($"File not found: {filePath}");
+        }
+    }
+
+    public void RemoveResorucesFromInitialScene()
+    {
+        // Replace resources Prior in Scene with Resources stored in the Save
+        ResourceController[] scenePlacedResources = GameObject.FindObjectsOfType<ResourceController>();
+        foreach (ResourceController rc in scenePlacedResources)
+        {
+            rc.DestroyWithoutTrace();
         }
     }
 

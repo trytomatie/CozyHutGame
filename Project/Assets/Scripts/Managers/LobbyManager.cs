@@ -424,6 +424,10 @@ public class LobbyManager : MonoBehaviour
                     {
                         GameManager.Instance.worldSaveState.LoadWorld();
                     }
+                    if(clientOrServer == "client")
+                    {
+                        GameManager.Instance.worldSaveState.RemoveResorucesFromInitialScene();
+                    }
                     break;
                 }
         }
