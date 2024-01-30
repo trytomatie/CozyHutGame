@@ -82,6 +82,15 @@ public class LobbyUIManager : MonoBehaviour
 
     public void ChangeUIState(int i)
     {
+        if(characterNames.Length == 0)
+        {
+            // If the new State is new World, Join World, or Load World,
+            if(i == 1 || i == 2|| i== 4)
+            {
+                SystemMessageManagerUI.ShowSystemMessage("You need to create a character first!");
+                return;
+            }
+        }
         uiAnimator.SetInteger("lobbyState", i);
     }
 
@@ -143,6 +152,12 @@ public class LobbyUIManager : MonoBehaviour
 
     public void RefreshSavedPlayerDataInUI()
     {
+        if(characterNames.Length == 0)
+        {
+            playerVisual.gameObject.SetActive(false);
+            return;
+        }
+        playerVisual.gameObject.SetActive(true);
         characterNames = GameManager.Instance.playerSaveData.FindSavedPlayerData().ToArray();
         characterName.text = characterNames[characterIndex];
         RefreshSavedPlayerUIElemetns();

@@ -219,7 +219,6 @@ public class PlayerSaveData : MonoBehaviour
                     QuestManager.Instance.quests[i].questData.SetupDataFromSaveFile(saveData.questData[i]);
                 }
             }
-            
         }
         QuestManager.Instance.CurrentQuestIndex = saveData.currentQuestIndex;
     }
@@ -257,7 +256,7 @@ public class PlayerSaveData : MonoBehaviour
         }
         if(equipmentInventory != null)
         {
-            data.inventory = equipmentInventory.items;
+            data.equipmentInventory = equipmentInventory.items;
         }
 
         return data;
