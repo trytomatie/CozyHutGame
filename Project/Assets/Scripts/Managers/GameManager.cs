@@ -83,7 +83,7 @@ public class GameManager : NetworkBehaviour
 
     public static GameObject GetLocalPlayer()
     {
-        return Instance.playerList[Instance.OwnerClientId];
+        return Instance.playerList[NetworkManager.Singleton.LocalClientId];
     }
 
     private IEnumerator PlayerAutoSave()
