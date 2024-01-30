@@ -63,7 +63,12 @@ public struct QuestData
     {
         if(this.questId == questData.questId)
         {
-            this.questProgress = questData.questProgress;
+            int i = 0;
+            foreach(Vector2Int progress in questData.questProgress)
+            {
+                this.questProgress[i].x = progress.x;
+                i++;
+            }
         }
     }
 }

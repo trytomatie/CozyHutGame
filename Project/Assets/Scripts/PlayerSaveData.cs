@@ -94,6 +94,14 @@ public class PlayerSaveData : MonoBehaviour
     public void CreatePlayerData()
     {
         PlayerSaveDataSerialized saveData = GetPlayerSaveData();
+        // Reset QuestProgress
+        for(int i = 0; i < saveData.questData.Length; i++)
+        {
+            for(int o = 0; o < saveData.questData[i].questProgress.Length; o++)
+            {
+                saveData.questData[i].questProgress[o] = new Vector2Int(0, 0);
+            }
+        }
         List<string> playerFiles = FindSavedPlayerData();
         if (playerFiles == null || !playerFiles.Contains(customization.playerName))
         {
