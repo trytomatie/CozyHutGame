@@ -212,7 +212,14 @@ public class PlayerSaveData : MonoBehaviour
         }
         for (int i = 0; i < saveData.questData.Length; i++)
         {
-            QuestManager.Instance.quests[i].questData.SetupDataFromSaveFile(saveData.questData[i]);
+            foreach(Quest quest in QuestManager.Instance.quests)
+            {
+                if(quest.questData.questId == saveData.questData[i].questId)
+                {
+                    QuestManager.Instance.quests[i].questData.SetupDataFromSaveFile(saveData.questData[i]);
+                }
+            }
+            
         }
         QuestManager.Instance.CurrentQuestIndex = saveData.currentQuestIndex;
     }
