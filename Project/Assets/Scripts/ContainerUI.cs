@@ -28,7 +28,6 @@ public class ContainerUI : MonoBehaviour, IContainerUI
         {
             itemSlots[i].assignedContainer = syncedContainer;
         }
-        RefreshUI(inventory.gameObject);
     }
 
     public virtual void RefreshUI(GameObject container)
@@ -38,15 +37,14 @@ public class ContainerUI : MonoBehaviour, IContainerUI
             foreach (ItemSlotUI itemslotUI in itemSlots)
             {
                 itemslotUI.ItemImage.sprite = null;
-                itemslotUI.ItemImage.enabled = false;
                 itemslotUI.StackSizeText.text = "";
             }
             for (int i = 0; i < syncedContainer.items.Length; i++)
             {
+                Sprite sprite = ItemManager.GetItemReference(syncedContainer.items[i].itemId).sprite;
+                itemSlots[i].ItemImage.sprite = sprite;
                 if (syncedContainer.items[i] != ItemData.Null)
                 {
-                    itemSlots[i].ItemImage.enabled = true;
-                    itemSlots[i].ItemImage.sprite = ItemManager.GenerateItem(itemSlots[i].ItemRef).sprite;
                     itemSlots[i].StackSizeText.text = "x" + ItemManager.GenerateItem(itemSlots[i].ItemRef).stackSize;
                 }
             }

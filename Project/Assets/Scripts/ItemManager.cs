@@ -43,6 +43,11 @@ public class ItemManager : MonoBehaviour
         return Instantiate(Instance.items[i]);
     }
 
+    public static Item GetItemReference(ulong i)
+    {
+        return Instance.items[i];
+    }
+
     public static Item GenerateItem(ItemData data)
     {
         if(data.itemId == 0)
