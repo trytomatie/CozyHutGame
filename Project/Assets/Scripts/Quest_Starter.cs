@@ -21,6 +21,7 @@ public class Quest_Starter : Quest
     public override bool CheckQuestConditions()
     {
         // Check if quest is completed by checking if the player has the required items
+        SystemMessageManagerUI.ShowSystemMessage($"Checking quest conditions:{ GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().inventory.GetAmmountOfItem(condtionItems[0].itemId)}");
         questData.questProgress[0].x = GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().inventory.GetAmmountOfItem(condtionItems[0].itemId);
         questData.questProgress[1].x = GameManager.GetLocalPlayer().GetComponent<NetworkPlayerInit>().inventory.GetAmmountOfItem(condtionItems[1].itemId);
         if (questData.questProgress[0].x >= questData.questProgress[0].y && questData.questProgress[1].x >= questData.questProgress[1].y)
