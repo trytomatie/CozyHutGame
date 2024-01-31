@@ -30,6 +30,19 @@ public class ResourceController : NetworkBehaviour
         hp.OnValueChanged += OnDeath;
     }
 
+    private void Start()
+    {
+        Invoke("CheckIfResoruceIsSpawnedOnServer",6);
+    }
+
+    private void CheckIfResoruceIsSpawnedOnServer()
+    {
+       if(!root.GetComponent<NetworkObject>().IsSpawned)
+        {
+            Destroy(root.gameObject);
+        }
+    }
+
     protected virtual void OnDeath(int previousValue, int newValue)
     {
         if(newValue <= 0)
