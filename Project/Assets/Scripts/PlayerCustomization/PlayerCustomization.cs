@@ -166,11 +166,30 @@ public class PlayerCustomization : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership =false)]
-    public void SyncApearenceServerRpc(ulong id)
+    public void RequstSyncPlayerApearence(ulong id)
     {
-        PlayerSaveDataSerialized playerData = GameManager.Instance.playerSaveData.GetPlayerSaveData();
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new List<ulong> { id }
+            }
+        };
+        RequestApearenceDataClientRpc(clientRpcParams);
+    }
+
+    [ClientRpc]
+    public void RequestApearenceDataClientRpc(ClientRpcParams clientRpcParams = default)
+    {
+        SyncApearenceServerRpc(GameManager.Instance.playerSaveData.GetPlayerSaveData(), 0);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SyncApearenceServerRpc(PlayerSaveDataSerialized playerData, ulong id, ServerRpcParams serverRpcParams = default)
+    {
         SyncApearenceClientRpc(playerData, id);
     }
+
 
     [ClientRpc]
     public void SyncApearenceClientRpc(PlayerSaveDataSerialized playerData, ulong id,ClientRpcParams clientRpcParams = default)
