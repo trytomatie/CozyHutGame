@@ -166,8 +166,9 @@ public class PlayerCustomization : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership =false)]
-    public void SyncApearenceServerRpc(PlayerSaveDataSerialized playerData,ulong id)
+    public void SyncApearenceServerRpc(ulong id)
     {
+        PlayerSaveDataSerialized playerData = GameManager.Instance.playerSaveData.GetPlayerSaveData();
         SyncApearenceClientRpc(playerData, id);
     }
 

@@ -98,7 +98,7 @@ public class NetworkPlayerInit : NetworkBehaviour
 
             SetNameCardServerRpc(GameManager.Instance.selectedPlayer);
         }
-        playerCustomization.SyncApearenceServerRpc(GameManager.Instance.playerSaveData.GetPlayerSaveData(), NetworkManager.Singleton.LocalClientId);
+        playerCustomization.SyncApearenceServerRpc(NetworkManager.Singleton.LocalClientId);
         SpawnHandPivotSetupServerRpc();
 
     }
