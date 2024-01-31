@@ -17,16 +17,4 @@ public class ResourceManager : MonoBehaviour
             Destroy(this);
         }
     }
-
-    private void CheckIfObjectIsSpawned()
-    {
-        foreach(GameObject go in resources)
-        {
-            if(go.GetComponent<NetworkObject>().IsSpawned)
-            {
-                go.SetActive(true);
-            }
-        }
-    }
-
 }
