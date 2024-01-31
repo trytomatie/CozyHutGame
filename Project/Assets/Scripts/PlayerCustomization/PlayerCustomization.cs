@@ -166,7 +166,7 @@ public class PlayerCustomization : NetworkBehaviour
     }
 
     [ServerRpc (RequireOwnership =false)]
-    public void RequstSyncPlayerApearence(ulong id)
+    public void RequstSyncPlayerApearenceServerRpc(ulong id)
     {
         ClientRpcParams clientRpcParams = new ClientRpcParams
         {
