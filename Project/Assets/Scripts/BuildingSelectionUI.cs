@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildingSelectionUI : MonoBehaviour
 {
@@ -23,7 +24,10 @@ public class BuildingSelectionUI : MonoBehaviour
         foreach(BuildingObject bo in BuildingObjectManager.Instance.buildingObjects)
         {
             GameObject go = Instantiate(buildingSelectionSlotPrefab);
-            go.GetComponentInChildren<TextMeshProUGUI>().text = bo.buildingName;
+            if(bo.sprite != null)
+            {
+                go.transform.GetChild(0).GetComponent<Image>().sprite = bo.sprite;
+            }
             go.GetComponentInChildren<BuildingSlotUI>().buildingData = bo;
             switch (bo.buildingCategory)
             {
