@@ -1,6 +1,7 @@
 using MalbersAnimations;
 using MalbersAnimations.Events;
 using MalbersAnimations.Weapons;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -95,12 +96,31 @@ public class NetworkPlayerInit : NetworkBehaviour
             equipmentInventory.AddToObserverListServerRpc(OwnerClientId);
             inventory.addItemEvents.AddListener(GameManager.Instance.DiscoverItem);
             Collider col = GetComponent<Collider>();
-
+            RequestWorldTimeUpdateServerRpc(NetworkManager.LocalClientId);
             SetNameCardServerRpc(GameManager.Instance.selectedPlayer);
         }
         playerCustomization.RequstSyncPlayerApearenceServerRpc(OwnerClientId);
         SpawnHandPivotSetupServerRpc();
 
+    }
+
+    [ServerRpc]
+    public void RequestWorldTimeUpdateServerRpc(ulong requesterId)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams()
+        {
+            Send = new ClientRpcSendParams()
+            {
+                TargetClientIds = new List<ulong>() { requesterId }
+            }
+        };
+        SetWorldTimeClientRpc(GameManager.Instance.currentTime.TotalSeconds, clientRpcParams);
+    }
+
+    [ClientRpc]
+    public void SetWorldTimeClientRpc(double timeInSeconds,ClientRpcParams clientRpcParams = default)
+    {
+        GameManager.Instance.currentTime = TimeSpan.FromSeconds(timeInSeconds);
     }
 
     private void AddPlayerToPlayerList()

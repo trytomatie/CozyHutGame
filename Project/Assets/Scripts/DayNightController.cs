@@ -23,6 +23,22 @@ public class DayNightController : MonoBehaviour
     public LensFlareComponentSRP lensFlare;
     public HeightFogGlobal fog;
 
+    public static DayNightController Instance { get; protected set; }
+
+    public void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+
+            Instance = this;
+        }
+        DontDestroyOnLoad(this);
+    }
+
     public static void SetTime(TimeSpan value)
     {
         GameManager.Instance.currentTime = value;
