@@ -41,6 +41,10 @@ public class BuildingObjectEditor : Editor
     {
         foreach (BuildingObject asset in assets)
         {
+            if(asset.buildingPrefab == null)
+            {
+                Debug.LogError("BuildingPrefab is null");
+            }
             // Look for the Sprite in the Assets folder
             Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Screenshots/{asset.buildingPrefab.name}.png");
             asset.sprite = sprite;
