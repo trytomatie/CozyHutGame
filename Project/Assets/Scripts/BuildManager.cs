@@ -266,13 +266,38 @@ public class BuildManager : MonoBehaviour
         RaycastHit[] raycastHits = Physics.RaycastAll(startPoint, direction, raycastMaxDistance, layerMask);
         if(raycastHits.Length > 0) // If we hit something
         {
-            raycastHits = raycastHits.OrderByDescending(hit => Vector3.Distance(startPoint, hit.collider.transform.position)).ToArray(); // Sort by distance to collider
-            //raycastHits = raycastHits.OrderBy(hit =>
-            //{
-            //    float distanceToPoint = Vector3.Distance(startPoint, hit.point);
-            //    float distanceToCollider = Vector3.Distance(startPoint, hit.collider.transform.position);
-            //    return Tuple.Create(distanceToPoint, distanceToCollider);
-            //}, new RaycastComparer()).ToArray();
+            raycastHits = raycastHits.OrderBy(hit => Vector3.Distance(startPoint, hit.collider.transform.position)).ToArray(); // Sort by distance to collider
+            RaycastHit[] sorted = new RaycastHit[raycastHits.Length];
+            // Sort by distance to collider
+            for(int i = 0; i < raycastHits.Length; i++)
+            {
+                if (i+1 < raycastHits.Length)
+                {
+                    // If the next hit collider transform is at the same position as the current hit, compare the distances and sort them
+                    if (raycastHits[i].collider.transform.position == raycastHits[i + 1].collider.transform.position)
+                    {
+                        if (raycastHits[i].distance < raycastHits[i + 1].distance)
+                        {
+                            sorted[i] = raycastHits[i];
+                            sorted[i + 1] = raycastHits[i + 1];
+                        }
+                        else
+                        {
+                            sorted[i] = raycastHits[i + 1];
+                            sorted[i + 1] = raycastHits[i];
+                        }
+                    }
+                    else
+                    {
+                        sorted[i] = raycastHits[i];
+                    }
+                }
+                else
+                {
+                    sorted[i] = raycastHits[i];
+                }
+            }
+            raycastHits = sorted;
             bool closestPointWithoutSnappingFound = false; //
             foreach (RaycastHit raycastHit in raycastHits) // Loop through all hits
             {
@@ -463,23 +488,6 @@ public class BuildManager : MonoBehaviour
         {
             itemSlot.ItemImage.sprite = null;
             itemSlot.StackSizeText.text = "";
-        }
-    }
-}
-
-public class RaycastComparer : IComparer<Tuple<float, float>>
-{
-    public int Compare(Tuple<float, float> x, Tuple<float, float> y)
-    {
-        // Compare distances manually
-        int distanceToPointComparison = x.Item1.CompareTo(y.Item1);
-        if (distanceToPointComparison != 0)
-        {
-            return distanceToPointComparison;
-        }
-        else
-        {
-            return x.Item2.CompareTo(y.Item2);
         }
     }
 }
