@@ -25,8 +25,8 @@ public class BuildManager : MonoBehaviour
     private Vector3 lastSavedProjectionPosition;
     public Vector3 groundedAlignment;
     private Vector3 rotationOffset;
-    private float[] gridSizes = new float[] { 0, 0.25f };
-    private int gridSizeIndex = 1;
+    private float[] gridSizes = new float[] { 0};
+    private int gridSizeIndex = 0;
     public bool flip = false;
     public bool snapping = true;
 
@@ -226,6 +226,9 @@ public class BuildManager : MonoBehaviour
     public void UpdateProjectionPosition()
     {
         Vector3 projectionPosition = GetRaycastPosition(cameraMainTransform.position, cameraMainTransform.forward);
+#if UNITY_EDITOR
+        Debug.DrawLine(cameraMainTransform.position, projectionPosition, Color.red);
+#endif
         Vector3 orignPoint = CheckGridPlacement(projectionPosition);
 
         projectionInstance.transform.position = RoundVector(projectionPosition, gridSize, orignPoint);
@@ -263,7 +266,7 @@ public class BuildManager : MonoBehaviour
         RaycastHit[] raycastHits = Physics.RaycastAll(startPoint, direction, raycastMaxDistance, layerMask);
         if(raycastHits.Length > 0) // If we hit something
         {
-            raycastHits = raycastHits.OrderBy(hit => Vector3.Distance(startPoint, hit.collider.transform.position)).ToArray(); // Sort by distance to collider
+            raycastHits = raycastHits.OrderByDescending(hit => Vector3.Distance(startPoint, hit.collider.transform.position)).ToArray(); // Sort by distance to collider
             //raycastHits = raycastHits.OrderBy(hit =>
             //{
             //    float distanceToPoint = Vector3.Distance(startPoint, hit.point);
