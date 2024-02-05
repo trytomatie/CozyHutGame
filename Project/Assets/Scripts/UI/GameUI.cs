@@ -42,6 +42,7 @@ public class GameUI : MonoBehaviour
 
     [Header("Refinment Menu")]
     public TextMeshProUGUI refinmentTimer;
+    public TextMeshProUGUI refinementMenuTitle;
     public Image refinmentProgressBar;
     public MMProgressBar refinmentProgressbarFeedback;
     public GameObject refinementRecipiePanel;

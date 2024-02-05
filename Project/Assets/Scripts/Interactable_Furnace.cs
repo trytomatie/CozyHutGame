@@ -11,6 +11,7 @@ using static Item;
 
 public class Interactable_Furnace : Interactable
 {
+    public string refinementBuildingName = "Furnace";
     public Container container1;
     public Container container2;
     private float interactionDistance = 3;
@@ -48,6 +49,7 @@ public class Interactable_Furnace : Interactable
     public override void LocalInteraction(GameObject source)
     {
         base.LocalInteraction(source);
+        GameUI.Instance.refinementMenuTitle.text = refinementBuildingName;
         SetUpRecipies();
     }   
 
