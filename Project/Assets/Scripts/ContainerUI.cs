@@ -39,7 +39,7 @@ public class ContainerUI : MonoBehaviour, IContainerUI
                 itemslotUI.ItemImage.sprite = null;
                 itemslotUI.StackSizeText.text = "";
             }
-            for (int i = 0; i < syncedContainer.items.Length; i++)
+            for (int i = 0; i < itemSlots.Length; i++)
             {
                 Sprite sprite = ItemManager.GetItemReference(syncedContainer.items[i].itemId).sprite;
                 itemSlots[i].ItemImage.sprite = sprite;
