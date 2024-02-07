@@ -20,6 +20,7 @@ public class ContainerUI : MonoBehaviour, IContainerUI
     public virtual void SetSyncedInvetory(GameObject go)
     {
         SetSyncedInvetory(go.GetComponent<Container>());
+        RefreshUI(go);
     }
     public void SetSyncedInvetory(Container inventory)
     {
@@ -49,5 +50,10 @@ public class ContainerUI : MonoBehaviour, IContainerUI
                 }
             }
         }
+    }
+
+    public virtual void RefreshUI(Container container)
+    {
+
     }
 }
