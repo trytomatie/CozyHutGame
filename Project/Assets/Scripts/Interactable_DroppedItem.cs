@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.Sprites;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +12,7 @@ public class Interactable_DroppedItem : Interactable
     public NetworkVariable<ulong> itemDropId = new NetworkVariable<ulong>(9999,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public int stackSize = 0;
     public GameObject target;
-    public ParticleSystemRenderer materialVisual;
+    public SpriteRenderer itemImage;
     public GameObject itemParticlesSystem;
     public GameObject spawnParticleSystem;
     public bool hasSpawned = false;
@@ -29,9 +30,10 @@ public class Interactable_DroppedItem : Interactable
     {
         spawnTimer = Time.time;
         rb.velocity = direction * force;
-        Material newMaterial = materialVisual.material;
-        newMaterial.SetTexture("_MainTex", ItemManager.GenerateItem(imgId).sprite.texture);
-        materialVisual.material = newMaterial;
+        Item item = ItemManager.GenerateItem(imgId);
+
+
+        itemImage.sprite = item.sprite;
     }
 
     public override void OnNetworkSpawn()

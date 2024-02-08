@@ -178,7 +178,7 @@ PrefabInstance:
     - target: {fileID: 1890360984488792296, guid: 0002a52f3e020014890c646db9ecd65a,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 951099334
+      value: 3131542339
       objectReference: {fileID: 0}
     - target: {fileID: 2768628845362949729, guid: 0002a52f3e020014890c646db9ecd65a,
         type: 3}
@@ -240,7 +240,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Window_1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1890360984488792296, guid: 0002a52f3e020014890c646db9ecd65a, type: 3}
     m_RemovedGameObjects:
     - {fileID: 5743324381825697502, guid: 0002a52f3e020014890c646db9ecd65a, type: 3}
     m_AddedGameObjects:
@@ -248,8 +249,38 @@ PrefabInstance:
         type: 3}
       insertIndex: 2
       addedObject: {fileID: 2203625538800819880}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4334290299404587956, guid: 0002a52f3e020014890c646db9ecd65a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5524008833322946419}
   m_SourcePrefab: {fileID: 100100000, guid: 0002a52f3e020014890c646db9ecd65a, type: 3}
+--- !u!1 &654499827457837265 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4334290299404587956, guid: 0002a52f3e020014890c646db9ecd65a,
+    type: 3}
+  m_PrefabInstance: {fileID: 3833476084377279333}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5524008833322946419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654499827457837265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!4 &4074197371332715133 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 988903904074709272, guid: 0002a52f3e020014890c646db9ecd65a,

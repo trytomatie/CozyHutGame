@@ -97,7 +97,8 @@ public class BuildManager : MonoBehaviour
         {
             if(projectionBuildingObjectHandler.gigaGrounded)
             {
-                if(rotationOffset.y != 0)
+                rotationOffset.y = 0;
+                if (rotationOffset.y != 0)
                 {
                     rotationOffset = Vector3.zero;
                 }
@@ -113,6 +114,7 @@ public class BuildManager : MonoBehaviour
             else
             {
                 projectionInstance.transform.eulerAngles = Vector3.zero;
+                rotationOffset.z = 0;
                 if (InputManager.Instance.CameraZoomDelta > 0)
                 {
                     rotationOffset += new Vector3(0, 22.5f, 0);
