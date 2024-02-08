@@ -10,13 +10,14 @@ public class Quest_Furnace : Quest
         // Setup Quest
         questData = new QuestData();
         questData.questId = 4;
-        questData.questName = "They are Minerals!";
+        questData.questName = "Just Have Fun!";
         questData.questProgress = new int[] { 0, 0 };
         questData.questProgressCap = new int[] { 1, 3 };
     }
 
     public override bool CheckQuestConditions()
     {
+        return false;
         if(StatisticsAPI.GetBuildingsStatistic_BuildingsBuilt(12) >= 1)
         {
             questData.questProgress[0] = 1;
@@ -36,8 +37,7 @@ public class Quest_Furnace : Quest
     {
         return new string[]
         {
-           $"{questData.questProgress[0]} / {questData.questProgressCap[0]} Build furnace",
-           $"{questData.questProgress[1]} / {questData.questProgressCap[1]} Interact with furnace"
+           $"1/1 Have fun, that's it!",
         };
     }
 
