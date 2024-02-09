@@ -191,10 +191,11 @@ public class NewPlayerCustomizationUI : MonoBehaviour
         string name = nameInputField.text;
         if (name != "" && !CheckForSymbols(name))
         {
+            LobbyUIManager.Instance.ChangeUIState(0);
             playerCustomization.playerName = name;
             GameManager.Instance.playerSaveData.CreatePlayerData(playerCustomization);
-            LobbyUIManager.Instance.SetCharacterIndex(LobbyUIManager.Instance.FindCharacterIndex(name));
-            LobbyUIManager.Instance.ChangeUIState(0);
+            LobbyUIManager.Instance.RefreshSavedPlayerDataInUI();
+            LobbyUIManager.Instance.SetCharacterIndex(0);
         }
         else
         {

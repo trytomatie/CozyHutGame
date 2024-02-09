@@ -255,6 +255,7 @@ public class LobbyUIManager : MonoBehaviour
         
         // Load the list
         List<string> worlds = GameManager.Instance.worldSaveState.FindSavedWorlds();
+        if(worlds == null)
         foreach (string world in worlds)
         {
             GameObject tuple = Instantiate(worldTuple, toggleGroupContainer.transform);
