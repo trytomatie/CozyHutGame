@@ -151,6 +151,11 @@ PrefabInstance:
     - target: {fileID: 7829639688132846966, guid: 0cae41f0028f99144babb109e4fb1d95,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7829639688132846966, guid: 0cae41f0028f99144babb109e4fb1d95,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7829639688132846966, guid: 0cae41f0028f99144babb109e4fb1d95,
@@ -176,12 +181,17 @@ PrefabInstance:
     - target: {fileID: 7829639688132846966, guid: 0cae41f0028f99144babb109e4fb1d95,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetNewWorldSaveName
+      value: JoinRelayWithCode
       objectReference: {fileID: 0}
     - target: {fileID: 7829639688132846966, guid: 0cae41f0028f99144babb109e4fb1d95,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: StartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7829639688132846966, guid: 0cae41f0028f99144babb109e4fb1d95,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LobbyManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7829639688132846966, guid: 0cae41f0028f99144babb109e4fb1d95,
         type: 3}
@@ -200,8 +210,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7829639688132846966, guid: 0cae41f0028f99144babb109e4fb1d95,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1645417715}
+    - target: {fileID: 7829639688132846966, guid: 0cae41f0028f99144babb109e4fb1d95,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: TMPro.TMP_InputField, Unity.TextMeshPro
       objectReference: {fileID: 0}
     - target: {fileID: 7829639688132846966, guid: 0cae41f0028f99144babb109e4fb1d95,
         type: 3}
@@ -20019,32 +20034,32 @@ PrefabInstance:
     - target: {fileID: 2333188852074578136, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -0.1046597
+      value: 1.337697
       objectReference: {fileID: 0}
     - target: {fileID: 2333188852074578136, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.083414
+      value: -5.007744
       objectReference: {fileID: 0}
     - target: {fileID: 2700418133495496392, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 4.299531
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2700418133495496392, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.793664
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3872763520487411516, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 4.299531
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3872763520487411516, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.793664
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 6085691099867991141, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
@@ -20059,32 +20074,32 @@ PrefabInstance:
     - target: {fileID: 7193318628768774759, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -0.1046597
+      value: 1.337697
       objectReference: {fileID: 0}
     - target: {fileID: 7193318628768774759, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.083414
+      value: -5.007744
       objectReference: {fileID: 0}
     - target: {fileID: 7407053819210450039, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 4.299531
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7407053819210450039, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -3.793664
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8292485039796358035, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: -0.1046597
+      value: 1.337697
       objectReference: {fileID: 0}
     - target: {fileID: 8292485039796358035, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.083414
+      value: -5.007744
       objectReference: {fileID: 0}
     - target: {fileID: 9021154107758205886, guid: c1e97422664ad4b48b3b3967cc6d6e25,
         type: 3}
@@ -25609,7 +25624,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &514710112
 RectTransform:
   m_ObjectHideFlags: 0
@@ -76847,7 +76862,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 699496315}
   m_HandleRect: {fileID: 699496314}
   m_Direction: 2
-  m_Value: 1.0000007
+  m_Value: 1
   m_Size: 0.8554067
   m_NumberOfSteps: 0
   m_OnValueChanged:
