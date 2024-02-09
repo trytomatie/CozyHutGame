@@ -131,6 +131,7 @@ MonoBehaviour:
   observerList: 0000000000000000
   observationEvent: {fileID: 11400000, guid: 1d9003563830d3a49b68f876a35297db, type: 2}
   cursorObserver: 1
+  canNotify: 0
 --- !u!1 &4780905199910684373
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
+    reference: {fileID: 0}
     buildingId: 0
     position:
       x: 0
@@ -411,6 +413,7 @@ MonoBehaviour:
       z: 0
     state: 0
     secondaryState: 0
+    eventCountdown: 0
     itemContainer1: 
     itemContainer1Amounts: 
     itemContainer2: 
@@ -421,8 +424,16 @@ MonoBehaviour:
   - {fileID: 6893974052786690371}
   requireBuildingBeacon: 1
   grounded: 1
+  groundedPivotIndex: 0
+  gigaGrounded: 0
+  terrainOnly: 0
   itemContainer1: {fileID: 490204713186557350}
   itemContainer2: {fileID: 0}
+  countdownEventTimer: 0
+  coutdownEventCurrentTime: 0
+  countdownEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4039201371622871333
 MonoBehaviour:
   m_ObjectHideFlags: 0

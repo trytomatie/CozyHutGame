@@ -542,6 +542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
+    reference: {fileID: 0}
     buildingId: 0
     position:
       x: 0
@@ -557,6 +558,7 @@ MonoBehaviour:
       z: 0
     state: 0
     secondaryState: 0
+    eventCountdown: 0
     itemContainer1: 
     itemContainer1Amounts: 
     itemContainer2: 
@@ -567,8 +569,16 @@ MonoBehaviour:
   - {fileID: 6893974052786690371}
   requireBuildingBeacon: 1
   grounded: 1
+  groundedPivotIndex: 0
+  gigaGrounded: 0
+  terrainOnly: 0
   itemContainer1: {fileID: 490204713186557350}
   itemContainer2: {fileID: 1162851474099385699}
+  countdownEventTimer: 0
+  coutdownEventCurrentTime: 0
+  countdownEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4039201371622871333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1031,6 +1041,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  refinementBuildingName: Furnace
   container1: {fileID: 490204713186557350}
   container2: {fileID: 1162851474099385699}
   recipies:
@@ -1038,22 +1049,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: be3a0e415e830d149bdb1cb0e0192c13, type: 2}
   - {fileID: 11400000, guid: 1c9167b6403174e4bb0fd9d64ab61b27, type: 2}
   refinmentTime: 0
+  currentStartRefinmentTime: 0
   observerList: 
-  updateTimerEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 41b9757350a85494283f26b2cd5bcc91, type: 2}
-        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, MalbersAnimations
-        m_MethodName: Invoke
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &8491067613792952686
 MonoBehaviour:
   m_ObjectHideFlags: 0

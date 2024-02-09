@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
+    reference: {fileID: 0}
     buildingId: 0
     position:
       x: 0
@@ -280,6 +281,7 @@ MonoBehaviour:
       z: 0
     state: 0
     secondaryState: 0
+    eventCountdown: 0
     itemContainer1: 
     itemContainer1Amounts: 
     itemContainer2: 
@@ -290,8 +292,16 @@ MonoBehaviour:
   - {fileID: 6893974052786690371}
   requireBuildingBeacon: 1
   grounded: 0
+  groundedPivotIndex: 0
+  gigaGrounded: 0
+  terrainOnly: 0
   itemContainer1: {fileID: 0}
   itemContainer2: {fileID: 0}
+  countdownEventTimer: 0
+  coutdownEventCurrentTime: 0
+  countdownEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &558612628988516941
 MonoBehaviour:
   m_ObjectHideFlags: 0
