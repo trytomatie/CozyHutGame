@@ -24,7 +24,7 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDr
         draggedObject = Instantiate(InventoryManagerUI.Instance.DragImage, GameManager.Instance.gameUI.canvas.transform);
         Image img = draggedObject.GetComponent<Image>();
         img.sprite = itemImage.sprite;
-        img.rectTransform.sizeDelta = itemImage.rectTransform.sizeDelta;
+        // img.rectTransform.sizeDelta = itemImage.rectTransform.sizeDelta;
     }
 
     public void OnDrag(PointerEventData eventData)
