@@ -56,7 +56,12 @@ public class DayNightController : MonoBehaviour
     {
         string ampm = (GameManager.Instance.currentTime.Hours % 24) < 12 ? "AM" : "PM";
         GameManager.Instance.currentTime = GameManager.Instance.currentTime.Add(TimeSpan.FromSeconds(Time.deltaTime * timeMultiplier));
-        GameUI.Instance.timeText.text = $"{(GameManager.Instance.currentTime.Hours % 12).ToString("D2")}:{GameManager.Instance.currentTime.Minutes.ToString("D2")} {ampm}";
+        string hours = (GameManager.Instance.currentTime.Hours % 12).ToString("D2");
+        if(ampm == "PM" && GameManager.Instance.currentTime.Hours % 12 == 0)
+        {
+            hours = "12";
+        }
+        GameUI.Instance.timeText.text = $"{hours}:{GameManager.Instance.currentTime.Minutes.ToString("D2")} {ampm}";
         GameUI.Instance.timeIconAnmiator.SetFloat(NormalziedTimeAnimatorHash, normalizedDayTime);
     }
     private void UpdateDayNightCycle()
