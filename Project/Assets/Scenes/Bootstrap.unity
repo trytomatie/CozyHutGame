@@ -1309,6 +1309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyUI: {fileID: 1176708190}
   sceneToLoad: PrototypeScene
+  loadWorld: 0
   afterStart:
     m_PersistentCalls:
       m_Calls:
@@ -2198,9 +2199,9 @@ RectTransform:
   m_Father: {fileID: 68448189}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -426.6}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 107.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &420972179
@@ -2378,9 +2379,9 @@ RectTransform:
   m_Father: {fileID: 68448189}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -211.40001}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 107.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &554849795
@@ -4194,7 +4195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1176708188
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4217,7 +4218,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -1469.21}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1176708189
@@ -4260,12 +4261,25 @@ MonoBehaviour:
   playerList: {fileID: 298395205}
   serverName: {fileID: 1646445568}
   startButton: {fileID: 2024300702}
-  playerName: {fileID: 76692114}
-  selectedPlayer: {fileID: 2142103294}
   serverTuple: {fileID: 165940346921767682, guid: e7590c17cb8c6ab438f5e73e83e1bfb5,
     type: 3}
   playerTuple: {fileID: 165940346921767682, guid: 37974adcb8d67884c90be8b39e2b181e,
     type: 3}
+  characterName: {fileID: 0}
+  switchCharacterLeft: {fileID: 0}
+  switchCharacterRight: {fileID: 0}
+  characterNames: []
+  characterIndex: 0
+  deleteCharacterWarningWindow: {fileID: 0}
+  deleteCharacterButtonForDeletionWindow: {fileID: 0}
+  deleteCharacterButton: {fileID: 0}
+  cancelDeleteCharacterButton: {fileID: 0}
+  playerVisual: {fileID: 0}
+  playerVisualImage: {fileID: 0}
+  newWorldName: {fileID: 0}
+  worldTuple: {fileID: 0}
+  toggleGroupContainer: {fileID: 0}
+  loadedList: []
 --- !u!1001 &1208119752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5554,9 +5568,9 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1483558550
 MonoBehaviour:
@@ -6382,7 +6396,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6953,9 +6967,9 @@ RectTransform:
   m_Father: {fileID: 68448189}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -103.8}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 107.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1682851031
@@ -7747,9 +7761,9 @@ RectTransform:
   m_Father: {fileID: 68448189}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -319}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 107.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1795587329
@@ -8669,9 +8683,9 @@ RectTransform:
   m_Father: {fileID: 1707464521}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1255, y: -42.005}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &2024300704

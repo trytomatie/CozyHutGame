@@ -67,11 +67,18 @@ public class LobbyUIManager : MonoBehaviour
         // Load Character Index that was last used
         characterIndex = PlayerPrefs.GetInt("CharacterIndex", 0);
         // Assign Button Events
-        switchCharacterLeft.onClick.AddListener(SwitchCharacterLeft);
-        switchCharacterRight.onClick.AddListener(SwitchCharacterRight);
-        deleteCharacterButton.onClick.AddListener(DeleteCharacter);
-        deleteCharacterButtonForDeletionWindow.onClick.AddListener(ShowDeleteCharacterWarningWindow);
-        cancelDeleteCharacterButton.onClick.AddListener(HideDeleteCharacterWarningWindow);
+        try
+        {
+            switchCharacterLeft.onClick.AddListener(SwitchCharacterLeft);
+            switchCharacterRight.onClick.AddListener(SwitchCharacterRight);
+            deleteCharacterButton.onClick.AddListener(DeleteCharacter);
+            deleteCharacterButtonForDeletionWindow.onClick.AddListener(ShowDeleteCharacterWarningWindow);
+            cancelDeleteCharacterButton.onClick.AddListener(HideDeleteCharacterWarningWindow);
+        }
+        catch(Exception e)
+        {
+            Debug.LogWarning("Some UI Elements are not assigned in the inspector");
+        }
         ChangeUIState(0);
         RefreshSavedPlayerDataInUI();
     }
