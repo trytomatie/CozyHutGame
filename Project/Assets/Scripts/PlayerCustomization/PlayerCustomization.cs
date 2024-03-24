@@ -380,7 +380,19 @@ public class PlayerCustomization : NetworkBehaviour
 
             case 12:
 
-                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.005f, -3.18f));
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0f, -3.24f));
+
+                break;
+
+            case 13:
+
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(0.61f, -3.24f));
+
+                break;
+
+            case 14:
+
+                mouthMaterial.SetVector("_SwitchMouth", new Vector2(1.26f, -3.24f));
 
                 break;
         }
