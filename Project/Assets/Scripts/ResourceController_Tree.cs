@@ -25,7 +25,7 @@ public class ResourceController_Tree : ResourceController
             if(IsServer)
             {
                 Destroy(root.gameObject,6);
-                GameManager.Instance.SpawnDroppedItemServerRpc(deathDropItem.itemId, Random.Range(1,2), transform.position + new Vector3(0, 1, 0));
+                if(deathDropItem != null)  GameManager.Instance.SpawnDroppedItemServerRpc(deathDropItem.itemId, Random.Range(1,2), transform.position + new Vector3(0, 1, 0));
             }
            // brokenTree.GetComponent<Rigidbody>().AddExplosionForce(10,transform.position + new Vector3(0,5,1),3,2,ForceMode.Impulse);
         }
