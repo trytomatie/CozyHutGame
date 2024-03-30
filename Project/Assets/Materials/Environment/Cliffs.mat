@@ -109,10 +109,18 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTexture_Normal:
-        m_Texture: {fileID: 2800000, guid: 521ceafff1ffd164294938dd33dbc3ab, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8300673463fd25d49a0c0d592baeb6c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 9078c24ee211e324f943a3982a508d4b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ObjectNormalUV:
+        m_Texture: {fileID: 2800000, guid: 3a689644ae53c854d8cd99f7468642c6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ObjectNormalUV22:
         m_Texture: {fileID: 2800000, guid: 9078c24ee211e324f943a3982a508d4b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -213,7 +221,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DepthFadeDistance: -0.44
+    - _DepthFadeDistance: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DirectionalCat: 1
@@ -221,7 +229,7 @@ Material:
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _FallOff: 11.3
-    - _Falloff: 6
+    - _Falloff: 5.79
     - _FogCat: 1
     - _GlossMapScale: 1
     - _Glossiness: 0
@@ -247,7 +255,7 @@ Material:
     - _Surface: 0
     - _TerrainBlendingMode: 0
     - _TerrainHeight: 200
-    - _Tiling: 0.51
+    - _Tiling: 0.5
     - _UVSec: 0
     - _WindQuality: 0
     - _WorkflowMode: 1
@@ -255,7 +263,7 @@ Material:
     - __dirty: 0
     m_Colors:
     - _BaseColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
-    - _BlendColor: {r: 1, g: 0.070754685, b: 0.070754685, a: 1}
+    - _BlendColor: {r: 1, g: 1, b: 1, a: 0}
     - _BlendRemap: {r: 0.26, g: 1.26, b: 0, a: 0}
     - _BlendingRemap: {r: 0.33500004, g: 1, b: 0, a: 0}
     - _Color: {r: 0.32075468, g: 0.32075468, b: 0.32075468, a: 1}
