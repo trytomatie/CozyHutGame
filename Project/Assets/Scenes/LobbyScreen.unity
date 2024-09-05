@@ -21213,6 +21213,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 18e17047fc3734641b350888e4a47dfb, type: 3}
   - {fileID: -1316653348, guid: 81f4f972e829ca245b6520377c1983f3, type: 3}
   - {fileID: 553483705, guid: bd6e8231859c6c6458effa91d7e45045, type: 3}
+  - {fileID: 21300000, guid: ca54b8e05bc9f8c429f19e2c238c69f8, type: 3}
   eyeColorToggleContainer: {fileID: 2110256936}
   eyeBrowColorIndicator: {fileID: 1138917568}
   hairColorIndicator: {fileID: 1438276941}
@@ -41904,6 +41905,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 42607218030863634, guid: 3f092cb3bd5ae144d894ad8823a349d1,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 42607218030863634, guid: 3f092cb3bd5ae144d894ad8823a349d1,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 405001804}
@@ -41914,12 +41920,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 42607218030863634, guid: 3f092cb3bd5ae144d894ad8823a349d1,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 42607218030863634, guid: 3f092cb3bd5ae144d894ad8823a349d1,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetUIState
+      value: AssignToggleColorFunctionality
       objectReference: {fileID: 0}
     - target: {fileID: 42607218030863634, guid: 3f092cb3bd5ae144d894ad8823a349d1,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: NewPlayerCustomizationUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 42607218030863634, guid: 3f092cb3bd5ae144d894ad8823a349d1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: NewPlayerCustomizationUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 42607218030863634, guid: 3f092cb3bd5ae144d894ad8823a349d1,
@@ -52279,6 +52295,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.31428596
       objectReference: {fileID: 0}
+    - target: {fileID: 4062608003483441777, guid: 4bbe4cfac9b24cf43bb84145704a9a2a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4056c057bee047344ac731449f5a85b8, type: 2}
     - target: {fileID: 7096398053205852219, guid: 4bbe4cfac9b24cf43bb84145704a9a2a,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -95138,7 +95159,7 @@ MonoBehaviour:
   mouthIndex: 0
   eyelashIndex: 0
   highlightIndex: 0
-  hairColorIndex: 0
+  hairColor: {r: 0, g: 0, b: 0, a: 0}
   hairIndex: 0
   torso:
   - {fileID: 11400000, guid: 30baae3ea7e75e5478fa09d529aee772, type: 2}
@@ -95165,8 +95186,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 47ac4b361f0b6994eb7d26279e108411, type: 2}
   - {fileID: 2100000, guid: 2f7decb6776b2bb4988f400f6718ac99, type: 2}
   - {fileID: 2100000, guid: 93ee96006b51c0d45a135dd3928b815d, type: 2}
-  hairMaterialMale: []
-  hairMaterialFemale: []
+  hairMaterialMale: {fileID: 0}
+  hairMaterialFemale: {fileID: 0}
   OnUpdateCharacterApearence:
     m_PersistentCalls:
       m_Calls: []

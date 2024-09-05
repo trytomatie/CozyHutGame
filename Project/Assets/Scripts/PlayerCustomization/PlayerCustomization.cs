@@ -53,8 +53,7 @@ public class PlayerCustomization : NetworkBehaviour
     [Range(0, 5)]
     public int highlightIndex;
 
-    [Range(0, 60)]
-    public int hairColorIndex;
+    public Color hairColor;
 
     [Range(0, 1)]
     public int hairIndex;
@@ -66,8 +65,8 @@ public class PlayerCustomization : NetworkBehaviour
     public Mesh[] hair;
 
     public Material[] skinColor;
-    public Material[] hairMaterialMale;
-    public Material[] hairMaterialFemale;
+    public Material hairMaterialMale;
+    public Material hairMaterialFemale;
 
     private Material eyeMaterial;
     private Material eyebrowMaterial;
@@ -123,7 +122,7 @@ public class PlayerCustomization : NetworkBehaviour
                 hairIndex = value;
                 break;
             case 14:
-                hairColorIndex = value;
+                //hairColor = value;
                 break;
         }
         UpdatePlayerAppearance();
@@ -149,6 +148,9 @@ public class PlayerCustomization : NetworkBehaviour
             case 07:
                 eyebrowColor = color;
                 break;
+            case 14:
+                hairColor = color;
+                break;
         }
         UpdatePlayerAppearance();
     }
@@ -163,6 +165,7 @@ public class PlayerCustomization : NetworkBehaviour
         playerFace.materials[0] = eyeMaterial;
         playerFace.materials[1] = mouthMaterial;
         playerFace.materials[2] = eyebrowMaterial;
+        UpdatePlayerAppearance();
     }
 
     [ServerRpc (RequireOwnership =false)]
@@ -213,7 +216,7 @@ public class PlayerCustomization : NetworkBehaviour
         eyelashIndex = playerData.eyelashIndex;
         highlightIndex = playerData.highlightIndex;
         hairIndex = playerData.hairIndex;
-        hairColorIndex = playerData.hairColorIndex;
+        hairColor = playerData.hairColor;
         UpdatePlayerAppearance();
     }
 
@@ -473,11 +476,13 @@ public class PlayerCustomization : NetworkBehaviour
         playerHairMeshFilter.mesh = hair[hairIndex];
         if (hairIndex == 1)
         {
-            playerHair.material = hairMaterialMale[hairColorIndex];
+            playerHair.material = hairMaterialMale;
+            playerHair.material.SetColor("_DetailMapColor", hairColor);
         }
         else 
         {
-            playerHair.material = hairMaterialFemale[hairColorIndex];
+            playerHair.material = hairMaterialFemale;
+            playerHair.material.SetColor("_DetailMapColor", hairColor);
         }
     }
 }

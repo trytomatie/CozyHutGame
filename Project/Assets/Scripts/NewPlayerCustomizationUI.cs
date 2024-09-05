@@ -63,9 +63,8 @@ public class NewPlayerCustomizationUI : MonoBehaviour
         AssignToggleFunctionality(lashesToggleContainer.GetComponentsInChildren<ToggleSelectionUI>(), 11);
         AssignToggleFunctionality(highLightToggleContainer.GetComponentsInChildren<ToggleSelectionUI>(), 12);
         AssignToggleFunctionality(mouthToggleContainer.GetComponentsInChildren<ToggleSelectionUI>(), 10);
-        AssignToggleFunctionality(hairColorToggleContainer.GetComponentsInChildren<ToggleSelectionUI>(), 14);
         playerCustomization.OnUpdateCharacterApearence.AddListener(() => eyeBrowColorIndicator.color = playerCustomization.eyebrowColor);
-        playerCustomization.OnUpdateCharacterApearence.AddListener(() => hairColorIndicator.color = UngodlyMethodToGetTheHairColor(playerCustomization.hairColorIndex));
+        playerCustomization.OnUpdateCharacterApearence.AddListener(() => hairColorIndicator.color = playerCustomization.hairColor);
         playerCustomization.OnUpdateCharacterApearence.AddListener(() => irisColorIndicator.color = playerCustomization.irisColor);
         playerCustomization.OnUpdateCharacterApearence.AddListener(() => lashesColorIndicator.color = playerCustomization.eyelashColor);
         playerCustomization.OnUpdateCharacterApearence.AddListener(() => highLightColorIndicator.color = playerCustomization.highlightColor);
@@ -162,6 +161,9 @@ public class NewPlayerCustomizationUI : MonoBehaviour
                     break;
                 case 4: // Eyebrow
                     toggles[i].onToggleOn.AddListener(() => playerCustomization.eyebrowColor = color);
+                    break;
+                case 5: // HairColor
+                    toggles[i].onToggleOn.AddListener(() => playerCustomization.hairColor = color);
                     break;
             }
             toggles[i].onToggleOn.AddListener(() => playerCustomization.UpdatePlayerAppearance());
