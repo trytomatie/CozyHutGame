@@ -165,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 5524008833322946419, guid: 137893766276f884cbc7b3fd15349794,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 951099334
+      value: 3730582253
       objectReference: {fileID: 0}
     - target: {fileID: 5524008833322946419, guid: 137893766276f884cbc7b3fd15349794,
         type: 3}
@@ -174,6 +174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2509345234177438964, guid: 137893766276f884cbc7b3fd15349794, type: 3}
+    - {fileID: 5524008833322946419, guid: 137893766276f884cbc7b3fd15349794, type: 3}
     m_RemovedGameObjects:
     - {fileID: 1575988754206934034, guid: 137893766276f884cbc7b3fd15349794, type: 3}
     m_AddedGameObjects:
@@ -181,7 +182,11 @@ PrefabInstance:
         type: 3}
       insertIndex: 2
       addedObject: {fileID: 5677292505035508986}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 654499827457837265, guid: 137893766276f884cbc7b3fd15349794,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8626490481518980374}
   m_SourcePrefab: {fileID: 100100000, guid: 137893766276f884cbc7b3fd15349794, type: 3}
 --- !u!4 &2131788349313417719 stripped
 Transform:
@@ -189,3 +194,29 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2675092934771696522}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3173514887101197147 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 654499827457837265, guid: 137893766276f884cbc7b3fd15349794,
+    type: 3}
+  m_PrefabInstance: {fileID: 2675092934771696522}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8626490481518980374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3173514887101197147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
